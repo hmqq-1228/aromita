@@ -67,7 +67,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
+plugins:[
+  new webpack.DefinePlugin({
+    'process.env.BASE_URL':'\"'+process.env.BASE_URL+'\"'
+  })
+]
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
   portfinder.getPort((err, port) => {

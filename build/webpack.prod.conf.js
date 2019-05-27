@@ -122,7 +122,11 @@ const webpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
+plugins:[
+  new webpack.DefinePlugin({
+    'process.env.BASE_URL':'\"'+process.env.BASE_URL+'\"'
+  })
+]
 if (config.build.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
