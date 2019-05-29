@@ -7,14 +7,43 @@ import Apply_reset_password from '@/view/register/apply_reset_password.vue'
 import Psd_reset_ok from '@/view/register/psd_reset_ok.vue' 
 import Sort_out_warn from '@/view/register/sort_out_warn.vue' 
 import Register from '@/view/register/register.vue' 
+import Header from '@/components/header.vue'
+import Footer from '@/components/footer.vue'
+import Forgot_password from '@/view/register/forgot_password.vue' 
+import A from '@/view/home/a.vue'
+import Test from "@/components/test.vue"
+import Select from "@/components/select.vue"
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/showPage',
       name: 'showPage',
       component: ShowPage,
+
+    },
+    {
+      path: '/select',
+      name: 'select',
+      component: Select,
+    },
+    {
+      path: '/header',
+      name: 'header',
+      component: Header,
+
+    },
+    {
+      path: '/footer',
+      name: 'footer',
+      component: Footer,
+
+    },
+    {
+      path: '/a',
+      name: 'a',
+      component: A,
 
     },
     {
@@ -46,6 +75,16 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register,
+    },
+    {    
+      path: '/forgot_password',
+      name: 'forgot_password',
+      component: Forgot_password,
+    },
+    {    
+      path: '/',
+      name: 'test',
+      component: Test,
     },
 
   ]
