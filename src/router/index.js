@@ -10,9 +10,6 @@ import Register from '@/view/register/register.vue'
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import Forgot_password from '@/view/register/forgot_password.vue' 
-import A from '@/view/home/a.vue'
-import Test from "@/components/test.vue"
-import Select from "@/components/select.vue"
 Vue.use(Router)
 
 export default new Router({
@@ -21,12 +18,6 @@ export default new Router({
       path: '/showPage',
       name: 'showPage',
       component: ShowPage,
-
-    },
-    {
-      path: '/select',
-      name: 'select',
-      component: Select,
     },
     {
       path: '/header',
@@ -38,12 +29,6 @@ export default new Router({
       path: '/footer',
       name: 'footer',
       component: Footer,
-
-    },
-    {
-      path: '/a',
-      name: 'a',
-      component: A,
 
     },
     {
@@ -77,14 +62,9 @@ export default new Router({
       component: Register,
     },
     {    
-      path: '/forgot_password',
+      path: '/',
       name: 'forgot_password',
       component: Forgot_password,
-    },
-    {    
-      path: '/',
-      name: 'test',
-      component: Test,
     },
 
   ]
