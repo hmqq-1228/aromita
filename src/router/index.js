@@ -10,12 +10,13 @@ import Register from '@/view/register/register.vue'
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import Forgot_password from '@/view/register/forgot_password.vue' 
+import Erqi from '@/view/kongbai/erqi.vue'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/showPage',
+      path: '/',     
       name: 'showPage',
       component: ShowPage,
     },
@@ -62,10 +63,14 @@ export default new Router({
       component: Register,
     },
     {    
-      path: '/',
+      path: '/forgot_password',
       name: 'forgot_password',
       component: Forgot_password,
     },
-
+    {    
+      path: '/erqi',
+      name: 'erqi',
+      component: Erqi,
+    },
   ]
 })
