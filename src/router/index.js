@@ -10,7 +10,7 @@ import Register from '@/view/register/register.vue'
 import Header from '@/components/header.vue'
 import Footer from '@/components/footer.vue'
 import Forgot_password from '@/view/register/forgot_password.vue' 
-import Erqi from '@/view/kongbai/erqi.vue'
+import Erqi from '@/view/Kongbai/erqi.vue'
 Vue.use(Router)
 
 export default new Router({
