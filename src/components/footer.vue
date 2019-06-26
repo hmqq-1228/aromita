@@ -2,22 +2,25 @@
 <div class="wrap_1">
     <div class="footer">
         <!-- 社交 -->
-        <div class="img" @click="handleErqi">
-          <img src="@/assets/facebook.png" alt>
-          <img src="@/assets/ins.png" alt>
-          <img src="@/assets/pinterest.png" alt>
-          <img src="@/assets/twitter.png" alt>
+        <div class="img">
+          <div  v-for="(item,index) in icon" :key="index">
+            <a :href="item.picture_href">
+          <img :src="url+item.picture_src" alt>
+          </a>
+          </div>
         </div>
         <!-- 服务 -->
         <div class="xian">
-          <div class="sixty">
-            <img src="@/assets/01.png" alt>
+          <div class="sixty" v-for="(item,index) in footTitle" :key="index">
+            <a :href="item.picture_href">
+            <img :src="url+item.picture_src" alt>
+            </a>
             <div class="sixty_word">
-              <p class="sixty_word1">RETURN & EXCHANGE</p>
-              <span class="sixty_word2">RETURN & EXCHANGE within 60 Days</span>
+              <p class="sixty_word1">{{item.picture_title}}</p>
+              <span class="sixty_word2">{{item.picture_title}}</span>
             </div>
           </div>
-          <div class="payment">
+          <!-- <div class="payment">
             <img src="@/assets/02.png" alt>
             <div class="payment_word">
               <p class="payment_word1">PAYMENT</p>
@@ -37,7 +40,7 @@
               <p class="price_word1">BEST PRICE</p>
               <span class="price_word2">Guaranteed</span>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="footBox">
           <div class="footer_left">
@@ -101,18 +104,35 @@
       </div>
 </template>
 <script>
+import {homeIcon,homeFootTitle} from '../api/home'
 export default {
    data() {
     return {
-      input10: ""
+      url:'http://arapi.panduo.com.cn/uploads/',
+      input10: "",
+       icon: [], //40
+       footTitle: [], //50
     };
   },
+  mounted(){
+    this.homeIcon()
+    this.homeFootTitle()
+  },
   methods: {
-    handleErqi () {
-      this.$router.push({
-        path: "/erqi"
-      });
-    }
+    // 40
+    async homeIcon() {
+      let data = await homeIcon()
+      for (let icon of data){
+       this.icon = data
+      }
+    },
+    //  50
+    async homeFootTitle() {
+      let data = await homeFootTitle()
+      for (let footTitle of data){
+       this.footTitle = data
+      }
+    },
   }
 }
 </script>
@@ -122,6 +142,7 @@ ul li{
 }
 .wrap_1{
   width: 100%;
+  margin: auto;
 }
   .footer {
   width: 85%;
@@ -135,28 +156,31 @@ ul li{
 }
 .footer > .img {
   text-align: center;
+  // float: left;
+  display: flex;
 }
-.footer > .img > img {
+.footer > .img > div {
   margin-top: 31px;
-
+  margin-right: 40px;
+  display: inline-block;
   width: 40px;
   height: 40px;
-  margin-right: 40px;
 }
 .xian {
   height: 140px;
   border-bottom: 1px solid gainsboro;
+  display: flex;
 }
-.sixty > img {
+.sixty  img {
+  display: inline-block;
   width: 60px;
   height: 60px;
-  margin-left: 100px;
-  margin-top: 62px;
+  margin-top: 52px;
 }
 .sixty_word {
-  width: 308px;
+  width: 266px;
   height: 60px;
-  margin-left: 170px;
+  margin-left: 75px;
   margin-top: -54px;
 }
 .sixty_word1 {
@@ -166,84 +190,6 @@ ul li{
   padding-bottom: 5px;
 }
 .sixty_word2 {
-  width: 234px;
-  height: 17px;
-  font-size: 14px;
-  font-family: Tahoma;
-  color: #666666;
-}
-.payment > img {
-  display: block;
-  width: 60px;
-  height: 60px;
-  margin-left: 595px;
-  margin-top: -71px;
-}
-.payment_word {
-  width: 308px;
-  height: 60px;
-  margin-left: 664px;
-  margin-top: -54px;
-}
-.payment_word1 {
-  font-size: 18px;
-  font-family: Tahoma;
-  color: #030303;
-  padding-bottom: 5px;
-}
-.payment_word2 {
-  width: 234px;
-  height: 17px;
-  font-size: 14px;
-  font-family: Tahoma;
-  color: #666666;
-}
-.order > img {
-  display: block;
-  width: 60px;
-  height: 60px;
-  margin-left: 938px;
-  margin-top: -66px;
-}
-.order_word {
-  width: 308px;
-  height: 60px;
-  margin-left: 1013px;
-  margin-top: -54px;
-}
-.order_word1 {
-  font-size: 18px;
-  font-family: Tahoma;
-  color: #030303;
-  padding-bottom: 5px;
-}
-.order_word2 {
-  width: 234px;
-  height: 17px;
-  font-size: 14px;
-  font-family: Tahoma;
-  color: #666666;
-}
-.price > img {
-  display: block;
-  width: 60px;
-  height: 60px;
-  margin-left: 1357px;
-  margin-top: -68px;
-}
-.price_word {
-  width: 308px;
-  height: 60px;
-  margin-left: 1432px;
-  margin-top: -54px;
-}
-.price_word1 {
-  font-size: 18px;
-  font-family: Tahoma;
-  color: #030303;
-  padding-bottom: 5px;
-}
-.price_word2 {
   width: 234px;
   height: 17px;
   font-size: 14px;

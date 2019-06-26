@@ -10,42 +10,37 @@
         @mouseleave="comtainer_leave1"
       >
         <div class="swiper-wrapper">
-          <div class="swiper-slide" v-for="(item,index) in arr1" :key="index">
-            <img :src="item.img_url" alt>
+          <div class="swiper-slide" v-for="(item,index) in dataBanner" :key="index">
+            <img :src="url+item.picture_src" alt>
           </div>
         </div>
-        <!-- 如果需要导航按钮 -->
-        <!-- <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>-->
         <!-- 指示点 -->
         <div class="swiper-pagination"></div>
-        <!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
       </div>
       <!-- 英文 -->
       <div class="word1">Collections</div>
       <div class="collections">
         <div class="collections_one">
-          <img src="@/assets/birtstone.png" alt>
-        </div>
-        <div class="collections_two">
+          <img src="@/assets/birtstone.png" class="collections_birtstone" alt>
           <img src="@/assets/chains.png" alt>
+           </div>
+        <div class="collections_thr">
+          <img src="@/assets/chains.png" class="collections_chains" alt>
+          <img src="@/assets/chains.png" class="collections_chains" alt>
+          <img src="@/assets/chains.png" class="collections_chains" alt>
         </div>
-      </div>
-      <div class="collections_thr">
+      </div> -->
+
+
+      <div class="collections">
         <ul class="collections_thr1">
-          <li class="thr1">
-            <img src="@/assets/beads.png" alt>
-          </li>
-          <li class="thr2">
-            <img src="@/assets/blanks.png" alt>
-          </li>
-          <li class="thr3">
-            <img src="@/assets/banngles.png" alt>
+          <li class="thr2" v-for="(item,index) in dataCollections" :key="index">
+            <img :src="url+item.picture_src" alt>
           </li>
         </ul>
       </div>
       <!-- 热销 -->
-      <div class="word2_">
+      <!-- <div class="word2_">
         <div class="word2">Best SELLER</div>
       </div>
       <hr>
@@ -79,59 +74,29 @@
       <hr>
       <div class="new">
         <ul class="new_box">
-          <li class="new_1">
-            <img src="@/assets/best seller.png" alt>
-            <p class="new_word">Classic Name NeckIace</p>
-            <span class="new_word1">$19.99</span>
-          </li>
-          <li class="new_2">
-            <img src="@/assets/best seller.png" alt>
-            <p class="new_word">Classic Name NeckIace</p>
-            <span class="new_word1">$19.99</span>
-          </li>
-          <li class="new_3">
-            <img src="@/assets/best seller.png" alt>
-            <p class="new_word">Classic Name NeckIace</p>
-            <span class="new_word1">$19.99</span>
-          </li>
-          <li class="new_4">
-            <img src="@/assets/best seller.png" alt>
-            <p class="new_word4">Classic Name NeckIace</p>
-            <span class="new_word1">$19.99</span>
+          <li class="new_1" v-for="(item,index) in homeArr" :key="index">
+            <img :src="url+item.products_src" alt>
+            <p class="new_word">{{item.products_name}}</p>
+            <span class="new_word1">${{ item.products_price }}</span>
           </li>
         </ul>
       </div>
       <div class="word4">Hot Style in Social Medias</div>
 
       <!-- 下面的轮播 -->
-      <div class="banner2 swiper-container">
+      <!-- <div class="banner2 swiper-container">
         <div class="swiper-wrapper">
-          <div class="swiper-slide" style="width:300px !important;margin-right: 20px;">
-            <img src="@/assets/336-07.png" class="small">
+          <div class="swiper-slide" style="width:300px !important;margin-right: 20px;" v-for="(item,index) in hotStyle" :key="index">
+            <img :src="url+item.picture_src" class="small">
           </div>
-          <div class="swiper-slide" style="width: 300px !important;margin-right: 20px;">
-            <img src="@/assets/336-07.png" class="small">
-          </div>
-          <div class="swiper-slide" style="width: 300px !important;margin-right: 20px;">
-            <img src="@/assets/336-07.png" class="small">
-          </div>
-          <div class="swiper-slide" style="width: 300px !important;margin-right: 20px;">
-            <img src="@/assets/336-07.png" class="small">
-          </div>
-          <div class="swiper-slide" style="width: 300px !important;margin-right: 20px;">
-            <img src="@/assets/336-07.png" class="small">
-          </div>
-          <div class="swiper-slide" style="width: 300px !important;margin-right: 20px;">
-            <img src="@/assets/336-07.png" class="small">
-          </div>
-        </div>
+        </div> -->
         <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
+        <!-- <div class="swiper-pagination"></div> -->
 
         <!-- 如果需要导航按钮 -->
-        <div class="swiper-button-prev"></div>
+        <!-- <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
-      </div>
+      </div> -->
 
     </div>
     <footer-com></footer-com>
@@ -143,6 +108,7 @@ import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Swiper from "swiper";
 import { setTimeout } from "timers";
+import {homeSeller,homeBanner,homeArrivai,homeFoote,homeCollections,homeHotStyle,} from "../../api/home";
 export default {
   components: {
     "header-com": Header,
@@ -158,55 +124,138 @@ export default {
         { img_url: require("@/assets/banner.png") },
         { img_url: require("@/assets/banner.png") },
         { img_url: require("@/assets/banner.png") }
-      ]
+      ],
+      url:'http://arapi.panduo.com.cn/uploads/',
+      homeData: [], //Best Seller商品信息
+      dataBanner: [], //首页banner信息
+      homeArr: [], //NEW Arrivai 信息
+      homeFoot: [],
+      dataCollections: [], //Collections信息
+      hotStyle: [], //Hot Style 信息 
     };
   },
   mounted() {
+    this.homeBanner()
+    this.homeHotStyle()
     this.swiper1 = new Swiper(".banner1", {
+      loop: true,
       autoplay: {
-        //自动轮播
+        
         disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
       },
+       observer:true,//修改swiper自己或子元素时，自动初始化swiper
+       observeParents:true,//修改swiper的父元素时，自动初始化swiper
       pagination: {
         //指示点
         el: ".swiper-pagination",
         clickable: true //为true时点击指示点会切换slide
       },
-      loop: true
     });
-    var mySwiper = new Swiper(".banner2", {
-      slidesPerView: 4,
-      spaceBetween: 20,
-      //spaceBetween : '10%',按container的百分比
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
-    });
+    // var mySwiper = new Swiper(".banner2", {
+    //   slidesPerView: 4,
+    //   spaceBetween: 20,
+    //   observer:true,//修改swiper自己或子元素时，自动初始化swiper
+    //    observeParents:true,//修改swiper的父元素时，自动初始化swiper
+    //   //spaceBetween : '10%',按container的百分比
+    //   navigation: {
+    //     nextEl: ".swiper-button-next",
+    //     prevEl: ".swiper-button-prev"
+    //   }
+    // });
   },
-  methods: {
-    /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
-    comtainer_enter1() {
-      this.swiper1.autoplay.stop();
-      setTimeout(this.comtainer_leave1, 2000); //两秒加上默认的三秒
+  // methods: {
+  //   /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
+  //   comtainer_enter1() {
+  //     this.swiper1.autoplay.stop();
+  //     setTimeout(this.comtainer_leave1, 2000); //两秒加上默认的三秒
+  //   },
+  //   comtainer_leave1() {
+  //     this.swiper1.autoplay.start();
+  //   },
+  //   async homeFoote() {
+  //     let data = await homeFoote()
+  //     for (this.homeFoot in data){
+  //      this.homeFoot = data
+  //     //  console.log(this.homeFoot)
+  //     }
+  //   },
+  //   // Best Seller商品信息
+  //   async homeSeller() {
+  //     let data = await homeSeller()
+  //     for (let homeData of data){
+  //      this.homeData = data
+  //     }
+  //   },
+  //   // NEW Arrivai 信息
+  //   async homeArrivai() {
+  //     let data = await homeArrivai()
+  //     this.homeArr = data
+  //     // for (let homeArr of data){
+  //     //  this.homeArr = data
+  //     // }
+  //   },
+  //   // 首页banner信息
+  //   async homeBanner() {
+  //     let data = await homeBanner()
+  //     this.dataBanner = data
+  //     // for (let dataBanner of data){
+  //     //  this.dataBanner = data
+  //     // }
+  //   },
+    //Collections区信息
+    async homeCollections() {
+      let data = await homeCollections()
+      for (let dataCollections of data){
+       this.dataCollections = data
+      }
     },
-    comtainer_leave1() {
-      this.swiper1.autoplay.start();
-    }
-  }
+  //   // Hot Style 信息
+  //   async homeHotStyle() {
+  //     let data = await homeHotStyle()
+  //     for (let hotStyle of data){
+  //      this.hotStyle = data
+  //     }
+  //   },
+  // },
+  created(){
+    // this.homeSeller()
+    // this.homeArrivai()
+    // this.homeFoote()
+    this.homeCollections()
+  },
 };
 </script>
 <style lang="scss">
+.wrap_1{
+  margin: 0 auto;
+
 .demo-carousel {
   width: 80%;
   height: 500px;
   padding-top: 25px;
   margin: 0 auto;
 }
+
+.collections {
+  width: 80%;
+  height: 330px;
+  // margin: 0 auto;
+ 
+}
+.collections_one {
+  width: 950px;
+  height: 300px;
+  margin-left: 78px;
+  margin-top: 30px;
+   display: flex;
+   padding-left: 10px;
+  .collections_birtstone{
+    margin-right:16px; 
+  }
+}
 .word1 {
   height: 48px;
   font-size: 40px;
-  font-family: Tahoma;
   font-weight: 400;
   line-height: 48px;
   margin-top: 25px;
@@ -214,25 +263,14 @@ export default {
   text-align: center;
   color: rgba(51, 51, 51, 1);
 }
-.collections {
-  width: 1440px;
-  height: 330px;
-  margin: 0 auto;
-  // background-color:antiquewhite;
-  display: flex;
-}
-.collections_one {
-  width: 950px;
-  height: 300px;
-  margin-right: 30px;
-}
 .collections_thr {
-  width: 1440px;
   height: 300px;
-  margin: 0 auto;
-  // margin-right: 30px;
-  // margin-top: 25px;
-  // background-color:aquamarine;
+  margin-left: 83px;
+  margin-top: 20px;
+  display: flex;
+  .collections_chains{
+    margin-left: 20px;
+  }
 }
 .thr1 {
   width: 460px;
@@ -269,13 +307,17 @@ hr {
   font-family: Tahoma;
   font-weight: 400;
   line-height: 48px;
-  margin: 0 auto;
+  margin-top: 308px;
+  // margin-bottom: 30px;
+  // margin: 308px auto;
   color: rgba(3, 3, 3, 1);
 }
 .sell {
-  width: 1440px;
+  width: 90%;
   height: 388px;
-  margin: 42px auto;
+  margin-top: 60px;
+  margin-left: 102px;
+  // margin: 50px auto;
 }
 .sell_box{
   display: flex;
