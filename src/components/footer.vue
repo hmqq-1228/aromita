@@ -39,56 +39,59 @@
             </div>
           </div>
         </div>
+        <div class="footBox">
+          <div class="footer_left">
+            <div class="left_one">
+              <p class="left_one1">COMPANY INFO</p>
+              <ul class="left_one2">
+                <li>About Aromita</li>
+                <li>Download Catalog</li>
+                <li>Affiliate program</li>
+                <li>Reseller Inquiry</li>
+                <li>Tradeshow Plan</li>
+              </ul>
+            </div>
+            <div class="left_two">
+              <p class="left_two1">STORE POLICY</p>
+              <ul class="left_two2">
+                <li>TERMS &</li>
+                <li>CONDITIONS</li>
+                <li>Privacy Policy</li>
+                <li>Return & Exchange</li>
+                <li>FAQ</li>
+              </ul>
+            </div>
 
-        <div class="footer_left">
-          <div class="left_one">
-            <p class="left_one1">COMPANY INFO</p>
-            <ul class="left_one2">
-              <li>About Aromita</li>
-              <li>Download Catalog</li>
-              <li>Affiliate program</li>
-              <li>Reseller Inquiry</li>
-              <li>Tradeshow Plan</li>
-            </ul>
-          </div>
-          <div class="left_two">
-            <p class="left_two1">STORE POLICY</p>
-            <ul class="left_two2">
-              <li>TERMS &</li>
-              <li>CONDITIONS</li>
-              <li>Privacy Policy</li>
-              <li>Return & Exchange</li>
-              <li>FAQ</li>
-            </ul>
-          </div>
+            <div class="left_thr">
+              <p class="left_thr1">MY Account</p>
+              <ul class="left_thr2">
+                <li>Account Overview</li>
+                <li>Track My Order</li>
+                <li>My Bouns Poins</li>
+                <li>Log In</li>
+              </ul>
+            </div>
 
-          <div class="left_thr">
-            <p class="left_thr1">MY Account</p>
-            <ul class="left_thr2">
-              <li>Account Overview</li>
-              <li>Track My Order</li>
-              <li>My Bouns Poins</li>
-              <li>Log In</li>
-            </ul>
+            <div class="left_for">
+              <p class="left_for1">Contact Us</p>
+              <ul class="left_for2">
+                <li>Mon.-Fri 9:00 AM - 6:00 PM,PST.</li>
+                <li>AromitaJewellery</li>
+                <li>1001S Lawson ST,City of Industry,CA</li>
+                <li>91748</li>
+              </ul>
+            </div>
           </div>
-
-          <div class="left_for">
-            <p class="left_for1">Contact Us</p>
-            <ul class="left_for2">
-              <li>Mon.-Fri 9:00 AM - 6:00 PM,PST.</li>
-              <li>AromitaJewellery</li>
-              <li>1001S Lawson ST,City of Industry,CA</li>
-              <li>91748</li>
-            </ul>
+          <div class="footer_right">
+            <p class="know">Stay In The Know</p>
+            <span class="deals">Be the first to see our new arrivals & exclusive deals</span>
+            <div class="footInput">
+              <el-input placeholder="Enter your email" v-model="input10" clearable></el-input>
+            </div>
+            <button class="btn">
+              <p class="btn_word">SUBSCRIBE</p>
+            </button>
           </div>
-        </div>
-        <div class="footer_right">
-          <p class="know">Stay In The Know</p>
-          <span class="deals">Be the first to see our new arrivals & exclusive deals</span>
-          <el-input placeholder="Enter your email" v-model="input10" clearable></el-input>
-          <button class="btn">
-            <p class="btn_word">SUBSCRIBE</p>
-          </button>
         </div>
         <div class="xian2"></div>
         <div class="pay-02">
@@ -127,10 +130,11 @@ ul li{
   /* background:red; */
   /* margin-left: 139px; */
  margin-left: 140px;
+  border-top: 1px solid gainsboro;
 
 }
 .footer > .img {
-  margin-left: 675px;
+  text-align: center;
 }
 .footer > .img > img {
   margin-top: 31px;
@@ -140,7 +144,6 @@ ul li{
   margin-right: 40px;
 }
 .xian {
-  widows: 85%;
   height: 140px;
   border-bottom: 1px solid gainsboro;
 }
@@ -247,16 +250,18 @@ ul li{
   font-family: Tahoma;
   color: #666666;
 }
-.footer_left {
-  width: 1100px;
-  height: 174px;
-  margin-bottom: 23px;
+.footBox{
+  width: 1640px;
+  display: flex;
+  justify-content: space-between;
 }
-.left_one {
-  width: 138px;
-  height: 175px;
-  margin-left: 90px;
-  margin-top: 38px;
+.footer_left {
+  width: 60%;
+  padding-top: 30px;
+  height: 174px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 23px;
 }
 .left_one1 {
   font-size: 14px;
@@ -270,11 +275,6 @@ ul li{
   color: #030303;
   font-family: Tahoma;
 }
-.left_two {
-  float: left;
-  margin-left: 340px;
-  margin-top: -176px;
-}
 .left_two1 {
   font-size: 14px;
   color: #030303;
@@ -287,11 +287,6 @@ ul li{
   color: #030303;
   font-family: Tahoma;
 }
-.left_thr {
-  float: left;
-  margin-left: 588px;
-  margin-top: -176px;
-}
 .left_thr1 {
   font-size: 14px;
   color: #030303;
@@ -303,12 +298,6 @@ ul li{
   font-size: 14px;
   color: #030303;
   font-family: Tahoma;
-}
-.left_for {
-  width: 231px;
-  height: 175px;
-  margin-left: 800px;
-  margin-top: -177px;
 }
 .left_for1 {
   font-size: 14px;
@@ -323,10 +312,9 @@ ul li{
   font-family: Tahoma;
 }
 .footer_right {
-  width: 340px;
+  width: 30%;
+  margin-top: 30px;
   height: 143px;
-  margin-left: 1206px;
-  margin-top: -197px;
 }
 .know {
   font-size: 14px;
@@ -343,10 +331,9 @@ ul li{
   line-height: 17px;
   color: rgba(3, 3, 3, 1);
 }
-.el-input__inner {
+.footInput .el-input__inner {
   width: 340px;
   position: relative;
-  top: 15px;
   border: 1px solid #121037;
   height: 32px;
   line-height: 32px;
@@ -355,10 +342,13 @@ ul li{
 .btn {
   width: 150px;
   height: 32px;
-  margin-top: 30px;
+  margin-top: 20px;
   border: 0;
   outline: none;
   background: rgba(18, 16, 55, 1);
+}
+.footInput{
+  margin-top: 10px;
 }
 .btn_word {
   font-size: 14px;
@@ -368,12 +358,11 @@ ul li{
   color: rgba(255, 255, 255, 1);
 }
 .xian2 {
-  widows: 85%;
   height: 30px;
   border-bottom: 1px solid gainsboro;
 }
-.pay-02>img{
-  margin-left: 640px;
-  margin-top: 25px;
+.pay-02{
+  text-align: center;
+  padding-top: 25px;
 }
 </style>

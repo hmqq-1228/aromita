@@ -1,3 +1,4 @@
+var webpack=require('webpack')
 'use strict'
 const path = require('path')
 const utils = require('./utils')
@@ -15,6 +16,13 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $:"jquery",
+      jQuery:"jquery",
+      "windows.jQuery":"jquery"
+    })
+  ],
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',

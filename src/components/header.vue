@@ -49,13 +49,42 @@
         </div>
         <div class="nav">
           <ul class="content_box">
-            <li v-for="(item,index) in nav_arr" :key="index">
-              {{item.nav}}
-              <div class="content_box1" v-for=" i in column">
-                <div class="box-item" v-if="array[(i-1)*column+(j-1)] != undefined" v-for="j in maxRow">{{ array[(i-1)*column+(j-1)]}}</div>
+            <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseover="getNavList(index, $event)">
+              <div class="data">{{item.nav}}</div>
+              <div class="content_box1" :style="'left: -' + leftVal + 'px'">
+                <div class="box-item">1111111111</div>
+                <div class="box-item">1222222222</div>
+                <div class="box-item">1333333333</div>
+                <div class="box-item">1444444444</div>
+                <div class="box-item">1555555555</div>
+                <div class="box-item">1666666666</div>
+                <div class="box-item">1777777777</div>
+                <div class="box-item">1888888888</div>
+                <div class="box-item">1999999999</div>
+                <div class="box-item">2111111111</div>
+                <div class="box-item">2777777777</div>
+                <div class="box-item">2888888888</div>
+                <div class="box-item">2999999999</div>
+                <div class="box-item">2111111111</div>
+                <div class="box-item">2777777777</div>
+                <div class="box-item">2888888888</div>
+                <div class="box-item">2999999999</div>
+                <div class="box-item">3111111111</div>
               </div>
             </li>
           </ul>
+          <!--<div class="nav_list" v-if="showNavList" @mouseover="getNavList($event)">-->
+            <!--<div class="list_box">-->
+              <!--<div>11111111111</div>-->
+              <!--<div>12222222222</div>-->
+              <!--<div>33333333333</div>-->
+              <!--<div>44444444444</div>-->
+              <!--<div>55555555555</div>-->
+              <!--<div>66666666666</div>-->
+              <!--<div>77777777777</div>-->
+              <!--<div>88888888888</div>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
       </div>
     </div>
@@ -64,115 +93,179 @@
 <script>
 export default {
   data() {
-      return {
-        nav_arr: [{
-            nav: 'STANLESS STEEL'
-          },
-          {
-            nav: 'FINISHED JEWELRY'
-          },
-          {
-            nav: 'ACCESSORIES'
-          },
-          {
-            nav: 'SILVER JEWELRY'
-          }
-        ],
-        // list: new Array(11).fill(111),
-        // sel_arr: [{
-        //     name: "111111111111111"
-        //   },
-        //   {
-        //     name: "2111111111111111"
-        //   },
-        //   {
-        //     name: "3111111111111111"
-        //   },
-        //   {
-        //     name: "4111111111111111"
-        //   },
-        //   {
-        //     name: "5111111111111111"
-        //   },
-        //   {
-        //     name: "6111111111111111"
-        //   },
-        //   {
-        //     name: "7111111111111111"
-        //   },
-        //   {
-        //     name: "8111111111111111"
-        //   },
-        //   {
-        //     name: "9111111111111111"
-        //   },
-        //   {
-        //     name: "1011111111111111"
-        //   },
-        //   {
-        //     name: "111111111111111"
-        //   },
-        //   {
-        //     name: "121111111111111"
-        //   },
-        //   {
-        //     name: "131111111111111"
-        //   },
-        //   {
-        //     name: "141111111111111"
-        //   },
-         
-        // ],
-        // activeNav: '',
-        theNum: 5,
-        interval: null,
-        maxShowNum: 12,
-        maxRow: 4,
-        column: '',
-        array:[1,2,3,4,5,6,7,8,9,10,11,12,13]
-      };
-    },
-     methods: {
-      // 鼠标移入
-      sel_enter(nav) {
-        // this.activeNav = nav
-      },
-      sel_leave() {
-        // this.activeNav = ''
-      },
-      handleGoHome(){
-         this.$router.push({
-        path: "/"
-      });
-      },
-      HandleLogin(){
-         this.$router.push({
-        path: "/login"
-      });
-      },
-    },
+    return {
+      nav_arr: [{
+          nav: 'STANLESS STEEL'
+        },
+        {
+          nav: 'FINISHED JEWELRY'
+        },
+        {
+          nav: 'ACCESSORIES'
+        },
+        {
+          nav: 'SILVER JEWELRY'
+        }
+      ],
+      leftVal: 120,
+      // list: new Array(11).fill(111),
+      // sel_arr: [{
+      //     name: "111111111111111"
+      //   },
+      //   {
+      //     name: "2111111111111111"
+      //   },
+      //   {
+      //     name: "3111111111111111"
+      //   },
+      //   {
+      //     name: "4111111111111111"
+      //   },
+      //   {
+      //     name: "5111111111111111"
+      //   },
+      //   {
+      //     name: "6111111111111111"
+      //   },
+      //   {
+      //     name: "7111111111111111"
+      //   },
+      //   {
+      //     name: "8111111111111111"
+      //   },
+      //   {
+      //     name: "9111111111111111"
+      //   },
+      //   {
+      //     name: "1011111111111111"
+      //   },
+      //   {
+      //     name: "111111111111111"
+      //   },
+      //   {
+      //     name: "121111111111111"
+      //   },
+      //   {
+      //     name: "131111111111111"
+      //   },
+      //   {
+      //     name: "141111111111111"
+      //   },
+
+      // ],
+      // activeNav: '',
+      theNum: 5,
+      showNavList: false,
+      interval: null,
+      maxShowNum: 12,
+      maxRow: 4,
+      column: '',
+      array:[1,2,3,4,5,6,7,8,9,10,11,12,13]
+    };
+  },
   created() {
     this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
     this.column = this.column > this.maxRow ? this.maxRow : this.column;
-    // for(var i=0;i<this.column;i++){  
+    // for(var i=0;i<this.column;i++){
     //     for(var j=0;j<this.maxRow;j++){
     //         this.array[i*this.column+j]
     //     }
     // }
+  },
+   methods: {
+    // 鼠标移入
+    sel_enter(nav) {
+      // this.activeNav = nav
+    },
+    sel_leave() {
+      // this.activeNav = ''
+    },
+    getNavList: function(event, e) {
+      // console.log('6666', event.target.className)
+      // let sp2 = document.querySelector('.navListLi')
+      // let sp3 = document.querySelector('.nav_list')
+      console.log('333333', e)
+      // if (e.target.className === 'data') {
+      //   console.log('333333', e.target.clientWidth)
+      //   this.leftVal = this.leftVal + e.target.clientWidth
+      // }
+      this.leftVal = event*150 + event*20 + 120
+      // console.log('000000', event.target.className)
+      // console.log('111111', sp2.contains(event.target))
+      // console.log('222222', sp3.contains(event.target))
+      // if (sp2.contains(event.target) || sp3.c ontains(event.target)) {
+      //   this.showNavList = true
+      // }
+      // if (event.target.className === 'navListLi' || event.target.className === 'nav_list' ) {
+      //   this.showNavList = true
+      // }
+    },
+    //  hideNavList: function(event){
+    //    let sp2 = document.querySelector('.navListLi')
+    //    let sp3 = document.querySelector('.nav_list')
+    //    console.log('333333', event)
+    //    console.log('000000', event.target.className)
+    //    console.log('111111', sp2.contains(event.target))
+    //    console.log('222222', sp3.contains(event.target))
+    //    if (!sp2.contains(event.target) && !sp3.contains(event.target)) {
+    //      this.showNavList = false
+    //    }
+    //    // if (sp3) {
+    //    //   if (!sp3.contains(event.target)) {
+    //    //     // this.showNavList = false
+    //    //   }
+    //    // }
+    //  },
+    handleGoHome(){
+       this.$router.push({
+      path: '/'
+    })
+    },
+    HandleLogin(){
+       this.$router.push({
+      path: '/login'
+    })
+    },
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 li {
   list-style: none;
 }
 .wrap_1 {
   width: 100%;
 }
+.nav{
+  width: 1640px;
+  /*margin-left: 140px;*/
+  margin: 0 auto;
+  position: relative;
+}
 .wrap {
-  width: 85%;
-  margin-left: 140px;
-  // margin: 0 auto;
+  width: 1640px;
+  /*margin-left: 140px;*/
+  margin: 0 auto;
+}
+/*.nav_list{*/
+  /*width: 1640px;*/
+  /*height: 200px;*/
+  /*margin: 0 auto;*/
+  /*background-color: #fff;*/
+  /*position: absolute;*/
+  /*z-index: 100;*/
+  /*left: 0;*/
+  /*top: 45px;*/
+  /*box-shadow:0 2px 0 0 #f1f1f5;*/
+  /*border-top: 1px solid gainsboro;*/
+/*}*/
+.list_box{
+  height: 100px;
+}
+.list_box>div{
+  height: 30px;
+  font-size: 12px;
+  color: #999999;
 }
 .title {
   // width: 85%;
@@ -199,12 +292,15 @@ li {
   }
   .content_box1 {
     box-sizing: border-box;
-    padding: 0 100px;
+    padding-left: 120px;
+    width: 1640px;
+    height: 200px;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    width: 100%;
     line-height: 35px;
     z-index: 1111;
+    background-color: #fff;
   }
   .LOGO2 {
     width: 160px;
@@ -336,35 +432,50 @@ li {
     line-height: 60px;
     border-bottom: 1px solid gainsboro;
   }
+  .data{
+    width: 150px;
+    text-align: center;
+  }
   .content_box li {
     float: left;
     position: relative;
     margin-left: 20px;
+    font-size: 14px;
     list-style: none;
     cursor: pointer;
   }
   .content_box1 {
     display: none;
   }
-  .content_box1 .box-item {
-    height: 10px;
-  }
   .content_box li:hover .content_box1 {
+    width: 1640px;
+    height: 200px;
     position: absolute;
+    top: 40px;
+    display: block;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    padding-left: 10px;
-    height: 60px;
+    justify-content: space-between;
+    padding: 20px 120px;
+    box-shadow:0 2px 0 0 #f1f1f5;
+    border-top: 1px solid gainsboro;
   }
+  /*.boxLeft{*/
+    /*height: 200px;*/
+    /*width: 100%;*/
+  /*}*/
+  /*.boxRight{*/
+    /*height: 200px;*/
+    /*width: 40%;*/
+  /*}*/
   .box-item {
-    font-size: 16px;
-    margin-top: 10px;
-    padding-right: 80px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
   }
   .nav span {
-    font-size: 17px;
-    margin-right: 60px;
+    font-size: 14px;
   }
 }
 </style>

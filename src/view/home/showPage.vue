@@ -22,7 +22,7 @@
         <!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
       </div>
       <!-- 英文 -->
-      <p class="word1">Collections</p>
+      <div class="word1">Collections</div>
       <div class="collections">
         <div class="collections_one">
           <img src="@/assets/birtstone.png" alt>
@@ -50,26 +50,26 @@
       </div>
       <hr>
       <div class="sell">
-        <ul class="sell_">
+        <ul class="sell_box">
           <li class="sell_1">
             <img src="@/assets/best seller.png" alt>
             <p class="sell_word">Classic Name NeckIace</p>
-            <span class="sell_word1">$19.99</span>
+            <p class="sell_word1">$19.99</p>
           </li>
           <li class="sell_2">
             <img src="@/assets/best seller.png" alt>
             <p class="sell_word">Classic Name NeckIace</p>
-            <span class="sell_word1">$19.99</span>
+            <p class="sell_word1">$19.99</p>
           </li>
           <li class="sell_3">
             <img src="@/assets/best seller.png" alt>
             <p class="sell_word">Classic Name NeckIace</p>
-            <span class="sell_word1">$19.99</span>
+            <p class="sell_word1">$19.99</p>
           </li>
           <li class="sell_4">
             <img src="@/assets/best seller.png" alt>
             <p class="sell_word4">Classic Name NeckIace</p>
-            <span class="sell_word41">$19.99</span>
+            <p class="sell_word1">$19.99</p>
           </li>
         </ul>
       </div>
@@ -78,7 +78,7 @@
       </div>
       <hr>
       <div class="new">
-        <ul class="new_">
+        <ul class="new_box">
           <li class="new_1">
             <img src="@/assets/best seller.png" alt>
             <p class="new_word">Classic Name NeckIace</p>
@@ -101,7 +101,7 @@
           </li>
         </ul>
       </div>
-      <p class="word4">Hot Style in Social Medias</p>
+      <div class="word4">Hot Style in Social Medias</div>
 
       <!-- 下面的轮播 -->
       <div class="banner2 swiper-container">
@@ -204,15 +204,14 @@ export default {
   margin: 0 auto;
 }
 .word1 {
-  width: 188px;
   height: 48px;
   font-size: 40px;
   font-family: Tahoma;
   font-weight: 400;
   line-height: 48px;
-  margin-left: 625px;
   margin-top: 25px;
   margin-bottom: 30px;
+  text-align: center;
   color: rgba(51, 51, 51, 1);
 }
 .collections {
@@ -258,13 +257,14 @@ hr {
   background-color: #fff;
   position: relative;
   top: 28px;
-  left: 41%;
+  left: 42%;
   z-index: 1111;
   // padding-bottom:42px;
 }
 .word2 {
   width: 237px;
   height: 48px;
+  text-align: center;
   font-size: 40px;
   font-family: Tahoma;
   font-weight: 400;
@@ -277,44 +277,28 @@ hr {
   height: 388px;
   margin: 42px auto;
 }
-.sell_1 {
-  float: left;
-  padding-right: 32px;
+.sell_box{
+  display: flex;
+  justify-content: space-between;
 }
-.sell_2 {
-  float: left;
-  padding-right: 32px;
-}
-.sell_3 {
-  float: left;
-  padding-right: 32px;
+.sell_box li{
+  text-align: center;
 }
 .sell_word {
   font-size: 14px;
-  margin-left: 90px;
   color: #333333;
   font-weight: 400;
-  width: 180px;
   overflow: hidden;/*超出部分隐藏*/
   white-space: nowrap;/*不换行*/
   text-overflow:ellipsis;/*超出部分文字以...显示*/
 }
 .sell_word1 {
   font-size: 14px;
-  margin-left: 140px;
   color: #333333;
   font-weight: 400;
 }
 .sell_word4 {
-  display: inline;
   font-size: 14px;
-  margin-left: 90px;
-  color: #333333;
-  font-weight: 400;
-}
-.sell_word41 {
-  font-size: 14px;
-  margin-left: 140px;
   color: #333333;
   font-weight: 400;
 }
@@ -329,18 +313,17 @@ hr {
   background-color: #fff;
   position: relative;
   top: 28px;
-  left: 41%;
+  left: 42%;
   z-index: 1111;
+  text-align: center;
   // padding-bottom:42px;
 }
 .word3 {
-  width: 292px;
   height: 48px;
   font-size: 40px;
   font-family: Tahoma;
   font-weight: 400;
   line-height: 48px;
-  margin-left: 32px;
   color: rgba(3, 3, 3, 1);
 }
 
@@ -349,44 +332,33 @@ hr {
   height: 388px;
   margin: 42px auto;
 }
-.new_1 {
-  float: left;
-  padding-right: 32px;
+.new_box{
+  display: flex;
+  justify-content: space-between;
 }
-.new_2 {
-  float: left;
-  padding-right: 32px;
-}
-.new_3 {
-  float: left;
-  padding-right: 32px;
+.new_box li{
+  text-align: center;
 }
 .new_word {
   font-size: 14px;
-  margin-left: 90px;
   color: #333333;
   font-weight: 400;
-  width: 180px;
   overflow: hidden;/*超出部分隐藏*/
   white-space: nowrap;/*不换行*/
   text-overflow:ellipsis;/*超出部分文字以...显示*/
 }
 .new_word1 {
   font-size: 14px;
-  margin-left: 140px;
   color: #333333;
   font-weight: 400;
 }
 .new_word4 {
-  display: inline;
   font-size: 14px;
-  margin-left: 90px;
   color: #333333;
   font-weight: 400;
 }
-.new_word41 {
+.new_word1 {
   font-size: 14px;
-  margin-left: 140px;
   color: #333333;
   font-weight: 400;
 }
@@ -401,20 +373,18 @@ hr {
   margin: 0 auto 30px auto;
 }
 .word4 {
-  width: 465px;
   height: 48px;
   font-size: 40px;
   font-weight: 400;
   line-height: 48px;
-  margin-left: 590px;
   margin-top: 39px;
+  text-align: center;
   margin-bottom: 30px;
   color: rgba(51, 51, 51, 1);
 }
 .small {
   width: 300px !important;
   height: 300px !important;
-  margin-top: 60px;
 }
 .element.style {
   width: 345px;

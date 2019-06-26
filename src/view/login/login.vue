@@ -1,8 +1,10 @@
 <template>
   <div class="wrap_1">
-    <aheader-com></aheader-com>
-    <div class="wrap">
-    <div class="content_1">
+    <div style="margin: 0 auto">
+     <aheader-com></aheader-com>
+    </div>
+    <div class="wrapLogin">
+    <div class="content">
       <div class="left">
         <div class="left_img">
           <img src="@/assets/注册页面.png" alt>
@@ -12,40 +14,40 @@
         <div class="right">
           <!-- 验证邮箱 -->
           <p class="right_word1">Email Address:</p>
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" >
-            <el-form-item label="邮箱" prop="name" >
-              <el-input v-model="ruleForm.name" placeholder="Enter your Email"></el-input>
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" >
+            <el-form-item prop="name" style="width: 400px;">
+              <el-input v-model="ruleForm.name" placeholder="Enter your Email" style="width: 100%;"></el-input>
             </el-form-item>
             <!-- 验证密码 -->
-            <p class="right_word1">password Address:</p>
-            <el-form-item label="密码" prop="password">
-              <el-input v-model="ruleForm.password" placeholder="Enter your Password"></el-input>
+            <p class="right_word1">password:</p>
+            <el-form-item prop="password" style="width: 400px;">
+              <el-input v-model="ruleForm.password" placeholder="Enter your Password" style="width: 100%;"></el-input>
             </el-form-item>
+            <el-checkbox v-model="checked">Remenber Me</el-checkbox>
+            <div class="Forgot" @click="handleGo">Forgot password?</div>
+            <p class="Login">Login with:</p>
+            <div class="Login_img">
+              <ul class="Login_img1">
+                <li>
+                  <img src="@/assets/facebook-01.png" alt>
+                </li>
+                <li>
+                  <img src="@/assets/pinterest1.png" alt>
+                </li>
+                <li>
+                  <img src="@/assets/twitter1.png" alt>
+                </li>
+              </ul>
+            </div>
+            <button class="btn1" @click="handleLogin('ruleForm')">
+              <p class="btn1_word">Login</p>
+            </button>
           </el-form>
-          <el-checkbox v-model="checked">Remenber Me</el-checkbox>
-          <div class="Forgot" @click="handleGo">Forgot password?</div>
-          <p class="Login">Login width:</p>
-          <div class="Login_img">
-            <ul class="Login_img1">
-              <li>
-                <img src="@/assets/facebook-01.png" alt>
-              </li>
-              <li>
-                <img src="@/assets/pinterest1.png" alt>
-              </li>
-              <li>
-                <img src="@/assets/twitter1.png" alt>
-              </li>
-            </ul>
-          </div>
-          <button class="btn1" @click="handleLogin(ruleForm)">
-            <p class="btn1_word">Login</p>
-          </button>
           <div class="New_Customers_">
             <p class="New_Customers">New Customers？</p>
           </div>
           <hr>
-          <div class="btn2">
+          <div class="btn2" @click="CreateAccount()">
             <p class="btn2_word">Create An Account</p>
           </div>
         </div>
@@ -71,25 +73,49 @@ export default {
         },
          rules: {
           name: [
-            { required: true, message: '请输入邮箱', trigger: 'blur' },
+            { required: true, message: 'please enter your email!', trigger: 'blur' },
             { type: 'email', message: 'The email address you entered is invalid.', trigger: 'blur' }
           ],
           password: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-            { pattern: /^[a-zA-Z0-9]{6,14}$/, message: '请正确输入密码', trigger: 'blur' }
+            { required: true, message: 'please enter your password!', trigger: 'blur' },
+            { pattern: /^[a-zA-Z0-9]{6,14}$/, message: 'The password you entered is invalid.', trigger: 'blur' }
           ]
          },
          checked: ''
        }
      },
      methods: {
-       handleLogin(ruleForm) {
-         if (ruleForm.password == '' || ruleForm.name == '') {
-           alert('请输入邮箱和密码')
-           return
-         } else {
-          //  后端请求数据验证
-         }
+       handleLogin(formName) {
+         this.$refs[formName].validate((valid) => {
+           if (valid) {
+             alert('submit!');
+           } else {
+             console.log('error submit!!');
+             return false;
+           }
+         })
+         // if (ruleForm.password == '' || ruleForm.name == '') {
+         //   // alert('请输入邮箱和密码')
+         //   this.$message.error('请输入邮箱和密码')
+         //   return
+         // } else {
+         //  //  后端请求数据验证
+         // }
+       },
+       CreateAccount: function () {
+         // alert($('.btn2_word').text())
+         var st = this.$store.state.baseServiceUrl
+         console.log('666', st)
+         this.ajax('/schedule/delSchedule', {}).then(res => {
+           if (res.code === '200') {
+             this.$message({
+               message: '删除成功',
+               type: 'success'
+             })
+           } else {
+             this.log('delSchedule:', res)
+           }
+         })
        },
        handleGo(){
           this.$router.push({
@@ -98,46 +124,45 @@ export default {
        }
      }
 };
-</script> 
+</script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 ul li {
   list-style: none;
 }
-.wrap{
+.wrapLogin {
   width: 100%;
-
+}
 .wrap_1 {
   width: 100%;
   // margin-left: 100px;
-.content_1 {
-  width: 90%;
+}
+.content{
+  width:1440px;
   height: 630px;
   margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
 .left_img > img {
-  width: 940px;
+  width: 100%;
   height: 530px;
   background: rgba(0, 0, 0, 0);
   border: 1px solid rgba(233, 233, 233, 1);
   float: left;
-  margin-top: 40px;
-  margin-bottom: 43px;
 }
 .right {
   width: 460px ;
   height: 494px;
   border: 1px solid gainsboro;
-  margin-left: 40px;
-  margin-top: 57px;
+  margin-top: 20px;
   float: right;
+  padding: 28px;
 }
 .right_word1 {
-  margin-left: 30px;
-  margin-top: 40px;
   font-size: 14px;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-}
 }
 .el-input__inner {
   width: 400px !important;
@@ -179,11 +204,12 @@ ul li {
   margin-top: 10px;
 }
 .Login {
-  display: inline-block;
-  margin-left: 35px;
-  margin-top: 5px;
-  font-size: 14px;
   font-weight: 400;
+  color: #333333;
+  float: left;
+  height: 40px;
+  line-height: 44px;
+  font-size: 14px;
   color: rgba(51, 51, 51, 1);
 }
 .Login_img {
@@ -193,7 +219,7 @@ ul li {
   display: flex;
 }
 .Login_img1 > li {
-  padding: 10px;
+  padding: 10px 10px 0 10px;
 }
 .Login_img1 > li > img {
   width: 24px;
@@ -203,7 +229,6 @@ ul li {
   width: 400px;
   height: 40px;
   background: rgba(18, 16, 55, 1);
-  margin-left: 32px;
   border: none;
   margin-bottom: 20px;
   margin-top: 20px;
@@ -219,7 +244,7 @@ hr {
   border: 1px solid rgba(228, 228, 228, 1);
 }
 .New_Customers_ {
-  width: 150px;
+  width: 125px;
   height: 21px;
   background-color: #fff;
   position: relative;
@@ -238,18 +263,15 @@ hr {
 .btn2 {
   width: 400px;
   height: 40px;
-  margin-left: 32px;
+  line-height: 40px;
+  text-align: center;
   border: 1px solid rgba(51, 51, 51, 1);
   margin-top: 30px;
 }
 .btn2_word {
   font-size: 16px;
   font-weight: 400;
-  margin-left: 123px;
-  margin-top: 10px;
   color: rgba(51, 51, 51, 1);
-}
-}
 }
 
 
