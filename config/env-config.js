@@ -25,7 +25,7 @@ const ENV_LIST = [
     //开发环境
     envName: 'dev',
     dirName: 'dev',
-    baseUrl: 'http://47.104.24.10:8767',
+    baseUrl: 'http://arapi.panduo.com.cn',
     assetsPublicPath:'/'
   },
   {
@@ -44,7 +44,6 @@ const ENV_LIST = [
   },
 
 ]
-console.log("process.env.assetsPublicPath="+process.env.assetsPublicPath)
 //获取命令行参数 http://nodejs.cn/api/process.html#process_process_argv
 const argv = JSON.parse(process.env.npm_config_argv).original || process.argv
 const HOST_ENV = argv[2] ? argv[2].replace(/[^a-z]+/ig,"") : ''

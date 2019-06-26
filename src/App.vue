@@ -16,12 +16,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   opacity:1;
+  margin: 0 auto;
 }
 html{
   width: 100%;
 }
 *{
-  margin:0;
+  margin:0 ;
   padding:0
   }
 body{
