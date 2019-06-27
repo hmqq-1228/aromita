@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
-  baseServiceUrl: 'https://ityp.baho.cn:8094/pms'
+  baseServiceUrl: 'http://www.aromita.com'
 }
 const mutations = {
 

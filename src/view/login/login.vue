@@ -21,7 +21,7 @@
             <!-- 验证密码 -->
             <p class="right_word1">password:</p>
             <el-form-item prop="password" style="width: 400px;">
-              <el-input v-model="ruleForm.password" placeholder="Enter your Password" style="width: 100%;"></el-input>
+              <el-input type="password" v-model="ruleForm.password" placeholder="Enter your Password" style="width: 100%;"></el-input>
             </el-form-item>
             <el-checkbox v-model="checked">Remenber Me</el-checkbox>
             <div class="Forgot" @click="handleGo">Forgot password?</div>
@@ -39,9 +39,9 @@
                 </li>
               </ul>
             </div>
-            <button class="btn1" @click="handleLogin('ruleForm')">
+            <el-button class="btn1" @click="handleLogin('ruleForm')">
               <p class="btn1_word">Login</p>
-            </button>
+            </el-button>
           </el-form>
           <div class="New_Customers_">
             <p class="New_Customers">New Customers？</p>
@@ -60,6 +60,7 @@
 <script>
 import Footer from "@/components/footer.vue";
 import aheader from "@/components/aheader.vue";
+import {handleLogin} from "../../api/home";
 export default {
   components: {
     "footer-com": Footer,
@@ -67,6 +68,8 @@ export default {
   },
      data() {
        return {
+         login_num: 0,
+         catpchas: '',
          ruleForm: {
           name: '',
           password: ''
@@ -85,37 +88,17 @@ export default {
        }
      },
      methods: {
-       handleLogin(formName) {
-         this.$refs[formName].validate((valid) => {
-           if (valid) {
-             alert('submit!');
-           } else {
-             console.log('error submit!!');
-             return false;
-           }
-         })
-         // if (ruleForm.password == '' || ruleForm.name == '') {
-         //   // alert('请输入邮箱和密码')
-         //   this.$message.error('请输入邮箱和密码')
-         //   return
-         // } else {
-         //  //  后端请求数据验证
-         // }
+       async handleLogin(formName) {
+         // this.$refs[formName].validate((valid) => {
+         //   if (valid) {
+         let data = await handleLogin()
+             console.log('4444',formName)
+         console.log('55555',data)
+         //   }
+         // })
        },
        CreateAccount: function () {
          // alert($('.btn2_word').text())
-         var st = this.$store.state.baseServiceUrl
-         console.log('666', st)
-         this.ajax('/schedule/delSchedule', {}).then(res => {
-           if (res.code === '200') {
-             this.$message({
-               message: '删除成功',
-               type: 'success'
-             })
-           } else {
-             this.log('delSchedule:', res)
-           }
-         })
        },
        handleGo(){
           this.$router.push({

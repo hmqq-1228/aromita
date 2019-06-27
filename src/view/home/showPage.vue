@@ -131,7 +131,7 @@ export default {
       homeArr: [], //NEW Arrivai 信息
       homeFoot: [],
       dataCollections: [], //Collections信息
-      hotStyle: [], //Hot Style 信息 
+      hotStyle: [], //Hot Style 信息
     };
   },
   mounted() {
@@ -140,7 +140,7 @@ export default {
     this.swiper1 = new Swiper(".banner1", {
       loop: true,
       autoplay: {
-        
+
         disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
       },
        observer:true,//修改swiper自己或子元素时，自动初始化swiper
@@ -226,9 +226,9 @@ export default {
 };
 </script>
 <style lang="scss">
-.wrap_1{
+.wrap_1 {
   margin: 0 auto;
-
+}
 .demo-carousel {
   width: 80%;
   height: 500px;
@@ -240,19 +240,19 @@ export default {
   width: 80%;
   height: 330px;
   // margin: 0 auto;
- 
+
 }
 .collections_one {
   width: 950px;
   height: 300px;
   margin-left: 78px;
   margin-top: 30px;
-   display: flex;
-   padding-left: 10px;
-  .collections_birtstone{
-    margin-right:16px; 
-  }
+  display: flex;
+  padding-left: 10px;
 }
+  .collections_birtstone{
+    margin-right:16px;
+  }
 .word1 {
   height: 48px;
   font-size: 40px;
@@ -268,10 +268,10 @@ export default {
   margin-left: 83px;
   margin-top: 20px;
   display: flex;
+}
   .collections_chains{
     margin-left: 20px;
   }
-}
 .thr1 {
   width: 460px;
   height: 300px;

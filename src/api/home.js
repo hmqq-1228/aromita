@@ -1,5 +1,7 @@
 import http from "../utils/http.js";
 // http://www.aromita.com/api/homeproducts/10
+// 登录
+export const handleLogin = params=>http("post","api/login",params);
 // Best Seller商品信息
 export const homeSeller = params=>http("get","api/homeproducts/10",params);
 //NEW Arrivai 信息
