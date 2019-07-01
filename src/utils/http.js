@@ -2,7 +2,7 @@ import axios from "axios";
 import qs from "qs";
 
 var http = axios.create({
-    baseURL:"http://www.aromita.com/",
+    // baseURL:"http://arapi.panduo.com.cn/",
     timeout:5000
 })
 //请求拦截

@@ -158,6 +158,7 @@ ul li{
   text-align: center;
   // float: left;
   display: flex;
+  justify-content: center;
 }
 .footer > .img > div {
   margin-top: 31px;

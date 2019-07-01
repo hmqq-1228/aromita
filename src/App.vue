@@ -53,4 +53,21 @@ body{
   line-height: 32px;
   border-radius: 0;
 }
+  .fliterList .el-collapse{
+    border-top: none;
+    border-bottom: 1px solid #EBEEF5;
+  }
+  .fliterList .el-collapse-item__header{
+    height: 36px;
+    line-height: 36px;
+    padding-left: 10px;
+    font-family: Tahoma;
+    border-bottom: none;
+  }
+  .fliterList .el-collapse-item__content{
+    padding-bottom: 10px;
+  }
+  .fliterList .el-collapse-item__wrap{
+    border-bottom: none;
+  }
 </style>

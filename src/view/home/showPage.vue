@@ -1,10 +1,9 @@
-
 <template>
   <div class="wrap_1">
     <header-com></header-com>
     <!-- 轮播图 -->
     <div class="wrap">
-      <div
+      <!-- <div
         class="banner1 swiper-container"
         @mouseenter="comtainer_enter1"
         @mouseleave="comtainer_leave1"
@@ -13,10 +12,10 @@
           <div class="swiper-slide" v-for="(item,index) in dataBanner" :key="index">
             <img :src="url+item.picture_src" alt>
           </div>
-        </div>
+        </div> -->
         <!-- 指示点 -->
-        <div class="swiper-pagination"></div>
-      </div>
+        <!-- <div class="swiper-pagination"></div>
+      </div> -->
       <!-- 英文 -->
       <div class="word1">Collections</div>
       <div class="collections">
@@ -135,22 +134,22 @@ export default {
     };
   },
   mounted() {
-    this.homeBanner()
-    this.homeHotStyle()
-    this.swiper1 = new Swiper(".banner1", {
-      loop: true,
-      autoplay: {
+    // this.homeBanner()
+    // this.homeHotStyle()
+    // this.swiper1 = new Swiper(".banner1", {
+    //   loop: true,
+    //   autoplay: {
 
-        disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
-      },
-       observer:true,//修改swiper自己或子元素时，自动初始化swiper
-       observeParents:true,//修改swiper的父元素时，自动初始化swiper
-      pagination: {
-        //指示点
-        el: ".swiper-pagination",
-        clickable: true //为true时点击指示点会切换slide
-      },
-    });
+    //     disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
+    //   },
+    //    observer:true,//修改swiper自己或子元素时，自动初始化swiper
+    //    observeParents:true,//修改swiper的父元素时，自动初始化swiper
+    //   pagination: {
+    //     //指示点
+    //     el: ".swiper-pagination",
+    //     clickable: true //为true时点击指示点会切换slide
+    //   },
+    // });
     // var mySwiper = new Swiper(".banner2", {
     //   slidesPerView: 4,
     //   spaceBetween: 20,
@@ -163,45 +162,45 @@ export default {
     //   }
     // });
   },
-  // methods: {
-  //   /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
-  //   comtainer_enter1() {
-  //     this.swiper1.autoplay.stop();
-  //     setTimeout(this.comtainer_leave1, 2000); //两秒加上默认的三秒
-  //   },
-  //   comtainer_leave1() {
-  //     this.swiper1.autoplay.start();
-  //   },
-  //   async homeFoote() {
-  //     let data = await homeFoote()
-  //     for (this.homeFoot in data){
-  //      this.homeFoot = data
-  //     //  console.log(this.homeFoot)
-  //     }
-  //   },
+  methods: {
+    /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
+    // comtainer_enter1() {
+    //   this.swiper1.autoplay.stop();
+    //   setTimeout(this.comtainer_leave1, 2000); //两秒加上默认的三秒
+    // },
+    // comtainer_leave1() {
+    //   this.swiper1.autoplay.start();
+    // },
+    async homeFoote() {
+      let data = await homeFoote()
+      for (this.homeFoot in data){
+       this.homeFoot = data
+      //  console.log(this.homeFoot)
+      }
+    },
   //   // Best Seller商品信息
-  //   async homeSeller() {
-  //     let data = await homeSeller()
-  //     for (let homeData of data){
-  //      this.homeData = data
-  //     }
-  //   },
+    // async homeSeller() {
+    //   let data = await homeSeller()
+    //   for (let homeData of data){
+    //    this.homeData = data
+    //   }
+    // },
   //   // NEW Arrivai 信息
-  //   async homeArrivai() {
-  //     let data = await homeArrivai()
-  //     this.homeArr = data
-  //     // for (let homeArr of data){
-  //     //  this.homeArr = data
-  //     // }
-  //   },
+    // async homeArrivai() {
+    //   let data = await homeArrivai()
+    //   this.homeArr = data
+    //   // for (let homeArr of data){
+    //   //  this.homeArr = data
+    //   // }
+    // },
   //   // 首页banner信息
-  //   async homeBanner() {
-  //     let data = await homeBanner()
-  //     this.dataBanner = data
-  //     // for (let dataBanner of data){
-  //     //  this.dataBanner = data
-  //     // }
-  //   },
+    // async homeBanner() {
+    //   let data = await homeBanner()
+    //   this.dataBanner = data
+    //   // for (let dataBanner of data){
+    //   //  this.dataBanner = data
+    //   // }
+    // },
     //Collections区信息
     async homeCollections() {
       let data = await homeCollections()
@@ -209,14 +208,14 @@ export default {
        this.dataCollections = data
       }
     },
-  //   // Hot Style 信息
-  //   async homeHotStyle() {
-  //     let data = await homeHotStyle()
-  //     for (let hotStyle of data){
-  //      this.hotStyle = data
-  //     }
-  //   },
-  // },
+    // Hot Style 信息
+    // async homeHotStyle() {
+    //   let data = await homeHotStyle()
+    //   for (let hotStyle of data){
+    //    this.hotStyle = data
+    //   }
+    // },
+  },
   created(){
     // this.homeSeller()
     // this.homeArrivai()
@@ -263,27 +262,46 @@ export default {
   text-align: center;
   color: rgba(51, 51, 51, 1);
 }
-.collections_thr {
+.collections_thr1 {
+  width: 80%;
   height: 300px;
   margin-left: 83px;
   margin-top: 20px;
-  display: flex;
+  float: left;
 }
-  .collections_chains{
-    margin-left: 20px;
-  }
-.thr1 {
+.thr2{
+ padding-right: 20px;
+//  width: 1410px;
+//  float: left;
+}
+.thr2:nth-child(1)>img{
+  width: 930px;
+  height: 300px;
+
+}
+.thr2:nth-child(2){
   width: 460px;
   height: 300px;
-  float: left;
-  margin-right: 35px;
+  // float: right;
+  margin-top: 300px;
 }
-.thr2 {
+.thr2:nth-child(3){
   width: 460px;
   height: 300px;
-  float: left;
-  margin-right: 25px;
+
 }
+// .thr1 {
+//   width: 460px;
+//   height: 300px;
+//   float: left;
+//   margin-right: 35px;
+// }
+// .thr2 {
+//   width: 460px;
+//   height: 300px;
+//   float: left;
+//   margin-right: 25px;
+// }
 hr {
   width: 1440px;
   margin: 0 auto;

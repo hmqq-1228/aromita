@@ -10,6 +10,7 @@ import iView from 'iview';
 import $ from 'jquery'
 import 'iview/dist/styles/iview.css';
 import 'swiper/dist/css/swiper.css';
+// import Swiper from 'swiper'
 import ajax from './assets/ajax/ajax.js'
 import axios from 'axios';
 import qs from 'qs';

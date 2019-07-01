@@ -184,7 +184,7 @@ export default {
       // console.log('6666', event.target.className)
       // let sp2 = document.querySelector('.navListLi')
       // let sp3 = document.querySelector('.nav_list')
-      console.log('333333', e)
+      // console.log('333333', e)
       // if (e.target.className === 'data') {
       //   console.log('333333', e.target.clientWidth)
       //   this.leftVal = this.leftVal + e.target.clientWidth
