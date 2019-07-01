@@ -16,7 +16,6 @@ import axios from 'axios';
 import qs from 'qs';
 import VueAxios from 'vue-axios';
 
-Vue.use(iView);
 Vue.use(ajax)
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios);
