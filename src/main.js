@@ -6,17 +6,17 @@ import router from './router'
 import store from './store/store.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import iView from 'iview';
+// import iView from 'iview';
 import $ from 'jquery'
-import 'iview/dist/styles/iview.css';
+// import 'iview/dist/styles/iview.css';
 import 'swiper/dist/css/swiper.css';
 // import Swiper from 'swiper'
-import ajax from './assets/ajax/ajax.js'
+// import ajax from './assets/ajax/ajax.js'
 import axios from 'axios';
 import qs from 'qs';
 import VueAxios from 'vue-axios';
 
-Vue.use(ajax)
+// Vue.use(ajax)
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios);
 /* eslint-disable no-new */

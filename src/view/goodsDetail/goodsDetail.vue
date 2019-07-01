@@ -32,8 +32,8 @@
               </div>
             </div>
           </div>
-          <div class="swiper-button-prev swiper-button-black"></div>
-          <div class="swiper-button-next swiper-button-black"></div>
+          <div class="swiper-button-prev swiper-button-black swiper-button-prev1"></div>
+          <div class="swiper-button-next swiper-button-black swiper-button-next1"></div>
         </div>
       </div>
       <div class="largerBox">
@@ -54,7 +54,77 @@
       </div>
     </div>
     <div class="goodsInfo">
-      <div>111111111</div>
+      <div class="goodsTitle">
+        Wholesale - (Grade D)Blue Sand Stone Blue Sand Stone Blue Sand Stone Blue Sand Stone Blue Sand Stone Blue Sand Stone
+      </div>
+      <div class="goodsPrice">
+        <div class="goodsLabel">Price:</div>
+        <div class="priceCon">$ 6.66</div>
+      </div>
+      <div style="display: flex;justify-content: start;margin-top: 20px;">
+        <div class="goodsLabelColor">Color:</div>
+        <div class="swiper-fatherColor">
+          <div class="goodsDetail2 swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-prev swiper-button-black swiper-button-prev2"></div>
+          <div class="swiper-button-next swiper-button-black swiper-button-next2"></div>
+        </div>
+      </div>
+      <div style="display: flex;justify-content: start;margin-top: 20px;">
+        <div class="goodsLabelColor">Color:</div>
+        <div class="swiper-fatherColor">
+          <div class="goodsDetail2 swiper-container">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+              <div class="swiper-slide">
+                <img src="@/assets/modelGoods.png" class="small">
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-prev swiper-button-black swiper-button-prev2"></div>
+          <div class="swiper-button-next swiper-button-black swiper-button-next2"></div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="foot">
@@ -81,8 +151,16 @@ export default {
       slidesPerGroup: 1,
       watchOverflow: true,
       navigation:{
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-next1',
+        prevEl: '.swiper-button-prev1',
+      }
+    })
+    var swiper2 = new Swiper('.goodsDetail2',{
+      slidesPerView: 5,
+      slidesPerGroup: 1,
+      navigation:{
+        nextEl: '.swiper-button-next2',
+        prevEl: '.swiper-button-prev2',
       }
     })
   }
@@ -112,15 +190,37 @@ export default {
   top: 25px;
   height: 445px;
 }
+.swiper-fatherColor{
+  position: relative;
+  width: 506px;
+}
 .swiper-container{
   height: 445px;
   width: 80px;
 }
-.swiper-button-prev{
+.goodsDetail2.swiper-container{
+  height: 80px;
+  width: 445px;
+}
+.swiper-fatherColor .swiper-button-prev {
   color: #333;
   position: absolute;
-  top: -4px;
-  left: 32px;
+  top: 50px;
+  left: 0;
+  width: 18px;
+  height: 28px;
+  /* margin-top: -13px; */
+  z-index: 10;
+  cursor: pointer;
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.goodsImg .swiper-button-prev{
+  color: #333;
+  position: absolute;
+  top: -5px;
+  left: 30px;
   width: 18px;
   height: 28px;
   /* margin-top: -13px; */
@@ -135,14 +235,14 @@ export default {
   -o-transform:rotate(90deg); 	/* Opera */
   background-repeat: no-repeat;
 }
-.swiper-button-next {
+.goodsImg .swiper-button-next {
   color: #333;
   position: absolute;
   top: 450px;
-  right: 32px;
+  right: 30px;
   width: 18px;
   height: 28px;
-  margin-top: -13px;
+  margin-top: -10px;
   z-index: 10;
   cursor: pointer;
   background-size: 12px;
@@ -154,7 +254,23 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
 }
-.swiper-slide {
+.swiper-fatherColor .swiper-button-next {
+  color: #333;
+  position: absolute;
+  top: 50px;
+  right: 5px;
+  width: 18px;
+  height: 28px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.goodsDetail2 .swiper-slide{
+  width: 90px !important;
+}
+.goodsImg .swiper-slide {
   width: 82px !important;
   height: 90px !important;
 }
@@ -171,6 +287,7 @@ export default {
   .shareTo img{
     height: 40px;
     width: 40px;
+    cursor: pointer;
   }
   .shareList{
     width: 100%;
@@ -192,5 +309,39 @@ export default {
   }
   .goodsInfo{
     width: 760px;
+  }
+  .goodsTitle{
+    font-size: 18px;
+    color: #333;
+    font-family: Tahoma;
+  }
+  .goodsPrice{
+    margin-top: 20px;
+    display: flex;
+    justify-content: start;
+  }
+  .goodsLabel{
+    width: 100px;
+    height: 40px;
+    font-size: 14px;
+    color: #333;
+    line-height: 40px;
+    font-family: Tahoma;
+  }
+  .goodsLabelColor{
+    width: 100px;
+    height: 80px;
+    font-size: 14px;
+    color: #333;
+    line-height: 80px;
+    font-family: Tahoma;
+  }
+  .priceCon{
+    height: 40px;
+    font-size: 18px;
+    color: #333;
+    font-weight: 600;
+    line-height: 40px;
+    font-family: Tahoma;
   }
 </style>
