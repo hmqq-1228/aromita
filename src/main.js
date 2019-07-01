@@ -5,14 +5,11 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 import 'swiper/dist/css/swiper.css';
 import axios from 'axios';
 import qs from 'qs';
 import VueAxios from 'vue-axios';
 
-Vue.use(iView);
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios);
 /* eslint-disable no-new */
