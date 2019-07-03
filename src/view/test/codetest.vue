@@ -33,7 +33,7 @@
       //   return Math.floor(Math.random() * (max - min) + min);
       // },
       refreshCode() {
-        this.identifyCodeNew = "4HP7";
+        this.identifyCodeNew = "";
       },
       // makeCode(o, l) {
       //   for (let i = 0; i < l; i++) {

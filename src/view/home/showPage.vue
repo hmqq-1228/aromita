@@ -104,6 +104,7 @@ import {
   homeCollections,
   homeHotStyle
 } from "../../api/home";
+import { constants } from 'fs';
 export default {
   components: {
     "header-com": Header,
@@ -132,7 +133,21 @@ export default {
   mounted() {
     this.homeBanner();
     this.homeHotStyle();
-    this.swiper1 = new Swiper(".banner1", {
+    var mySwiper = new Swiper(".banner2", {
+      slidesPerView: 4,
+      spaceBetween: 8,
+      observer: true, //修改swiper自己或子元素时，自动初始化swiper
+      observeParents: true, //修改swiper的父元素时，自动初始化swiper
+      //spaceBetween : '10%',按container的百分比
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      }
+    });
+  },
+  methods: {
+      initSwiper(){
+        this.swiper1 = new Swiper(".banner1", {
       loop: true,
       autoplay: {
         disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
@@ -144,20 +159,8 @@ export default {
         el: ".swiper-pagination",
         clickable: true //为true时点击指示点会切换slide
       }
-    });
-    var mySwiper = new Swiper(".banner2", {
-      slidesPerView: 4,
-      spaceBetween: 20,
-      observer: true, //修改swiper自己或子元素时，自动初始化swiper
-      observeParents: true, //修改swiper的父元素时，自动初始化swiper
-      //spaceBetween : '10%',按container的百分比
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev"
-      }
-    });
-  },
-  methods: {
+        });
+      },
     /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
     comtainer_enter1() {
       this.swiper1.autoplay.stop();
@@ -168,22 +171,23 @@ export default {
     },
     async homeFoote() {
       let data = await homeFoote();
-      for (this.homeFoot in data) {
-        this.homeFoot = data;
+      //console.log(data.data) 
+      for (this.homeFoot in data.data) {
+        this.homeFoot = data.data;
         //  console.log(this.homeFoot)
       }
     },
     // Best Seller商品信息
     async homeSeller() {
       let data = await homeSeller();
-      for (let homeData of data) {
-        this.homeData = data;
+      for (let homeData of data.data) {
+        this.homeData = data.data;
       }
     },
     // NEW Arrivai 信息
     async homeArrivai() {
       let data = await homeArrivai();
-      this.homeArr = data;
+      this.homeArr = data.data;
       // for (let homeArr of data){
       //  this.homeArr = data
       // }
@@ -191,7 +195,10 @@ export default {
     // 首页banner信息
     async homeBanner() {
       let data = await homeBanner();
-      this.dataBanner = data;
+      this.dataBanner = data.data;
+      this.$nextTick(() => {
+        this.initSwiper();
+      });
       // for (let dataBanner of data){
       //  this.dataBanner = data
       // }
@@ -199,15 +206,15 @@ export default {
     //Collections区信息
     async homeCollections() {
       let data = await homeCollections();
-      for (let dataCollections of data) {
-        this.dataCollections = data;
+      for (let dataCollections of data.data) {
+        this.dataCollections = data.data;
       }
     },
     // Hot Style 信息
     async homeHotStyle() {
       let data = await homeHotStyle();
-      for (let hotStyle of data) {
-        this.hotStyle = data;
+      for (let hotStyle of data.data) {
+        this.hotStyle = data.data;
       }
     }
   },
@@ -233,7 +240,7 @@ export default {
   .collections {
     width: 80%;
     height: 330px;
-    // margin: 0 auto;
+    margin: 0 auto;
   }
   .collections_one {
     width: 950px;
@@ -252,7 +259,7 @@ export default {
     font-size: 40px;
     font-weight: 400;
     line-height: 48px;
-    margin-left: 590px;
+    margin-left: 733px;
     margin-top: 39px;
     margin-bottom: 30px;
     color: rgba(51, 51, 51, 1);
@@ -348,11 +355,10 @@ export default {
     color: rgba(3, 3, 3, 1);
   }
   .sell {
-    width: 90%;
+    width: 76%;
     height: 388px;
     margin-top: 60px;
-    margin-left: 88px;
-    // margin: 50px auto;
+    margin-left: 241px;
   }
   .sell_1 {
     float: left;
@@ -417,14 +423,16 @@ export default {
     font-family: Tahoma;
     font-weight: 400;
     line-height: 48px;
-    margin-left: 32px;
+    margin-left: 14px;
     color: rgba(3, 3, 3, 1);
   }
 
   .new {
-    width: 1440px;
+    width: 80%;
     height: 388px;
-    margin: 42px auto;
+    margin-top: 42px;
+    margin-left: 245px;
+    // margin: 42px auto;
   }
   .new_1 {
     float: left;
@@ -468,12 +476,12 @@ export default {
     font-weight: 400;
   }
   .swiper-container {
-    width: 1440px;
+    width: 78%;
     height: 500px;
     margin: 20px auto;
   }
   .banner2 {
-    width: 78%;
+    width: 63%;
     height: 336px;
     margin: 0 auto 30px auto;
   }
@@ -483,7 +491,7 @@ export default {
     font-size: 40px;
     font-weight: 400;
     line-height: 48px;
-    margin-left: 590px;
+    margin-left: 667px;
     margin-top: 39px;
     margin-bottom: 30px;
     color: rgba(51, 51, 51, 1);
@@ -495,7 +503,7 @@ export default {
   }
   .element.style {
     width: 345px;
-    margin-right: 20px;
+    margin-right: 165px;
   }
   .swiper-slide {
     flex-shrink: 1;

@@ -21,12 +21,13 @@
             >
               <el-form-item prop="email">
                 <el-input
-                  type="password"
+                  type="text"
                   placeholder="Enter your Email"
                   v-model="ruleForm2.eamil"
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
+              <!-- 密码 -->
               <p class="right_word1">Password:</p>
               <el-form-item prop="pass">
                 <el-input
@@ -36,7 +37,7 @@
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-
+              <!-- 验证密码 -->
               <p class="right_word1">Confirm Password:</p>
               <el-form-item prop="checkpass">
                 <el-input
@@ -46,35 +47,38 @@
                   auto-complete="off"
                 ></el-input>
               </el-form-item>
-
-              <p class="right_word1">Verification code:</p>
-              <div class="join_formitem">
-                <div class="captcha">
-                  <input type="text" class="verification_input" v-model="picVerification">
-                  <input
-                    type="button"
-                    @click="createdCode"
-                    class="verification"
-                    v-model="checkCode"
-                  >
-                </div>
-              </div>
-
-              <!-- <el-form-item prop="checkPass">
-                <el-input
-                  type="password"
-                  v-model="ruleForm2.checkPass"
-                  placeholder="Enter your Password"
-                  auto-complete="off"
-                ></el-input>
-              </el-form-item>-->
             </el-form>
+            <!-- 验证码 -->
+            <div class="catpcha_">
+            <div class="right_catpcha">
+              <p class="right_word1">Verification code:</p>
+              <textarea class="catpcha"></textarea>
+            </div>
+            <!-- 验证码框 -->
+            <div class="code" @click="refreshCode">
+              <component
+                :firstCode="firstCode"
+                v-bind:is="compArr.identify"
+                :identifyCode="identifyCodeNew"
+              ></component>
+            </div>
+            </div>
+
+
+
+              <!-- 复选框 -->
             <div class="words_r">
-            <Checkbox class="word_r">I have read and agreed to the<u @click="HandleErqi" class="word_p">Privacy Policy </u></Checkbox>
-            <Checkbox><u @click="HandleErqi" class="word_p">“Subscription account service”</u></Checkbox>
+              <div class="metalChecked">
+                <input type="checkbox" id="metal1" name="metal">
+                <label for="metal1"></label>
+                <span>I have read and agreed to the<u @click="HandleErqi" class="word_p">Privacy Policy </u></span></div>
+              <div class="metalChecked">
+                <input type="checkbox" id="metal2" name="metal1" checked>
+                <label for="metal2"></label>
+                <span><u @click="HandleErqi" class="word_p">“Subscription account service”</u></span></div>
             </div>
             <button class="btn1">
-              <p class="btn1_word">Create an Account</p>
+              <p class="btn1_word" @click="handleRegister()">Create an Account</p>
             </button>
             <div class="New_Customers_">
               <p class="New_Customers">I Have an Accout？</p>
@@ -93,7 +97,10 @@
 <script>
 import Footer from "@/components/footer.vue";
 import Header from "@/components/header.vue";
+import {handleRegister,Catpcha} from "../../api/register";
+import identify from "../test/identify";
 export default {
+  name: "codetest",
   components: {
     "footer-com": Footer,
     "header-com": Header
@@ -113,7 +120,7 @@ export default {
       ruleForm2: {
         email: "",
         password: "",
-        password2: ''
+        password2: '',
       },
       rules2: {
           email: [
@@ -128,74 +135,41 @@ export default {
             { validator: validatePass2, trigger: 'blur' }
           ],
          },
-      checked: false
+        handleRegister:[],
+        handleCatpcha:[],
+        compArr: {
+        identify: "identify"
+      },
     };
   },
-  created() {
-    this.createdCode();
-  },
+
   methods: {
     HandleErqi(){
       this.$router.push({
              path: "/erqi"
           })
     },
-    // 图片验证码
-    createdCode() {
-      // 先清空验证码输入
-      this.code = "";
-      this.checkCode = "";
-      this.picVerification = "";
-      // 验证码长度
-      const codeLength = 4;
-      // 随机数
-      const random = new Array(
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z"
-      );
-      for (let i = 0; i < codeLength; i++) {
-        // 取得随机数的索引(0~35)
-        let index = Math.floor(Math.random() * 36);
-        // 根据索引取得随机数加到code上
-        this.code += random[index];
+    //点击注册
+    async handleRegister() {
+         let data = await handleRegister()  
+         for (let handleRegister of data) {
+             this.handleRegister = data;
       }
-      // 把code值赋给验证码
-      this.checkCode = this.code;
-    }
+       },
+    //验证码
+    refreshCode() {
+      console.log(123)
+      // this.identifyCodeNew = "";
+      this.handleCatpchas()
+      
+    },
+    async Catpcha() {
+         let data = await Catpcha()  
+         for (let handleCatpchas of data) {
+             this.handleCatpchas = data;
+      }
+       },
+   
   }
 };
 </script> 
@@ -224,6 +198,7 @@ ul li {
       float: left;
       margin-top: 80px;
       margin-bottom: 43px;
+      margin-left: 129px;
     }
     .right {
       width: 460px;
@@ -231,6 +206,7 @@ ul li {
       border: 1px solid gainsboro;
       margin-left: 40px;
       margin-top: 57px;
+      margin-right: 68px;
       float: right;
       .right_word1 {
         margin-left: 30px;
@@ -306,7 +282,7 @@ ul li {
         // padding-bottom:42px;
       }
       .New_Customers {
-        width: 138px;
+        width: 146px;
         height: 21px;
         font-size: 16px;
         font-weight: 400;
@@ -326,43 +302,26 @@ ul li {
           color: rgba(51, 51, 51, 1);
         }
       }
-
-      .captcha {
-        height: 50px;
-        text-align: justify;
-
-        .verification_input {
-          width: 280px;
-          font-family: "Exo 2", sans-serif;
-          border: 1px solid #fff;
-          color: black;
-          outline: none;
-          letter-spacing: 1px;
-          font-size: 17px;
-          margin-left: 30px;
-          font-weight: normal;
-          padding: 5px 0 5px 10px;
-          height: 40px;
-          border: 1px solid #707070;
-          // margin-bottom: 37px;
-          margin-top: 10px;
-        }
-        .verification {
-          background: url("../../assets/yanzhengma.jpg");
-          width: 100px;
-          letter-spacing: 5px;
-          margin-left: 25px;
-          border: none;
-          font-style: oblique;
-          height: 40px;
-          font-size: 16px;
-          transform: translate(-15px, 0);
-        }
-      }
+ 
       .word_r {
         margin-top: 37px;
       }
+      .catpcha_{
+          .code {
+  // margin: 400px auto;
+      width: 114px;
+      height: 40px;
+      margin-left: 263px;
+      margin-top: -39px;
+      border: 1px solid gainsboro;
+}
+    .catpcha{
+      height: 30px;
+      line-height: 30px;
+    }
+    }
     }
   }
+  
 }
 </style>

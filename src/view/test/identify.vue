@@ -9,7 +9,7 @@
     props: {
       identifyCode: {
         type: String,
-        default: '1234'
+        default: ''
       },
       fontSizeMin: {
         type: Number,
@@ -62,17 +62,16 @@
     },
     data() {
       return {
-        firstCode: "1234"
+        firstCode: this.identifyCode
       };
     },
     watch: {
       identifyCode: function (oV, Val) {
-        console.log('777777', oV)
-        console.log('888888', Val)
         this.firstCode = oV
         this.drawPic()
       }
     },
+    // props: ['firstCode'],
     mounted () {
       this.drawPic()
     },
