@@ -25,6 +25,7 @@ const Erqi = () => import('@/view/Kongbai/erqi.vue')
 // hm api
 const goodsList = () => import('@/view/goodsList/goodsList.vue')
 const goodsDetail = () => import('@/view/goodsDetail/goodsDetail.vue')
+const shoppingCar = () => import('@/view/shoppingCar/shoppingCar.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -101,6 +102,16 @@ export default new Router({
       path: '/goodsDetail',
       name: 'goodsDetail',
       component: goodsDetail,
+    },
+    {
+      path: '/goodsDetail/:spuId/:skuId',
+      name: 'goodsDetail',
+      component: goodsDetail,
+    },
+    {
+      path: '/shoppingCar',
+      name: 'shoppingCar',
+      component: shoppingCar,
     }
   ]
 })

@@ -19,6 +19,7 @@ import VueAxios from 'vue-axios';
 // Vue.use(ajax)
 Vue.use(ElementUI);
 Vue.use(VueAxios,axios);
+Vue.prototype.$axios = axios
 /* eslint-disable no-new */
 axios.defaults.timeout = 10000;
 axios.defaults.baseURL = '';

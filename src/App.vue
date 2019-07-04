@@ -70,4 +70,7 @@ body{
   .fliterList .el-collapse-item__wrap{
     border-bottom: none;
   }
+[class*=" el-icon-"], [class^=el-icon-]{
+  font-weight: 600;
+}
 </style>

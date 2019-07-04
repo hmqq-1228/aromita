@@ -122,15 +122,15 @@ export default {
     // 40
     async homeIcon() {
       let data = await homeIcon()
-      for (let icon of data){
-       this.icon = data
+      for (let icon of data.data){
+       this.icon = data.data
       }
     },
     //  50
     async homeFootTitle() {
       let data = await homeFootTitle()
-      for (let footTitle of data){
-       this.footTitle = data
+      for (let footTitle of data.data){
+       this.footTitle = data.data
       }
     },
   }
