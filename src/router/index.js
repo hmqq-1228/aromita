@@ -31,7 +31,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/showPage',
       name: 'showPage',
       component: ShowPage,
     },
@@ -78,7 +78,7 @@ export default new Router({
       component: Sort_out_warn,
     },
     {
-      path: '/register',
+      path: '/',
       name: 'register',
       component: Register,
     },
@@ -92,7 +92,6 @@ export default new Router({
       name: 'erqi',
       component: Erqi,
     },
-    // hm
     {
       path: '/goodsList',
       name: 'goodsList',

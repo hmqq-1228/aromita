@@ -1,58 +1,79 @@
 <template>
   <div class="wrap_1">
     <div style="margin: 0 auto">
-     <aheader-com></aheader-com>
+      <aheader-com></aheader-com>
     </div>
     <div class="wrapLogin">
-    <div class="content">
-      <div class="left">
-        <div class="left_img">
-          <img src="@/assets/注册页面.png" alt>
+      <div class="content">
+        <div class="left">
+          <div class="left_img">
+            <img src="@/assets/注册页面.png" alt />
+          </div>
         </div>
-      </div>
-              <!-- 登陆 -->
+        <!-- 登陆 -->
         <div class="right">
           <!-- 验证邮箱 -->
           <p class="right_word1">Email Address:</p>
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm" >
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
             <el-form-item prop="name" style="width: 400px;">
               <el-input v-model="ruleForm.name" placeholder="Enter your Email" style="width: 100%;"></el-input>
             </el-form-item>
             <!-- 验证密码 -->
             <p class="right_word1">password:</p>
             <el-form-item prop="password" style="width: 400px;">
-              <el-input type="password" v-model="ruleForm.password" placeholder="Enter your Password" style="width: 100%;"></el-input>
+              <el-input
+                type="password"
+                v-model="ruleForm.password"
+                placeholder="Enter your Password"
+                style="width: 100%;"
+              ></el-input>
             </el-form-item>
+            <!-- 验证码 -->
+            <div v-if="catpchashow">
+            <div class="right_catpcha">
+              <p class="right_word1">Verification code:</p>
+              <textarea class="catpcha"></textarea>
+            </div>
+            <!-- 验证码框 -->
+            <div class="code" @click="refreshCode">
+              <component
+                :firstCode="firstCode"
+                v-bind:is="compArr.identify"
+                :identifyCode="identifyCodeNew"
+              ></component>
+            </div>
+            </div>
+            <!-- 选择框 -->
             <el-checkbox v-model="checked">Remenber Me</el-checkbox>
             <div class="Forgot" @click="handleGo">Forgot password?</div>
             <p class="Login">Login with:</p>
             <div class="Login_img">
               <ul class="Login_img1">
                 <li>
-                  <img src="@/assets/facebook-01.png" alt>
+                  <img src="@/assets/facebook-01.png" alt />
                 </li>
                 <li>
-                  <img src="@/assets/pinterest1.png" alt>
+                  <img src="@/assets/pinterest1.png" alt />
                 </li>
                 <li>
-                  <img src="@/assets/twitter1.png" alt>
+                  <img src="@/assets/twitter1.png" alt />
                 </li>
               </ul>
             </div>
-            <el-button class="btn1" @click="handleLogin('ruleForm')">
+            <el-button class="btn1" @click="handleLogin()">
               <p class="btn1_word">Login</p>
             </el-button>
           </el-form>
           <div class="New_Customers_">
             <p class="New_Customers">New Customers？</p>
           </div>
-          <hr>
+          <hr />
           <div class="btn2" @click="CreateAccount()">
             <p class="btn2_word">Create An Account</p>
           </div>
         </div>
+      </div>
     </div>
-</div>
     <!-- <div style="height:1000px;">aaaa</div> -->
     <footer-com></footer-com>
   </div>
@@ -60,52 +81,127 @@
 <script>
 import Footer from "@/components/footer.vue";
 import aheader from "@/components/aheader.vue";
-import {handleLogin} from "../../api/home";
+import { handleLogin, handleCatpchas } from "../../api/register";
+import { async } from "q";
+import identify from "../test/identify";
+import { constants } from 'fs';
+
 export default {
+  name: "codetest",
   components: {
     "footer-com": Footer,
-    "aheader-com": aheader
+    "aheader-com": aheader,
+    identify
   },
-     data() {
-       return {
-         login_num: 0,
-         catpchas: '',
-         ruleForm: {
-          name: '',
-          password: ''
-        },
-         rules: {
-          name: [
-            { required: true, message: 'please enter your email!', trigger: 'blur' },
-            { type: 'email', message: 'The email address you entered is invalid.', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, message: 'please enter your password!', trigger: 'blur' },
-            { pattern: /^[a-zA-Z0-9]{6,14}$/, message: 'The password you entered is invalid.', trigger: 'blur' }
-          ]
-         },
-         checked: ''
-       }
-     },
-     methods: {
-       async handleLogin(formName) {
-         // this.$refs[formName].validate((valid) => {
-         //   if (valid) {
-         let data = await handleLogin()
-             console.log('4444',formName)
-         console.log('55555',data)
-         //   }
-         // })
-       },
-       CreateAccount: function () {
-         // alert($('.btn2_word').text())
-       },
-       handleGo(){
-          this.$router.push({
-             path: "/apply_reset_password"
-          })
-       }
-     }
+  data() {
+    return {
+      login_num: 0,
+      catpchas: "",
+      code: "",
+      firstCode: "",
+      catpchashow:false,
+      ruleForm: {
+        name: "",
+        password: ""
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "please enter your email!",
+            trigger: "blur"
+          },
+          {
+            type: "email",
+            message: "The email address you entered is invalid.",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          {
+            required: true,
+            message: "please enter your password!",
+            trigger: "blur"
+          },
+          {
+            pattern: /^[a-zA-Z0-9]{6,14}$/,
+            message: "The password you entered is invalid.",
+            trigger: "blur"
+          }
+        ]
+      },
+      compArr: {
+        identify: "identify"
+      },
+      // identifyCodes: "7896",
+      identifyCodeNew: "1234",
+      checked: "",
+      loginData: [],
+      num: 0
+    };
+  },
+  watch:{
+    num:function(val, old){
+      if(val == 3){
+        this.catpchashow = true
+      }else{
+        this.catpchashow = false
+      }
+    }
+  },
+  methods: {
+    refreshCode() {
+      console.log(123)
+      // this.identifyCodeNew = "";
+      this.handleCatpchas()
+      
+    },
+    async handleCatpchas() {
+      let data = await handleCatpchas();
+      this.identifyCodeNew = data.data
+      console.log(data.data)
+      // for (let Catpchas of data.data) {
+      //   this.Catpchas = data.data;
+      //   console.log(data.data)
+      // }
+    },
+    async handleLogin() {
+      let params = {
+        email: this.ruleForm.name,
+        password: this.ruleForm.password
+      };
+      let data = await handleLogin(params);
+      this.loginData = data;
+
+      let code = this.loginData.code;
+      if (code !== 200) {
+        this.num++;
+        console.log(this.num);
+        if (this.num >= 3) {
+          let msg = this.loginData.msg;
+          this.$message({
+            message: "Incorrect account or password",
+            type: "warning"
+          });
+          console.log(this.num);
+          this.handleCatpchas();
+          let codes = await handleCatpchas(params);
+          this.firstCode = codes.data;
+        }
+      } else {
+        let msg = this.loginData.msg;
+        this.$message({
+          message: " success",
+          type: "warning"
+        });
+      }
+    },
+    handleGo() {
+      this.$router.push({
+        path: "/apply_reset_password"
+      });
+    }
+  }
 };
 </script>
 
@@ -120,8 +216,8 @@ ul li {
   width: 100%;
   // margin-left: 100px;
 }
-.content{
-  width:1440px;
+.content {
+  width: 1440px;
   height: 630px;
   margin: auto;
   display: flex;
@@ -135,12 +231,13 @@ ul li {
   float: left;
 }
 .right {
-  width: 460px ;
+  width: 460px;
   height: 494px;
   border: 1px solid gainsboro;
   margin-top: 20px;
   float: right;
   padding: 28px;
+  margin-left: 30px;
 }
 .right_word1 {
   font-size: 14px;
@@ -179,7 +276,7 @@ ul li {
   background-color: #fff;
   z-index: 1;
 }
-.Forgot{
+.Forgot {
   display: inline-block;
   margin-left: 158px;
 }
@@ -237,7 +334,7 @@ hr {
   // padding-bottom:42px;
 }
 .New_Customers {
-  width: 130px;
+  width: 140px;
   height: 21px;
   font-size: 16px;
   font-weight: 400;
@@ -256,12 +353,16 @@ hr {
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
 }
-
-
-
-
-
-
-
-
+.code {
+  // margin: 400px auto;
+  width: 114px;
+  height: 40px;
+  margin-left: 263px;
+  margin-top: -39px;
+  border: 1px solid gainsboro;
+}
+.catpcha{
+  height: 30px;
+  line-height: 30px;
+}
 </style>
