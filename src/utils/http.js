@@ -16,6 +16,11 @@ http.interceptors.request.use((config)=>{
 })
 //响应拦截
 http.interceptors.response.use((res)=>{
+  if (res.config.method === 'post') {
+    console.log('0000000', res)
+    res.config.data = qs.stringify(res.config.data);
+    res.config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  }
     return res.data
 },(err)=>{
     return Promise.reject(err)
@@ -23,9 +28,11 @@ http.interceptors.response.use((res)=>{
 
 
 export default (method,url,data = null)=>{
-    if(method == "post"){
-        return http.post(url,data);
-    }else if(method == "get"){
+    if(method === "post"){
+      console.log('4444', url)
+      console.log('8888', data)
+      return http.post(url,data);
+    }else if(method === "get"){
         return http.get(url,{params:data})
     }else{
         return;

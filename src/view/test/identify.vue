@@ -1,5 +1,5 @@
 <template>
-  <div class="s-canvas">
+  <div class="s-canvas" style="height: 34px;">
     <canvas id="s-canvas" :width="contentWidth" :height="contentHeight"></canvas>
   </div>
 </template>
@@ -13,7 +13,7 @@
       },
       fontSizeMin: {
         type: Number,
-        default: 20
+        default: 30
       },
       fontSizeMax: {
         type: Number,
@@ -41,7 +41,7 @@
       },
       lineColorMax: {
         type: Number,
-        default: 180
+        default: 100
       },
       dotColorMin: {
         type: Number,
@@ -53,11 +53,11 @@
       },
       contentWidth: {
         type: Number,
-        default: 112
+        default: 120
       },
       contentHeight: {
         type: Number,
-        default: 38
+        default: 34
       }
     },
     data() {
@@ -108,7 +108,7 @@
         ctx.font = this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei'
         let x = (i + 1) * (this.contentWidth / (this.firstCode.length + 1))
         let y = this.randomNum(this.fontSizeMax, this.contentHeight - 5)
-        var deg = this.randomNum(-45, 45)
+        var deg = this.randomNum(-25, 25)
         // 修改坐标原点和旋转角度
         ctx.translate(x, y)
         ctx.rotate(deg * Math.PI / 180)

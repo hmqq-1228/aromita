@@ -1,5 +1,14 @@
 <template>
 <div class="detail">
+  <div class="bgModel" v-if="showModel">
+    <div class="modelCont">
+      <div class="modelClose" @click="closeModel"><i class="el-icon-close"></i></div>
+      <div class="modelTitle">Failed to add to cart</div>
+      <div class="modelText">Sorry, your shopping cart goes over the 50-item limit.</div>
+      <div class="modelText">Place view your cart firstly.</div>
+      <div class="toCart" @click="toGoodsCart()">Go to Cart</div>
+    </div>
+  </div>
   <div class="header">
     <header-com></header-com>
   </div>
@@ -10,7 +19,7 @@
           <div class="banner2 swiper-container">
             <div class="swiper-wrapper">
               <div class="swiper-slide" v-for="(detailImg, index) in goodDetail.thumbnail_images" v-bind:key="index">
-                <img :src="picUrl + detailImg" class="small">
+                <img :src="detailImg" class="small">
               </div>
               <!--<div class="swiper-slide">-->
                 <!--<img src="@/assets/modelGoods.png" class="small">-->
@@ -23,7 +32,7 @@
       </div>
       <div class="largerBox">
         <div class="largePic">
-          <img :src="picUrl + goodDetail.sku_image" alt="">
+          <img :src="goodDetail.sku_image" alt="">
         </div>
         <div class="shareList">
           <div class="shareBox">
@@ -43,133 +52,126 @@
         {{goodDetail.sku_name}}
       </div>
       <div class="goodsPrice">
-        <div class="goodsLabel">Price:</div>
-        <div class="priceCon"><span style="color: #c51015">$ {{goodDetail.sku_price}}</span></div>
+        <div class="goodsLabel">price:</div>
+        <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price.toFixed(2)}}</span></div>
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
-      <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="colorList">
-        <div class="goodsLabelColor">Color:</div>
-        <div class="swiper-fatherColor">
-          <div class="goodsDetail2 swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(color, index2) in colorList" v-bind:key="index2" @click="getColor($event, color.attr_name, color.id)">
-                <img class="ColorPic" :src="color.value.image_url">
-                <!--<div class="checkedTag"></div>-->
-              </div>
-              <!--<div class="swiper-slide" @click="getColor($event)">-->
-                <!--<img class="ColorPic" src="@/assets/modelGoods.png">-->
+      <!--<div style="display: flex;justify-content: start;margin-top: 20px;">-->
+        <!--<div class="goodsLabelColor">color:</div>-->
+        <!--<div class="swiper-fatherColor">-->
+          <!--<div class="goodsDetail2 swiper-container">-->
+            <!--<div class="swiper-wrapper">-->
+              <!--<div class="swiper-slide" v-for="(color, index2) in colorList" v-bind:key="index2" @click="getSize($event, color.attr_name, color.id, color.val_id)">-->
+                <!--<img class="ColorPic" :class="color.activeStyle === 1?'active': ''" :src="color.image_url">-->
+                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
               <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<img class="ColorPic" src="@/assets/modelGoods.png">-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<img class="ColorPic" src="@/assets/modelGoods.png">-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<img class="ColorPic" src="@/assets/modelGoods.png">-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<img class="ColorPic" src="@/assets/modelGoods.png">-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<img class="ColorPic" src="@/assets/modelGoods.png">-->
-              <!--</div>-->
-            </div>
-          </div>
-          <div class="swiper-button-prev swiper-button-black swiper-button-prev2"></div>
-          <div class="swiper-button-next swiper-button-black swiper-button-next2"></div>
-        </div>
-      </div>
-      <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="sizeList">
-        <div class="goodsLabelSize">Size:</div>
-        <!--<div class="smallSlider2">-->
-          <!--<div class="sliderBox">-->
-            <!--<div class="sliderCont">-->
-              <!--<div class="sizeSize" v-for="(size, index2) in attr" v-bind:key="index2">888</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--&lt;!&ndash;<div class="swiper-slide" @click="getColor($event)">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
             <!--</div>-->
           <!--</div>-->
-          <!--<div class="el-icon-arrow-left prev" @click="prevPic($event)"></div>-->
-          <!--<div class="el-icon-arrow-right next" @click="nextPic($event)"></div>-->
+          <!--<div v-if="colorList.length > 5" class="swiper-button-prev swiper-button-black swiper-button-prev2"></div>-->
+          <!--<div v-if="colorList.length > 5" class="swiper-button-next swiper-button-black swiper-button-next2"></div>-->
         <!--</div>-->
-        <div class="swiper-fatherSize">
-          <div class="goodsDetailSize swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide smallText" v-for="(attr, index) in sizeList" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id)">
-                <div class="sizeSize">{{attr.value.attr_value}} cm</div>
-                <!--<div class="checkedTag"></div>-->
+      <!--</div>-->
+      <div style="display: flex;justify-content: start;margin-top: 20px;" v-for="(attr, index5) in attrList" v-bind:key="index5">
+        <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
+        <div class="smallSlider2">
+          <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
+            <div class="sliderCont">
+              <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
+                <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
+                <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
+                <!--<div v-if="item.image_url" class="model"></div>-->
               </div>
-              <!--<div class="swiper-slide" @click="getSize($event)">-->
-                <!--<div class="sizeSize">2.7cm</div>-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<div class="sizeSize">2.8cm</div>-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<div class="sizeSize">2.9cm</div>-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<div class="sizeSize">3.0cm</div>-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<div class="sizeSize">3.2cm</div>-->
-              <!--</div>-->
-              <!--<div class="swiper-slide">-->
-                <!--<div class="sizeSize">3.5cm</div>-->
-              <!--</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
+              <!--<div class="sizeSize">2.5mm</div>-->
             </div>
           </div>
-          <div class="swiper-button-prev swiper-button-black swiper-button-prev3"></div>
-          <div class="swiper-button-next swiper-button-black swiper-button-next3"></div>
+          <div v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+          <div v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
         </div>
+        <!--<div class="swiper-fatherSize">-->
+          <!--<div class="goodsDetailSize swiper-container">-->
+            <!--<div class="swiper-wrapper">-->
+              <!--<div class="swiper-slide smallText" v-for="(attr, index) in level_size" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id, attr.value.id)">-->
+                <!--<div class="sizeSize" :class="attr.activeStyle === 1?'active': ''">{{attr.value.attr_value}} cm</div>-->
+                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="swiper-button-prev swiper-button-black swiper-button-prev3"></div>-->
+          <!--<div class="swiper-button-next swiper-button-black swiper-button-next3"></div>-->
+        <!--</div>-->
       </div>
-      <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="weightList">
-        <div class="goodsLabelWeight">Weight:</div>
-        <div class="swiper-fatherSize">
-          <div class="goodsDetailWeight swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide smallText" v-for="(attr, index) in weightList" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id)">
-                <div class="sizeSize">{{attr.value.attr_value}} g</div>
-                <!--<div class="checkedTag"></div>-->
-              </div>
-            </div>
-          </div>
-          <div class="swiper-button-prev swiper-button-black swiper-button-prev4"></div>
-          <div class="swiper-button-next swiper-button-black swiper-button-next4"></div>
-        </div>
-      </div>
-      <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="materialList">
-        <div class="goodsLabelWeight">Material:</div>
-        <div class="swiper-fatherSize">
-          <div class="goodsDetailMat swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide smallText" v-for="(attr, index) in materialList" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id)">
-                <div class="sizeSize">{{attr.value.attr_value}} g</div>
-                <!--<div class="checkedTag"></div>-->
-              </div>
-            </div>
-          </div>
-          <div class="swiper-button-prev swiper-button-black swiper-button-prev5"></div>
-          <div class="swiper-button-next swiper-button-black swiper-button-next5"></div>
-        </div>
-      </div>
+      <!--<div style="display: flex;justify-content: start;margin-top: 20px;" v-if="level_weight.length > 0">-->
+        <!--<div class="goodsLabelWeight">Weight:</div>-->
+        <!--<div class="swiper-fatherSize">-->
+          <!--<div class="goodsDetailWeight swiper-container">-->
+            <!--<div class="swiper-wrapper">-->
+              <!--<div class="swiper-slide smallText" v-for="(attr, index) in level_weight" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id, attr.value.id)">-->
+                <!--<div class="sizeSize" :class="attr.activeStyle === 1?'active': ''">{{attr.value.attr_value}} g</div>-->
+                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="swiper-button-prev swiper-button-black swiper-button-prev4"></div>-->
+          <!--<div class="swiper-button-next swiper-button-black swiper-button-next4"></div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div style="display: flex;justify-content: start;margin-top: 20px;" v-if="level_material.length > 0">-->
+        <!--<div class="goodsLabelWeight">Material:</div>-->
+        <!--<div class="swiper-fatherSize">-->
+          <!--<div class="goodsDetailMat swiper-container">-->
+            <!--<div class="swiper-wrapper">-->
+              <!--<div class="swiper-slide smallText" v-for="(attr, index) in level_material" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id, attr.value.id)">-->
+                <!--<div class="sizeSize" :class="attr.activeStyle === 1?'active': ''">{{attr.value.attr_value}} g</div>-->
+                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="swiper-button-prev swiper-button-black swiper-button-prev5"></div>-->
+          <!--<div class="swiper-button-next swiper-button-black swiper-button-next5"></div>-->
+        <!--</div>-->
+      <!--</div>-->
       <div style="display: flex;justify-content: start;margin-top: 20px;">
-        <div class="goodsLabelSize">Quality:</div>
-        <div> <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number></div>
+        <div class="goodsLabelSize" style="width: 130px;">quality:</div>
+        <div style="display: flex;">
+          <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
+          <div class="kuCun">{{maxQuality}} available</div>
+        </div>
       </div>
       <div class="goodsPrice">
         <div class="goodsLabel">Total Price:</div>
         <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
       </div>
-      <div class="subBtn">
-        <div class="subType" @click="addToCart()">Add to Cart</div>
-        <div class="addWish"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+      <div>
+        <div class="subBtn">
+          <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart()">Add to Cart</div>
+          <div v-if="goodDetail.sku_status === 3" class="subType out">Out of Stock</div>
+          <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+        </div>
+        <div v-if="goodDetail.sku_status === 3" class="restocking">It is restocking now. Once available, you can buy it.</div>
       </div>
     </div>
   </div>
@@ -198,7 +200,8 @@ import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
-import {getGoodsDetail} from "../../api/home";
+import {addToShopCard, getSkuNum, getInStock} from "../../api/register";
+import qs from 'qs'
 export default {
   components: {
     "header-com": Header,
@@ -207,30 +210,61 @@ export default {
   name: "goodsDetail",
   data(){
     return{
+      addButton: false,
+      showModel: false,
+      skuDefult: '',
       numQuality: 1,
       goodDetail: '',
       priceOrder: 0,
       totalPay: 0,
-      sizeList: [],
+      sumIds: [],
+      goodsIds: [],
       attrList: [],
-      colorList: [],
-      weightList: [],
-      materialList: []
+      attrListDis: [],
+      // otherList: [],
+      // colorList: [],
+      getNewSkuId: 0,
+      getSkuList: [],
+      skuSpuIdList: [],
+      skuList: [],
+      maxQuality: 0
     }
   },
   watch:{
-    // numQuality: function (val, old) {
-    //   var that = this
-    //   if (val) {
-    //     that.totalPay = val * that.priceOrder
-    //   }
-    // }
+    showModel: function(val, ov){
+      if (val) {
+        document.documentElement.style.overflowY = 'hidden';
+      } else {
+        document.documentElement.style.overflowY = 'scroll';
+      }
+    },
+    getNewSkuId: function (val, old) {
+      var that = this
+      if (val) {
+        var spuId = that.$route.params.spuId
+        console.log('44444444', spuId, val)
+        that.$router.push('/goodsDetail/'+ spuId + '/'+ val)
+        console.log('我已经跳转了', spuId)
+        // that.goodDetail = ''
+        // that.attrList = []
+        // that.colorList = []
+        that.getGoodsDetail(spuId, val)
+        document.location.reload()
+        // window.location.href='http://localhost:8080/goodsDetail/'+ spuId + '/'+ val
+      }
+    },
+    skuDefult: function (val, oV) {
+      var that = this
+      if (val) {
+        console.log('我已经更新了', val)
+      }
+    }
   },
   computed: {
-    picUrl: function () {
-      var that = this
-      return that.$store.state.baseServiceUrl
-    }
+    // picUrl: function () {
+    //   var that = this
+    //   return that.$store.state.baseServiceUrl
+    // }
   },
   mounted() {
     setTimeout(function () {
@@ -244,108 +278,263 @@ export default {
           prevEl: '.swiper-button-prev1',
         }
       })
-      var swiper2 = new Swiper('.goodsDetail2',{
-        slidesPerView: 5,
-        slidesPerGroup: 1,
-        navigation:{
-          nextEl: '.swiper-button-next2',
-          prevEl: '.swiper-button-prev2',
-        }
-      })
-      var swiper3 = new Swiper('.goodsDetailSize',{
-        slidesPerView: 5,
-        slidesPerGroup: 1,
-        navigation:{
-          nextEl: '.swiper-button-next3',
-          prevEl: '.swiper-button-prev3',
-        }
-      })
-      var swiper3 = new Swiper('.goodsDetailWeight',{
-        slidesPerView: 5,
-        slidesPerGroup: 1,
-        navigation:{
-          nextEl: '.swiper-button-next4',
-          prevEl: '.swiper-button-prev4',
-        }
-      })
-    }, 200)
+    }, 400)
   },
   created(){
     this.getGoodsDetail()
   },
   methods:{
-    // async getGoodsDetail() {
-    //   var skuId = this.$route.params.skuId
-    //   var spuId = this.$route.params.spuId
-    //   console.log('8888', this.$route.params.skuId)
-    //   let goodsList = await getGoodsDetail({
-    //     sku: skuId,
-    //     spu: spuId
-    //   });
-    //   this.goodsDetail = goodsList.data.data[0]
-    //   console.log('goodsList', this.goodsDetail)
-    // },
-    getGoodsDetail: function () {
+    tastModel: function(){
+      this.showModel = true
+    },
+    closeModel: function(){
+      this.showModel = false
+    },
+    toGoodsCart: function(){
+      this.$router.push('/shoppingCar')
+    },
+    // 商品详情
+    getGoodsDetail: function (spu, sku) {
       var that = this
-      var skuId = this.$route.params.skuId
-      var spuId = this.$route.params.spuId
+      var skuId
+      var spuId
+      that.skuSpuIdList = []
+      if (spu && sku) {
+        spuId = spu
+        skuId = sku
+        console.log('5555', spu, sku)
+      } else {
+        skuId = this.$route.params.skuId
+        spuId = this.$route.params.spuId
+      }
       this.$axios.get(this.$store.state.localUrl+'api/product/'+ spuId + '/' + skuId, {}).then(res => {
         if (res.data.code === "200") {
-          console.log('11111', res.data)
+          // console.log('11111', res.data)
           that.goodDetail = res.data.data.sku
+          that.maxQuality = res.data.data.sku.inventory
           that.priceOrder = res.data.data.sku.sku_price
-          that.totalPay = that.priceOrder * that.numQuality
+          that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
           that.attrList =  res.data.data.attrs
           that.attrId = res.data.data.sku_ids
-          that.colorList = res.data.data.attrs.color
-          that.sizeList = res.data.data.attrs.size
-          that.weightList = res.data.data.attrs.weight
-          that.materialList = res.data.data.attrs.material
-          for(let key  in that.attrList){
-            console.log('key', key)
-            // if (key === 'color') {
-            //   delete that.attrList.color
-            // }
+          that.skuList = res.data.data.sku_list
+          var list = JSON.parse(res.data.data.sku.sku_attrs)
+          // that.colorList = res.data.data.attrs.color
+          for (var i = 0; i < list.length; i++){
+            var obj = {
+              name: list[i].attr_name,
+              attr_id: parseInt(list[i].id),
+              val_id: parseInt(list[i].value.id)
+            }
+            that.skuSpuIdList.push(obj)
           }
-          for(let key in that.attrId){
-            console.log('key2222555', that.attrId[key])
-            var t = that.attrId[key].indexOf('1:1')
-            console.log('88888', that.attrId[key].indexOf('1:1'))
-            if (t > -1) {
-              console.log('key2222', key)
+          that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+          that.deleteSameObj(that.skuList, that.getSkuList)
+          for(let key in that.attrList){
+            for (var x=0; x<that.attrList[key].length; x++) {
+               for (var y=0; y< list.length; y++) {
+                 if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
+                   that.attrList[key][x].activeStyle = 1
+                 }
+               }
             }
           }
-          // var t = string.indexOf('xxx');
-          console.log('3333333', that.colorList)
         } else {
           console.log(222222)
         }
-        //
-        console.log('77777',that.colorList)
       })
     },
-    getSize: function (e, name, id) {
-      console.log('8888', name, id)
-      var obj = e.currentTarget
-      $(obj).children().addClass('active')
-      $(obj).siblings().children().removeClass('active')
+    deleteSameObj: function (skuList, getSkuList) {
+      var that = this
+      let objLista = []
+      let objListb = []
+      var resulta = []
+      var resultb = []
+      var flag = false
+      for (var a=0; a<skuList.length; a++){
+        for (var b=0; b<skuList[a].length; b++) {
+          let obj = skuList[a][b].attr_id + '-' + skuList[a][b].val_id
+          objLista.push(obj)
+        }
+      }
+      for(var i=0;i<objLista.length;i+=3){
+        resulta.push(objLista.slice(i,i+3));
+      }
+      for(let key in getSkuList){
+        // that.arrChange(that.skuList[a], that.getSkuList[key])
+        // var flag = that.isContained(that.skuList[a], that.getSkuList[key])
+        for (var k=0; k<getSkuList[key].length; k++){
+          let obj = getSkuList[key][k].attr_id + '-' + getSkuList[key][k].val_id
+          objListb.push(obj)
+        }
+      }
+      for(var i=0;i<objListb.length;i+=2){
+        resultb.push(objListb.slice(i,i+2));
+      }
+      for (var aa=0; aa<resulta.length; aa++) {
+        for (var bb=0; bb<resultb.length; bb++) {
+          flag = that.isContained(resulta[aa], resultb[bb])
+          if (flag) {
+            var aList = []
+            var bList = []
+            for (let k in resulta[aa]) {
+              let Aobj = {
+                attr_id: resulta[aa][k].split('-')[0],
+                val_id: resulta[aa][k].split('-')[1],
+                name: resulta[aa][k]
+              }
+              aList.push(Aobj)
+            }
+            for (let kb in resultb[bb]) {
+              let Bobj = {
+                attr_id: resultb[bb][kb].split('-')[0],
+                val_id: resultb[bb][kb].split('-')[1],
+                name: resultb[bb][kb]
+              }
+              bList.push(Bobj)
+            }
+            that.arrChange(aList, bList)
+          }
+        }
+      }
     },
-    getColor: function (e, name, id) {
-      console.log('8888', name, id)
-      var obj = e.currentTarget
-      $(obj).children().addClass('active')
-      $(obj).siblings().children().removeClass('active')
+    getNumbers: function (source, count, isPermutation = true) {
+      var that = this
+      //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
+      let currentList = source.map((item) => [item]);
+      if (count === 1) {
+        return currentList;
+      }
+      //取出第一项后，再取出后面count - 1 项的排列组合，并把第一项的所有可能（currentList）和 后面count-1项所有可能交叉组合
+      for (let i = 0; i < currentList.length; i++) {
+        let current = currentList[i];
+        //如果是排列的方式，在取count-1时，源数组中排除当前项
+        let children = [];
+        if (isPermutation) {
+          children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
+        }
+        //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
+        else {
+          children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
+        }
+        for (let child of children) {
+          that.getSkuList.push([...current, ...child]);
+        }
+      }
     },
-    addToCart: function() {
-      // this.$router.push('/shoppingCar')
-      $('.global').css('')
+    isContained: function (a, b){
+      if(!(a instanceof Array) || !(b instanceof Array)) return false;
+      if(a.length < b.length) return false;
+      var aStr = a.toString();
+      for(var i = 0, len = b.length; i < len; i++){
+        if(aStr.indexOf(b[i]) === -1) return false;
+      }
+      return true;
+    },
+    arrChange: function (a, b){
+      var that = this
+      a = a.filter(item => {
+        let idList= b.map(v => v.name)
+        return !idList.includes(item.name)
+      })
+      for(let key in that.skuList) {
+        for (var n = 0; n < that.skuList[key].length; n++) {
+          for (var m = 0; m < a.length; m++) {
+            if (parseInt(that.skuList[key][n].attr_id) === parseInt(a[m].attr_id) && parseInt(that.skuList[key][n].val_id) === parseInt(a[m].val_id)) {
+              a[m].disStyle = 2
+            }
+          }
+        }
+      }
+      for(let key in that.attrList){
+        for (var x=0; x<that.attrList[key].length; x++) {
+          for (var y=0; y< a.length; y++) {
+            if (parseInt(that.attrList[key][x].id) === parseInt(a[y].attr_id) && parseInt(that.attrList[key][x].val_id) === parseInt(a[y].val_id)){
+              that.attrList[key][x].disStyle = 2
+            }
+          }
+        }
+      }
+      console.log('samegggggggg', that.attrList)
+    },
+    getSize: function (e, name, spid, skid) {
+      var that = this
+      var sumList = []
+      var obj = e.currentTarget
+      var flag = false
+      var k = 0
+      var FileIdStr = ''
+      var info = {
+        name: name,
+        attr_id: spid,
+        val_id: skid
+      }
+      that.goodsIds = that.skuSpuIdList
+      that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
+      that.deleteSameObj(that.skuList, that.getSkuList)
+      if (that.goodsIds.length > 0) {
+        for(var i=0;i< that.goodsIds.length; i++) {
+          if(that.goodsIds[i].name === info.name){
+            flag = true
+            k = i
+            break
+          }
+        }
+        if (flag) {
+          that.goodsIds.splice(k, 1, info)
+        } else {
+          that.goodsIds.push(info)
+        }
+      } else {
+        that.goodsIds.push(info)
+      }
+      flag = false
+      that.sumIds = that.goodsIds
+      console.log('hhhhhhhh', that.goodsIds)
+      for (var n=0; n<that.sumIds.length; n++){
+        let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
+        sumList.push(sum)
+      }
+      for (var t=0; t<sumList.length; t++){
+        var splitIcon = ';'
+        if (t === sumList.length - 1) {
+          splitIcon = ''
+        }
+        FileIdStr = FileIdStr + sumList[t] + splitIcon
+      }
+      for(let key in that.attrId){
+        if (that.attrId[key] === FileIdStr) {
+          if(key){
+            that.getNewSkuId = key
+          }
+        }
+      }
+      $(obj).addClass('active')
+      $(obj).siblings().removeClass('active')
+    },
+    addToCart: function () {
+      var that = this
+      var skuId = that.$route.params.skuId
+      this.$axios.post(this.$store.state.localUrl+'api/addcart/'+ skuId + '/' +that.numQuality, {}).then(res => {
+        console.log('sssssss', res.data)
+        that.$store.state.addCartState = true
+        if (res.data === 2050) {
+          that.showModel = true
+        }
+      })
     },
     handleChange: function (val) {
       console.log('num', val)
       var that = this
+      var skuId = that.$route.params.skuId
       if (val) {
-        that.totalPay = val * that.priceOrder
+        that.totalPay = (val * that.priceOrder).toFixed(2)
       }
+      this.$axios.get(this.$store.state.localUrl+'api/sku/getInStock/'+ skuId, {}).then(res => {
+        console.log('sssssss', res.data)
+        if (res.data.code === '200') {
+          that.maxQuality = res.data.data.inventory
+        }
+      })
     },
     nextPic:function (e) {
       console.log(e)
@@ -363,7 +552,7 @@ export default {
           $(prev).css('color', '#333')
           // $(objBtn).css('pointer-events', 'auto')
         // } else {
-          $(objBtn).css('color', '#999')
+          $(objBtn).css('color', '#ccc')
           // $(objBtn).css('pointer-events', 'none')
           // this.$store.state.contPrev = 0
         // }
@@ -385,7 +574,7 @@ export default {
           $(obj).css('transition', '0.3s')
           // this.$store.state.contPrev = 0
           $(nextBtn).css('color', '#333')
-          $(prevBtn).css('color', '#999')
+          $(prevBtn).css('color', '#ccc')
           // $(nextBtn).css('pointer-events', 'auto')
         } else {
           // $(prevBtn).css('color', '#999')
@@ -393,30 +582,80 @@ export default {
           // this.$store.state.contPrev = 0
         }
       }
-      // this.$store.state.contPrev = this.$store.state.contPrev + 1
-      // if (parseInt(obj.style.left) != 0) {
-      //   if (this.$store.state.contPrev <= num) {
-      //     var distent = parseInt(obj.style.left) + 45
-      //     $(obj).css('left', distent)
-      //     $(obj).css('transition', '0.5s')
-      //   }
-      // }
-      console.log('n', this.$store.state.cont)
-      console.log('dis', num)
-      console.log('5555', distent)
     }
   }
 }
 </script>
 
 <style scoped>
+  .bgModel{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .modelClose{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 5px;
+    color: #666;
+    cursor: pointer;
+  }
+  .modelClose:hover{
+    color: #333;
+  }
+  .modelCont{
+    width: 345px;
+    height: 130px;
+    padding: 20px 10px;
+    text-align: center;
+    font-family: Tahoma;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 1px 1px 6px #666;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  .modelText{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  .modelTitle{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .toCart{
+    color: #fff;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #c51015;
+    margin: 0 auto;
+    cursor: pointer;
+    margin-top: 18px;
+  }
+  .toCart:hover{
+    cursor: pointer;
+    background-color: #B20605;
+  }
   .smallSlider2{
-    height: 38px;
+    /*height: 38px;*/
     width: 506px;
     position: relative;
   }
   .sliderBox{
-    height: 38px;
+    /*height: 38px;*/
     width: 445px;
     margin: 0 auto;
     white-space: nowrap;
@@ -425,22 +664,30 @@ export default {
     left:0;
     top: 0;
   }
+  .sliderBox.isImg{
+    height: 82px;
+  }
+  .sliderBox.isImg .sizeSize{
+    height: 82px;
+  }
+  .sliderBox.isText{
+    height: 38px;
+  }
   .sliderCont{
     position: absolute;
     left: 0;
     top: 0;
-    height: 38px;
     width: 445px;
     margin: 0 auto;
   }
   .sliderCont div{
-    width: 79px;
-    height: 32px;
-    margin-right: 4px;
+    width: 82px;
+    /*height: 32px;*/
+    margin-right: 8px;
     display: inline-block;
   }
   .prev{
-    color: #999;
+    color: #ccc;
     position: absolute;
     left: 0;
     top: 6px;
@@ -459,13 +706,29 @@ export default {
     cursor: pointer;
     border: 1px solid #eee;
   }
-.sizeSize.active,.ColorPic.active{
+.sizeSize.active div,.sizeSize.active img{
   border: 1px solid #B20605;
   transition: all .3s;
+}
+.sizeSize .disStyle{
+  color: #333;
+  border: 1px solid #999;
+  background-color: #fff;
+}
+.sizeSize.active .disStyle{
+  color: #333;
+  border: 1px solid #B20605;
+  background-color: #fff;
+}
+.sizeSize.active div{
+  color: #999;
+  border: 1px solid #B20605;
+  background-color: #f5f5f5;
 }
 .small{
   width: 80px;
   height: 80px;
+  border: 1px solid #ccc;
 }
 .goodsDetail{
   width: 1440px;
@@ -508,15 +771,37 @@ export default {
   justify-content: space-between;
 }
 .sizeSize{
-  height: 32px;
-  width: 80px;
-  color: #333;
   font-size: 14px;
   cursor: pointer;
   line-height: 32px;
   text-align: center;
   font-family: Tahoma;
-  border: 1px solid #eee;
+  /*position: relative;*/
+}
+/*.sizeSize .model{*/
+  /*position: absolute;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*background: rgba(0,0,0,0.1);*/
+/*}*/
+.sizeSize div{
+  color: #888;
+  height: 32px;
+  width: 80px;
+  border: 1px dashed #ccc;
+}
+  .sizeSize img{
+    height: 80px;
+    width: 80px;
+    border: 1px dashed #ccc;
+  }
+.sizeSize .textStyle{
+  color: #333;
+}
+.sizeSize div{
+  color: #999;
+  border: 1px dashed #ccc;
+  background-color: #f5f5f5;
 }
 .detailSwiper{
   width: 80px;
@@ -537,7 +822,7 @@ export default {
 }
 .goodsImg .swiper-container{
   height: 445px;
-  width: 80px;
+  width: 82px;
 }
 .goodsDetail2.swiper-container{
   height: 82px;
@@ -665,18 +950,15 @@ export default {
     border-width: 0px 0px 10px 10px;
     border-style: solid;
   }
-.smallText.swiper-slide{
-  width: 82px !important;
-  margin-right: 8px;
-  position: relative;
-  overflow: hidden;
-  height: 34px;
-}
 .goodsImg .swiper-slide {
   width: 82px !important;
   height: 90px !important;
 }
   .largePic{
+    width: 550px;
+    height: 550px;
+  }
+  .largePic img{
     width: 550px;
     height: 550px;
   }
@@ -723,28 +1005,28 @@ export default {
     justify-content: start;
   }
   .goodsLabel{
-    width: 100px;
+    width: 130px;
     height: 40px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
     line-height: 40px;
     font-family: Tahoma;
   }
-  .goodsLabelColor{
+.goodsLabelSize.isTextLabel,.goodsLabelSize{
+  width: 100px;
+  height: 32px;
+  font-size: 16px;
+  color: #333;
+  line-height: 32px;
+}
+  .goodsLabelSize.isImgLabel{
     width: 100px;
     height: 80px;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
     line-height: 80px;
     font-family: Tahoma;
   }
-.goodsLabelSize,.goodsLabelWeight{
-  width: 100px;
-  height: 32px;
-  font-size: 14px;
-  color: #333;
-  line-height: 32px;
-}
   .priceCon{
     height: 40px;
     font-size: 18px;
@@ -792,6 +1074,16 @@ export default {
   cursor: pointer;
   background-color: #B20605;
 }
+  .subType.out{
+    width: 300px;
+    height: 45px;
+    color: #888;
+    background-color: #fff;
+    line-height: 45px;
+    text-align: center;
+    border: 1px solid #e1e1e1;
+    cursor: not-allowed;
+  }
 .addWish{
   width: 160px;
   height: 45px;
@@ -807,5 +1099,17 @@ export default {
   .addWish span:nth-of-type(1){
     margin-top: 4px;
     cursor: pointer;
+  }
+  .kuCun{
+    line-height: 40px;
+    font-size: 14px;
+    color: #666;
+    margin-left: 10px;
+  }
+  .restocking{
+    font-size: 14px;
+    font-family: Tahoma;
+    color: #888;
+    margin-top: 4px;
   }
 </style>

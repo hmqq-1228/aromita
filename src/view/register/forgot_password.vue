@@ -3,105 +3,102 @@
     <aheader-com></aheader-com>
     <div class="warp">
       <div class="content_forgot">
-        <p class="word_a">Need help with your password?</p>
-        <div class="word_b">Enter the email you use for Aromita,</div>
+        <p class="word_a">Confirm your identity to reset password?</p>
+        <div class="word_b" style="margin-top: 10px;">Enter the email you use for Aromita,</div>
         <span class="word_b">and we’ll help you create a new password.</span>
-        <!-- 邮箱 -->
-        <div class="emails">
-              <el-input  prop="name"  ></el-input>
-        </div>
-        <!-- 验证码 -->
-        <div class="join_formitem">
-          <div class="captcha">
-            <input type="text" class="verification_input" v-model="picVerification">
-            <input type="button" @click="createdCode" class="verification" v-model="checkCode">
+        <el-form ref="form" :model="form" :rules="rules" status-icon style="margin-top: 20px">
+          <el-form-item prop="inputEmail">
+            <el-input v-model="form.inputEmail" placeholder="please enter your email"></el-input>
+          </el-form-item>
+          <div style="display: flex;justify-content: space-between">
+            <el-form-item prop="inputCode" style="width:260px;">
+              <el-input v-model="form.inputCode" placeholder="please enter your verification code"></el-input>
+            </el-form-item>
+            <div class="code" @click="refreshCode">
+              <component v-bind:is="compArr.identify"
+                         :identifyCode="identifyCodeNew">
+              </component>
+            </div>
           </div>
-        </div>
-        <button class="btn_next">NEXT</button>
+          <el-form-item>
+            <el-button style="width: 400px;font-size:16px;background-color: #121037;" @click="submitForm('form')">Next</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 <script>
 import Aheader from "@/components/aheader.vue";
+import identify from '../test/identify.vue'
+import {Catpcha,forgetPassword} from "../../api/register";
+import qs from 'qs'
 export default {
   components: {
-    "aheader-com": Aheader
+    "aheader-com": Aheader,
+    identify
   },
   data() {
     return {
       code: "",
       checkCode: "",
       picVerification: "", //..验证码图片
-      input: "",
-        name: "",
+      identifyCodeNew: '12345',
+      form: {
+        inputEmail: '',
+        inputCode: ''
+      },
+      compArr: {
+        identify: "identify"
+      },
       rules: {
-        name: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          { type: "email", message: "请输入正确的邮箱地址", trigger: "blur" }
+        inputEmail: [
+          { required: true, message: "please enter your valid email address.", trigger: "blur" },
+          { type: "email", message: "Please enter the correct email address", trigger: "blur" }
+        ],
+        inputCode: [
+          { required: true, message: 'please enter your verification code', trigger: 'blur' },
+          { min: 5, max: 5, message: 'Verification code length is 5', trigger: 'blur' }
         ]
       }
     };
   },
   created() {
-    this.createdCode();
+   this.getVerificationCode()
   },
   methods: {
-    // 图片验证码
-    createdCode() {
-      // 先清空验证码输入
-      this.code = "";
-      this.checkCode = "";
-      this.picVerification = "";
-      // 验证码长度
-      const codeLength = 4;
-      // 随机数
-      const random = new Array(
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z"
-      );
-      for (let i = 0; i < codeLength; i++) {
-        // 取得随机数的索引(0~35)
-        let index = Math.floor(Math.random() * 36);
-        // 根据索引取得随机数加到code上
-        this.code += random[index];
+    refreshCode() {
+      console.log(123)
+      // this.identifyCodeNew = "";
+      this.getVerificationCode()
+
+    },
+    async getVerificationCode () {
+      let data = await Catpcha()
+      this.identifyCodeNew = data.data
+    },
+    submitForm: function (formName) {
+      var that = this
+      that.$refs[formName].validate((valid) => {
+        if(valid){
+          that.findPassword()
+        }
+      })
+    },
+    async findPassword () {
+      var parems
+      var that = this
+      parems = qs.stringify({
+        email: that.form.inputEmail,
+        catpcha: that.form.inputCode
+      })
+      let data = await forgetPassword(parems)
+      if (data.code === 200) {
+        that.$router.push('/apply_reset_password')
+      } else {
+        that.$message.warning(data.msg)
       }
-      // 把code值赋给验证码
-      this.checkCode = this.code;
+      // that.$router.push('/apply_reset_password')
     }
   }
 };
@@ -109,17 +106,15 @@ export default {
 <style lang="scss">
 .warp_1 {
   .warp {
-    width: 86%;
     height: 308px;
-    margin-top: 75px;
-    margin-left: 136px;
     .content_forgot {
-      width: 500px;
+      width: 400px;
       height: 308px;
       margin: 0 auto;
+      text-align: center;
       .word_a {
-        font-size: 22px;
-        font-weight: 400;
+        font-size: 20px;
+        font-weight: 500;
         color: #333333;
       }
       .word_b {
@@ -140,15 +135,11 @@ export default {
           outline: none;
           letter-spacing: 1px;
           font-size: 17px;
-          
           font-weight: normal;
-          padding: 5px 0 5px 10px;
           height: 40px;
           border: 1px solid #e6e6e6;
-          margin-top: 38px;
         }
         .verification {
-          background: url("../../assets/yanzhengma.jpg");
           width: 100px;
           letter-spacing: 5px;
           margin-left: 25px;

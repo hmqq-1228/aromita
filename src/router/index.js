@@ -22,16 +22,18 @@ const Forgot_password = () => import('@/view/register/forgot_password.vue')
 // import Forgot_password from '@/view/register/forgot_password.vue'
 const Erqi = () => import('@/view/Kongbai/erqi.vue')
 // import Erqi from '@/view/Kongbai/erqi.vue'
-// hm api
+// hm api newPassword
 const goodsList = () => import('@/view/goodsList/goodsList.vue')
 const goodsDetail = () => import('@/view/goodsDetail/goodsDetail.vue')
 const shoppingCar = () => import('@/view/shoppingCar/shoppingCar.vue')
+const newPassword = () => import('@/view/register/newPassword.vue')
+const unavailable = () => import('@/view/Kongbai/unavailable.vue')
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/showPage',
+      path: '/',
       name: 'showPage',
       component: ShowPage,
     },
@@ -39,13 +41,11 @@ export default new Router({
       path: '/header',
       name: 'header',
       component: Header,
-
     },
     {
       path: '/footer',
       name: 'footer',
       component: Footer,
-
     },
     {
       path: '/login',
@@ -78,7 +78,7 @@ export default new Router({
       component: Sort_out_warn,
     },
     {
-      path: '/',
+      path: '/register',
       name: 'register',
       component: Register,
     },
@@ -86,6 +86,11 @@ export default new Router({
       path: '/forgot_password',
       name: 'forgot_password',
       component: Forgot_password,
+    },
+    {
+      path: '/newPassword',
+      name: 'newPassword',
+      component: newPassword,
     },
     {
       path: '/erqi',
@@ -111,6 +116,11 @@ export default new Router({
       path: '/shoppingCar',
       name: 'shoppingCar',
       component: shoppingCar,
+    },
+    {
+      path: '/unavailable',
+      name: 'unavailable',
+      component: unavailable,
     }
   ]
 })

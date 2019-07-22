@@ -29,38 +29,44 @@
               ></el-input>
             </el-form-item>
             <!-- 验证码 -->
-            <div v-if="catpchashow">
-            <div class="right_catpcha">
+            <div>
+            <div class="right_catpcha" v-if="catpchashow">
               <p class="right_word1">Verification code:</p>
-              <textarea class="catpcha"></textarea>
-            </div>
+              <div class="codeBox">
+                <input class="catpcha" v-model="verifiCode">
+                <div class="code" @click="refreshCode">
+                  <component
+                    :firstCode="firstCode"
+                    v-bind:is="compArr.identify"
+                    :identifyCode="identifyCodeNew"
+                  ></component>
+                </div>
+              </div>
             <!-- 验证码框 -->
-            <div class="code" @click="refreshCode">
-              <component
-                :firstCode="firstCode"
-                v-bind:is="compArr.identify"
-                :identifyCode="identifyCodeNew"
-              ></component>
             </div>
             </div>
             <!-- 选择框 -->
-            <el-checkbox v-model="checked">Remenber Me</el-checkbox>
-            <div class="Forgot" @click="handleGo">Forgot password?</div>
-            <p class="Login">Login with:</p>
-            <div class="Login_img">
-              <ul class="Login_img1">
-                <li>
-                  <img src="@/assets/facebook-01.png" alt />
-                </li>
-                <li>
-                  <img src="@/assets/pinterest1.png" alt />
-                </li>
-                <li>
-                  <img src="@/assets/twitter1.png" alt />
-                </li>
-              </ul>
+            <div style="display: flex;justify-content: space-between;width: 400px;margin-top: 10px">
+              <el-checkbox v-model="checked" :checked="checkedState">Remenber Me</el-checkbox>
+              <div class="Forgot" @click="handleGo">Forgot password?</div>
             </div>
-            <el-button class="btn1" @click="handleLogin()">
+            <div style="height: 40px;margin-top: 10px;">
+              <p class="Login">Login with:</p>
+              <div class="Login_img">
+                <ul class="Login_img1">
+                  <li>
+                    <img src="@/assets/facebook-01.png" alt />
+                  </li>
+                  <li>
+                    <img src="@/assets/pinterest1.png" alt />
+                  </li>
+                  <li>
+                    <img src="@/assets/twitter1.png" alt />
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <el-button class="btn1" @click="handleLogin('ruleForm')">
               <p class="btn1_word">Login</p>
             </el-button>
           </el-form>
@@ -81,8 +87,9 @@
 <script>
 import Footer from "@/components/footer.vue";
 import aheader from "@/components/aheader.vue";
-import { handleLogin, handleCatpchas } from "../../api/register";
+import { handleLogin, handleCatpchas, mergeGoods } from "../../api/register";
 import { async } from "q";
+import qs from 'qs'
 import identify from "../test/identify";
 import { constants } from 'fs';
 
@@ -96,13 +103,14 @@ export default {
   data() {
     return {
       login_num: 0,
-      catpchas: "",
-      code: "",
-      firstCode: "",
+      catpchas: '',
+      code: '',
+      firstCode: '',
+      verifiCode: '',
       catpchashow:false,
       ruleForm: {
-        name: "",
-        password: ""
+        name: '',
+        password: ''
       },
       rules: {
         name: [
@@ -135,70 +143,123 @@ export default {
       },
       // identifyCodes: "7896",
       identifyCodeNew: "1234",
-      checked: "",
+      checked: false,
+      checkedState: false,
       loginData: [],
-      num: 0
+      num: 1
     };
   },
   watch:{
     num:function(val, old){
-      if(val == 3){
+      if(val > 2){
         this.catpchashow = true
+        if (val === 3) {
+          this.$message.warning('There are many errors, please enter the validation code.')
+        }
+        this.handleCatpchas()
       }else{
         this.catpchashow = false
       }
     }
   },
+  created(){
+    this.getCookie('userInfo')
+    this.num = sessionStorage.getItem('errNum')
+  },
   methods: {
     refreshCode() {
-      console.log(123)
-      // this.identifyCodeNew = "";
       this.handleCatpchas()
-      
+
     },
     async handleCatpchas() {
       let data = await handleCatpchas();
       this.identifyCodeNew = data.data
-      console.log(data.data)
-      // for (let Catpchas of data.data) {
-      //   this.Catpchas = data.data;
-      //   console.log(data.data)
-      // }
     },
-    async handleLogin() {
+    handleLogin: function (formName) {
+      var that = this
       let params = {
+        cont: that.num,
+        checked: that.checked,
         email: this.ruleForm.name,
         password: this.ruleForm.password
       };
-      let data = await handleLogin(params);
-      this.loginData = data;
-
-      let code = this.loginData.code;
-      if (code !== 200) {
-        this.num++;
-        console.log(this.num);
-        if (this.num >= 3) {
-          let msg = this.loginData.msg;
-          this.$message({
-            message: "Incorrect account or password",
-            type: "warning"
-          });
-          console.log(this.num);
-          this.handleCatpchas();
-          let codes = await handleCatpchas(params);
-          this.firstCode = codes.data;
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (that.checked) {
+            that.saveCookie('userInfo', params, 30)
+          } else if (!that.checked) {
+            that.removeCookie('userInfo')
+          }
+          that.handleLoginSub()
         }
-      } else {
-        let msg = this.loginData.msg;
-        this.$message({
+      })
+    },
+    async handleLoginSub() {
+      var that = this
+      var params
+      params = qs.stringify({
+        catpchas: that.verifiCode,
+        email: this.ruleForm.name,
+        password: this.ruleForm.password
+      })
+      let data = await handleLogin(params)
+      this.loginData = data;
+      let code = this.loginData.code;
+      if (code === 200) {
+        that.$message({
           message: " success",
-          type: "warning"
+          type: "success"
         });
+        that.mergeGoodsFuc()
+        that.$router.push('/')
+        sessionStorage.setItem('userName', that.ruleForm.name)
+      } else {
+        that.$message.error(data.msg)
+        that.num = data.data
+        sessionStorage.setItem('errNum', data.data)
       }
+    },
+    async mergeGoodsFuc(){
+      let data = await mergeGoods()
+      console.log('9999999', data)
+    },
+    saveCookie: function (cookieName,cookieValue,cookieDates) {
+      var d = new Date();
+      d.setDate(d.getDate()+cookieDates)
+      document.cookie = cookieName+"=" + JSON.stringify(cookieValue)  + ";path=/;expires=" + d.toGMTString()
+    },
+    removeCookie: function (cookieName) {
+      document.cookie=encodeURIComponent(cookieName)+"=; expires=" + new Date();
+    },
+    getCookie: function(cookieName){
+      var that = this
+      var strcookie = document.cookie;//获取cookie字符串
+      var arrcookie = strcookie.split("; ");//分割
+      //遍历匹配
+      for ( var i = 0; i < arrcookie.length; i++) {
+        var arr = arrcookie[i].split("=");
+        if (arr[0] === cookieName){
+          if (arr[1]) {
+            var userInfo = JSON.parse(arr[1])
+            if (userInfo.checked === true) {
+              that.checkedState = true
+              that.ruleForm.name = userInfo.email
+              that.ruleForm.password = userInfo.password
+              if (userInfo.num >= 3) {
+                that.catpchashow = true
+              }
+            }
+          }
+        }
+      }
+      return "";
+    },
+    CreateAccount: function(){
+      this.$router.push('/register')
     },
     handleGo() {
       this.$router.push({
-        path: "/apply_reset_password"
+        path: "/forgot_password"
       });
     }
   }
@@ -237,11 +298,12 @@ ul li {
   margin-top: 20px;
   float: right;
   padding: 28px;
-  margin-left: 30px;
+  box-sizing: border-box;
 }
 .right_word1 {
   font-size: 14px;
   font-weight: 400;
+  margin-bottom: 4px;
   color: rgba(51, 51, 51, 1);
 }
 .el-input__inner {
@@ -277,8 +339,11 @@ ul li {
   z-index: 1;
 }
 .Forgot {
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
   display: inline-block;
-  margin-left: 158px;
+  text-decoration: underline;
 }
 .el-checkbox__label {
   margin-top: 10px;
@@ -318,7 +383,7 @@ ul li {
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
 }
-hr {
+.wrap_1 .wrapLogin hr {
   width: 391px;
   margin: 0 auto;
   border: 1px solid rgba(228, 228, 228, 1);
@@ -345,24 +410,25 @@ hr {
   height: 40px;
   line-height: 40px;
   text-align: center;
+  cursor: pointer;
   border: 1px solid rgba(51, 51, 51, 1);
   margin-top: 30px;
+}
+.btn2:hover{
+  background-color: #eee;
 }
 .btn2_word {
   font-size: 16px;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
 }
-.code {
-  // margin: 400px auto;
-  width: 114px;
-  height: 40px;
-  margin-left: 263px;
-  margin-top: -39px;
-  border: 1px solid gainsboro;
-}
 .catpcha{
   height: 30px;
   line-height: 30px;
+  padding-left: 10px;
 }
+  .codeBox{
+    display: flex;
+    justify-content: start;
+  }
 </style>

@@ -1,160 +1,80 @@
 <template>
   <!-- 头部 -->
   <div class="wrap1">
+    <div>{{addCartState?'':''}}</div>
     <div class="wrap">
       <div class="title">
-        <p class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</p>
+        <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
       </div>
       <!-- 中间内容 -->
       <div class="content">
-        <div class="content_box">
+        <div class="contentHd">
           <!-- 左边logo -->
           <div class="LOGO2" @click="handleGoHome">
             <img src="@/assets/LOGO2.png" alt>
           </div>
-
-          <!-- 搜索框 -->
-          <div class="search">
-            <div class="search_right">
-              <p class="search_word">Search</p>
+          <div class="searchBox">
+            <!-- 搜索框 -->
+            <div class="search">
+              <div class="search_right">
+                <p class="search_word">Search</p>
+              </div>
             </div>
-          </div>
-          <!-- 登录 -->
-          <div class="login">
-            <div class="login_left" @click="HandleLogin">
-              <img src="@/assets/login.png" alt>
-            </div>
-            <div class="login_right">
-              <p class="login_word">login</p>
-            </div>
-          </div>
-          <!-- 心愿单 -->
-          <div class="wish">
-            <div class="wish_left">
-              <img src="@/assets/wish.png" alt>
-            </div>
-            <div class="wish_right">
-              <p class="wish_word">Wish</p>
-            </div>
-          </div>
-          <!-- 购物车 -->
-          <div class="cart">
-            <div class="cart_left">
-              <img src="@/assets/cart.png" alt>
-            </div>
-            <div class="cart_right">
-              <p class="cart_word">cart</p>
+            <div class="optionList">
+            <!-- 登录 -->
+              <div class="login">
+                <div class="login_left" @click="HandleLogin">
+                  <img src="@/assets/login.png" alt>
+                </div>
+                <div class="login_right" :title="userName">
+                 {{userName}}
+                </div>
+              </div>
+              <!-- 心愿单 -->
+              <div class="wish">
+                <div class="wish_left">
+                  <img src="@/assets/wish.png" alt>
+                </div>
+                <div class="wish_right">
+                  <p class="wish_word">Wish</p>
+                </div>
+              </div>
+              <!-- 购物车 -->
+              <div class="cart" @click="toShopCart()">
+                <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" class="item">
+                  <div class="cart_left">
+                    <img src="@/assets/cart.png" alt>
+                    <div>cart</div>
+                  </div>
+                </el-badge>
+              </div>
             </div>
           </div>
         </div>
         <div class="nav">
           <ul class="content_box">
             <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseover="getNavList(index, $event)">
-              <div class="data">{{item.nav}}</div>
+              <div class="data">{{item.cate_name}}</div>
               <div class="content_box1" :style="'left: -' + leftVal + 'px'">
-                <div class="box-item">1111111111</div>
-                <div class="box-item">1222222222</div>
-                <div class="box-item">1333333333</div>
-                <div class="box-item">1444444444</div>
-                <div class="box-item">1555555555</div>
-                <div class="box-item">1666666666</div>
-                <div class="box-item">1777777777</div>
-                <div class="box-item">1888888888</div>
-                <div class="box-item">1999999999</div>
-                <div class="box-item">2111111111</div>
-                <div class="box-item">2777777777</div>
-                <div class="box-item">2888888888</div>
-                <div class="box-item">2999999999</div>
-                <div class="box-item">2111111111</div>
-                <div class="box-item">2777777777</div>
-                <div class="box-item">2888888888</div>
-                <div class="box-item">2999999999</div>
-                <div class="box-item">3111111111</div>
+                <div class="box-item" v-for="(nav, index2) in nav_arrList" v-bind:key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</div>
               </div>
             </li>
           </ul>
-          <!--<div class="nav_list" v-if="showNavList" @mouseover="getNavList($event)">-->
-            <!--<div class="list_box">-->
-              <!--<div>11111111111</div>-->
-              <!--<div>12222222222</div>-->
-              <!--<div>33333333333</div>-->
-              <!--<div>44444444444</div>-->
-              <!--<div>55555555555</div>-->
-              <!--<div>66666666666</div>-->
-              <!--<div>77777777777</div>-->
-              <!--<div>88888888888</div>-->
-            <!--</div>-->
-          <!--</div>-->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import {getcartgoodscount, category} from "../api/register";
 export default {
   data() {
     return {
-      nav_arr: [{
-          nav: 'STANLESS STEEL'
-        },
-        {
-          nav: 'FINISHED JEWELRY'
-        },
-        {
-          nav: 'ACCESSORIES'
-        },
-        {
-          nav: 'SILVER JEWELRY'
-        }
-      ],
-      leftVal: 120,
-      // list: new Array(11).fill(111),
-      // sel_arr: [{
-      //     name: "111111111111111"
-      //   },
-      //   {
-      //     name: "2111111111111111"
-      //   },
-      //   {
-      //     name: "3111111111111111"
-      //   },
-      //   {
-      //     name: "4111111111111111"
-      //   },
-      //   {
-      //     name: "5111111111111111"
-      //   },
-      //   {
-      //     name: "6111111111111111"
-      //   },
-      //   {
-      //     name: "7111111111111111"
-      //   },
-      //   {
-      //     name: "8111111111111111"
-      //   },
-      //   {
-      //     name: "9111111111111111"
-      //   },
-      //   {
-      //     name: "1011111111111111"
-      //   },
-      //   {
-      //     name: "111111111111111"
-      //   },
-      //   {
-      //     name: "121111111111111"
-      //   },
-      //   {
-      //     name: "131111111111111"
-      //   },
-      //   {
-      //     name: "141111111111111"
-      //   },
-
-      // ],
-      // activeNav: '',
+      nav_arr: [],
+      nav_arrList: [],
+      leftVal: 100,
       theNum: 5,
+      goodsNum: 0,
       showNavList: false,
       interval: null,
       maxShowNum: 12,
@@ -166,61 +86,54 @@ export default {
   created() {
     this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
     this.column = this.column > this.maxRow ? this.maxRow : this.column;
-    // for(var i=0;i<this.column;i++){
-    //     for(var j=0;j<this.maxRow;j++){
-    //         this.array[i*this.column+j]
-    //     }
-    // }
+    this.getGoodsCont()
+    this.getUserName()
+    this.getCategory()
+  },
+  computed: {
+    addCartState: function () {
+      var that = this
+      if (that.$store.state.addCartState === true) {
+        that.getGoodsCont(this.nodeId)
+      }
+      that.$store.state.addCartState = false
+      return that.$store.state.addCartState
+    }
   },
    methods: {
-    // 鼠标移入
-    sel_enter(nav) {
-      // this.activeNav = nav
-    },
-    sel_leave() {
-      // this.activeNav = ''
+    getUserName: function () {
+      if(sessionStorage.getItem('userName')){
+        this.userName = sessionStorage.getItem('userName')
+      }else {
+        this.userName = 'Login'
+      }
     },
     getNavList: function(event, e) {
-      // console.log('6666', event.target.className)
-      // let sp2 = document.querySelector('.navListLi')
-      // let sp3 = document.querySelector('.nav_list')
-      // console.log('333333', e)
-      // if (e.target.className === 'data') {
-      //   console.log('333333', e.target.clientWidth)
-      //   this.leftVal = this.leftVal + e.target.clientWidth
-      // }
-      this.leftVal = event*150 + event*20 + 120
-      // console.log('000000', event.target.className)
-      // console.log('111111', sp2.contains(event.target))
-      // console.log('222222', sp3.contains(event.target))
-      // if (sp2.contains(event.target) || sp3.c ontains(event.target)) {
-      //   this.showNavList = true
-      // }
-      // if (event.target.className === 'navListLi' || event.target.className === 'nav_list' ) {
-      //   this.showNavList = true
-      // }
+      this.leftVal = event*150
+      this.nav_arrList = this.nav_arr[event].sub
     },
-    //  hideNavList: function(event){
-    //    let sp2 = document.querySelector('.navListLi')
-    //    let sp3 = document.querySelector('.nav_list')
-    //    console.log('333333', event)
-    //    console.log('000000', event.target.className)
-    //    console.log('111111', sp2.contains(event.target))
-    //    console.log('222222', sp3.contains(event.target))
-    //    if (!sp2.contains(event.target) && !sp3.contains(event.target)) {
-    //      this.showNavList = false
-    //    }
-    //    // if (sp3) {
-    //    //   if (!sp3.contains(event.target)) {
-    //    //     // this.showNavList = false
-    //    //   }
-    //    // }
-    //  },
+    async getGoodsCont(){
+      let data = await getcartgoodscount()
+      this.goodsNum = data
+    },
+     async getCategory(){
+       let data = await category()
+       if (data.code === '200') {
+         console.log('888889999', data.data)
+         this.nav_arr = data.data
+       }
+     },
+    checkGoodsType: function(id, parentId){
+      console.log('kkkkk',id)
+    },
     handleGoHome(){
        this.$router.push({
       path: '/'
     })
     },
+   toShopCart: function(){
+    this.$router.push('/shoppingCar')
+   },
     HandleLogin(){
        this.$router.push({
       path: '/login'
@@ -233,6 +146,18 @@ export default {
 li {
   list-style: none;
 }
+.searchBox{
+  width: 700px;
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-between;
+}
+.optionList{
+  width: 340px;
+  display: flex;
+  padding-top: 6px;
+  justify-content: space-between;
+}
 .wrap_1 {
   width: 100%;
 }
@@ -243,22 +168,10 @@ li {
   position: relative;
 }
 .wrap {
-  width: 1640px;
+  width: 100%;
   /*margin-left: 140px;*/
   margin: 0 auto;
 }
-/*.nav_list{*/
-  /*width: 1640px;*/
-  /*height: 200px;*/
-  /*margin: 0 auto;*/
-  /*background-color: #fff;*/
-  /*position: absolute;*/
-  /*z-index: 100;*/
-  /*left: 0;*/
-  /*top: 45px;*/
-  /*box-shadow:0 2px 0 0 #f1f1f5;*/
-  /*border-top: 1px solid gainsboro;*/
-/*}*/
 .list_box{
   height: 100px;
 }
@@ -273,52 +186,47 @@ li {
   background: rgba(18, 16, 55, 1);
 }
 .title_word {
-  width: 404px;
-  height: 16px;
-  font-size: 13px;
+  width: 1440px;
+  height: 40px;
+  font-size: 14px;
   font-family: Tahoma;
   font-weight: 400;
-  padding-left: 93px;
-  padding-top: 12px;
+  line-height: 40px;
+  margin: 0 auto;
   color: rgba(255, 255, 255, 1);
 }
-
 .content {
-  width: 100%;
+  width: 1440px;
+  margin: 0 auto;
   position: relative;
+}
+.contentHd{
+  width: 1440px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+}
   .content_box {
     box-sizing: border-box;
-    padding: 0 100px;
-  }
-  .content_box1 {
-    box-sizing: border-box;
-    padding-left: 120px;
-    width: 1640px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    line-height: 35px;
-    z-index: 1111;
-    background-color: #fff;
+    width: 1440px;
+    margin: 0 auto;
   }
   .LOGO2 {
     width: 160px;
     height: 39px;
     background: rgba(0, 0, 0, 0);
     margin-left: -1px;
-    margin-top: 19px;
+    margin-top: 20px;
     float: left;
+    cursor: pointer;
   }
   .search {
     // display: inline-block;
-    width: 280px;
+    width: 300px;
     height: 32px;
     display: inline-block;
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(18, 16, 55, 1);
-    margin-left: 703px;
-    margin-top: 27px;
   }
   .search_right {
     // display: inline-block;
@@ -331,17 +239,16 @@ li {
     width: 48px;
     height: 19px;
     font-size: 16px;
-    font-family: "微软雅黑";
+    font-family: Tahoma;
     font-weight: 400;
     margin: 5px 5px 5px 14px;
     color: rgba(255, 255, 255, 1);
   }
   .login {
-    width: 60px;
+    width: 110px;
     height: 40px;
     display: flex;
-    margin-left: 1170px;
-    margin-top: -31px;
+    cursor: pointer;
   }
   .login_left > img {
     display: inline-block;
@@ -351,20 +258,24 @@ li {
   }
   .login_right {
     padding-left: 5px;
-    width: 30px;
-    height: 17px;
+    width: 80px;
+    height: 18px;
     font-size: 14px;
     font-family: Tahoma;
     font-weight: 400;
-    line-height: 28px;
-    color: rgba(3, 3, 3, 1);
+    line-height: 18px;
+    margin-top: 6px;
+    color: #666;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
   }
   .wish {
-    width: 60px;
+    width: 110px;
     height: 40px;
     display: flex;
-    margin-left: 1275px;
-    margin-top: -39px;
+    cursor: pointer;
+    padding-left: 20px;
   }
   .wish_left > img {
     display: inline-block;
@@ -383,11 +294,14 @@ li {
     color: rgba(3, 3, 3, 1);
   }
   .cart {
-    width: 60px;
+    width: 110px;
     height: 40px;
     display: flex;
-    margin-left: 1385px;
-    margin-top: -41px;
+    cursor: pointer;
+    padding-left: 20px;
+  }
+  .cart_left{
+    display: flex;
   }
   .cart_left > img {
     display: inline-block;
@@ -428,18 +342,34 @@ li {
   }
   .nav {
     width: 100%;
-    height: 60px;
+    height: 46px;
     line-height: 60px;
     border-bottom: 1px solid gainsboro;
   }
   .data{
     width: 150px;
+    color: #333;
+    font-family: Tahoma;
     text-align: center;
   }
+  .data:hover{
+    color: #c51015;
+  }
+.content_box1 {
+  box-sizing: border-box;
+  padding-left: 120px;
+  width: 1440px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  line-height: 35px;
+  z-index: 1111;
+  background-color: #fff;
+}
   .content_box li {
     float: left;
     position: relative;
-    margin-left: 20px;
     font-size: 14px;
     list-style: none;
     cursor: pointer;
@@ -448,7 +378,7 @@ li {
     display: none;
   }
   .content_box li:hover .content_box1 {
-    width: 1640px;
+    width: 1440px;
     height: 200px;
     position: absolute;
     top: 40px;
@@ -456,26 +386,23 @@ li {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px 120px;
+    justify-content: start;
+    margin: 0 auto;
     box-shadow:0 2px 0 0 #f1f1f5;
     border-top: 1px solid gainsboro;
+    padding: 20px;
   }
-  /*.boxLeft{*/
-    /*height: 200px;*/
-    /*width: 100%;*/
-  /*}*/
-  /*.boxRight{*/
-    /*height: 200px;*/
-    /*width: 40%;*/
-  /*}*/
   .box-item {
-    height: 20px;
-    line-height: 20px;
+    height: 30px;
+    line-height: 30px;
     font-size: 14px;
+    color: #333;
+    font-family: Tahoma;
+  }
+  .box-item:hover{
+    color: #c51015;
   }
   .nav span {
     font-size: 14px;
   }
-}
 </style>

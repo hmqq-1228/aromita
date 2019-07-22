@@ -8,10 +8,8 @@
       <div class="right">
         <p class="word_one">
           Your password has been updated. Go to
-          <span>Sign in</span> or
-          <span>Shopping</span>
+          <span @click="toSign()">Sign in</span> or <span @click="toShopping()">Shopping</span>
         </p>
-
         <!-- https://www.cnblogs.com/cckui/p/10349827.html -->
       </div>
     </div>
@@ -21,11 +19,19 @@
 import aheader from "@/components/aheader.vue";
 export default {
   components: {
-    "aheader-com": aheader
+    "aheader-com": aheader,
+  },
+  methods:{
+    toSign: function () {
+      this.$router.push('/login')
+    },
+    toShopping: function () {
+      this.$router.push('/')
+    }
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .content_3 {
   width: 1440px;
   .left {
@@ -48,9 +54,11 @@ export default {
     }
     .word_one > span {
       font-size: 18px;
+      display: inline-block;
       font-family: Tahoma;
       font-weight: bold;
       line-height: 18px;
+      cursor: pointer;
       color: rgba(0, 55, 100, 1);
       text-decoration: underline;
     }

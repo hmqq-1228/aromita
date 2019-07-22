@@ -45,13 +45,16 @@ body{
 /*@media (min-width: 1900px) {*/
   /*body{font-size: 80px !important;}*/
 /*}*/
-.wrapLogin .el-input__inner {
+.wrapLogin .el-input__inner,.register .el-input__inner{
   width: 400px;
   position: relative;
   border: 1px solid #121037;
-  height: 32px;
-  line-height: 32px;
+  height: 34px;
+  line-height: 34px;
   border-radius: 0;
+}
+.register .Verification .el-input__inner {
+  width: 265px;
 }
   .fliterList .el-collapse{
     border-top: none;
@@ -72,5 +75,26 @@ body{
   }
 [class*=" el-icon-"], [class^=el-icon-]{
   font-weight: 600;
+}
+  .content_forgot .el-input__inner,.newPassword .el-input__inner{
+    height: 34px;
+    line-height: 34px;
+  }
+  .content_forgot .el-button,.newPassword .el-button{
+    color: #ccc;
+  }
+.content_forgot .el-button:hover,.newPassword .el-button:hover{
+    color: #fff;
+}
+.carCont .el-input-number__decrease:hover,.carCont .el-input-number__increase:hover{
+  color: #333;
+}
+.el-badge__content.is-fixed{
+  right: 0px;
+}
+.el-badge__content{
+  height: 16px;
+  line-height: 16px;
+  padding: 0 4px;
 }
 </style>

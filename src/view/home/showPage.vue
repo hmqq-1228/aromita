@@ -42,40 +42,28 @@
       <div class="word2_">
         <div class="word2">Best SELLER</div>
       </div>
-      <hr>
       <div class="sell">
-        <ul class="sell_">
-          <li class="sell_1" v-for="(item,index) in homeData" :key="index">
-            <img :src="url+item.products_src" alt>
-            <p class="sell_word">{{ item.products_name }}</p>
-            <span class="sell_word1">${{ item.products_price }}</span>
-          </li>
-        </ul>
+        <div class="sell_1" v-for="(item,index) in homeData" :key="index">
+          <img :src="url+item.products_src" alt>
+          <p class="sell_word">{{ item.products_name }}</p>
+          <p class="sell_word1">${{ item.products_price }}</p>
+        </div>
       </div>
       <div class="word3_">
-        <p class="word3">NEW ARRIVAL</p>
+        <div class="word3">NEW ARRIVAL</div>
       </div>
-      <hr>
       <div class="new">
-        <ul class="new_">
-          <li class="new_1" v-for="(item,index) in homeArr" :key="index">
-            <img :src="url+item.products_src" alt>
-            <p class="new_word">{{item.products_name}}</p>
-            <span class="new_word1">${{ item.products_price }}</span>
-          </li>
-        </ul>
+        <div class="new_1" v-for="(item,index) in homeArr" :key="index">
+          <img :src="url+item.products_src" alt>
+          <p class="new_word">{{item.products_name}}</p>
+          <p class="new_word1">${{ item.products_price }}</p>
+        </div>
       </div>
-      <p class="word4">Hot Style in Social Medias</p>
-
+      <div class="word4">Hot Style in Social Medias</div>
       <!-- 下面的轮播 -->
-      <div class="banner2 swiper-container">
+      <div class="banner2 swiper-container" dir="rtl">
         <div class="swiper-wrapper">
-          <div
-            class="swiper-slide"
-            style="width:300px !important;margin-right: 20px;"
-            v-for="(item,index) in hotStyle"
-            :key="index"
-          >
+          <div class="swiper-slide" v-for="(item,index) in hotStyle" :key="index">
             <img :src="url+item.picture_src" class="small">
           </div>
         </div>
@@ -114,13 +102,6 @@ export default {
   data() {
     return {
       swiper1: "",
-      arr1: [
-        { img_url: require("@/assets/banner.png") },
-        { img_url: require("@/assets/banner.png") },
-        { img_url: require("@/assets/banner.png") },
-        { img_url: require("@/assets/banner.png") },
-        { img_url: require("@/assets/banner.png") }
-      ],
       url: "http://arapi.panduo.com.cn/uploads/",
       homeData: [], //Best Seller商品信息
       dataBanner: [], //首页banner信息
@@ -135,7 +116,8 @@ export default {
     this.homeHotStyle();
     var mySwiper = new Swiper(".banner2", {
       slidesPerView: 4,
-      spaceBetween: 8,
+      slidesPerGroup: 1,
+      spaceBetween: 0,
       observer: true, //修改swiper自己或子元素时，自动初始化swiper
       observeParents: true, //修改swiper的父元素时，自动初始化swiper
       //spaceBetween : '10%',按container的百分比
@@ -148,17 +130,17 @@ export default {
   methods: {
       initSwiper(){
         this.swiper1 = new Swiper(".banner1", {
-      loop: true,
-      autoplay: {
-        disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
-      },
-      observer: true, //修改swiper自己或子元素时，自动初始化swiper
-      observeParents: true, //修改swiper的父元素时，自动初始化swiper
-      pagination: {
-        //指示点
-        el: ".swiper-pagination",
-        clickable: true //为true时点击指示点会切换slide
-      }
+        loop: true,
+        autoplay: {
+          disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
+        },
+        observer: true, //修改swiper自己或子元素时，自动初始化swiper
+        observeParents: true, //修改swiper的父元素时，自动初始化swiper
+        pagination: {
+          //指示点
+          el: ".swiper-pagination",
+          clickable: true //为true时点击指示点会切换slide
+        }
         });
       },
     /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
@@ -171,7 +153,7 @@ export default {
     },
     async homeFoote() {
       let data = await homeFoote();
-      //console.log(data.data) 
+      //console.log(data.data)
       for (this.homeFoot in data.data) {
         this.homeFoot = data.data;
         //  console.log(this.homeFoot)
@@ -229,7 +211,7 @@ export default {
 <style lang="scss">
 .wrap_1 {
   margin: 0 auto;
-
+}
   .demo-carousel {
     width: 80%;
     height: 500px;
@@ -238,8 +220,8 @@ export default {
   }
 
   .collections {
-    width: 80%;
-    height: 330px;
+    width: 1445px;
+    height: 630px;
     margin: 0 auto;
   }
   .collections_one {
@@ -254,24 +236,22 @@ export default {
     }
   }
   .word1 {
-    width: 465px;
+    width: 450px;
     height: 48px;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 400;
     line-height: 48px;
-    margin-left: 733px;
-    margin-top: 39px;
-    margin-bottom: 30px;
-    color: rgba(51, 51, 51, 1);
+    margin: 30px auto;
+    color: #333333;
+    text-align: center;
   }
   .collections_thr1 {
-    width: 117%;
+    width: 1440px;
     height: 300px;
-    margin-left: 83px;
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    justify-content: space-between;
     // justify-content: center;
   }
   .thr2 > img {
@@ -279,199 +259,67 @@ export default {
     height: 100%;
   }
   .thr2:nth-child(1) {
-    width: 930px;
+     width: 950px;
+     height: 300px;
+     margin-top: 0;
+   }
+.thr2:nth-child(2){
+  margin-top: 0;
+}
+  .thr2{
+    width: 460px;
     height: 300px;
-    margin-right: 20px;
+    margin-top: 30px;
   }
-  .thr2:nth-child(2) {
-    width: 430px;
-    height: 300px;
-  }
-  .thr2:nth-child(3) {
-    width: 430px;
-    height: 300px;
-    margin-top: 20px;
-  }
-  .thr2:nth-child(4) {
-    width: 430px;
-    height: 300px;
-    margin-top: 20px;
-    padding-left: 45px;
-    padding-right: 45px;
-  }
-  .thr2:nth-child(5) {
-    width: 430px;
-    height: 300px;
-    margin-top: 20px;
-  }
-  // .thr2:nth-child(2){
-  //   width: 460px;
-  //   height: 300px;
-  //   // float: right;
-  //   margin-top: 300px;
-  // }
-  // .thr2:nth-child(3){
-  //   width: 460px;
-  //   height: 300px;
-
-  // }
-  // .thr1 {
-  //   width: 460px;
-  //   height: 300px;
-  //   float: left;
-  //   margin-right: 35px;
-  // }
-  // .thr2 {
-  //   width: 460px;
-  //   height: 300px;
-  //   float: left;
-  //   margin-right: 25px;
-  // }
-  hr {
+  .word2_,.word3_{
     width: 1440px;
     margin: 0 auto;
-    border: 1px solid #333333;
-  }
-  .word2_ {
-    width: 279px;
     height: 48px;
-    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
     position: relative;
-    top: 28px;
-    left: 41%;
-    z-index: 1111;
-    // padding-bottom:42px;
   }
-  .word2 {
-    width: 237px;
+  .word2,.word3{
+    width: 260px;
     height: 48px;
-    font-size: 40px;
+    font-size: 30px;
     font-family: Tahoma;
     font-weight: 400;
     line-height: 48px;
-    margin-top: 308px;
-    // margin-bottom: 30px;
-    // margin: 308px auto;
-    color: rgba(3, 3, 3, 1);
+    text-align: center;
+    color: #333;
+    position: absolute;
+    top: 24px;
+    left: 590px;
+    background-color: #fff;
   }
-  .sell {
-    width: 76%;
+  .sell,.new{
+    width: 1440px;
+    height: 420px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  .sell_1,.new_1{
+    width: 336px;
     height: 388px;
-    margin-top: 60px;
-    margin-left: 241px;
+    text-align: center;
+    margin-top: 30px;
   }
-  .sell_1 {
-    float: left;
-    padding-right: 24px;
+  .sell_1>img,.new_1>img{
+    width: 336px;
+    height: 336px;
   }
-  .sell_2 {
-    float: left;
-    padding-right: 32px;
-  }
-  .sell_3 {
-    float: left;
-    padding-right: 32px;
-  }
-  .sell_word {
+  .sell_word,.new_word{
     font-size: 14px;
-    margin-left: 90px;
     color: #333333;
     font-weight: 400;
-    width: 180px;
     overflow: hidden; /*超出部分隐藏*/
     white-space: nowrap; /*不换行*/
     text-overflow: ellipsis; /*超出部分文字以...显示*/
   }
-  .sell_word1 {
+  .sell_word1,.new_word1{
     font-size: 14px;
-    margin-left: 140px;
-    color: #333333;
-    font-weight: 400;
-  }
-  .sell_word4 {
-    display: inline;
-    font-size: 14px;
-    margin-left: 90px;
-    color: #333333;
-    font-weight: 400;
-  }
-  .sell_word41 {
-    font-size: 14px;
-    margin-left: 140px;
-    color: #333333;
-    font-weight: 400;
-  }
-  hr {
-    width: 1440px;
-    margin: 0 auto;
-    border: 1px solid #333333;
-  }
-  .word3_ {
-    width: 292px;
-    height: 48px;
-    background-color: #fff;
-    position: relative;
-    top: 28px;
-    left: 41%;
-    z-index: 1111;
-    // padding-bottom:42px;
-  }
-  .word3 {
-    width: 292px;
-    height: 48px;
-    font-size: 40px;
-    font-family: Tahoma;
-    font-weight: 400;
-    line-height: 48px;
-    margin-left: 14px;
-    color: rgba(3, 3, 3, 1);
-  }
-
-  .new {
-    width: 80%;
-    height: 388px;
-    margin-top: 42px;
-    margin-left: 245px;
-    // margin: 42px auto;
-  }
-  .new_1 {
-    float: left;
-    padding-right: 24px;
-  }
-  .new_2 {
-    float: left;
-    padding-right: 32px;
-  }
-  .new_3 {
-    float: left;
-    padding-right: 32px;
-  }
-  .new_word {
-    font-size: 14px;
-    margin-left: 90px;
-    color: #333333;
-    font-weight: 400;
-    width: 180px;
-    overflow: hidden; /*超出部分隐藏*/
-    white-space: nowrap; /*不换行*/
-    text-overflow: ellipsis; /*超出部分文字以...显示*/
-  }
-  .new_word1 {
-    font-size: 14px;
-    margin-left: 140px;
-    color: #333333;
-    font-weight: 400;
-  }
-  .new_word4 {
-    display: inline;
-    font-size: 14px;
-    margin-left: 90px;
-    color: #333333;
-    font-weight: 400;
-  }
-  .new_word41 {
-    font-size: 14px;
-    margin-left: 140px;
     color: #333333;
     font-weight: 400;
   }
@@ -481,32 +329,31 @@ export default {
     margin: 20px auto;
   }
   .banner2 {
-    width: 63%;
+    width: 1440px;
     height: 336px;
     margin: 0 auto 30px auto;
   }
   .word4 {
-    width: 500px;
+    width: 1440px;
     height: 48px;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 400;
     line-height: 48px;
-    margin-left: 667px;
-    margin-top: 39px;
+    text-align: center;
+    margin: 0 auto;
     margin-bottom: 30px;
-    color: rgba(51, 51, 51, 1);
+    color: #333;
   }
   .small {
-    width: 300px !important;
-    height: 300px !important;
-    margin-top: 3px;
+    width: 336px !important;
+    height: 336px !important;
   }
   .element.style {
     width: 345px;
     margin-right: 165px;
   }
-  .swiper-slide {
-    flex-shrink: 1;
+  .banner2 .swiper-slide{
+    width: 336px !important;
+    margin-right: 20px !important;
   }
-}
 </style>

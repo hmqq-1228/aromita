@@ -104,7 +104,7 @@
                 <!--<div class="cheapLeft"></div>-->
                 <!--<div class="cheapRight">$2.99</div>-->
               </div>
-              <img :src="goods.firstLargePic" alt="">
+              <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
             </div>
             <div class="smallSlider2">
               <div class="sliderBox">
@@ -300,12 +300,13 @@ export default {
       var prev = e.target.offsetParent.children[1]
       if (picNum > 5) {
         var num = picNum - 5
-        this.$store.state.cont = this.$store.state.cont + 1
-        console.log('88888', this.$store.state.cont)
+        // this.$store.state.cont = this.$store.state.cont + 1
+        // console.log('88888', this.$store.state.cont)
         if (this.$store.state.cont <= num) {
-          $(obj).css('left', -45*this.$store.state.cont)
+          $(obj).css('left', -45*num)
           $(obj).css('transition', '0.3s')
           $(prev).css('color', '#333')
+          $(objBtn).css('color', '#999')
         } else {
           $(objBtn).css('color', '#999')
         }
@@ -325,8 +326,9 @@ export default {
           var distent = parseInt(obj.style.left) + 45 * num
           $(obj).css('left', distent)
           $(obj).css('transition', '0.3s')
-          this.$store.state.cont = 0
+          // this.$store.state.cont = 0
           $(nextBtn).css('color', '#333')
+          $(prevBtn).css('color', '#999')
         } else {
           $(prevBtn).css('color', '#999')
         }
@@ -339,19 +341,35 @@ export default {
       //     $(obj).css('transition', '0.5s')
       //   }
       // }
-      console.log('n', this.$store.state.cont)
-      console.log('dis', num)
-      console.log('5555', distent)
+    },
+    imgPreve:function (e) {
+      var obj = e.currentTarget
+      $(obj).removeClass('defultView')
+      $(obj).addClass('biggerView')
+    },
+    imgHidden: function (e) {
+      var obj = e.currentTarget
+      $(obj).removeClass('biggerView')
+      $(obj).addClass('defultView')
     }
   }
 }
 </script>
 
 <style scoped>
+  .biggerView{
+    transform: scale(1.05);
+    transition: all .8s;
+  }
+  .defultView{
+    transform: scale(1);
+    transition: all .8s;
+  }
   .smallSlider2{
     height: 42px;
     width: 100%;
     position: relative;
+    margin-top: 10px;
   }
   .sliderBox{
     height: 42px;
@@ -444,7 +462,7 @@ export default {
     height: 407px;
     margin: 0 auto;
     box-shadow: none;
-    transition: all .3s;
+    transition: all .5s;
     border: 1px solid #e8e8e8;
   }
   .goodInner:hover{
@@ -549,6 +567,7 @@ export default {
     height: 280px;
     cursor: pointer;
     position: relative;
+    overflow: hidden;
   }
   .goodsPic img{
     width: 100%;

@@ -11,15 +11,18 @@
         </div>
         <!-- 服务 -->
         <div class="xian">
-          <div class="sixty" v-for="(item,index) in footTitle" :key="index">
-            <a :href="item.picture_href">
-            <img :src="url+item.picture_src" alt>
-            </a>
-            <div class="sixty_word">
-              <p class="sixty_word1">{{item.picture_title}}</p>
-              <span class="sixty_word2">{{item.picture_title}}</span>
+          <div class="sixtyCont">
+            <div class="sixty" v-for="(item,index) in footTitle" :key="index">
+              <div>
+                <a :href="item.picture_href">
+                <img :src="url+item.picture_src" alt>
+                </a>
+              </div>
+              <div class="sixty_word">
+                <p class="sixty_word1">{{item.picture_title}}</p>
+                <span class="sixty_word2">{{item.picture_title}}</span>
+              </div>
             </div>
-          </div>
           <!-- <div class="payment">
             <img src="@/assets/02.png" alt>
             <div class="payment_word">
@@ -41,6 +44,7 @@
               <span class="price_word2">Guaranteed</span>
             </div>
           </div> -->
+          </div>
         </div>
         <div class="footBox">
           <div class="footer_left">
@@ -145,12 +149,11 @@ ul li{
   margin: auto;
 }
   .footer {
-  width: 85%;
-  height: 503px;
+  width: 100%;
+  height: 560px;
   background:rgba(251,251,251,1);
   /* background:red; */
   /* margin-left: 139px; */
- margin-left: 140px;
   border-top: 1px solid gainsboro;
 
 }
@@ -159,6 +162,7 @@ ul li{
   // float: left;
   display: flex;
   justify-content: center;
+  margin-bottom: 40px;
 }
 .footer > .img > div {
   margin-top: 31px;
@@ -168,21 +172,25 @@ ul li{
   height: 40px;
 }
 .xian {
-  height: 140px;
   border-bottom: 1px solid gainsboro;
+}
+.sixtyCont{
+  width: 1440px;
+  margin: 0 auto;
   display: flex;
+  margin-bottom: 40px;
+  justify-content: space-between;
+}
+.sixty{
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
 }
 .sixty  img {
   display: inline-block;
   width: 60px;
   height: 60px;
-  margin-top: 52px;
-}
-.sixty_word {
-  width: 266px;
-  height: 60px;
-  margin-left: 75px;
-  margin-top: -54px;
+  margin-right: 10px;
 }
 .sixty_word1 {
   font-size: 18px;
@@ -191,14 +199,13 @@ ul li{
   padding-bottom: 5px;
 }
 .sixty_word2 {
-  width: 234px;
-  height: 17px;
   font-size: 14px;
   font-family: Tahoma;
   color: #666666;
 }
 .footBox{
-  width: 1640px;
+  width: 1440px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }
@@ -259,9 +266,8 @@ ul li{
   font-family: Tahoma;
 }
 .footer_right {
-  width: 30%;
+  width: 340px;
   margin-top: 30px;
-  height: 143px;
 }
 .know {
   font-size: 14px;
@@ -311,5 +317,6 @@ ul li{
 .pay-02{
   text-align: center;
   padding-top: 25px;
+  margin-bottom: 20px;
 }
 </style>

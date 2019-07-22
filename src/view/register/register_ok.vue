@@ -34,7 +34,7 @@ export default {
         } else {
           this.theNum--
         }
-      }, 1200)
+      }, 1000)
     },
 }
 </script>
@@ -84,7 +84,7 @@ margin-top: 5px;
     width: 60px;
     text-align: center;
     line-height: 60px;
-  } 
+  }
   }
  }
 
