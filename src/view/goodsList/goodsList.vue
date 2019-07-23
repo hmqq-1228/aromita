@@ -190,6 +190,7 @@ export default {
       activeNamesSize: '',
       picNum: 5,
       goodsList: [],
+      s_cate_id:'',//分类id
       // navigation:{
       //   nextEl: '.swiper-button-next',
       //   prevEl: '.swiper-button-prev',
@@ -197,6 +198,12 @@ export default {
     }
   },
   watch: {
+    $route(){
+        this.s_cate_id = this.$route.query.s_cate_id
+      },
+      s_cate_id() {
+        this.getList()
+      },
 
   },
   computed: {
@@ -206,7 +213,7 @@ export default {
     }
   },
   mounted() {
-      var swiper2 = new Swiper('.goods2',{
+    var swiper2 = new Swiper('.goods2',{
         slidesPerView: 5,
         slidesPerGroup: 1,
         watchOverflow: true,
@@ -214,16 +221,7 @@ export default {
           nextEl: '.swiper-button-next2',
           prevEl: '.swiper-button-prev2',
         }
-      })
-    // var swiper4 = new Swiper('.goods4',{
-    //   slidesPerView: 5,
-    //   slidesPerGroup: 1,
-    //   watchOverflow: true,
-    //   navigation:{
-    //     nextEl: '.swiper-button-next4',
-    //     prevEl: '.swiper-button-prev4',
-    //   }
-    // })
+    })
     var swiper4 = new Swiper('.banner66',{
       slidesPerView: 5,
       slidesPerGroup: 1,
@@ -244,8 +242,9 @@ export default {
     })
   },
   created() {
-    this.getGoodsList()
-    console.log('8888', this.picUrl)
+    this.s_cate_id = this.$route.query.s_cate_id
+    this.getList()
+    console.log('8888', this.s_cate_id)
   },
   methods: {
     toGoodsDetail: function (spuid, skuid) {
@@ -257,21 +256,18 @@ export default {
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
     },
-    // getGoodsList: function () {
-    //   axios.get()
-    // }
-    async getGoodsList() {
-      let goodsList = await getGoodsList();
-      this.goodsList = goodsList.data.data
-      for (var i = 0;i < this.goodsList.length; i++) {
-        if (this.goodsList[i].skus.length > 0) {
-          this.goodsList[i].firstLargePic = this.goodsList[i].skus[0].sku_image
-          this.goodsList[i].defultTitle = this.goodsList[i].skus[0].sku_name
-          this.goodsList[i].defultPrice = this.goodsList[i].skus[0].sku_price
-          this.goodsList[i].skuId = this.goodsList[i].skus[0].id
-        }
-      }
-      console.log('goodsList', this.goodsList)
+    getList() {
+      getGoodsList({s_cate_id:this.s_cate_id}).then((res)=>{
+          this.goodsList = res.data.data
+          for (var i = 0;i < this.goodsList.length; i++) {
+            if (this.goodsList[i].skus.length > 0) {
+              this.goodsList[i].firstLargePic = this.goodsList[i].skus[0].sku_image
+              this.goodsList[i].defultTitle = this.goodsList[i].skus[0].sku_name
+              this.goodsList[i].defultPrice = this.goodsList[i].skus[0].sku_price
+              this.goodsList[i].skuId = this.goodsList[i].skus[0].id
+            }
+          }
+      })
     },
     getColorPicture: function (e, index1, url, title, price, id) {
       var obj = e.currentTarget
