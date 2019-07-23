@@ -77,7 +77,7 @@
             <div class="list_detail">
               <p class="detail_title">{{item.sku_name}}</p>
               <div class="spec_color">
-                <p class="size"><span v-for="goodAttr in JSON.parse(item.sku_attrs)">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}}</span></p>
+                <p class="size"><span v-for="goodAttr in JSON.parse(item.sku_attrs)">{{goodAttr.attr_name}}:{{goodAttr.value.attr_value}}; </span></p>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
               </div>
             </div>
