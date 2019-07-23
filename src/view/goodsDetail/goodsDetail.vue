@@ -177,6 +177,7 @@
   </div>
   <div class="mainFeature">
     <div class="mainFeatureTitle">Main Feature</div>
+    <p>- {{goodDetail.main_feature}}</p>
     <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
     <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
     <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>

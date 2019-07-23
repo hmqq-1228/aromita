@@ -39,7 +39,7 @@ export default {
     this.interval = setInterval(() => {
       if (this.theNum === 1) {
         clearInterval(this.interval)
-        this.$router.push({path: '/'})
+        this.$router.push({path: '/shoppingCar'})
       } else {
         this.theNum--
       }

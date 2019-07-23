@@ -5,9 +5,10 @@
         <div class="img">
           <div  v-for="(item,index) in icon" :key="index">
             <a :href="item.picture_href">
-          <img :src="url+item.picture_src" alt>
-          </a>
+              <img :src="url+item.picture_src" alt>
+            </a>
           </div>
+          <div><img src="../assets/pinterest.png" alt=""></div>
         </div>
         <!-- 服务 -->
         <div class="xian">
@@ -19,7 +20,7 @@
                 </a>
               </div>
               <div class="sixty_word">
-                <p class="sixty_word1">{{item.picture_title}}</p>
+                <a :href="item.picture_href"><p class="sixty_word1">{{item.picture_title}}</p></a>
                 <span class="sixty_word2">{{item.picture_title}}</span>
               </div>
             </div>
@@ -159,14 +160,12 @@ ul li{
 }
 .footer > .img {
   text-align: center;
-  // float: left;
+  margin: 30px auto;
   display: flex;
-  justify-content: center;
-  margin-bottom: 40px;
+  width: 280px;
+  justify-content: space-between;
 }
 .footer > .img > div {
-  margin-top: 31px;
-  margin-right: 40px;
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -176,9 +175,9 @@ ul li{
 }
 .sixtyCont{
   width: 1440px;
-  margin: 0 auto;
+  margin: 20px auto;
   display: flex;
-  margin-bottom: 40px;
+  margin-top: 40px;
   justify-content: space-between;
 }
 .sixty{
@@ -191,6 +190,9 @@ ul li{
   width: 60px;
   height: 60px;
   margin-right: 10px;
+}
+.sixty_word > a{
+  text-decoration: none;
 }
 .sixty_word1 {
   font-size: 18px;

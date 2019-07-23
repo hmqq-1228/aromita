@@ -212,11 +212,11 @@ export default {
         });
         that.mergeGoodsFuc()
         that.$router.push('/')
-        sessionStorage.setItem('userName', that.ruleForm.name)
+        localStorage.setItem('userName', that.ruleForm.name)
       } else {
         that.$message.error(data.msg)
         that.num = data.data
-        sessionStorage.setItem('errNum', data.data)
+        localStorage.setItem('errNum', data.data)
       }
     },
     async mergeGoodsFuc(){

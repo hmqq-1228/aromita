@@ -15,7 +15,7 @@
     </div>
     <div class="carItem" v-if="goodsListOn.length>0" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
       <div class="checkState item">
-        <input type="checkbox" @change="goodsChecked(carItem.totalPay)" :id="'good'+ carItem.sku_id" :value="carItem.sku_id" v-model="checkedItem"><label :for="'good'+ carItem.sku_id"></label>
+        <input type="checkbox" :id="'good'+ carItem.sku_id" :value="carItem.sku_id" v-model="checkedItem"><label :for="'good'+ carItem.sku_id"></label>
         <div class="imgBox" @click="toGoodDetail(carItem.product_id, carItem.sku_id)"><img :src="carItem.sku_image" alt=""></div>
       </div>
       <div class="productCont">
@@ -156,8 +156,10 @@ export default {
       idList: [],
       payList: [],
       totalPay: 0,
+      checkArr: [],
       totalPayShow: 0,
       goodsList: [],
+      hasChecked: false,
       goodsListOn: [],
       goodsListOff: [],
       btnCanSub: true,
@@ -166,65 +168,109 @@ export default {
   },
   watch:{
     checkedItem: function() {
+      console.log('22222', this.checkedItem)
+      if (this.checkedItem.length === 0) {
+        this.checkArr = []
+        this.btnCanSub = true
+        this.goodsChecked(this.checkedItem)
+      } else {
+        this.btnCanSub = false
+        this.goodsChecked(this.checkedItem)
+      }
       if (this.checkedItem.length === this.idList.length) {
         this.checkedAll = true
       } else {
         this.checkedAll = false
       }
-    },
-    totalPayShow: function (val, ov) {
-      if (val > 0) {
-        console.log('提交')
-        this.btnCanSub = false
-      } else {
-        console.log('bu提交')
-        this.btnCanSub = true
-      }
     }
+    // totalPayShow: function (val, ov) {
+    //   if (val > 0) {
+    //     console.log('提交')
+    //     this.btnCanSub = false
+    //   } else {
+    //     console.log('bu提交')
+    //     this.btnCanSub = true
+    //   }
+    // }
   },
   created(){
     this.getGoodsListFuc()
   },
   methods:{
-    async getGoodsListFuc(){
+    async getGoodsListFuc(tr){
       var that = this
       that.payList = []
       that.totalPay = 0
       that.goodsListOn = []
       that.goodsListOff = []
-      let data = await getGoodsList();
-      this.goodsList = data
-      for (var i = 0;i<that.goodsList.length;i++){
-        if (that.goodsList[i].sku_status === 1) {
-          that.goodsListOn.push(that.goodsList[i])
-          that.idList.push(that.goodsList[i].sku_id)
-          for (var j = 0;j<that.goodsListOn.length;j++) {
-            var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
-            that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+      if (tr) {
+        let data = await getGoodsList();
+        this.goodsList = data
+        for (var i = 0;i<that.goodsList.length;i++){
+          if (that.goodsList[i].sku_status === 1) {
+            that.goodsListOn.push(that.goodsList[i])
+            that.idList.push(that.goodsList[i].sku_id)
+            for (var j = 0;j<that.goodsListOn.length;j++) {
+              var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+              that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+              that.goodsChecked(that.checkedItem)
+            }
+          } else if (that.goodsList[i].sku_status === 0){
+            that.goodsListOff.push(that.goodsList[i])
+            console.log('list', that.goodsListOff)
           }
-        } else if (that.goodsList[i].sku_status === 0){
-          that.goodsListOff.push(that.goodsList[i])
-          console.log('list', that.goodsListOff)
         }
-        // that.payList.push(parseFloat(itemPay.toFixed(2)))
+      } else {
+        let data = await getGoodsList();
+        this.goodsList = data
+        for (var i = 0;i<that.goodsList.length;i++){
+          if (that.goodsList[i].sku_status === 1) {
+            that.goodsListOn.push(that.goodsList[i])
+            that.idList.push(that.goodsList[i].sku_id)
+            for (var j = 0;j<that.goodsListOn.length;j++) {
+              var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+              that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+            }
+          } else if (that.goodsList[i].sku_status === 0){
+            that.goodsListOff.push(that.goodsList[i])
+            console.log('list', that.goodsListOff)
+          }
+          // that.payList.push(parseFloat(itemPay.toFixed(2)))
+        }
       }
-      // that.sumPay(that.payList)
-      console.log('55555555', that.goodsList)
     },
     sumPay: function (arr) {
-      console.log('arr', arr)
       var that = this
+      that.checkArr = arr
       let totalPay = 0
-      for (var i = 0; i < arr.length; i++) {
-        totalPay = totalPay + arr[i]
+      for (var i = 0; i < that.checkArr.length; i++) {
+        totalPay = totalPay + that.checkArr[i]
       }
       that.totalPayShow = totalPay
       // that.btnLoading = false
     },
     goodsChecked: function(e){
       var that = this
+      that.payList = []
+      console.log('ttttt', e)
+      if (e.length > 0) {
+        for (var m=0;m<e.length; m++){
+          for (var n=0;n<that.goodsListOn.length; n++){
+            if (that.goodsListOn[n].sku_id === e[m]){
+              that.getPayList(that.goodsListOn[n].totalPay)
+            }
+          }
+        }
+      }else if (e.length === 0) {
+        that.sumPay(e)
+      }
+    },
+    getPayList: function (e) {
+      var that = this
       var flag = false
       var k = 0
+      console.log('uuuuuuuuu', that.goodsListOn)
+      console.log('eeeeeeeee', e)
       if (that.payList.length > 0) {
         for(var i=0;i< that.payList.length; i++) {
           if(that.payList[i] === parseFloat(e)){
@@ -234,33 +280,25 @@ export default {
           }
         }
         if (flag) {
-          that.payList.splice(k, 1)
+          that.payList.splice(k, 1, parseFloat(e))
         } else {
           that.payList.push(parseFloat(e))
         }
       } else {
         that.payList.push(parseFloat(e))
       }
+      console.log('899999', that.payList)
       that.sumPay(that.payList)
     },
     // 单个删除
     deleteItemCart: function (skuId) {
       var that = this
       // that.btnLoading = true
-      that.$confirm('您确定要删除此商品？', '', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        showClose: true,
-        type: 'warning'
-      }).then(() => {
-        that.$axios.post(this.$store.state.localUrl + 'api/deltocart/' + skuId, {}).then(res => {
-          if (res.status === 200) {
-            that.getGoodsListFuc()
-            that.$store.state.addCartState = true
-          }
-        })
-      }).catch(() => {
-        // that.loading = false
+      that.$axios.post(this.$store.state.localUrl + 'api/deltocart/' + skuId, {}).then(res => {
+        if (res.status === 200) {
+          that.getGoodsListFuc()
+          that.$store.state.addCartState = true
+        }
       })
     },
     // 批量删除
@@ -268,20 +306,11 @@ export default {
       var that = this
       var skuList = JSON.stringify(this.checkedItem)
       // that.btnLoading = true
-      that.$confirm('您确定要删除所选商品？', '', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        showClose: true,
-        type: 'warning'
-      }).then(() => {
-        that.$axios.post(this.$store.state.localUrl + 'api/batchdeltocart/' + skuList, {}).then(res => {
-          if (res.status === 200) {
-            that.getGoodsListFuc()
-            that.$store.state.addCartState = true
-          }
-        })
-      }).catch(() => {
-        // that.loading = false
+      that.$axios.post(this.$store.state.localUrl + 'api/batchdeltocart/' + skuList, {}).then(res => {
+        if (res.status === 200) {
+          that.getGoodsListFuc()
+          that.$store.state.addCartState = true
+        }
       })
     },
     addWish: function(e) {
@@ -296,9 +325,10 @@ export default {
     handleChange: function (e, skuId) {
       var that = this
       // that.btnLoading = true
+      console.log('eeeeee', e)
       that.$axios.post(this.$store.state.localUrl+'api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
         if (res.status === 200) {
-          that.getGoodsListFuc()
+          that.getGoodsListFuc('add')
         }
       })
     },
@@ -319,7 +349,23 @@ export default {
       }
     },
     subTotalPay: function () {
-      console.log('hhh', this.checkedItem)
+      var that = this
+      console.log('hhh', that.checkedItem)
+      // var obj = {}
+      // var objList = []
+      // for (var m=0;m<that.checkedItem.length; m++){
+      //   for (var n=0;n<that.goodsListOn.length; n++){
+      //     if (that.goodsListOn[n].sku_id === that.checkedItem[m]){
+      //       console.log('888888', that.goodsListOn[n].goods_count)
+      //       obj = {
+      //         product_id: that.goodsListOn[n].sku_id
+      //       }
+      //       objList.push(obj)
+      //     }
+      //   }
+      // }
+      // var objStr = JSON.stringify(objList)
+      // console.log('hhhh2222', objStr)
     },
     toGoodDetail: function(spuid, skuid){
       if (spuid && skuid) {
@@ -433,7 +479,7 @@ export default {
   display: inline-block;
 }
 .overHd.Points{
-  margin-bottom: 0;
+  padding-bottom: 0;
   margin-top: 20px;
 }
 .WishList{

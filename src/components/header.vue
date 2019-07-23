@@ -102,8 +102,8 @@ export default {
   },
    methods: {
     getUserName: function () {
-      if(sessionStorage.getItem('userName')){
-        this.userName = sessionStorage.getItem('userName')
+      if(localStorage.getItem('userName')){
+        this.userName = localStorage.getItem('userName')
       }else {
         this.userName = 'Login'
       }
@@ -127,7 +127,7 @@ export default {
       console.log('kkkkk',id)
     },
     handleGoHome(){
-       this.$router.push({
+      this.$router.push({
       path: '/'
     })
     },
@@ -162,7 +162,7 @@ li {
   width: 100%;
 }
 .nav{
-  width: 1640px;
+  width: 1440px;
   /*margin-left: 140px;*/
   margin: 0 auto;
   position: relative;
@@ -171,6 +171,7 @@ li {
   width: 100%;
   /*margin-left: 140px;*/
   margin: 0 auto;
+  border-bottom: 1px solid gainsboro;
 }
 .list_box{
   height: 100px;
@@ -342,12 +343,13 @@ li {
   }
   .nav {
     width: 100%;
-    height: 46px;
-    line-height: 60px;
-    border-bottom: 1px solid gainsboro;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 20px;
   }
   .data{
     width: 150px;
+    line-height: 30px;
     color: #333;
     font-family: Tahoma;
     text-align: center;
@@ -381,7 +383,7 @@ li {
     width: 1440px;
     height: 200px;
     position: absolute;
-    top: 40px;
+    top: 30px;
     display: block;
     display: flex;
     flex-direction: column;
@@ -389,11 +391,12 @@ li {
     justify-content: start;
     margin: 0 auto;
     box-shadow:0 2px 0 0 #f1f1f5;
-    border-top: 1px solid gainsboro;
+    /*border-top: 1px solid gainsboro;*/
     padding: 20px;
   }
   .box-item {
     height: 30px;
+    width: 160px;
     line-height: 30px;
     font-size: 14px;
     color: #333;
