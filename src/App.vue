@@ -97,4 +97,17 @@ body{
   line-height: 16px;
   padding: 0 4px;
 }
+  .orderConfirm .el-radio__input.is-checked+.el-radio__label{
+    color: #333;
+  }
+  .orderConfirm .el-radio__input.is-checked .el-radio__inner {
+    border-color: #707070;
+    background: #fff;
+    font-family: Tahoma;
+  }
+  .orderConfirm .el-radio__inner::after{
+    width: 6px;
+    height: 6px;
+    background-color: #565656;
+  }
 </style>

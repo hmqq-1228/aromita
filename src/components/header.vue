@@ -387,9 +387,10 @@
     width: 100%;
   }
   .nav{
-    width: 1640px;
+    width: 1440px;
     /*margin-left: 140px;*/
     margin: 0 auto;
+    height: 30px;
     position: relative;
   }
   .wrap {
@@ -421,7 +422,7 @@
     color: rgba(255, 255, 255, 1);
   }
   .content {
-    width: 1440px;
+    width: 100%;
     margin: 0 auto;
     position: relative;
   }
@@ -567,13 +568,14 @@
   }
   .nav {
     width: 100%;
-    height: 46px;
-    line-height: 60px;
+    height: 30px;
+    margin-top: 30px;
     border-bottom: 1px solid gainsboro;
   }
   .data{
     width: 150px;
     color: #333;
+    height: 30px;
     font-family: Tahoma;
     text-align: center;
   }
@@ -606,7 +608,7 @@
     width: 1440px;
     height: 200px;
     position: absolute;
-    top: 40px;
+    top: 30px;
     display: block;
     display: flex;
     flex-direction: column;
