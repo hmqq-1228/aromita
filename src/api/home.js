@@ -1,23 +1,23 @@
-import http from "../utils/http.js";
+import { get, post } from "../utils/http.js";
 // http://www.aromita.com/api/homeproducts/10
 
 // Best Seller商品信息
-export const homeSeller = params=>http("get","api/homeproducts/10",params);
+export const homeSeller = params=>get("api/homeproducts/10",params);
 //NEW Arrivai 信息
-export const homeArrivai = params=>http("get","api/homeproducts/20",params);
+export const homeArrivai = params=>get("api/homeproducts/20",params);
 // 首页banner信息
-export const homeBanner = params=>http("get","/api/homelayout/10",params);
+export const homeBanner = params=>get("/api/homelayout/10",params);
 //Collections区信息
-export const homeCollections = params=>http("get","/api/homelayout/20",params);
+export const homeCollections = params=>get("/api/homelayout/20",params);
 //Hot Style in Social Medias信息
-export const homeHotStyle = params=>http("get","/api/homelayout/30",params);
+export const homeHotStyle = params=>get("/api/homelayout/30",params);
 // 40
-export const homeIcon = params=>http("get","/api/homelayout/40",params);
+export const homeIcon = params=>get("/api/homelayout/40",params);
 //  50
-export const homeFootTitle = params=>http("get","/api/homelayout/50",params);
-export const homeFoote = params=>http("get","/api/footertools",params);
-export const getGoodsList = params=>http("get","/api/product",params);
-export const getGoodsDetail = params=>http("get","/api/product",params);
+export const homeFootTitle = params=>get("/api/homelayout/50",params);
+export const homeFoote = params=>get("/api/footertools",params);
+export const getGoodsList = params=>get("/api/product",params);
+export const getGoodsDetail = params=>get("/api/product",params);
 
 
-             //自定义            // 请求方式   //接口的路径名字        一个大的页面是一个api  js文件
+//自定义            // 请求方式   //接口的路径名字        一个大的页面是一个api  js文件
