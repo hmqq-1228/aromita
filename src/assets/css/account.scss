@@ -1,0 +1,374 @@
+.com_font{
+    font-size: 14px;
+    color: #333;
+}
+.order_list{
+    width:100%;
+    display: flex;
+    .list{
+        flex:1;
+        text-align: center;
+        cursor: pointer;
+        img{
+            width: 40px;
+            height: 40px;
+        }
+        p{
+            font-size: 14px;
+            font-weight: bolder;
+            color: #333;
+        }
+    }
+    .active{
+        border-bottom:2px solid #C51015;
+    }
+}
+.my_title{
+    font-size: 16px;
+    color: #333;
+    margin-bottom:20px;
+}
+.page_list{
+    text-align: right;
+    margin-top: 30px;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+    background-color: #C51015!important;
+}
+
+.Products_Details{
+    h4{
+        @extend .com_font;
+        margin-bottom: 10px;
+    }
+    .product{
+        img{
+            width:110px;
+            height: 110px;
+            margin-right: 70px;
+            border:1px solid #E9E9E9;
+            float: left;
+        }
+        .detail{
+            h5{
+                width: 404px;
+                @extend .com_font;
+                font-weight: normal;
+                text-overflow: -o-ellipsis-lastline;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                line-clamp: 2;
+                -webkit-box-orient: vertical;
+                margin-bottom:14px;
+            }
+            p{
+                margin-bottom: 10px;
+                @extend .com_font;
+                span{
+                    color: #999; 
+                }
+                .old_price{
+                    text-decoration: line-through;
+                    margin-left:14px;
+                }
+            }
+        }
+    }
+}
+// 个人中心主页
+.account{
+    min-height: 300px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #E9E9E9;
+    padding:20px 0 40px;
+    .accountBox{
+        width: 1440px;
+        margin: 0 auto;
+        display: flex;
+        // justify-content: space-between;
+        .accountNav{
+            width: 200px;
+            height: 270px;
+            padding: 12px 10px;
+            background-color: #fff;
+            box-sizing: border-box;
+            margin-right: 20px;
+            a{
+                text-decoration: none;
+            }
+            .navTitle{
+                font-size: 16px;
+                font-family: Tahoma;
+                color: #333;
+                font-weight: 600;
+                margin-bottom: 10px;
+            }
+            .navItem{
+                color: #666;
+                height: 30px;
+                font-size: 14px;
+                line-height: 30px;
+                font-family: Tahoma;
+                padding-left: 20px;
+                cursor: pointer;
+                &:hover{
+                    color:#C51015;
+                }
+            }
+        }
+        .navCount{
+            width: 1230px;
+            position: relative;
+            .home_top{
+                height: 190px;
+                background-color: #ffff;
+                padding:40px;
+                box-sizing: border-box;
+                margin-bottom:20px;
+                .user{
+                    width:110px;
+                    height: 110px;
+                    margin-right: 25px;
+                    float: left;
+                }
+                .user_detail{
+                    float: left;
+                    h4{
+                        font-size: 16px;
+                        color: #333;
+                        margin-bottom: 12px;
+                    }
+                    p{
+                        font-size: 14px;
+                        color: #333;
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 12px;
+                        cursor: pointer;
+                        img{
+                            width: 24px;
+                            height: 24px;
+                            margin-right: 7px;
+                        }
+                    }
+                }
+                .user_list{
+                    display: flex;
+                    height: 110px;
+                    align-items: center;
+                    .list{
+                        flex:1;
+                        text-align: center;
+                        h5{
+                            font-size: 14px;
+                            color: #666;
+                            font-weight: normal;
+                        }
+                        p{
+                            font-size: 18px;
+                            color: #E14D4D;
+                        }
+                    }
+                }
+            }
+            .home_bot{
+                display: flex;
+                align-items: center;
+                height: 140px;
+                background-color: #ffff;
+            }
+        }
+    }
+}
+// 我的订单
+.my_order{
+    background: #fff;
+    padding:20px 34px;
+    box-sizing: border-box;
+    .order_list{
+        border-bottom: 1px solid #E9E9E9;
+        margin-bottom:10px;
+        height: 80px;
+        .list{
+            padding-bottom:30px;
+        }
+    }
+    .list_btn{
+        font-size: 14px;
+        color:#003764;
+        cursor: pointer;
+        margin:0 10px;
+    }
+}
+// 订单详情页
+.orderDetail{
+    .navCount{
+        padding:20px 30px;
+        background:#fff;
+        .my_title{
+            padding-bottom: 20px;
+            border-bottom:1px solid #E9E9E9;
+        }
+        .order_num{
+            display:flex;
+            padding-bottom:20px;
+            border-bottom:1px dashed #e9e9e9;
+            .num{
+                flex:1;
+                display:flex;
+                margin:0 15px;
+                p{
+                    height: 32px;
+                    line-height: 32px;
+                    @extend .com_font;
+                    span{
+                        color: #999;
+                        font-size: 14px;
+                    }
+                    b{
+                        color: #C51015;
+                    }
+                }
+                div{
+                    flex:1;
+                    margin:0 15px;
+                }
+            }
+            .num_right{
+                p{
+                    height: 32px;
+                    line-height: 32px;
+                    font-size: 14px;
+                    color: #C51015;
+                }
+            }
+        }
+        .order_address{
+            margin: 20px 0;
+            overflow: hidden;
+            .list{
+                float: left;
+                margin-right: 70px;
+                h4{
+                    @extend .com_font;
+                    margin-bottom:10px;
+                }
+                .detail{
+                    width: 460px;
+                    height: 180px;
+                    border:1px solid #E9E9E9;
+                    padding:20px;
+                    box-sizing: border-box;
+                    .discription{
+                        p{
+                            color: #131313;
+                            font-size: 14px;
+                            line-height: 32px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+//我的心愿单
+.wishlist{
+    min-height: 187px;
+    .no_list{
+        display: flex;
+        height: 160px;
+        justify-content: center;
+        align-items: center;
+        p{
+            @extend .com_font;
+            margin-bottom:28px;
+            text-align: center;
+        }
+        .wish_btn{
+            width: 230px;
+            height: 32px;
+            text-align: center;
+            cursor: pointer;
+            line-height: 32px;
+            color: #fff;
+            font-size: 16px;
+            background:#C51015;
+        }
+    }
+    .wish_options{
+        img{
+            width:24px;
+            height: 24px;
+            cursor: pointer;
+        }
+        i{
+            display: block;
+            font-size: 22px;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+    }
+    .select{
+        p{
+            font-size: 16px;
+            color: #333;
+            margin-top: 11px;
+            span{
+                margin-right: 39px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+//我的优惠券
+//我的积分
+.points_rule{
+    float:right;
+    font-size: 14px;
+    color: #003764;
+    font-weight: normal;
+}
+.points{
+    overflow: hidden;
+    .available{
+        float: left;
+        padding-right: 65px;
+        border-right:1px solid #E9E9E9;
+        h4{
+            font-size: 16px;
+            color:#333;
+            margin:0 0 15px 10px;
+        }
+        img{
+            width:40px;
+            height: 60px;
+            margin-left: 56px;
+        }
+        p{
+            font-size: 40px;
+            color: #C51015;
+            text-align: center;
+        }
+    }
+    .Points_list{
+        display:flex;
+        padding-left: 80px;
+        height: 140px;
+        align-items: center;
+        .list{
+            flex:1;
+            text-align: center;
+            p{
+                font-size: 28px;
+                color: #333;
+            }
+            h5{
+                @extend .com_font;
+                font-weight:normal;
+            }
+        }
+    }
+}
