@@ -309,16 +309,18 @@ export default {
         spuId = this.$route.params.spuId
       }
       this.$axios.get(this.$store.state.localUrl+'api/product/'+ spuId + '/' + skuId, {}).then(res => {
-        if (res.data.code === "200") {
-          // console.log('11111', res.data)
-          that.goodDetail = res.data.data.sku
-          that.maxQuality = res.data.data.sku.inventory
-          that.priceOrder = res.data.data.sku.sku_price
+        console.log(res)
+        if (res.code =="200") {
+          console.log('11111', res.data)
+          that.goodDetail = res.data.sku
+          console.log(that.goodDetail)
+          that.maxQuality = res.data.sku.inventory
+          that.priceOrder = res.data.sku.sku_price
           that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
-          that.attrList =  res.data.data.attrs
-          that.attrId = res.data.data.sku_ids
-          that.skuList = res.data.data.sku_list
-          var list = JSON.parse(res.data.data.sku.sku_attrs)
+          that.attrList =  res.data.attrs
+          that.attrId = res.data.sku_ids
+          that.skuList = res.data.sku_list
+          var list = JSON.parse(res.data.sku.sku_attrs)
           // that.colorList = res.data.data.attrs.color
           for (var i = 0; i < list.length; i++){
             var obj = {
@@ -532,8 +534,8 @@ export default {
       }
       this.$axios.get(this.$store.state.localUrl+'api/sku/getInStock/'+ skuId, {}).then(res => {
         console.log('sssssss', res.data)
-        if (res.data.code === '200') {
-          that.maxQuality = res.data.data.inventory
+        if (res.code === '200') {
+          that.maxQuality = res.data.inventory
         }
       })
     },
