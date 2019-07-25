@@ -164,7 +164,7 @@ export default {
   },
   created(){
     this.getCookie('userInfo')
-    this.num = sessionStorage.getItem('errNum')
+    this.num = localStorage.getItem('errNum')
   },
   methods: {
     refreshCode() {
