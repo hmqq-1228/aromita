@@ -10,11 +10,8 @@ import 'swiper/dist/css/swiper.css';
 import $ from 'jquery'
 import axios from 'axios';
 Vue.use(ElementUI);
-Vue.use(axios);
+// Vue.use(axios);
 Vue.prototype.$axios = axios
-// axios.defaults.timeout = 10000;
-// axios.defaults.baseURL = '';
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 new Vue({
   el: '#app',
   $,

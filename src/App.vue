@@ -97,10 +97,10 @@ body{
   line-height: 16px;
   padding: 0 4px;
 }
-  .orderConfirm .el-radio__input.is-checked+.el-radio__label{
+  .orderConfirm .el-radio__input.is-checked+.el-radio__label,.payBox .el-checkbox__input.is-checked+.el-checkbox__label{
     color: #333;
   }
-  .orderConfirm .el-radio__input.is-checked .el-radio__inner {
+  .orderConfirm .el-radio__input.is-checked .el-radio__inner,.payBox .el-checkbox__input.is-checked .el-checkbox__inner,.payBox .el-checkbox__input.is-indeterminate .el-checkbox__inner{
     border-color: #707070;
     background: #fff;
     font-family: Tahoma;
@@ -109,5 +109,74 @@ body{
     width: 6px;
     height: 6px;
     background-color: #565656;
+  }
+ .orderConfirm .el-radio__inner:hover{
+   border-color: #707070;
+ }
+  .imgRadio .el-radio__input{
+    margin-top: 8px;
+  }
+  .moreCard .el-radio{
+    line-height: 30px;
+    margin-right: 6px;
+  }
+  .payBox .el-select .el-input.is-focus .el-input__inner{
+    border-color: #E9E9E9;
+  }
+  .payBox .el-select .el-input__inner:focus{
+    border-color: #E9E9E9;
+  }
+  .payBox .el-input__inner{
+    width: 400px;
+    height: 32px;
+    line-height: 32px;
+  }
+  .smallInput .el-input__inner{
+    width: 180px;
+    height: 32px;
+    line-height: 32px;
+  }
+  .shipInput .el-input__inner{
+    width: 140px;
+    height: 32px;
+    line-height: 32px;
+  }
+.el-popper[x-placement^=bottom]{
+    margin-top: 0;
+  }
+  .el-select-dropdown__item.selected{
+    color: #c51015;
+  }
+  .noLabel .el-form-item__content{
+    margin-left: 40px !important;
+  }
+  .payBox .el-input.is-active .el-input__inner, .el-input__inner:focus{
+    border-color: #E9E9E9;
+  }
+.payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover{
+  border-color: #E9E9E9;
+}
+  .payBox .el-form-item__content{
+    height: 36px;
+  }
+  .payBox .el-form-item__label{
+    line-height: 36px;
+  }
+  .payBox .el-checkbox__inner::after{
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    content: "";
+    border: 2px solid #333;
+    border-left: 0;
+    border-top: 0;
+    height: 7px;
+    left: 4px;
+    position: absolute;
+    top: 1px;
+    -webkit-transform: rotate(45deg) scaleY(0);
+    transform: rotate(45deg) scaleY(0);
+    width: 3px;
+    -webkit-transform-origin: center;
+    transform-origin: center;
   }
 </style>
