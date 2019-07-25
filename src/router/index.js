@@ -31,6 +31,8 @@ const unavailable = () => import('@/view/Kongbai/unavailable.vue')
 const myAccount = () => import('@/view/myAccount/myAccount.vue')//个人中心首页
 const myOrder = () =>import('@/view/myAccount/page/myOrder.vue')//我的订单
 const orderDetail = () =>import('@/view/myAccount/page/orderPage/orderDetail.vue')
+const orderRefund = () =>import('@/view/myAccount/page/orderPage/refund.vue')
+const orderRefundApply = () =>import('@/view/myAccount/page/orderPage/refundApplication.vue')
 const myWishlist = () =>import('@/view/myAccount/page/myWishlist.vue')
 const myCoupon = () =>import('@/view/myAccount/page/myCoupon.vue')
 const myPoints = () =>import('@/view/myAccount/page/myPoints.vue')
@@ -178,6 +180,16 @@ export default new Router({
       path:'/orderDetail',
       component:orderDetail,
       name:'orderDetail'
+    },
+    {
+      path:'/orderRefund',
+      component:orderRefund,
+      name:'orderRefund'
+    },
+    {
+      path:'/orderRefundApply',
+      component:orderRefundApply,
+      name:'orderRefundApply'
     },
     {
       path: '/orderConfirm',

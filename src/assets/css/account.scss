@@ -35,7 +35,26 @@
 .el-pagination.is-background .el-pager li:not(.disabled).active{
     background-color: #C51015!important;
 }
-
+.com-sub-btn{
+    width: 140px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+    background: #C51015;
+    color: #fff;
+    font-size: 16px;
+    margin-right: 48px;
+}
+.com-Cancel-btn{
+    width: 140px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    cursor: pointer;
+    border:1px solid #121037;
+    box-sizing: border-box;
+}
 .Products_Details{
     h4{
         @extend .com_font;
@@ -337,20 +356,23 @@
         float: left;
         padding-right: 65px;
         border-right:1px solid #E9E9E9;
+        width: 138px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         h4{
             font-size: 16px;
             color:#333;
-            margin:0 0 15px 10px;
         }
         img{
-            width:40px;
-            height: 60px;
-            margin-left: 56px;
+            width:48px;
+            height: 48px;
+            margin:10px 0 5px 0;
         }
-        p{
-            font-size: 40px;
+        span{
+            font-size: 32px;
             color: #C51015;
-            text-align: center;
         }
     }
     .Points_list{
@@ -372,3 +394,388 @@
         }
     }
 }
+//我的订单售后
+.refund{
+    padding:0 14px;
+    .refund_rule{
+        @extend .com_font;
+        margin-bottom: 10px;
+    }
+    .label{
+        p{
+            margin-bottom: 10px;
+            @extend .com_font;
+        }
+        .classify{
+            overflow: hidden;
+            margin-bottom: 10px;
+            .classification{
+                width: 380px;
+                height: 80px;
+                display: flex;
+                border:1px solid #E9E9E9;
+                margin-right: 41px;
+                float: left;
+                padding:22px 0 0 36px;
+                box-sizing: border-box;
+                cursor: pointer;
+                .refund{
+                    width: 32px;
+                    height: 32px;
+                }
+                h5{
+                    @extend .com_font;
+                }
+                p{
+                    font-size: 14px;
+                    color: #999;
+                }
+            }
+            .active{
+                border:1px solid #C51015;
+            }
+        }
+    }
+    .Products_Details{
+        margin-top: 20px;
+        .price{
+            @extend .com_font;
+            margin-top: 9px;
+            span{
+                color: #999;
+            }
+            b{
+                color:#E91818;
+            }
+        }
+        .Continue{
+            width:180px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            color: #fff;
+            font-size: 14px;
+            background: #C51015;
+            float: right;
+            cursor: pointer;
+        }
+        .Exchange_btn{
+            width: 118px;
+            height: 32px;
+            text-align: center;
+            line-height: 32px;
+            @extend .com_font;
+            background: #E9E9E9;
+            border-radius:4px;
+            cursor: pointer;
+        }
+    }
+}
+.footer_btn{
+    display: flex;
+    justify-content: center;
+    .sub{
+        @extend .com-sub-btn;
+    }
+    .Cancel{
+        @extend .com-Cancel-btn;
+    }
+}
+//提交售后申请
+.refund_apply{
+    .refund_nav{
+        li{
+            width: 320px; 
+            text-align: center;
+            height: 32px;  
+            line-height:32px;  
+            background: #E9E9E9;  
+            display: inline-block;   
+            @extend .com_font; 
+            position: relative;  
+        }
+
+        li:after{  
+            content: '';  
+            display: block;  
+            border-top: 16px solid transparent;  
+            border-bottom: 16px solid transparent;  
+            border-left: 16px solid #E9E9E9;  
+            position: absolute;   
+            right: -16px;   
+            top: 0;  
+            z-index: 10;  
+        }
+        li:before{  
+            content: '';  
+            display: block;  
+            border-top: 16px solid #E9E9E9;  
+            border-bottom: 16px solid #E9E9E9;  
+            border-left: 16px solid #fff;  
+            position: absolute;   
+            left: 0px;   
+            top: 0;  
+        }
+        li:first-child:before{    
+            display: none;    
+        }  
+        li:last-child:after{    
+            display: none;    
+        }  
+        li.active {  
+            background-color: #C51015;  
+            color: #fff;
+        }  
+        li.active:after {  
+            border-left-color: #C51015;  
+        }  
+        li.active:before {  
+            border-right-color: #C51015; 
+            border-top: 16px solid #C51015;  
+            border-bottom: 16px solid #C51015; 
+        }  
+    }
+    .refund_form{
+        margin-top: 20px;
+        .el-form-item{
+            margin-bottom: 10px;
+        }
+        .refund_reason{
+            display: flex;
+            li{
+                padding:0px 20px;
+                border:1px solid #E9E9E9;
+                @extend .com_font;
+                margin-right: 20px;
+            }
+            .active{
+                border-color: #C51015;
+            }
+        }
+        .price{
+            @extend .com_font;
+            span{
+                color: #999;
+            }
+            b{
+                color:#C51015;
+            }
+        }
+        .el-textarea{
+            width: 600px;
+        }
+        .imglist{
+            display: flex;
+            .rule{
+                margin-left: 20px;
+                color: #999;
+                display: inline-block;
+                line-height: 148px;
+            }
+        }
+        .tip{
+            @extend .com_font;
+            i{
+                color:#C51015;
+                font-size: 14px;
+                margin-right: 6px;
+                font-style: normal; 
+            }
+        }
+    }
+    .apply_btn{
+        display: flex;
+        margin-left: 120px;
+        .sub{
+            @extend .com-sub-btn;
+        }
+        .Cancel{
+            @extend .com-Cancel-btn;
+        }
+    }
+    //卖家审核
+    .refund_examine{
+        .price{
+            @extend .com_font;
+            margin-top: 9px;
+            span{
+                color: #999;
+            }
+            b{
+                color:#E91818;
+            }
+        }
+        .examine_tip{
+            margin-bottom: 36px;
+            h5{
+                margin:10px 0;
+                @extend .com_font;
+            }
+            p{
+                color: #999;
+                font-size: 14px;
+            }
+            .email{
+                color: #003764;
+            }
+        }
+        .cancel{
+            height: 32px;
+            line-height: 32px;
+            h4{
+                float: left;
+            }
+            .cancel_refund{
+                float: right;
+                width: 210px;
+                height: 32px;
+                line-height: 32px;
+                text-align: center;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                background: #C51015;
+            }
+        }
+    }
+}
+//我的订阅
+.Scription{
+    .Scription_tip{
+        @extend .com_font;
+        margin-bottom: 10px;
+    }
+    .el-input{
+        width: 320px;
+        height: 32px;
+    }
+    .Scription_check{
+        margin-top: 10px;
+    }
+    .subScription_btn{
+        display: flex;
+        margin-top: 20px;
+        .sub{
+            @extend .com-sub-btn;
+        }
+        .Cancel{
+            @extend .com-Cancel-btn;
+        }
+    }
+}
+//我的地址
+.my_address{
+    padding:0 20px;
+    h4{
+        margin-bottom: 20px;
+    }
+    .shipping_list{
+        overflow: hidden;
+        margin-bottom: 20px;
+        border-bottom: 1px dashed #E9E9E9;
+        .list{
+            width: 460px;
+            height: 220px;
+            border: 1px solid #E9E9E9;
+            margin:0 40px 20px 0;
+            float: left;
+            box-sizing: border-box;
+        }
+        .add_address{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            i{
+                font-size: 60px;
+                color: #999;
+                margin: 13px 0;
+                cursor: pointer;
+            }
+            p{
+                @extend .com_font;
+                margin-bottom: 10px;
+            }
+            .tip_max{
+                font-size: 14px;
+                color: #999;
+            }
+        }
+        .shipping_address{
+            padding: 20px;
+            position: relative;
+            h5{
+                @extend .com_font;
+            }
+            p{
+                color: #131313;
+                font-size: 14px;
+            }
+            .cancat{
+                margin-top: 8px;
+            }
+            .edit_btn{
+                position: absolute;
+                bottom:20px;
+                span{
+                    color: #003764;
+                    font-size: 14px;
+                    padding:0 6px;
+                    cursor: pointer;
+                }
+                i{
+                    font-size: 14px;
+                    color: #707070;
+                    font-style: normal;
+                }
+                b{
+                    margin-left: 150px;
+                    display: inline-block;
+                    width: 70px;
+                    height: 20px;
+                    text-align: center;
+                    line-height: 20px;
+                    color: #fff;
+                    background: #C51015;
+                    font-size: 14px;
+                    font-weight: normal;
+                    border-radius:4px;
+                }
+            }
+        }
+    }
+    .billing_list{
+        height: 178px;
+    }
+}
+//个人中心设置
+.account_set{
+    .set_tab{
+        overflow: hidden;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #E9E9E9;
+        li{
+            float: left;
+            padding:12px 14px;
+            font-size: 14px;
+            color: #131313;
+            font-weight: bolder;
+            margin-right: 100px;
+            cursor: pointer;
+        }
+        .active{
+            color: #C51015;
+            border-bottom: 2px solid #C51015;
+        }
+    }
+    .Profile_form{
+        width:520px;
+        margin-left: 304px;
+        .com-sub-btn{
+            margin-left: 120px;
+        }
+    }
+}
+
+
+

@@ -16,7 +16,7 @@
           <router-link to="accountSetting"><div class="navItem">Account Setting</div></router-link>
         </div>
         <div class="navCount">
-          <div class="account_home" v-if="pathName == 'myAccount'">
+          <div class="account_home" v-if="pathName == 'myAccount' || ''">
             <div class="home_top">
               <img src="@/assets/images/user.jpg" alt="" class="user">
               <div class="user_detail">
