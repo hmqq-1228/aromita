@@ -28,7 +28,15 @@ const goodsDetail = () => import('@/view/goodsDetail/goodsDetail.vue')
 const shoppingCar = () => import('@/view/shoppingCar/shoppingCar.vue')
 const newPassword = () => import('@/view/register/newPassword.vue')
 const unavailable = () => import('@/view/Kongbai/unavailable.vue')
-const myAccount = () => import('@/view/myAccount/myAccount.vue')
+const myAccount = () => import('@/view/myAccount/myAccount.vue')//个人中心首页
+const myOrder = () =>import('@/view/myAccount/page/myOrder.vue')//我的订单
+const orderDetail = () =>import('@/view/myAccount/page/orderPage/orderDetail.vue')
+const myWishlist = () =>import('@/view/myAccount/page/myWishlist.vue')
+const myCoupon = () =>import('@/view/myAccount/page/myCoupon.vue')
+const myPoints = () =>import('@/view/myAccount/page/myPoints.vue')
+const mySubscription = () =>import('@/view/myAccount/page/mySubscription.vue')
+const addressBook = () =>import('@/view/myAccount/page/addressBook.vue')
+const accountSetting = () =>import('@/view/myAccount/page/accountSetting.vue')
 const orderConfirm = () => import('@/view/order/orderConfirm.vue')
 Vue.use(Router)
 
@@ -128,6 +136,48 @@ export default new Router({
       path: '/myAccount',
       name: 'myAccount',
       component: myAccount,
+      children:[
+        {
+            path:'/myOrder',
+            component:myOrder,
+            name:'myOrder'
+        },
+        {
+          path:'/myWishlist',
+          component:myWishlist,
+          name:'myWishlist'
+        },
+        {
+          path:'/myCoupon',
+          component:myCoupon,
+          name:'myCoupon'
+        },
+        {
+          path:'/myPoints',
+          component:myPoints,
+          name:'myPoints'
+        },
+        {
+          path:'/mySubscription',
+          component:mySubscription,
+          name:'mySubscription'
+        },
+        {
+          path:'/addressBook',
+          component:addressBook,
+          name:'addressBook'
+        },
+        {
+          path:'/accountSetting',
+          component:accountSetting,
+          name:'accountSetting'
+        },
+      ]
+    },
+    {
+      path:'/orderDetail',
+      component:orderDetail,
+      name:'orderDetail'
     },
     {
       path: '/orderConfirm',
