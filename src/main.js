@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'swiper/dist/css/swiper.css';
 import $ from 'jquery'
 import axios from 'axios';
+axios.defaults.headers.post['content-type'] = 'application/json'
 Vue.use(ElementUI);
 // Vue.use(axios);
 Vue.prototype.$axios = axios

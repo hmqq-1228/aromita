@@ -19,7 +19,9 @@ export const getGoodsList = params=>get("/api/cart",params);
 // 添加订单
 export const orderAdd = params=>post("/api/orderproductlist",params);
 // 获取订单地址
-
+export const orderAddress = params=>get("/api/address",params);
+// 修改地址
+export const editAddress = params=>get("/api/address",params);
 // 单个删除购物车商品
 // export const deleteGoods = params=>post("get","/api/deltoCart",params);
 // 查询商品sku数量

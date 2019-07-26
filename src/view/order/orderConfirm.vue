@@ -23,29 +23,16 @@
         </div>
         <div class="navTitle">Shipping Address</div>
         <div class="address">
-          <div class="addressItem">
-            <div class="itemName"><el-radio v-model="radio" label="1"><i class="el-icon-s-custom" style="color: #ccc;"></i> Rosie Eva</el-radio></div>
+          <div class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
+            <div class="itemName"><el-radio v-model="radio" :label="address.id"><i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}</el-radio></div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText">bcjkdbsfhniodheiof, cnjdskagvcvn, new york, Alabama, United States, 12456. we are we are we are we are</div>
+              <div class="addressText">{{address.entry_country}}{{address.entry_state}}{{address.entry_city}}{{address.entry_street_address1}}{{address.entry_street_address2}}</div>
             </div>
-            <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>1234567890</span></div>
-            <div class="itemDefault"><span>Default</span></div>
+            <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
+            <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
             <div class="itemOption">
-              <div @click="addNewAddress('id')">Edit</div>
-              <div>Remove</div>
-            </div>
-          </div>
-          <div class="addressItem">
-            <div class="itemName"><el-radio v-model="radio" label="2"><i class="el-icon-s-custom" style="color: #ccc;"></i> Rosie Eva</el-radio></div>
-            <div class="itemAddress">
-              <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText">bcjkdbsfhniodheiof, cnjdskagvcvn, new york, Alabama, United States, 12456. we are we are we are we are</div>
-            </div>
-            <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>1234567890</span></div>
-            <div class="itemDefault"><span>Default</span></div>
-            <div class="itemOption">
-              <div @click="addNewAddress('id')">Edit</div>
+              <div @click="addNewAddress(address.id)">Edit</div>
               <div>Remove</div>
             </div>
           </div>
@@ -93,7 +80,7 @@
               </el-form-item>
               <div class="payConfirm" style="margin-left: 125px;">
                 <el-checkbox v-model="addNewForm.checked"></el-checkbox>
-                <span style="font-size: 14px;color: #333;">Save to the address book</span>
+                <span style="font-size: 14px;color: #333;">As Default</span>
               </div>
               <el-form-item class="addNewForm" style="margin-top: 10px">
                 <el-button class="save" @click="submitForm('addNewForm')">Save</el-button>
@@ -255,7 +242,8 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
-import {orderAdd} from "../../api/register";
+import {orderAdd, orderAddress, editAddress} from "../../api/register";
+import qs from 'qs'
 export default {
   components: {
     "header-com": Header,
@@ -264,10 +252,12 @@ export default {
   name: "orderConfirm",
   data () {
     return {
+      editId: '',
       radio: '',
       radio2: '1',
       radio3: '1',
       goodsList: [],
+      addressList: [],
       methodShow: false,
       showCreditForm: false,
       addressFormShow: false,
@@ -333,6 +323,7 @@ export default {
     radio: function (val, oV) {
       var that = this
       if (val) {
+        console.log(val)
         that.methodShow = true
       } else {
         that.methodShow = false
@@ -351,8 +342,58 @@ export default {
   created(){
     this.getGoodsOrder()
     this.showMethod()
+    this.getOrderAddress()
   },
   methods: {
+    async getOrderAddress () {
+      var that = this
+      let data = await orderAddress()
+      if (data.code === '200') {
+        that.addressList = data.data
+      }
+    },
+    addNewAddress: function (id) {
+      var that = this
+      if (id) {
+        that.editId = id
+        that.addressFormShow = true
+        // addNewForm: {
+        //   First: '',
+        //     Last: '',
+        //     email: '',
+        //     Country: '',
+        //     Address1: '',
+        //     Address2: '',
+        //     City: '',
+        //     Province: '',
+        //     Postcode: '',
+        //     Phone: '',
+        //     checked: true
+        // },
+        that.$axios.get(this.$store.state.localUrl + 'api/address/' + id, {}).then(res => {
+          if (res.code === '200') {
+            console.log('yyyyyyyyy', res)
+            that.addNewForm.First = res.data.entry_firstname
+            that.addNewForm.Last = res.data.entry_lastname
+            that.addNewForm.email = res.data.entry_email_address
+            that.addNewForm.Country = res.data.entry_country
+            that.addNewForm.Address1 = res.data.entry_street_address1
+            that.addNewForm.Address2 = res.data.entry_street_address2
+            that.addNewForm.City = res.data.entry_city
+            that.addNewForm.Province = res.data.entry_state
+            that.addNewForm.Postcode = res.data.entry_postcode
+            that.addNewForm.Phone = res.data.telephone_number
+            if (res.data.is_default === 1) {
+              that.addNewForm.checked = true
+            } else {
+              that.addNewForm.checked = false
+            }
+          }
+        })
+      } else if (!id) {
+        that.addressFormShow = !that.addressFormShow
+      }
+    },
     showMethod: function () {
       var that = this
       if (that.radio === ''){
@@ -381,18 +422,32 @@ export default {
         console.log('订单失效')
       }
     },
-    addNewAddress(id) {
-      var that = this
-      if (id) {
-        that.addressFormShow = true
-      } else if (!id) {
-        that.addressFormShow = !that.addressFormShow
-      }
-    },
     submitForm(formName) {
+      var that = this
+      console.log('fffff', that.addNewForm.checked)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          var editObj = qs.stringify({
+            entry_firstname: that.addNewForm.First,
+            entry_lastname: that.addNewForm.Last,
+            entry_email_address: that.addNewForm.email,
+            entry_country: that.addNewForm.Country,
+            entry_street_address1: that.addNewForm.Address1,
+            entry_street_address2: that.addNewForm.Address2,
+            entry_city: that.addNewForm.City,
+            entry_state: that.addNewForm.Province,
+            entry_postcode: that.addNewForm.Postcode,
+            telephone_number: that.addNewForm.Phone,
+            is_default: that.addNewForm.checked === true ? 1 : 0
+          })
+          console.log('editObj', editObj)
+          that.$axios.post(this.$store.state.localUrl + 'api/address/' + that.editId, editObj).then(res => {
+            console.log('sssssss', res)
+            if (res.code === '200'){
+              that.$message.success('Successful address modification!')
+              that.getOrderAddress()
+            }
+          })
         } else {
           console.log('error submit!!');
           return false;
@@ -655,7 +710,6 @@ export default {
   }
   .addressText{
     width: 258px;
-    height: 40px;
     line-height:18px;
     color: #333;
     float: right;
