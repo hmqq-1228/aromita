@@ -1,24 +1,47 @@
 <template>
-    <div class="my_order Scription">
-        <h3 class="my_title">My Subscription</h3>
-        <p class="Scription_tip">By Subscribing our Service,you can get first-hand information of New Arrivals, Special offers,order service and Hot Sale!</p>
-        <el-input></el-input>
-        <div class="Scription_check">
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">订阅所有服务</el-checkbox>
-            <div style="margin: 15px 0;"></div>
-            <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-            </el-checkbox-group>
+    <div class="myAccount">
+        <div class="header">
+            <header-com></header-com>
         </div>
-        <div class="subScription_btn">
-            <div class="sub">Submit</div>
-            <div class="Cancel">Cancel</div>
+        <div class="account">
+            <div class="accountBox">
+                <Left-Nav></Left-Nav>  
+                <div class="navCount">
+                    <div class="my_order Scription">
+                        <h3 class="my_title">My Subscription</h3>
+                        <p class="Scription_tip">By Subscribing our Service,you can get first-hand information of New Arrivals, Special offers,order service and Hot Sale!</p>
+                        <el-input></el-input>
+                        <div class="Scription_check">
+                            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">订阅所有服务</el-checkbox>
+                            <div style="margin: 15px 0;"></div>
+                            <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                                <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+                            </el-checkbox-group>
+                        </div>
+                        <div class="subScription_btn">
+                            <div class="sub">Submit</div>
+                            <div class="Cancel">Cancel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <footer-com></footer-com>
         </div>
     </div>
 </template>
 <script>
 const cityOptions = ['上海', '北京', '广州', '深圳'];
-export default {   
+import Header from "@/components/header.vue";
+import Footer from "@/components/footer.vue";
+import Left from "../element/leftNav"
+export default {
+    components: {
+        "header-com": Header,
+        "footer-com": Footer,
+        "Left-Nav":Left
+    },
     data(){
         return{
             checkAll: false,
