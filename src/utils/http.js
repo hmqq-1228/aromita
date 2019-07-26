@@ -1,9 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-
 axios.defaults.baseURL ='';//开发
-
 axios.defaults.timeout = 60 * 1000;
 axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 
@@ -60,11 +58,11 @@ axios.interceptors.response.use(response => {
     // }
     return response.data
 }, error => {
-    Message({
-        message: error.response || "系统异常",
-        type: 'error',
-        duration: 5 * 1000
-    });
+    // Message({
+    //     message: error.response || "系统异常",
+    //     type: 'error',
+    //     duration: 5 * 1000
+    // });
     return Promise.reject(error.response)
 });
 
@@ -76,12 +74,13 @@ export const post = (url, params, config = {}) => {
     })
 }
 
-export const get = (url, params, config = {}) => {
+export const get = (url,params,config = {}) => {    
     return axios({
         method: 'get',
         url: url,
         params: params
     })
+    
 }
 
 export const deletes = (url, params, config = {}) => {
@@ -91,41 +90,5 @@ export const deletes = (url, params, config = {}) => {
         params: params
     })
 }
+
 export const baseURL = axios.defaults.baseURL;
-// var http = axios.create({
-//     // baseURL:"http://arapi.panduo.com.cn/",
-//     timeout:5000
-// })
-// //请求拦截
-// http.interceptors.request.use((config)=>{
-//     // if(config.method == "post"){
-//     //     config.data = qs.stringify(config.data);
-//     // }
-//     return config;
-// },(err)=>{
-//     return Promise.reject(err)
-// })
-// //响应拦截
-// http.interceptors.response.use((res)=>{
-//   if (res.config.method === 'post') {
-//     console.log('0000000', res)
-//     res.config.data = qs.stringify(res.config.data);
-//     res.config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-//   }
-//     return res.data
-// },(err)=>{
-//     return Promise.reject(err)
-// })
-
-
-// export default (method,url,data = null)=>{
-//     if(method === "post"){
-//       console.log('4444', url)
-//       console.log('8888', data)
-//       return http.post(url,data);
-//     }else if(method === "get"){
-//         return http.get(url,{params:data})
-//     }else{
-//         return;
-//     }
-// }

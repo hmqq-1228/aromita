@@ -1,5 +1,4 @@
 import { get, post } from "../utils/http.js";
-// http://www.aromita.com/api/homeproducts/10
 
 // Best Seller商品信息
 export const homeSeller = params=>get("api/homeproducts/10",params);

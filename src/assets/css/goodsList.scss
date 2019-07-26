@@ -1,0 +1,328 @@
+.biggerView{
+    transform: scale(1.05);
+    transition: all .8s;
+}
+  .defultView{
+    transform: scale(1);
+    transition: all .8s;
+  }
+  .smallSlider2{
+    height: 42px;
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+  }
+  .sliderBox{
+    height: 42px;
+    width: 240px;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+    left:0;
+    top: 0;
+  }
+  .sliderCont{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 42px;
+    width: 240px;
+    margin: 0 auto;
+  }
+  .sliderCont div{
+    width: 42px;
+    height: 42px;
+    margin-right: 6px;
+    display: inline-block;
+  }
+  .prev{
+    color: #999;
+    position: absolute;
+    left: 0;
+    top: 10px;
+    font-size: 24px;
+  }
+  .next{
+    color: #333;
+    position: absolute;
+    right: 0;
+    top:10px;
+    font-size: 24px;
+  }
+  .listBox{
+    width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+  }
+  .listNav{
+    width: 210px;
+  }
+  .navTitle{
+    font-family: Tahoma;
+    color: #666;
+    font-size: 14px;
+    height: 36px;
+    line-height: 42px;
+    padding: 0 10px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .navTitleTwo{
+    font-family: Tahoma;
+    color: #666;
+    display: flex;
+    font-size: 14px;
+    height: 36px;
+    line-height: 42px;
+    padding: 0 10px;
+    justify-content: space-between;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .navItem{
+    font-family: Tahoma;
+    color: #333;
+    font-size: 14px;
+    height: 30px;
+    cursor: pointer;
+    padding: 0 10px;
+    line-height: 30px;
+  }
+  .listGoods{
+    width: 1200px;
+    min-height: 500px;
+  }
+  .goodsItem{
+    width: 300px;
+    height: 425px;
+    float: left;
+  }
+  .goodInner{
+    width: 282px;
+    height: 407px;
+    margin: 0 auto;
+    box-shadow: none;
+    transition: all .5s;
+    border: 1px solid #e8e8e8;
+  }
+  .goodInner:hover{
+    border: 1px solid #c30808;
+    box-shadow: 0 0 8px 5px #e7e7e7;
+  }
+  .price{
+    padding: 10px;
+  }
+  .priceRange{
+    display: flex;
+    justify-content: start;
+    margin-bottom: 10px;
+  }
+  .priceRange input{
+    width: 60px;
+    height: 28px;
+  }
+  .priceRange>div{
+    width: 25px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+  }
+  .price>button{
+    width: 145px;
+    height: 28px;
+    color: #fff;
+    border: none;
+    outline: none;
+    font-family: Tahoma;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+    transition: all .3s;
+    background-color: #121037;
+  }
+  .price>button:hover{
+    background-color: #121059;
+  }
+  .priceRange input::-webkit-outer-spin-button,
+  .priceRange input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  .priceRange input[type="number"]{
+    -moz-appearance: textfield;
+  }
+  .metalChecked {
+    position: relative;
+    padding-left: 10px;
+    line-height: 25px;
+    /*margin-right: 12px;*/
+  }
+
+  .metalChecked input {
+    vertical-align: middle;
+    /* 前面三行代码是为了让radio单选按钮与文字对齐 */
+    width: 14px;
+    height: 14px;
+    appearance: none;/*清楚默认样式*/
+    -webkit-appearance: none;
+    opacity: 0;
+    outline: none;
+    /* 注意不能设置为display:none*/
+  }
+
+  .metalChecked label {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    z-index:1;
+    /*注意层级关系，如果不把label层级设为最低，会遮挡住input而不能单选*/
+    width: 14px;
+    height: 14px;
+    border: 1px solid #999;
+  }
+
+  .metalChecked input:checked+label {
+    background: #fff;
+  }
+
+  .metalChecked input:checked+label::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 8px;
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .metalChecked span{
+    font-size: 14px;
+    color: #333;
+    font-family: Tahoma;
+    padding-left: 10px;
+  }
+  .goodsPic{
+    width: 280px;
+    height: 280px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .goodsPic img{
+    width: 100%;
+    height: 280px;
+  }
+  .cheap{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    display: flex;
+  }
+  .cheapLeft{
+    width:0;
+    height:0;
+    border-top:10px solid transparent;
+    border-bottom:10px solid transparent;
+    border-right:10px solid #c30808;
+  }
+  .cheapRight{
+    color: #fff;
+    height: 20px;
+    padding: 0 4px;
+    text-align: center;
+    line-height: 20px;
+    font-family: Tahoma;
+    font-size: 14px;
+    background-color: #c30808;
+  }
+  .disCont{
+    color: #c30808;
+    font-family: Tahoma;
+    font-size: 14px;
+    height: 20px;
+    width: 70px;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border: 1px solid chocolate;
+  }
+  .goodsPic>img{
+    width: 100%;
+  }
+  .smallPic{
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e7e7e7;
+  }
+  .smallPic.active{
+    border: 1px solid #c30808;
+  }
+  .smallSlider{
+    height: 42px;
+    margin: 0 auto;
+  }
+  .swiper-father{
+    position: relative;
+  }
+  .swiper-container{
+    height: 42px;
+    width: 240px;
+  }
+  .swiper-button-prev{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 18px;
+    height: 28px;
+    margin-top: -13px;
+    z-index: 10;
+    cursor: pointer;
+    background-size: 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .swiper-button-next {
+    color: #333;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 18px;
+    height: 28px;
+    margin-top: -13px;
+    z-index: 10;
+    cursor: pointer;
+    background-size: 12px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .swiper-slide {
+    width: 42px !important;
+    margin-right: 7px;
+  }
+  .goodsInfo{
+    font-family: Tahoma;
+    font-size: 14px;
+    color: #333;
+    width: 260px;
+    height: 34px;
+    margin-top: 6px;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .goodsPrice{
+    color: #c30808;
+    font-size: 16px;
+    font-family: Tahoma;
+    width: 280px;
+    margin-top: 6px;
+    padding: 0 10px;
+  }

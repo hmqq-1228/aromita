@@ -1,0 +1,215 @@
+html{
+    width: 100%;
+}
+*{
+    margin:0 ;
+    padding:0
+}
+body{
+    width: 100%
+}
+a{
+    text-decoration: none;
+    color: #333;
+}
+ul,li {
+    list-style: none;
+}
+/* 分页器重置样式 */
+.el-pagination.is-background .el-pager li:hover{
+    color: #C51015!important;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+    background: #C51015!important;
+}
+/* tabs重置样式 */
+.el-tabs__nav-scroll .el-tabs__item{
+    font-weight: 600!important;
+}
+.el-tabs__item:hover{
+    color: #C51015!important;
+}
+.el-tabs__item.is-active{
+    color: #C51015!important;
+}
+.el-tabs__active-bar{
+    background-color:#C51015!important;
+}
+.wrapLogin .el-input__inner,.register .el-input__inner{
+    width: 400px;
+    position: relative;
+    border: 1px solid #121037;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 0;
+}
+.register .Verification .el-input__inner {
+    width: 265px;
+}
+.fliterList .el-collapse{
+    border-top: none;
+    border-bottom: 1px solid #EBEEF5;
+}
+.fliterList .el-collapse-item__header{
+    height: 36px;
+    line-height: 36px;
+    padding-left: 10px;
+    font-family: Tahoma;
+    border-bottom: none;
+}
+.fliterList .el-collapse-item__content{
+    padding-bottom: 10px;
+}
+.fliterList .el-collapse-item__wrap{
+    border-bottom: none;
+}
+[class*=" el-icon-"], [class^=el-icon-]{
+    font-weight: 600;
+}
+.content_forgot .el-input__inner,.newPassword .el-input__inner{
+    height: 34px;
+    line-height: 34px;
+}
+.content_forgot .el-button,.newPassword .el-button{
+    color: #ccc;
+}
+.content_forgot .el-button:hover,.newPassword .el-button:hover{
+    color: #fff;
+}
+.carCont .el-input-number__decrease:hover,.carCont .el-input-number__increase:hover{
+    color: #333;
+}
+.el-badge__content.is-fixed{
+    right: 0px;
+}
+.el-badge__content{
+    height: 16px;
+    line-height: 16px;
+    padding: 0 4px;
+}
+.orderConfirm .el-radio__input.is-checked+.el-radio__label,.payBox .el-checkbox__input.is-checked+.el-checkbox__label,.payConfirm .el-checkbox__input.is-checked+.el-checkbox__label{
+    color: #333;
+}
+.orderConfirm .el-radio__input.is-checked .el-radio__inner,.payBox .el-checkbox__input.is-checked .el-checkbox__inner,.payBox .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    border-color: #707070;
+    background: #fff;
+    font-family: Tahoma;
+}
+.payConfirm .el-checkbox__input.is-checked .el-checkbox__inner,.payConfirm .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    border-color: #707070;
+    background: #fff;
+    font-family: Tahoma;
+}
+.payConfirm .el-checkbox{
+    color: #999;
+    margin-right: 10px;
+}
+.orderConfirm .el-radio__inner::after{
+    width: 6px;
+    height: 6px;
+    background-color: #565656;
+}
+.orderConfirm .el-radio__inner:hover{
+    border-color: #707070;
+}
+.imgRadio .el-radio__input{
+    margin-top: 8px;
+}
+.moreCard .el-radio{
+    line-height: 30px;
+    margin-right: 6px;
+}
+.payBox .el-select .el-input.is-focus .el-input__inner{
+    border-color: #E9E9E9;
+}
+.payBox .el-select .el-input__inner:focus{
+    border-color: #E9E9E9;
+}
+.payBox .el-input__inner{
+    width: 400px;
+    height: 32px;
+    line-height: 32px;
+}
+.smallInput .el-input__inner{
+    width: 180px;
+    height: 32px;
+    line-height: 32px;
+}
+.shipInput .el-input__inner{
+    width: 137px;
+    height: 32px;
+    line-height: 32px;
+}
+.el-popper[x-placement^=bottom]{
+    margin-top: 0;
+}
+.el-select-dropdown__item.selected{
+    color: #c51015;
+}
+.noLabel .el-form-item__content{
+    margin-left: 40px !important;
+}
+.payBox .el-input.is-active .el-input__inner, .el-input__inner:focus{
+    border-color: #E9E9E9;
+}
+.payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover,.payConfirm .el-checkbox__input.is-focus .el-checkbox__inner,.payConfirm .el-checkbox__inner:hover{
+    border-color: #E9E9E9;
+}
+.payBox .el-form-item__content{
+    height: 36px;
+}
+.payBox .el-form-item__label{
+    line-height: 36px;
+}
+.payBox .el-checkbox__inner::after,.payConfirm .el-checkbox__inner::after{
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    content: "";
+    border: 2px solid #333;
+    border-left: 0;
+    border-top: 0;
+    height: 7px;
+    left: 4px;
+    position: absolute;
+    top: 1px;
+    -webkit-transform: rotate(45deg) scaleY(0);
+    transform: rotate(45deg) scaleY(0);
+    width: 3px;
+    -webkit-transform-origin: center;
+    transform-origin: center;
+}
+.orderConfirm .el-button:active{
+    color: #fff;
+    background-color: #C51015;
+    border-color: #C51015;
+}
+.orderConfirm .el-button{
+    background-color: #C51015;
+    color: #fff;
+    border-color: #C51015;
+    width: 318px;
+    font-size: 16px;
+    font-weight: bold;
+}
+.orderConfirm .el-button:focus, .orderConfirm .el-button:hover{
+    color: #fff;
+    border-color: #C51015;
+    background-color: #a81015;
+}
+.payBox .addNewForm .el-button{
+    width: 180px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 8px;
+}
+.payBox .addNewForm .save .el-button{
+    background-color: #C51015;
+    color: #fff;
+    border-color: #C51015;
+}
+.payBox .addNewForm .el-button.cancel.el-button--default{
+    background-color: #fff;
+    color: #666;
+    border-color: #666;
+    margin-left: 20px;
+}

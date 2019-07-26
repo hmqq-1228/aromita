@@ -8,7 +8,7 @@
     <div class="xian_a">
       <div class="logoCont">
         <div class="LOGO2">
-          <img src="@/assets/LOGO2.png" alt>
+          <img src="@/assets/LOGO2.png" alt @click="handleGoHome">
         </div>
       </div>
     </div>
@@ -16,7 +16,13 @@
 </template>
 <script>
 export default {
-
+  methods:{
+    handleGoHome(){
+        this.$router.push({
+          path: '/'
+        })
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -48,6 +54,7 @@ export default {
   width: 160px;
   height: 39px;
   background: rgba(0, 0, 0, 0);
+  cursor: pointer;
 }
 .xian_a {
   width: 100%;

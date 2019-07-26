@@ -1,36 +1,17 @@
 <template>
   <div class="wrap_1">
     <header-com></header-com>
-    <!-- 轮播图 -->
     <div class="wrap">
-      <div
-        class="banner1 swiper-container"
-        @mouseenter="comtainer_enter1"
-        @mouseleave="comtainer_leave1"
-      >
-        <div class="swiper-wrapper" >
-          <div class="swiper-slide" v-for="(item,index) in dataBanner" :key="index">
-            <img :src="url+item.picture_src" alt>
-          </div>
-        </div>
-        <!-- 指示点 -->
-        <div class="swiper-pagination"></div>
+      <!-- 轮播图 -->
+      <div class="home_banner">
+          <el-carousel height="500px">
+              <el-carousel-item v-for="(item,index) in dataBanner" :key="index">
+                <img :src="url+item.picture_src" alt>
+              </el-carousel-item>
+          </el-carousel>
       </div>
       <!-- 英文 -->
       <p class="word1">THEME PRODUCT</p>
-
-      <!-- <div class="collections">
-        <div class="collections_one">
-          <img src="@/assets/birtstone.png" class="collections_birtstone" alt>
-          <img src="@/assets/chains.png" alt>
-           </div>
-        <div class="collections_thr">
-          <img src="@/assets/chains.png" class="collections_chains" alt>
-          <img src="@/assets/chains.png" class="collections_chains" alt>
-          <img src="@/assets/chains.png" class="collections_chains" alt>
-        </div>
-      </div>-->
-
       <div class="collections">
         <ul class="collections_thr1">
           <li class="thr2" v-for="(item,index) in dataCollections" :key="index">
@@ -69,7 +50,6 @@
         </div>
         <!-- 如果需要分页器 -->
         <div class="swiper-pagination"></div>
-
         <!-- 如果需要导航按钮 -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
@@ -92,7 +72,6 @@ import {
   homeCollections,
   homeHotStyle
 } from "../../api/home";
-import { constants } from 'fs';
 export default {
   components: {
     "header-com": Header,
@@ -111,7 +90,6 @@ export default {
     };
   },
   mounted() {
-    this.homeBanner();
     this.homeHotStyle();
     var mySwiper = new Swiper(".banner2", {
       slidesPerView: 4,
@@ -127,38 +105,18 @@ export default {
     });
   },
   methods: {
-      link(url){
-        window.open(url,'_blank')
-      },
-      initSwiper(){
-        this.swiper1 = new Swiper(".banner1", {
-        loop: true,
-        autoplay: {
-          disableOnInteraction: false //当设置为false时，用户操作之后（swipes,arrow以及pagination 点击）autoplay不会被禁掉，用户操作之后每次都会重新启动autoplay。
-        },
-        observer: true, //修改swiper自己或子元素时，自动初始化swiper
-        observeParents: true, //修改swiper的父元素时，自动初始化swiper
-        pagination: {
-          //指示点
-          el: ".swiper-pagination",
-          clickable: true //为true时点击指示点会切换slide
-        }
-        });
-      },
-    /*鼠标移入停止轮播,5秒后继续轮播，鼠标离开 继续轮播*/
-    comtainer_enter1() {
-      this.swiper1.autoplay.stop();
-      setTimeout(this.comtainer_leave1, 2000); //两秒加上默认的三秒
+    link(url){
+      window.open(url,'_blank')
     },
-    comtainer_leave1() {
-      this.swiper1.autoplay.start();
+    // 首页banner信息
+    async homeBanner() {
+      let data = await homeBanner();
+      this.dataBanner = data.data;
     },
     async homeFoote() {
       let data = await homeFoote();
-      //console.log(data.data)
       for (this.homeFoot in data.data) {
         this.homeFoot = data.data;
-        //  console.log(this.homeFoot)
       }
     },
     // Best Seller商品信息
@@ -172,20 +130,6 @@ export default {
     async homeArrivai() {
       let data = await homeArrivai();
       this.homeArr = data.data;
-      // for (let homeArr of data){
-      //  this.homeArr = data
-      // }
-    },
-    // 首页banner信息
-    async homeBanner() {
-      let data = await homeBanner();
-      this.dataBanner = data.data;
-      this.$nextTick(() => {
-        this.initSwiper();
-      });
-      // for (let dataBanner of data){
-      //  this.dataBanner = data
-      // }
     },
     //Collections区信息
     async homeCollections() {
@@ -203,6 +147,7 @@ export default {
     }
   },
   created() {
+    this.homeBanner();
     this.homeSeller();
     this.homeArrivai();
     this.homeFoote();
@@ -213,6 +158,16 @@ export default {
 <style lang="scss">
 .wrap_1 {
   margin: 0 auto;
+}
+.home_banner{
+  width: 1440px;
+  margin:0 auto;
+  .el-carousel__button{
+    background: #333;
+    width:8px;
+    height: 8px;
+    border-radius: 50%;
+  }
 }
   .demo-carousel {
     width: 80%;
@@ -254,7 +209,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    // justify-content: center;
   }
   .thr2 > img {
     width: 100%;

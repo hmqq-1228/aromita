@@ -5,18 +5,9 @@
     </div>
     <div class="account">
       <div class="accountBox">
-        <div class="accountNav">
-          <router-link to="myAccount"><div class="navTitle">My Account</div></router-link>
-          <router-link to="myOrder"><div class="navItem">My Orders</div></router-link>
-          <router-link to="myWishlist"><div class="navItem">My Wishlist</div></router-link>
-          <router-link to="myCoupon"><div class="navItem">My Coupon</div></router-link>
-          <router-link to="myPoints"><div class="navItem">My Points</div></router-link>
-          <router-link to="mySubscription"><div class="navItem">My Subscription</div></router-link>
-          <router-link to="addressBook"><div class="navItem">Address Book</div></router-link>
-          <router-link to="accountSetting"><div class="navItem">Account Setting</div></router-link>
-        </div>
+        <Left-Nav></Left-Nav>  
         <div class="navCount">
-          <div class="account_home" v-if="pathName == 'myAccount' || ''">
+          <div class="account_home">
             <div class="home_top">
               <img src="@/assets/images/user.jpg" alt="" class="user">
               <div class="user_detail">
@@ -68,7 +59,6 @@
               </div>
             </div>
           </div>
-          <router-view/>
         </div>
       </div>
     </div>
@@ -81,10 +71,12 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
+import Left from "./element/leftNav"
 export default {
   components: {
     "header-com": Header,
-    "footer-com": Footer
+    "footer-com": Footer,
+    "Left-Nav":Left
   },
   data(){
     return{
@@ -98,6 +90,7 @@ export default {
     }
   },
   created(){
+    console.log(this.pathName)
   }
 }
 </script>
