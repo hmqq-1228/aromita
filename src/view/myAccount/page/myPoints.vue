@@ -4,8 +4,8 @@
         <div class="points">
             <div class="available">
                 <h4>Available Points</h4>
-                <img src="@/assets/images/All-Orders.png" alt="">
-                <p>50</p>
+                <img src="@/assets/images/Points.png" alt="">
+                <span>50</span>
             </div>
             <div class="Points_list">
                 <div class="list">

@@ -69,7 +69,6 @@
                 <li>FAQ</li>
               </ul>
             </div>
-
             <div class="left_thr">
               <p class="left_thr1">MY Account</p>
               <ul class="left_thr2">

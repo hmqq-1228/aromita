@@ -53,7 +53,7 @@
                     <span class="list_btn" @click="detail()">View</span>
                     <span class="list_btn">Cancel</span>
                     <span class="list_btn">Tracking</span>
-                    <span class="list_btn">After-sales</span>
+                    <span class="list_btn" @click="_refund()">After-sales</span>
                     <span class="list_btn">退款详情</span>
                 </template>    
             </el-table-column>
@@ -94,6 +94,14 @@ export default {
         detail(){
             this.$router.push({
                 path: '/orderDetail',
+                query: {
+                    // s_cate_id: id
+                }
+            })
+        },
+        _refund(){
+            this.$router.push({
+                path: '/orderRefund',
                 query: {
                     // s_cate_id: id
                 }
