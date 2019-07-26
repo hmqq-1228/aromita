@@ -12,6 +12,7 @@ const state = {
   addCartState: false,
   spuId: '',
   skuId: '',
+  idList: []
 }
 const mutations = {
 

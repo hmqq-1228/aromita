@@ -32,7 +32,7 @@
             <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>1234567890</span></div>
             <div class="itemDefault"><span>Default</span></div>
             <div class="itemOption">
-              <div>Edit</div>
+              <div @click="addNewAddress('id')">Edit</div>
               <div>Remove</div>
             </div>
           </div>
@@ -45,15 +45,65 @@
             <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>1234567890</span></div>
             <div class="itemDefault"><span>Default</span></div>
             <div class="itemOption">
-              <div>Edit</div>
+              <div @click="addNewAddress('id')">Edit</div>
               <div>Remove</div>
             </div>
           </div>
           <div class="showMore"><i class="el-icon-d-arrow-left"></i></div>
-          <div class="addNew"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
+          <div class="addNew" @click="addNewAddress()"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
+          <div class="payBox" v-if="addressFormShow">
+            <el-form :model="addNewForm" :rules="rules" ref="addNewForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
+              <div class="dataType">
+                <el-form-item label="First name:" prop="First" class="shipInput">
+                  <el-input v-model="addNewForm.First"></el-input>
+                </el-form-item>
+                <el-form-item label="Last name:" prop="Last" class="shipInput">
+                  <el-input v-model="addNewForm.Last"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item label=" Email Address:" prop="email">
+                <el-input v-model="addNewForm.email"></el-input>
+              </el-form-item>
+              <el-form-item label="Country:" prop="Country">
+                <el-select v-model="addNewForm.Country" placeholder="United Stats">
+                  <el-option label="shanghai" value="shanghai"></el-option>
+                  <el-option label="beijing" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Address Line1:" prop="Address1">
+                <el-input v-model="addNewForm.Address1"></el-input>
+              </el-form-item>
+              <el-form-item label="Address Line2:" prop="Address2">
+                <el-input v-model="addNewForm.Address2"></el-input>
+              </el-form-item>
+              <el-form-item label="City:" prop="City">
+                <el-input v-model="addNewForm.City"></el-input>
+              </el-form-item>
+              <el-form-item label="State/Province:" prop="Province">
+                <el-select v-model="addNewForm.Province" placeholder="Province">
+                  <el-option label="shanghai" value="shanghai"></el-option>
+                  <el-option label="beijing" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Zip/Postcode:" prop="Postcode">
+                <el-input v-model="addNewForm.Postcode"></el-input>
+              </el-form-item>
+              <el-form-item label="Mobie No./Phone:" prop="Phone">
+                <el-input v-model="addNewForm.Phone"></el-input>
+              </el-form-item>
+              <div class="payConfirm" style="margin-left: 125px;">
+                <el-checkbox v-model="addNewForm.checked"></el-checkbox>
+                <span style="font-size: 14px;color: #333;">Save to the address book</span>
+              </div>
+              <el-form-item class="addNewForm" style="margin-top: 10px">
+                <el-button class="save" @click="submitForm('addNewForm')">Save</el-button>
+                <el-button class="cancel" @click="resetForm('addNewForm')">Cancel</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
-        <div class="navTitle">Shipping Method</div>
-        <div class="shopBox">
+        <div class="navTitle" v-if="methodShow">Shipping Method</div>
+        <div class="shopBox" v-if="methodShow">
           <div class="shopItem">
             <div class="shopName"><el-radio v-model="radio2" label="1"> Rosie Eva</el-radio></div>
             <div>5-7 workdays</div>
@@ -78,41 +128,17 @@
             <div style="width: 200px">Total</div>
           </div>
           <div class="goodsList">
-            <div class="goodsItem">
+            <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="index">
               <div class="goodName">
-                <div class="goodImg"></div>
+                <div class="goodImg"><img :src="goods.sku_image" alt=""></div>
                 <div class="goodsText">
-                  <div class="nameInfo">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</div>
-                  <div><span style="color: #999;">size: <span style="color: #333;">3.0mm</span></span></div>
-                  <div class="price">$ 1.99 <span>$ 3.33</span></div>
+                  <div class="nameInfo">{{goods.sku_name}}</div>
+                  <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
+                  <div class="price">$ {{goods.sku_price}} <span>$ 3.33</span></div>
                 </div>
               </div>
-              <div style="width: 200px;line-height: 108px;font-size: 14px">1</div>
-              <div class="totalPay">$ 99.99</div>
-            </div>
-            <div class="goodsItem">
-              <div class="goodName">
-                <div class="goodImg"></div>
-                <div class="goodsText">
-                  <div class="nameInfo">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</div>
-                  <div><span style="color: #999;">size: <span style="color: #333;">3.0mm</span></span></div>
-                  <div class="price">$ 1.99 <span>$ 3.33</span></div>
-                </div>
-              </div>
-              <div style="width: 200px;line-height: 108px;font-size: 14px">1</div>
-              <div class="totalPay">$ 99.99</div>
-            </div>
-            <div class="goodsItem">
-              <div class="goodName">
-                <div class="goodImg"></div>
-                <div class="goodsText">
-                  <div class="nameInfo">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</div>
-                  <div><span style="color: #999;">size: <span style="color: #333;">3.0mm</span></span></div>
-                  <div class="price">$ 1.99 <span>$ 3.33</span></div>
-                </div>
-              </div>
-              <div style="width: 200px;line-height: 108px;font-size: 14px">1</div>
-              <div class="totalPay">$ 99.99</div>
+              <div style="width: 200px;line-height: 108px;font-size: 14px">{{goods.goods_count}}</div>
+              <div class="totalPay">$ {{goods.sku_pay.toFixed(2)}}</div>
             </div>
           </div>
         </div>
@@ -123,73 +149,100 @@
             <el-radio v-model="radio3" label="2">Credit/Deibt Card</el-radio>
             <img style="float: right;" src="../../../static/img/pay-02.png" alt="">
           </div>
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-            <el-form-item label="Card Number:" prop="number">
-              <el-input v-model="ruleForm.number"></el-input>
-            </el-form-item>
-            <div class="dataType">
-              <el-form-item label="Expiration Date:" prop="month" class="smallInput">
-                <el-select v-model="ruleForm.month" placeholder="MM">
-                  <el-option label="01" value="01"></el-option>
-                  <el-option label="02" value="02"></el-option>
+          <div v-if="showCreditForm">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+              <el-form-item label="Card Number:" prop="number">
+                <el-input v-model="ruleForm.number"></el-input>
+              </el-form-item>
+              <div class="dataType">
+                <el-form-item label="Expiration Date:" prop="month" class="smallInput">
+                  <el-select v-model="ruleForm.month" placeholder="MM">
+                    <el-option label="01" value="01"></el-option>
+                    <el-option label="02" value="02"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item prop="year" class="smallInput noLabel">
+                  <el-select v-model="ruleForm.year" placeholder="YY">
+                    <el-option label="2019" value="2019"></el-option>
+                    <el-option label="2020" value="2020"></el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
+              <el-form-item label="Secure Code:" prop="secure">
+                <el-input v-model="ruleForm.secure"></el-input>
+              </el-form-item>
+            </el-form>
+            <div><el-checkbox v-model="checked">Billing is the same as shipping address</el-checkbox></div>
+            <el-form v-if="!checked" :model="shipForm" :rules="rules" ref="shipForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
+              <div class="dataType">
+                <el-form-item label="First name:" prop="First" class="shipInput">
+                  <el-input v-model="shipForm.First"></el-input>
+                </el-form-item>
+                <el-form-item label="Last name:" prop="Last" class="shipInput">
+                  <el-input v-model="shipForm.Last"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item label=" Email Address:" prop="email">
+                <el-input v-model="shipForm.email"></el-input>
+              </el-form-item>
+              <el-form-item label="Country:" prop="Country">
+                <el-select v-model="shipForm.Country" placeholder="United Stats">
+                  <el-option label="shanghai" value="shanghai"></el-option>
+                  <el-option label="beijing" value="beijing"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item prop="year" class="smallInput noLabel">
-                <el-select v-model="ruleForm.year" placeholder="YY">
-                  <el-option label="2019" value="2019"></el-option>
-                  <el-option label="2020" value="2020"></el-option>
+              <el-form-item label="Address Line1:" prop="Address1">
+                <el-input v-model="shipForm.Address1"></el-input>
+              </el-form-item>
+              <el-form-item label="Address Line2:" prop="Address2">
+                <el-input v-model="shipForm.Address2"></el-input>
+              </el-form-item>
+              <el-form-item label="City:" prop="City">
+                <el-input v-model="shipForm.City"></el-input>
+              </el-form-item>
+              <el-form-item label="State/Province:" prop="Province">
+                <el-select v-model="shipForm.Province" placeholder="Province">
+                  <el-option label="shanghai" value="shanghai"></el-option>
+                  <el-option label="beijing" value="beijing"></el-option>
                 </el-select>
               </el-form-item>
-            </div>
-            <el-form-item label="Secure Code:" prop="secure">
-              <el-input v-model="ruleForm.secure"></el-input>
-            </el-form-item>
-          </el-form>
-          <div><el-checkbox v-model="checked">Billing is the same as shipping address</el-checkbox></div>
-          <el-form v-if="!checked" :model="shipForm" :rules="rules" ref="shipForm" label-width="120px" class="demo-ruleForm" style="margin-top: 20px;">
-            <div class="dataType">
-              <el-form-item label="First name:" prop="First" class="shipInput">
-                <el-input v-model="shipForm.First"></el-input>
+              <el-form-item label="Zip/Postcode:" prop="Postcode">
+                <el-input v-model="shipForm.Postcode"></el-input>
               </el-form-item>
-              <el-form-item label="Last name:" prop="Last" class="shipInput">
-                <el-input v-model="shipForm.Last"></el-input>
+              <el-form-item label="Mobie No./Phone:" prop="Phone">
+                <el-input v-model="shipForm.Phone"></el-input>
               </el-form-item>
-            </div>
-            <el-form-item label=" Email Address:" prop="email">
-              <el-input v-model="shipForm.email"></el-input>
-            </el-form-item>
-            <el-form-item label="Country:" prop="Country">
-              <el-select v-model="shipForm.Country" placeholder="United Stats">
-                <el-option label="shanghai" value="shanghai"></el-option>
-                <el-option label="beijing" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Address Line1:" prop="Address1">
-              <el-input v-model="shipForm.Address1"></el-input>
-            </el-form-item>
-            <el-form-item label="Address Line2:" prop="Address2">
-              <el-input v-model="shipForm.Address2"></el-input>
-            </el-form-item>
-            <el-form-item label="City:" prop="City">
-              <el-input v-model="shipForm.City"></el-input>
-            </el-form-item>
-            <el-form-item label="State/Province:" prop="Province">
-              <el-select v-model="shipForm.Province" placeholder="Province">
-                <el-option label="shanghai" value="shanghai"></el-option>
-                <el-option label="beijing" value="beijing"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Zip/Postcode:" prop="Postcode">
-              <el-input v-model="shipForm.Postcode"></el-input>
-            </el-form-item>
-            <el-form-item label="Mobie/Phone:" prop="Phone">
-              <el-input v-model="shipForm.Phone"></el-input>
-            </el-form-item>
-          </el-form>
+            </el-form>
+          </div>
         </div>
       </div>
       <div class="payDiv">
-
+        <div class="payItem">
+          <div class="payName">Subtotal:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName">Coupon:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName">Points:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName">Tax:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName">Shipping:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName total">Grand Total:</div>
+          <div class="payValue total">$ 300.66</div>
+        </div>
+        <div style="margin-top: 15px;"><el-button>Confirm to pay</el-button></div>
+        <div class="payConfirm"><el-checkbox v-model="checked"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
       </div>
     </div>
   </div>
@@ -202,6 +255,7 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
+import {orderAdd} from "../../api/register";
 export default {
   components: {
     "header-com": Header,
@@ -210,9 +264,13 @@ export default {
   name: "orderConfirm",
   data () {
     return {
-      radio: '1',
+      radio: '',
       radio2: '1',
       radio3: '1',
+      goodsList: [],
+      methodShow: false,
+      showCreditForm: false,
+      addressFormShow: false,
       ruleForm: {
         number: '',
         month: '',
@@ -231,18 +289,155 @@ export default {
         Postcode: '',
         Phone: ''
       },
+      addNewForm: {
+        First: '',
+        Last: '',
+        email: '',
+        Country: '',
+        Address1: '',
+        Address2: '',
+        City: '',
+        Province: '',
+        Postcode: '',
+        Phone: '',
+        checked: true
+      },
       checked: true,
       rules:{
-        number: [
+        Last: [
           { required: true, message: '请输入活动名称', trigger: 'blur' }
         ],
+        email: [
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+        ],
+        Country: [
+          { required: true, message: '请输入国家名称', trigger: 'blur' }
+        ],
+        Address1: [
+          { required: true, message: '请输入第一地址', trigger: 'blur' }
+        ],
+        City: [
+          { required: true, message: '请输入城市名称', trigger: 'blur' }
+        ],
+        Province: [
+          { required: true, message: '请输入省份名称', trigger: 'blur' }
+        ],
+        Postcode: [
+          { required: true, message: '请输入邮编', trigger: 'blur' }
+        ]
       }
     };
+  },
+  watch: {
+    radio: function (val, oV) {
+      var that = this
+      if (val) {
+        that.methodShow = true
+      } else {
+        that.methodShow = false
+      }
+    },
+    radio3: function (val, Ov) {
+      var that = this
+      console.log('vvvvvv', val)
+      if (val === '2') {
+        that.showCreditForm = true
+      } else if (val === '1') {
+        that.showCreditForm = false
+      }
+    }
+  },
+  created(){
+    this.getGoodsOrder()
+    this.showMethod()
+  },
+  methods: {
+    showMethod: function () {
+      var that = this
+      if (that.radio === ''){
+        that.methodShow = false
+      } else {
+        that.methodShow = true
+      }
+    },
+    async getGoodsOrder(){
+      var that = this
+      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      console.log('gggggg', ids)
+      var idStr = JSON.stringify(ids)
+      let idList = {
+        ids: idStr
+      }
+      console.log('7777777', idList)
+      if (ids.length > 0){
+        let data = await orderAdd(idList)
+        console.log('mmmmm', data)
+        for (var i=0;i<data.length;i++){
+          data[i].sku_pay = data[i].goods_count * data[i].sku_price
+        }
+        that.goodsList = data
+      } else {
+        console.log('订单失效')
+      }
+    },
+    addNewAddress(id) {
+      var that = this
+      if (id) {
+        that.addressFormShow = true
+      } else if (!id) {
+        that.addressFormShow = !that.addressFormShow
+      }
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      console.log(55555)
+      this.$refs[formName].resetFields();
+      this.addressFormShow = false
+    }
   }
 }
 </script>
 
 <style scoped>
+  .payConfirm{
+    color: #999;
+    width: 320px;
+    word-wrap:break-word;
+    margin-top: 10px;
+  }
+  .payValue.total{
+    font-size:18px;
+    font-weight: bold;
+  }
+  .payValue{
+    color: #C51015;
+  }
+  .payItem{
+    height: 26px;
+    display: flex;
+    line-height: 26px;
+    justify-content: space-between;
+  }
+  .payName.total{
+    color: #333;
+    font-size:18px;
+    font-weight: bold;
+  }
+  .payName{
+    color: #666666;
+    width: 130px;
+    text-align: right;
+  }
   .payDiv{
     width: 380px;
     height: 321px;
@@ -254,6 +449,9 @@ export default {
     right: 10%;
     z-index: 99999;
     background-color: #fff;
+    padding: 30px;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 10px #d9d9d9;
   }
   .demo-ruleForm{
     width: 750px;
@@ -323,6 +521,10 @@ export default {
     width: 110px;
     height: 110px;
     border: 1px solid #E9E9E9;
+  }
+  .goodImg img{
+    width: 110px;
+    height: 110px;
   }
   .goodName{
     width: 480px;

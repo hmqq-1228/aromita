@@ -16,6 +16,8 @@ export const resetPassword = params=>post("/api/reset",params);
 export const getcartgoodscount = params=>post("/api/getcartgoodscount",params);
 //获取购物车列表
 export const getGoodsList = params=>get("/api/cart",params);
+// 添加订单
+export const orderAdd = params=>post("/api/orderproductlist",params);
 // 单个删除购物车商品
 // export const deleteGoods = params=>post("get","/api/deltoCart",params);
 // 查询商品sku数量

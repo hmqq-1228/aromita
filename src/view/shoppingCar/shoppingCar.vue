@@ -142,6 +142,7 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import {getGoodsList} from "../../api/register";
+import qs from 'qs'
 export default {
   components: {
     "header-com": Header,
@@ -348,24 +349,11 @@ export default {
         that.totalPayShow = 0.00
       }
     },
-    subTotalPay: function () {
-      var that = this
-      console.log('hhh', that.checkedItem)
-      // var obj = {}
-      // var objList = []
-      // for (var m=0;m<that.checkedItem.length; m++){
-      //   for (var n=0;n<that.goodsListOn.length; n++){
-      //     if (that.goodsListOn[n].sku_id === that.checkedItem[m]){
-      //       console.log('888888', that.goodsListOn[n].goods_count)
-      //       obj = {
-      //         product_id: that.goodsListOn[n].sku_id
-      //       }
-      //       objList.push(obj)
-      //     }
-      //   }
-      // }
-      // var objStr = JSON.stringify(objList)
-      // console.log('hhhh2222', objStr)
+     subTotalPay: function() {
+       var that = this
+       console.log('hhh', that.checkedItem)
+       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
+       that.$router.push('/orderConfirm')
     },
     toGoodDetail: function(spuid, skuid){
       if (spuid && skuid) {

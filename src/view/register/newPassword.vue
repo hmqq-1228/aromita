@@ -99,11 +99,11 @@ export default {
     async resetPasswordSub () {
       var that = this
       var params
-      params = qs.stringify({
+      params = {
         password: that.newForm.newPassword,
         password_confirmation: that.newForm.comfirmPass,
         catpcha: that.newForm.identifyCode
-      })
+      }
       let data = await resetPassword(params)
       console.log('7777777', data)
       if (data.code === 200) {

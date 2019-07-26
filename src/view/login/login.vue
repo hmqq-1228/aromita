@@ -197,11 +197,11 @@ export default {
     async handleLoginSub() {
       var that = this
       var params
-      params = qs.stringify({
+      params = {
         catpchas: that.verifiCode,
         email: this.ruleForm.name,
         password: this.ruleForm.password
-      })
+      }
       let data = await handleLogin(params)
       this.loginData = data;
       let code = this.loginData.code;
@@ -293,7 +293,7 @@ ul li {
 }
 .right {
   width: 460px;
-  height: 494px;
+  height: 545px;
   border: 1px solid gainsboro;
   margin-top: 20px;
   float: right;

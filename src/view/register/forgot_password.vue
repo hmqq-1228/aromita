@@ -88,17 +88,18 @@ export default {
     async findPassword () {
       var parems
       var that = this
-      parems = qs.stringify({
+      parems = {
         email: that.form.inputEmail,
         catpcha: that.form.inputCode
-      })
+      }
+      console.log('77777', parems)
       let data = await forgetPassword(parems)
       if (data.code === 200) {
         that.$router.push('/apply_reset_password')
       } else {
         that.$message.warning(data.msg)
       }
-      // that.$router.push('/apply_reset_password')
+      that.$router.push('/apply_reset_password')
     }
   }
 };

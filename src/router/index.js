@@ -38,6 +38,8 @@ const mySubscription = () =>import('@/view/myAccount/page/mySubscription.vue')
 const addressBook = () =>import('@/view/myAccount/page/addressBook.vue')
 const accountSetting = () =>import('@/view/myAccount/page/accountSetting.vue')
 const orderConfirm = () => import('@/view/order/orderConfirm.vue')
+const paySucceed = () => import('@/view/order/paySucceed.vue')
+const payFailed = () => import('@/view/order/payFailed.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -183,6 +185,16 @@ export default new Router({
       path: '/orderConfirm',
       name: 'orderConfirm',
       component: orderConfirm,
+    },
+    {
+      path: '/paySucceed',
+      name: 'paySucceed',
+      component: paySucceed,
+    },
+    {
+      path: '/payFailed',
+      name: 'payFailed',
+      component: payFailed,
     }
   ]
 })

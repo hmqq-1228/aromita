@@ -28,23 +28,6 @@ html{
 body{
   width: 100%
 }
-/*@media (min-width:800px) and (max-width:1200px){*/
-  /*body{font-size: 12px !important;}*/
-/*} !*>=1024的设备*!*/
-
-/*@media (min-width:1200px) and (max-width:1400px){*/
-  /*body{font-size: 30px !important;}*/
-/*} !*>=1024的设备*!*/
-/*@media (min-width:1400px) and (max-width:1600px){*/
-  /*body{font-size: 14px !important;}*/
-/*}*/
-/*@media (min-width:1600px) and (max-width:1900px) {*/
-  /*body{font-size: 40px !important;}*/
-/*}*/
-
-/*@media (min-width: 1900px) {*/
-  /*body{font-size: 80px !important;}*/
-/*}*/
 .wrapLogin .el-input__inner,.register .el-input__inner{
   width: 400px;
   position: relative;
@@ -97,7 +80,7 @@ body{
   line-height: 16px;
   padding: 0 4px;
 }
-  .orderConfirm .el-radio__input.is-checked+.el-radio__label,.payBox .el-checkbox__input.is-checked+.el-checkbox__label{
+  .orderConfirm .el-radio__input.is-checked+.el-radio__label,.payBox .el-checkbox__input.is-checked+.el-checkbox__label,.payConfirm .el-checkbox__input.is-checked+.el-checkbox__label{
     color: #333;
   }
   .orderConfirm .el-radio__input.is-checked .el-radio__inner,.payBox .el-checkbox__input.is-checked .el-checkbox__inner,.payBox .el-checkbox__input.is-indeterminate .el-checkbox__inner{
@@ -105,6 +88,15 @@ body{
     background: #fff;
     font-family: Tahoma;
   }
+.payConfirm .el-checkbox__input.is-checked .el-checkbox__inner,.payConfirm .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  border-color: #707070;
+  background: #fff;
+  font-family: Tahoma;
+}
+.payConfirm .el-checkbox{
+  color: #999;
+  margin-right: 10px;
+}
   .orderConfirm .el-radio__inner::after{
     width: 6px;
     height: 6px;
@@ -137,7 +129,7 @@ body{
     line-height: 32px;
   }
   .shipInput .el-input__inner{
-    width: 140px;
+    width: 137px;
     height: 32px;
     line-height: 32px;
   }
@@ -153,7 +145,7 @@ body{
   .payBox .el-input.is-active .el-input__inner, .el-input__inner:focus{
     border-color: #E9E9E9;
   }
-.payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover{
+.payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover,.payConfirm .el-checkbox__input.is-focus .el-checkbox__inner,.payConfirm .el-checkbox__inner:hover{
   border-color: #E9E9E9;
 }
   .payBox .el-form-item__content{
@@ -162,7 +154,7 @@ body{
   .payBox .el-form-item__label{
     line-height: 36px;
   }
-  .payBox .el-checkbox__inner::after{
+  .payBox .el-checkbox__inner::after,.payConfirm .el-checkbox__inner::after{
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     content: "";
@@ -179,4 +171,39 @@ body{
     -webkit-transform-origin: center;
     transform-origin: center;
   }
+.orderConfirm .el-button:active{
+  color: #fff;
+  background-color: #C51015;
+  border-color: #C51015;
+}
+ .orderConfirm .el-button{
+   background-color: #C51015;
+   color: #fff;
+   border-color: #C51015;
+   width: 318px;
+   font-size: 16px;
+   font-weight: bold;
+  }
+.orderConfirm .el-button:focus, .orderConfirm .el-button:hover{
+  color: #fff;
+  border-color: #C51015;
+  background-color: #a81015;
+}
+  .payBox .addNewForm .el-button{
+    width: 180px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 8px;
+  }
+  .payBox .addNewForm .save .el-button{
+    background-color: #C51015;
+    color: #fff;
+    border-color: #C51015;
+  }
+.payBox .addNewForm .el-button.cancel.el-button--default{
+  background-color: #fff;
+  color: #666;
+  border-color: #666;
+  margin-left: 20px;
+}
 </style>

@@ -17,7 +17,6 @@ export const homeIcon = params=>get("/api/homelayout/40",params);
 export const homeFootTitle = params=>get("/api/homelayout/50",params);
 export const homeFoote = params=>get("/api/footertools",params);
 export const getGoodsList = params=>get("/api/product",params);
-export const getGoodsDetail = params=>get("/api/product",params);
 
 
 //自定义            // 请求方式   //接口的路径名字        一个大的页面是一个api  js文件
