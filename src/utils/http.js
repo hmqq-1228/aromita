@@ -84,6 +84,13 @@ export const get = (url, params, config = {}) => {
     })
 }
 
+export const deletes = (url, params, config = {}) => {
+    return axios({
+        method: 'delete',
+        url: url,
+        params: params
+    })
+}
 export const baseURL = axios.defaults.baseURL;
 // var http = axios.create({
 //     // baseURL:"http://arapi.panduo.com.cn/",
