@@ -171,12 +171,12 @@ export default {
     async registerFormSub () {
       var that = this
       var params
-      params = qs.stringify({
+      params = {
         catpcha: that.ruleForm2.Verification,
         email: that.ruleForm2.email,
         password: that.ruleForm2.password,
         password_confirmation: that.ruleForm2.checkpass
-      })
+      }
       let data = await handleRegist(params)
       console.log('22222222', data)
       if (data.code === 200) {
