@@ -213,3 +213,6 @@ ul,li {
     border-color: #666;
     margin-left: 20px;
 }
+.payConfirm.error .el-checkbox__inner{
+  border: 1px solid #F56C6C !important;
+}

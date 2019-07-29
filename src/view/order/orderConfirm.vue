@@ -1,5 +1,31 @@
 <template>
 <div class="orderConfirm">
+  <div class="model" v-if="modelShow">
+    <div class="modelCont">
+      <div class="modelClose" @click="closeModel"><i class="el-icon-close"></i></div>
+      <div class="modelTitle">Credit/Debit Card Payment</div>
+      <div class="modelItem">
+        <div class="modelName">Card Number:</div>
+        <div class="modelText">5234 0012 5421 8545</div>
+      </div>
+      <div class="modelItem">
+        <div class="modelName">Expiry date:</div>
+        <div class="modelText">19/07</div>
+      </div>
+      <div class="modelItem">
+        <div class="modelName">Security Code:</div>
+        <div class="modelText">8888</div>
+      </div>
+      <div class="payBtn">Pay</div>
+    </div>
+  </div>
+  <div class="model" v-if="infoShow">
+    <div class="modelCont alert">
+      <div class="modelClose" @click="closeInfoModel"><i class="el-icon-close"></i></div>
+      <div class="modelTitle tip">Please select/add a shipping address.</div>
+      <div class="payBtn info" @click="closeInfoModel">OK</div>
+    </div>
+  </div>
   <div class="header">
     <header-com></header-com>
   </div>
@@ -13,7 +39,7 @@
           </div>
           <div class="stateItem">
             <div class="jianTouLt"></div>
-            <div class="stateText">Payment</div>
+            <div class="stateText" @click="test2()">Payment</div>
             <div class="jianTou"></div>
           </div>
           <div class="stateItem">
@@ -21,9 +47,9 @@
             <div class="stateText end">Succeed</div>
           </div>
         </div>
-        <div class="navTitle">Shipping Address</div>
+        <div class="navTitle" @click="test()">Shipping Address</div>
         <div class="address">
-          <div class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
+          <div v-if="addressList && addressList.length>0" class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
             <div class="itemName"><el-radio v-model="radio" :label="address.id"><i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}</el-radio></div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
@@ -33,10 +59,10 @@
             <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
             <div class="itemOption">
               <div @click="addNewAddress(address.id)">Edit</div>
-              <div>Remove</div>
+              <div @click="deleteAddress(address.id)">Remove</div>
             </div>
           </div>
-          <div class="showMore"><i class="el-icon-d-arrow-left"></i></div>
+          <div v-if="addressNum && addressNum>1" class="showMore" @click="showMore(defultIcon)"><i :class="defultIcon"></i></div>
           <div class="addNew" @click="addNewAddress()"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
           <div class="payBox" v-if="addressFormShow">
             <el-form :model="addNewForm" :rules="rules" ref="addNewForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
@@ -92,17 +118,17 @@
         <div class="navTitle" v-if="methodShow">Shipping Method</div>
         <div class="shopBox" v-if="methodShow">
           <div class="shopItem">
-            <div class="shopName"><el-radio v-model="radio2" label="1"> Rosie Eva</el-radio></div>
+            <div class="shopName"><el-radio v-model="radio2" label="1-3.67" @change="shipChecked($event)"> Rosie Eva</el-radio></div>
             <div>5-7 workdays</div>
             <div>$ 3.67</div>
           </div>
           <div class="shopItem">
-            <div class="shopName"><el-radio v-model="radio2" label="2"> Rosie Eva</el-radio></div>
+            <div class="shopName"><el-radio v-model="radio2" label="2-5.67" @change="shipChecked($event)"> Rosie Eva</el-radio></div>
             <div>5-7 workdays</div>
             <div>$ 5.67</div>
           </div>
           <div class="shopItem">
-            <div class="shopName"><el-radio v-model="radio2" label="3"> Rosie Eva</el-radio></div>
+            <div class="shopName"><el-radio v-model="radio2" label="3-6.67" @change="shipChecked($event)"> Rosie Eva</el-radio></div>
             <div>5-7 workdays</div>
             <div>$ 6.67</div>
           </div>
@@ -137,7 +163,7 @@
             <img style="float: right;" src="../../../static/img/pay-02.png" alt="">
           </div>
           <div v-if="showCreditForm">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form :model="ruleForm" :rules="rules2" ref="ruleForm" label-width="130px" class="demo-ruleForm">
               <el-form-item label="Card Number:" prop="number">
                 <el-input v-model="ruleForm.number"></el-input>
               </el-form-item>
@@ -160,7 +186,7 @@
               </el-form-item>
             </el-form>
             <div><el-checkbox v-model="checked">Billing is the same as shipping address</el-checkbox></div>
-            <el-form v-if="!checked" :model="shipForm" :rules="rules" ref="shipForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
+            <el-form v-if="!checked" :model="shipForm" :rules="rules3" ref="shipForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
               <div class="dataType">
                 <el-form-item label="First name:" prop="First" class="shipInput">
                   <el-input v-model="shipForm.First"></el-input>
@@ -206,30 +232,30 @@
       <div class="payDiv">
         <div class="payItem">
           <div class="payName">Subtotal:</div>
-          <div class="payValue">$ 30.66</div>
+          <div class="payValue">$ {{totalPay.toFixed(2)}}</div>
         </div>
-        <div class="payItem">
-          <div class="payName">Coupon:</div>
-          <div class="payValue">$ 30.66</div>
-        </div>
-        <div class="payItem">
-          <div class="payName">Points:</div>
-          <div class="payValue">$ 30.66</div>
-        </div>
-        <div class="payItem">
-          <div class="payName">Tax:</div>
-          <div class="payValue">$ 30.66</div>
-        </div>
+        <!--<div class="payItem">-->
+          <!--<div class="payName">Coupon:</div>-->
+          <!--<div class="payValue">$ 30.66</div>-->
+        <!--</div>-->
+        <!--<div class="payItem">-->
+          <!--<div class="payName">Points:</div>-->
+          <!--<div class="payValue">$ 30.66</div>-->
+        <!--</div>-->
+        <!--<div class="payItem">-->
+          <!--<div class="payName">Tax:</div>-->
+          <!--<div class="payValue">$ 30.66</div>-->
+        <!--</div>-->
         <div class="payItem">
           <div class="payName">Shipping:</div>
-          <div class="payValue">$ 30.66</div>
+          <div class="payValue">$ {{shipFee}}</div>
         </div>
         <div class="payItem">
           <div class="payName total">Grand Total:</div>
-          <div class="payValue total">$ 300.66</div>
+          <div class="payValue total">$ {{parseFloat(totalPay.toFixed(2)) + parseFloat(shipFee)}}</div>
         </div>
-        <div style="margin-top: 15px;"><el-button>Confirm to pay</el-button></div>
-        <div class="payConfirm"><el-checkbox v-model="checked"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
+        <div style="margin-top: 15px;"><el-button @click="paySub('ruleForm', 'shipForm')">Confirm to pay</el-button></div>
+        <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
       </div>
     </div>
   </div>
@@ -242,7 +268,7 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
-import {orderAdd, orderAddress, editAddress} from "../../api/register";
+import {orderAdd, orderAddress, editAddress, deleteAddress} from "../../api/register";
 import qs from 'qs'
 export default {
   components: {
@@ -254,13 +280,19 @@ export default {
     return {
       editId: '',
       radio: '',
-      radio2: '1',
+      radio2: '',
       radio3: '1',
+      shipFee: 0,
+      totalPay: 0,
+      addressNum: 0,
       goodsList: [],
       addressList: [],
+      infoShow: false,
+      modelShow: false,
       methodShow: false,
       showCreditForm: false,
       addressFormShow: false,
+      defultIcon: 'el-icon-d-arrow-right',
       ruleForm: {
         number: '',
         month: '',
@@ -293,40 +325,84 @@ export default {
         checked: true
       },
       checked: true,
-      rules:{
+      checkedSub: false,
+      rules: {
         Last: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
+          {required: true, message: '请输入活动名称', trigger: 'blur'}
         ],
         email: [
-          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+          {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+          {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
         ],
         Country: [
-          { required: true, message: '请输入国家名称', trigger: 'blur' }
+          {required: true, message: '请输入国家名称', trigger: 'blur'}
         ],
         Address1: [
-          { required: true, message: '请输入第一地址', trigger: 'blur' }
+          {required: true, message: '请输入第一地址', trigger: 'blur'}
         ],
         City: [
-          { required: true, message: '请输入城市名称', trigger: 'blur' }
+          {required: true, message: '请输入城市名称', trigger: 'blur'}
         ],
         Province: [
-          { required: true, message: '请输入省份名称', trigger: 'blur' }
+          {required: true, message: '请输入省份名称', trigger: 'blur'}
         ],
         Postcode: [
-          { required: true, message: '请输入邮编', trigger: 'blur' }
+          {required: true, message: '请输入邮编', trigger: 'blur'}
+        ]
+      },
+      rules2: {
+        number: [
+          {required: true, message: '请输入卡号', trigger: 'blur'}
+        ],
+        month: [
+          {required: true, message: '请输入有效月份', trigger: 'blur'}
+        ],
+        year: [
+          {required: true, message: '请输入有效年份', trigger: 'blur'}
+        ],
+        secure: [
+          {required: true, message: '请输入安全码', trigger: 'blur'}
+        ]
+      },
+      rules3: {
+        Last: [
+          {required: true, message: '请输入活动名称', trigger: 'blur'}
+        ],
+        email: [
+          {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+          {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
+        ],
+        Country: [
+          {required: true, message: '请输入国家名称', trigger: 'blur'}
+        ],
+        Address1: [
+          {required: true, message: '请输入第一地址', trigger: 'blur'}
+        ],
+        City: [
+          {required: true, message: '请输入城市名称', trigger: 'blur'}
+        ],
+        Province: [
+          {required: true, message: '请输入省份名称', trigger: 'blur'}
+        ],
+        Postcode: [
+          {required: true, message: '请输入邮编', trigger: 'blur'}
         ]
       }
-    };
+    }
   },
   watch: {
     radio: function (val, oV) {
       var that = this
       if (val) {
-        console.log(val)
+        console.log('gggg', val)
         that.methodShow = true
       } else {
         that.methodShow = false
+      }
+    },
+    addressFormShow: function (val, ov) {
+      if(val === false) {
+        this.clearForm()
       }
     },
     radio3: function (val, Ov) {
@@ -337,39 +413,123 @@ export default {
       } else if (val === '1') {
         that.showCreditForm = false
       }
-    }
+    },
+    // modelShow: function(val, ov){
+    //   if (val) {
+    //     document.documentElement.style.overflowY = 'hidden';
+    //   } else {
+    //     document.documentElement.style.overflowY = 'scroll';
+    //   }
+    // }
   },
   created(){
     this.getGoodsOrder()
-    this.showMethod()
     this.getOrderAddress()
   },
   methods: {
-    async getOrderAddress () {
+    test: function () {
+      this.modelShow = true
+    },
+    test2: function () {
+      this.infoShow = true
+    },
+    closeInfoModel: function(){
+      this.infoShow = false
+    },
+    closeModel: function(){
+      this.modelShow = false
+    },
+    showMore: function (type) {
+      var that = this
+      if (type === 'el-icon-d-arrow-right') {
+        that.defultIcon = 'el-icon-d-arrow-left'
+        that.getOrderAddress('more', that.radio)
+      } else if (type === 'el-icon-d-arrow-left') {
+        that.defultIcon = 'el-icon-d-arrow-right'
+        that.getOrderAddress('less', that.radio)
+      }
+    },
+    clearForm: function () {
+      this.addNewForm.First = ''
+      this.addNewForm.Last = ''
+      this.addNewForm.email = ''
+      this.addNewForm.Country = ''
+      this.addNewForm.Address1 = ''
+      this.addNewForm.Address2 = ''
+      this.addNewForm.City = ''
+      this.addNewForm.Province = ''
+      this.addNewForm.Postcode = ''
+      this.addNewForm.Phone = ''
+    },
+    async getOrderAddress (type, id) {
       var that = this
       let data = await orderAddress()
       if (data.code === '200') {
-        that.addressList = data.data
+        that.addressNum = data.data.length
+        if (!type && !id) {
+          for (var i=0; i<data.data.length; i++) {
+            if (data.data[i].is_default === 1) {
+              let defultList = []
+              that.radio = data.data[i].id
+              that.showMethod()
+              defultList.push(data.data[i])
+              that.addressList = defultList
+            } else {
+              let noList = []
+              noList.push(data.data[0])
+              that.addressList = noList
+            }
+          }
+        } else if (type === 'more'){
+          if (!id) {
+            that.addressList = data.data
+          } else if (id) {
+            console.log('moire', that.addressList)
+            let checkList = []
+            for (var j=0; j<data.data.length; j++) {
+              if (data.data[j].id === id) {
+                checkList.unshift(data.data[j])
+              } else {
+                checkList.push(data.data[j])
+              }
+            }
+            that.addressList = checkList
+          }
+        } else if (type === 'less') {
+          if (!id) {
+            var list = []
+            list.push(data.data[0])
+            that.addressList = list
+          } else if (id) {
+            console.log('ppppppp')
+            for (var j=0; j<data.data.length; j++) {
+              if (data.data[j].id === id) {
+                let checkList = []
+                checkList.push(data.data[j])
+                that.addressList = checkList
+              }
+            }
+          }
+        }
+        console.log('555555', that.addressList)
       }
     },
+    // 删除
+   deleteAddress: function (id) {
+     var that = this
+     that.$axios.delete(this.$store.state.localUrl + 'api/address/' + id, {}).then(res => {
+       console.log('ididididid', res)
+       if (res.code === '200') {
+         that.getOrderAddress()
+       }
+     })
+   },
+    // add
     addNewAddress: function (id) {
       var that = this
       if (id) {
         that.editId = id
         that.addressFormShow = true
-        // addNewForm: {
-        //   First: '',
-        //     Last: '',
-        //     email: '',
-        //     Country: '',
-        //     Address1: '',
-        //     Address2: '',
-        //     City: '',
-        //     Province: '',
-        //     Postcode: '',
-        //     Phone: '',
-        //     checked: true
-        // },
         that.$axios.get(this.$store.state.localUrl + 'api/address/' + id, {}).then(res => {
           if (res.code === '200') {
             console.log('yyyyyyyyy', res)
@@ -391,7 +551,8 @@ export default {
           }
         })
       } else if (!id) {
-        that.addressFormShow = !that.addressFormShow
+        that.addressFormShow = true
+        that.clearForm()
       }
     },
     showMethod: function () {
@@ -400,28 +561,47 @@ export default {
         that.methodShow = false
       } else {
         that.methodShow = true
+        that.radio2 = '1-3.67'
+        that.shipFee = that.radio2.split('-')[1]
+        console.log('111111111', that.shipFee)
       }
     },
+    shipChecked: function (e) {
+      console.log('eeeeeeee', e)
+      this.radio2 = e
+      this.shipFee = this.radio2.split('-')[1]
+    },
+    // 获取订单
     async getGoodsOrder(){
       var that = this
+      var payItem = []
       var ids = JSON.parse(sessionStorage.getItem('idList'))
-      console.log('gggggg', ids)
       var idStr = JSON.stringify(ids)
       let idList = {
         ids: idStr
       }
       console.log('7777777', idList)
-      if (ids.length > 0){
+      if (ids && ids.length > 0){
         let data = await orderAdd(idList)
-        console.log('mmmmm', data)
         for (var i=0;i<data.length;i++){
           data[i].sku_pay = data[i].goods_count * data[i].sku_price
         }
         that.goodsList = data
+        for (var v=0; v<that.goodsList.length; v++){
+          payItem.push(that.goodsList[v].sku_pay)
+        }
+        console.log('vvvvvv', payItem)
+        var sumPay = 0
+        for (var n=0;n<payItem.length;n++){
+          sumPay += payItem[n]
+        }
+        that.totalPay = sumPay
+        console.log('sssssss', that.totalPay.toFixed(2))
       } else {
         console.log('订单失效')
       }
     },
+    // 修改
     submitForm(formName) {
       var that = this
       console.log('fffff', that.addNewForm.checked)
@@ -443,9 +623,14 @@ export default {
           console.log('editObj', editObj)
           that.$axios.post(this.$store.state.localUrl + 'api/address/' + that.editId, editObj).then(res => {
             console.log('sssssss', res)
-            if (res.code === '200'){
-              that.$message.success('Successful address modification!')
+            if (res.code === 200 || res.code === '200'){
               that.getOrderAddress()
+              if (that.editId) {
+                that.$message.success('Successful address modification!')
+              } else {
+                that.$message.success('Added Successfully!')
+              }
+              that.addressFormShow = false
             }
           })
         } else {
@@ -458,12 +643,143 @@ export default {
       console.log(55555)
       this.$refs[formName].resetFields();
       this.addressFormShow = false
+    },
+    paySub: function (formName, formName1) {
+      var that = this
+      if (that.radio) {
+        if (that.checkedSub) {
+          $('.payConfirm').removeClass('error')
+          if (formName) {
+            if (that.radio3 === '1') {
+              console.log('你选择了第一种支付方式')
+            }else if (that.radio3 === '2') {
+              if (that.checked) {
+                that.$refs[formName].validate((valid) => {
+                  if (valid) {
+                    console.log('tttttt')
+                  }
+                })
+              } else {
+                console.log('666666666')
+                that.$refs[formName].validate((valid) => {
+                  that.$refs[formName1].validate((valid1) => {
+                    if (valid && valid1) {
+                      console.log('tttttt')
+                    }
+                  })
+                })
+              }
+            }
+          }
+        } else {
+          $('.payConfirm').addClass('error')
+        }
+      } else {
+        that.infoShow = true
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+  .model{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+  }
+  .modelCont{
+    width: 380px;
+    height: 280px;
+    padding: 50px 30px;
+    text-align: center;
+    font-family: Tahoma;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 1px 1px 6px #666;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    box-sizing: border-box;
+  }
+  .modelCont.alert{
+    height: 210px;
+  }
+  .modelClose{
+    width: 22px;
+    height: 22px;
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    right: 4px;
+    top: 5px;
+    color: #0A0A0A;
+    cursor: pointer;
+  }
+  .modelClose:hover{
+    color: #333;
+  }
+  .modelTitle{
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 16px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .modelTitle.tip{
+    height: 60px;
+    text-align: left;
+    margin-bottom: 0;
+  }
+  .modelItem{
+    height: 30px;
+    line-height: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .modelName{
+    font-size: 14px;
+    color: #999999;
+    width: 140px;
+    text-align: right;
+  }
+  .modelText{
+    font-size: 14px;
+    color: #121037;
+    width: 150px;
+    text-align: left;
+    margin-left: 20px;
+  }
+  .payBtn{
+    color: #fff;
+    font-size:18px;
+    font-family:Tahoma;
+    width: 100px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius:4px;
+    background-color: #C51015;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  .payBtn.info{
+    margin-top: 4px;
+  }
+  .payBtn:hover{
+    background-color: #B20605;
+  }
+  .payConfirm.error span{
+    color: #F56C6C;
+  }
   .payConfirm{
     color: #999;
     width: 320px;
@@ -495,14 +811,14 @@ export default {
   }
   .payDiv{
     width: 380px;
-    height: 321px;
+    /*height: 321px;*/
     border: 1px solid #E9E9E9;
     font-size:14px;
     font-family:Tahoma;
     position: fixed;
     top: 192px;
     right: 10%;
-    z-index: 99999;
+    z-index: 99;
     background-color: #fff;
     padding: 30px;
     box-sizing: border-box;
