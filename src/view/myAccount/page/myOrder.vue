@@ -10,29 +10,29 @@
                 <div class="my_order">
                     <h3 class="my_title">My Orders</h3>
                     <div class="order_list">
-                        <div class="list active">
+                        <div class="list" :class="{'active':order_status==''}" @click="changeOrderStatus('')">
                             <img src="@/assets/images/All-Orders.png" alt="">
-                            <p>All Orders(3)</p>
+                            <p>All Orders</p>
                         </div>
-                        <div class="list">
+                        <div class="list" :class="{'active':order_status=='10'}" @click="changeOrderStatus('10')">
                             <img src="@/assets/images/Processing.png" alt="">
-                            <p>Processing(1)</p>
+                            <p>Processing</p>
                         </div>
-                        <div class="list">
+                        <div class="list" :class="{'active':order_status=='30'}" @click="changeOrderStatus('30')">
                             <img src="@/assets/images/Shipped.png" alt="">
-                            <p>Shipped(2)</p>
+                            <p>Shipped</p>
                         </div>
-                        <div class="list">
+                        <div class="list" :class="{'active':order_status=='40'}" @click="changeOrderStatus('40')">
                             <img src="@/assets/images/Delivered.png" alt="">
-                            <p>Delivered(0)</p>
+                            <p>Cancelled</p>
                         </div>
-                        <div class="list">
+                        <!-- <div class="list">
                             <img src="@/assets/images/Refund.png" alt="">
                             <p>Refund(0)</p>
-                        </div>
+                        </div> -->
                     </div>
                     <el-table
-                        :data="tableData"
+                        :data="orderList"
                         style="width: 100%;border:1px solid #E9E9E9"
                         size="medium"
                         :header-cell-style="{
@@ -40,37 +40,42 @@
                             'color': '#333'
                         }">
                         <el-table-column
-                            prop="date"
+                            prop="orders_number"
                             label="Order No.">
                         </el-table-column>
                         <el-table-column
-                            prop="name"
-                            label="Ship to"
+                            prop="created_at"
+                            label="Order time"
                             width="280">
                         </el-table-column>
                         <el-table-column
-                            prop="address"
+                            prop="order_total"
                             label="Amount">
+                            <template slot-scope="scope">
+                                <span style="color:#c51015">${{scope.row.order_total}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column
-                            prop="address"
+                            prop="orders_status"
                             label="Status">
+                            <template slot-scope="scope">
+                                <span>{{order_statusList[scope.row.orders_status]}}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column label="Action" width="280">
                             <template slot-scope="scope">
-                                <span class="list_btn" @click="detail()">View</span>
-                                <span class="list_btn">Cancel</span>
-                                <span class="list_btn">Tracking</span>
-                                <span class="list_btn" @click="_refund()">After-sales</span>
-                                <span class="list_btn">退款详情</span>
+                                <span class="list_btn" @click="detail(scope.row.id)">View</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 10">Cancel</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 30">Tracking</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 30" @click="_refund()">After-sales</span>
                             </template>    
                         </el-table-column>
                     </el-table>
-                    <div class="page_list">
+                    <div class="page_list" v-if="total!=0">
                         <el-pagination
                             background
                             layout="prev, pager, next"
-                            :total="1000">
+                            :total="total">
                         </el-pagination>
                     </div>
                 </div>
@@ -86,6 +91,7 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
+import {myOrder} from "@/api/account.js"; 
 export default {
     components: {
         "header-com": Header,
@@ -94,31 +100,39 @@ export default {
     },
     data(){
         return{
-            tableData: [{
-                date: '2016-05-02',
-                name: 'Ship to:bcjkdbsfhniodheiof, cnjdskagvcvn...',
-                address: '$ 64.00'
-            }, {
-                date: '2016-05-04',
-                name: 'Ship to:bcjkdbsfhniodheiof, cnjdskagvcvn...',
-                address: '$ 64.00'
-            }, {
-                date: '2016-05-01',
-                name: 'Ship to:bcjkdbsfhniodheiof, cnjdskagvcvn...',
-                address: '$ 64.00'
-            }, {
-                date: '2016-05-03',
-                name: 'Ship to:bcjkdbsfhniodheiof, cnjdskagvcvn...',
-                address: '$ 64.00'
-            }]
+            total:0,//总条目
+            order_status:'',//订单状态
+            orderList:[],//订单列表
+            order_statusList:{
+                '10':"Processing",
+                '20':"Processing（Waiting）",
+                '30':"Shipped",
+                '40':"Cancelled"
+            }
+                
         }
     },
+    created(){
+        this.myOrderList()
+    },
     methods:{
-        detail(){
+        //订单列表
+        myOrderList(){
+            myOrder({status:this.order_status}).then((res)=>{
+                this.orderList = res.data
+                this.total = res.total
+            })
+        },
+        //切换订单状态
+        changeOrderStatus(num){
+            this.order_status = num
+            this.myOrderList()
+        },
+        detail(id){
             this.$router.push({
                 path: '/orderDetail',
                 query: {
-                    // s_cate_id: id
+                    orderId:id
                 }
             })
         },

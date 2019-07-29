@@ -7,7 +7,15 @@ axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 
 // request全局拦截
 axios.interceptors.request.use(config => {
-    return config
+    let token = window.localStorage.getItem("userToken")
+    if (token) {
+        config.headers.Authorization = `bearer ${token}`;    //将token放到请求头发送给服务器
+        return config;
+        //这里经常搭配token使用，将token值配置到tokenkey中，将tokenkey放在请求头中
+        // config.headers['accessToken'] = Token;
+    }else{
+        return config
+    }
 }, error => {
     return Promise.reject(error)
 });

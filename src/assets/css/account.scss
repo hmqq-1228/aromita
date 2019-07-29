@@ -258,6 +258,8 @@
             }
             .num_right{
                 p{
+                    min-width: 200px;
+                    float: left;
                     height: 32px;
                     line-height: 32px;
                     font-size: 14px;
@@ -285,7 +287,7 @@
                         p{
                             color: #131313;
                             font-size: 14px;
-                            line-height: 32px;
+                            line-height:26px;
                         }
                     }
                 }

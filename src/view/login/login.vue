@@ -213,6 +213,7 @@ export default {
         that.mergeGoodsFuc()
         that.$router.push('/')
         localStorage.setItem('userName', that.ruleForm.name)
+        localStorage.setItem('userToken', this.loginData.data.token)
       } else {
         that.$message.error(data.msg)
         that.num = data.data
