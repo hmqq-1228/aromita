@@ -349,7 +349,7 @@ export default {
         that.totalPayShow = 0.00
       }
     },
-     subTotalPay: function() {
+    subTotalPay: function() {
        var that = this
        console.log('hhh', that.checkedItem)
        sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))

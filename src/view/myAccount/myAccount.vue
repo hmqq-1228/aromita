@@ -11,7 +11,8 @@
             <div class="home_top">
               <img src="@/assets/images/user.jpg" alt="" class="user">
               <div class="user_detail">
-                <h4>Hello Rosie</h4>
+                <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
+                <h4 v-else>{{userDetail.firstname}} {{userDetail.lastname}}</h4>
                 <p><img src="@/assets/images/Settings.png" alt="">Address Book</p>
                 <p><img src="@/assets/images/Address.png" alt="">Account Setting</p>
               </div>
@@ -72,6 +73,7 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "./element/leftNav"
+import {myAccount} from "@/api/account.js"; 
 export default {
   components: {
     "header-com": Header,
@@ -80,17 +82,20 @@ export default {
   },
   data(){
     return{
-      pathName:''
+      userDetail:{}
     }
   },
   watch:{
-    $route(to,from){
-      var pathName = to.name
-      this.pathName = pathName
-    }
   },
   created(){
-    console.log(this.pathName)
+    this._myAccount()
+  },
+  methods:{
+    _myAccount(){
+      myAccount().then((res)=>{
+        this.userDetail = res
+      })
+    }
   }
 }
 </script>

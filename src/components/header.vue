@@ -210,7 +210,6 @@
       async getCategory(){
         let data = await category()
         if (data.code === '200') {
-          console.log('888889999', data.data)
           this.nav_arr = data.data
         }
       },

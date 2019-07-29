@@ -15,30 +15,45 @@
                                 <li :class="{active:activeName=='two'}" @click="change('two')">Password Setting</li>
                             </ul>
                             <div class="Profile_form">
-                                <el-form label-position="right" label-width="120px" :model="formLabelAlign" v-if="activeName=='one'">
-                                    <el-form-item label="Gender：">
-                                        <el-radio v-model="radio" label="1">Male</el-radio>
-                                        <el-radio v-model="radio" label="2">Female</el-radio>
-                                    </el-form-item>
-                                    <el-form-item label="First Name：">
-                                        <el-input v-model="formLabelAlign.region"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Last Name：">
-                                        <el-input v-model="formLabelAlign.type"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Telephone：">
-                                        <el-input v-model="formLabelAlign.type"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                                <el-form label-position="right" label-width="180px" :model="formLabelAlign" v-if="activeName=='two'">
-                                    <el-form-item label="New Password：" required>
-                                        <el-input v-model="formLabelAlign.region"></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Re-enter password：" required>
-                                        <el-input v-model="formLabelAlign.type"></el-input>
-                                    </el-form-item>
-                                </el-form>
-                                <div class="com-sub-btn">Save</div>
+                                <div v-if="activeName=='one'">
+                                    <el-form label-position="right" label-width="120px" :model="settingFrom">
+                                        <el-form-item label="Gender：">
+                                            <el-radio v-model="settingFrom.gender" label="1">Male</el-radio>
+                                            <el-radio v-model="settingFrom.gender" label="0">Female</el-radio>
+                                        </el-form-item>
+                                        <el-form-item label="First Name：">
+                                            <el-input v-model="settingFrom.firstname"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="Last Name：">
+                                            <el-input v-model="settingFrom.lastname"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="Birthday:">
+                                            <el-date-picker
+                                                v-model="settingFrom.dob"
+                                                value-format="yyyy-MM-dd"
+                                                type="date">
+                                            </el-date-picker>
+                                        </el-form-item>
+                                        <el-form-item label="Telephone：">
+                                            <el-input v-model="settingFrom.phone"></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="com-sub-btn" @click="setSub()">Save</div>
+                                </div>
+                                <div v-if="activeName=='two'">
+                                    <el-form label-position="right" label-width="180px" :rules="rules2" :model="passwordForm">
+                                        <el-form-item label="Old Password：" prop="pass" required>
+                                            <el-input type="password" v-model="passwordForm.oldpassword"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="New Password：" prop="pass" required>
+                                            <el-input type="password" v-model="passwordForm.newpassword"></el-input>
+                                        </el-form-item>
+                                        <el-form-item label="Re-enter password：" prop="checkPass" required>
+                                            <el-input type="password" v-model="passwordForm.newpassword_confirmation"></el-input>
+                                        </el-form-item>
+                                    </el-form>
+                                    <div class="com-sub-btn" @click="editPassword()">Save</div>
+                                </div>                               
                             </div>
                         </div>
                     </div>
@@ -54,6 +69,7 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
+import {accountPerson,accountPass} from "@/api/account.js"
 export default {
     components: {
         "header-com": Header,
@@ -61,19 +77,90 @@ export default {
         "Left-Nav":Left
     },
     data(){
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入密码'));
+            }
+        };
+        var validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请再次输入密码'));
+            } else if (value !== this.passwordForm.newpassword) {
+                callback(new Error('两次输入密码不一致!'));
+            } else {
+                callback();
+            }
+        };
         return{
             activeName:'one',
-            formLabelAlign: {
-                name: '',
-                region: '',
-                type: ''
+            settingFrom: {
+                gender:'1',
+                firstname: '',
+                lastname: '',
+                phone:'',
+                dob:''
             },
-            radio:'1'
+            passwordForm:{
+                oldpassword:'',
+                newpassword:'',
+                newpassword_confirmation:''
+            },
+            rules2: {
+                pass: [
+                    { validator: validatePass, trigger: 'blur' }
+                ],
+                checkPass: [
+                    { validator: validatePass2, trigger: 'blur' }
+                ]
+            }
         }
     },
     methods:{
         change(str){
             this.activeName = str
+        },
+        //设置个人信息
+        setSub(){
+            accountPerson(this.settingFrom).then((res)=>{
+                if(res.code == '200'){
+                    this.$message({
+                        message: 'Successful setup',
+                        type: 'success'
+                    });
+                    this.settingFrom = {}
+                    this.settingFrom.gender = '1'
+                }
+            })
+        },
+        editPassword(){
+            if(this.passwordForm.newpassword_confirmation !== this.passwordForm.newpassword){
+                this.$message({
+                    message: '密码不一致',
+                    type: 'error'
+                });
+                return false
+            }
+            if(!this.passwordForm.newpassword_confirmation || !this.passwordForm.newpassword || !this.passwordForm.oldpassword){
+                this.$message({
+                    message: '请将修改密码填写完整',
+                    type: 'error'
+                });
+                return false
+            }
+            accountPass(this.passwordForm).then((res)=>{
+                if(res.code == '200'){
+                    this.$message({
+                        message: 'Successful setup',
+                        type: 'success'
+                    });
+                    this.passwordForm = {}
+                }else{
+                    this.$message({
+                        message: res.msg,
+                        type: 'error'
+                    });
+                }
+            })
         }
     }
 }
