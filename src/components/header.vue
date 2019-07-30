@@ -25,7 +25,7 @@
                 <div class="login_left" @click="HandleLogin" v-if="login_status == false">
                   <img src="@/assets/login.png" alt>
                 </div>
-                <el-dropdown>
+                <el-dropdown v-if="login_status == true">
                   <div class="login_right" :title="userName">
                     <router-link to="myAccount">{{userName}}</router-link>
                   </div>
@@ -34,7 +34,7 @@
                       <el-dropdown-item><router-link to="myOrder">My Orders</router-link></el-dropdown-item>
                       <el-dropdown-item><router-link to="myCoupon">My Coupons</router-link></el-dropdown-item>
                       <el-dropdown-item><router-link to="myPoints">My Points</router-link></el-dropdown-item>
-                      <el-dropdown-item>Logout</el-dropdown-item>
+                      <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
                     </el-dropdown-menu>
                   </div>
                 </el-dropdown>
@@ -113,7 +113,7 @@
   </div>
 </template>
 <script>
-  import {getcartgoodscount, category,getGoodsList} from "../api/register";
+  import {getcartgoodscount, category,getGoodsList,userLogout} from "../api/register";
   export default {
     data() {
       return {
@@ -147,6 +147,7 @@
       },
     },
     created() {
+      this.login_status = localStorage.getItem("userToken")?true:false
       this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
       this.column = this.column > this.maxRow ? this.maxRow : this.column;
       this.getGoodsCont()
@@ -164,6 +165,17 @@
       }
     },
     methods: {
+      // 退出登录
+      logout(){
+        console.log(1)
+        userLogout().then((res)=>{
+          if(res.code == '200'){
+            localStorage.removeItem("userToken")
+            localStorage.removeItem("userName")
+            this.$router.go(0)
+          }
+        })
+      },
       goShopping: function () {
         this.$router.push('/')
       },

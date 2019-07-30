@@ -18,29 +18,32 @@
                                         <p>Add New Shipping Address</p>
                                         <div class="tip_max">（10 address maxed）</div>
                                     </div>
-                                    <div class="list shipping_address" v-for="item in list">
-                                        <h5>Alexander</h5>
-                                        <p> 潘朵，<br>
-                                            滨江区江南大道东冠恒鑫大厦潘朵电子商务有限公司502室，
-                                            2滨江区江南大道东冠恒鑫大厦潘朵电子商务有限公司502室
-                                            Country 52301，California</p>
-                                        <p class="cancat">1234567890</p>
-                                        <p class="cancat">Rosie_lee@panduo.com.cn</p>
-                                        <div class="edit_btn" v-if="item.status == 1">
-                                            <span>Edit</span><i>|</i>
-                                            <span>Remove</span><i>|</i>
-                                            <span>Set as Default</span><i>|</i>
-                                            <span>Set as Billing Address</span>
+                                    <div class="list shipping_address" v-for="(item,index) in list" :key="index">
+                                        <h5>{{item.entry_firstname}}{{item.entry_lastname}}</h5>
+                                        <p> 
+                                            {{item.entry_city}}<br/>
+                                            {{item.entry_street_address1}}<br/>
+                                            {{item.entry_street_address1}}<br/>
+                                        </p>
+                                        <p>{{item.entry_country}} {{item.entry_postcode}}，{{item.entry_state}}</p>
+                                        <p class="cancat">{{item.telephone_number}}</p>
+                                        <p class="cancat">{{item.entry_email_address}}</p>
+                                        <div class="edit_btn" v-if="item.is_default == 0">
+                                            <span @click="editAddress(item,item.id,'edit')">Edit</span><i>|</i>
+                                            <span @click="removeAddress(item.id)">Remove</span><i>|</i>
+                                            <span @click="setDefault(item.id)">Set as Default</span>
+                                            <!-- <i>|</i><span>Set as Billing Address</span> -->
                                         </div>
-                                        <div class="edit_btn" v-if="item.status == 0">
-                                            <span>Edit</span><i>|</i>
-                                            <span>Set as Billing Address</span>
+                                        <div class="edit_btn" v-if="item.is_default == 1">
+                                            <span @click="editAddress(item,item.id,'edit')">Edit</span><i>|</i>
+                                            <span @click="removeAdress(item.id)">Remove</span>
+                                            <!-- <span>Set as Billing Address</span> -->
                                             <b>Default</b>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="billing">
+                            <!-- <div class="billing">
                                 <h4>Billing Address</h4>
                                 <div class="shipping_list billing_list">
                                     <div class="list shipping_address" v-for="item in list">
@@ -53,7 +56,7 @@
                                         <p class="cancat">Rosie_lee@panduo.com.cn</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -99,10 +102,14 @@
                     <el-form-item label="Mobie No./Phone:" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.telephone_number"></el-input>
                     </el-form-item>
+                    <el-form-item :label-width="formLabelWidth">
+                        <el-checkbox v-model="isdefault">As Default</el-checkbox>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="addressFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="addressFormVisible = false">确 定</el-button>
+                    <el-button type="primary" @click="addSub()" v-if="type == ''">确 定</el-button>
+                    <el-button type="primary" @click="editSub()" v-if="type == 'edit'">确认修改</el-button>
                 </div>
             </div>
         </el-dialog>
@@ -115,8 +122,9 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
-import {addAddress} from "@/api/account.js"
+import {addAddress,address} from "@/api/account.js"
 import addressList from "static/config.js"
+import qs from 'qs'
 export default {
     components: {
         "header-com": Header,
@@ -125,20 +133,7 @@ export default {
     },
     data(){
         return{
-            list:[
-                {
-                    status:0
-                },
-                {
-                    status:1
-                },
-                {
-                    status:1
-                },
-                {
-                    status:1
-                },
-            ],
+            list:[],//地址列表
             addressFormVisible:false,
             formLabelWidth:'140px',
             countryList:addressList.addressList.List,
@@ -154,14 +149,23 @@ export default {
                 entry_state:'',
                 entry_postcode:'',
                 telephone_number:'',
-                is_default:''
-            }
+                is_default:'0'//1为默认 0为非默认
+            },
+            isdefault:false,
+            addressId:'',//地址id
+            type:''
         }
     },
     created(){
-
+        this._address()
     },
     methods:{
+        //地址列表
+        _address(){
+            address().then((res)=>{
+                this.list = res.data
+            })
+        },
         //新增地址弹框
         addNew(){
             this.addressFormVisible = true;
@@ -174,7 +178,97 @@ export default {
             //查询对应国家下的州区列表
             let Province = this.countryList.find((n) => n.countryName == this.addressForm.entry_country).countryList
             this.ProvinceList = Province
-        }
+        },
+        //提交地址
+        addSub(){
+            if(this.isdefault == false){
+                this.addressForm.is_default = '0'
+            }else{
+                this.addressForm.is_default = '1'
+            }
+            addAddress(this.addressForm).then((res)=>{
+                if(res.code == '200'){
+                    this.$message({
+                        message: 'Successful setup',
+                        type: 'success'
+                    });
+                    this.addressFormVisible = false;
+                    this._address()
+                }else{
+                    this.$message({
+                        message: res.msg,
+                        type: 'error'
+                    });
+                }
+            })
+        },
+        //删除用户地址
+        removeAddress(id){
+            this.$confirm('Are you sure you want to delete this address?', 'tip', {
+                confirmButtonText: 'Sure',
+                cancelButtonText: 'Cancel',
+                type: 'warning'
+            }).then(() => {
+                this.$axios.delete(`api/address/${id}`, {}).then(res => {
+                    if(res.code == '200'){
+                        this.$message({
+                            type: 'success',
+                            message: 'Successful deletion!'
+                        });
+                    }
+                    this._address()
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Delete Successfully Canceled Delete'
+                });          
+            });
+        },
+        //设置为默认地址
+        setDefault(id){
+            let pre = qs.stringify({is_default:'1'})
+            this.$axios.post(`api/address/${id}`,pre).then(res => {
+                if(res.code == '200'){
+                    this.$message({
+                        type: 'success',
+                        message: 'Successful deletion!'
+                    });
+                }
+                this._address()
+            })
+        },
+        //编辑地址
+        editAddress(item,id,str){
+            this.addressForm = item
+            this.addressForm.entry_state = item.entry_state
+            this.addressFormVisible = true;
+            //this.chooseCoutry() 
+            item.is_default =='1'? this.isdefault=true : this.isdefault=false 
+            this.addressId = id   
+            this.type = str
+        },
+        //编辑地址提交
+        editSub(){
+            if(this.isdefault == false){
+                this.addressForm.is_default = '0'
+            }else{
+                this.addressForm.is_default = '1'
+            }
+            let pre = qs.stringify(this.addressForm)
+            this.$axios.post(`api/address/${this.addressId}`,pre).then(res => {
+                if(res.code == '200'){
+                    this.$message({
+                        type: 'success',
+                        message: 'Successful deletion!'
+                    });
+                    this.addressFormVisible = false;
+                    this.addressForm = {}
+                    this._address()
+                }
+            }) 
+        }   
+
     }
 }
 </script>
