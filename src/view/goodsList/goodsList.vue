@@ -50,7 +50,7 @@
           </el-collapse>
         </div>
       </div>
-      <div class="listGoods">
+      <div class="listGoods" v-if="goodsList && goodsList.length>0">
         <div class="goodsItem"  v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
           <div class="goodInner">
             <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
@@ -77,46 +77,9 @@
             <div class="goodsPrice">$ {{goods.defultPrice}}</div>
           </div>
         </div>
-        <div class="goodsItem">
-          <div class="goodInner">
-            <div class="goodsPic"><img src="@/assets/goods.png" alt=""></div>
-            <div class="smallSlider">
-              <div class="swiper-father">
-                <div class="banner77 swiper-container">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                    <div class="swiper-slide">
-                      <img src="@/assets/smallPic.png" class="small">
-                    </div>
-                  </div>
-                </div>
-                <div class="swiper-button-prev swiper-button-black swiper-button-prev77"></div>
-                <div class="swiper-button-next swiper-button-black swiper-button-next77"></div>
-              </div>
-            </div>
-            <div class="goodsInfo">
-              Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace
-            </div>
-            <div class="goodsPrice">$ 6.66</div>
-          </div>
-        </div>
+      </div>
+      <div class="listGoods noData" v-if="!goodsList || goodsList.length === 0">
+        NO Exact matches found
       </div>
     </div>
     <div class="foot">

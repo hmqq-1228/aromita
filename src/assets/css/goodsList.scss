@@ -93,6 +93,13 @@
     width: 1200px;
     min-height: 500px;
   }
+  .listGoods.noData{
+    line-height: 500px;
+    text-align: center;
+    font-size: 16px;
+    font-family: Tahoma;
+    font-weight: bold;
+  }
   .goodsItem{
     width: 300px;
     height: 425px;

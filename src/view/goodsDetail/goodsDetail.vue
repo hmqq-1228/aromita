@@ -507,8 +507,11 @@ export default {
       for(let key in that.attrId){
         if (that.attrId[key] === FileIdStr) {
           if(key){
+            $('.subType').removeClass('ban')
             that.getNewSkuId = key
           }
+        } else {
+          $('.subType').addClass('ban')
         }
       }
       $(obj).addClass('active')
@@ -1086,6 +1089,10 @@ export default {
     text-align: center;
     border: 1px solid #e1e1e1;
     cursor: not-allowed;
+  }
+  .subType.ban{
+    pointer-events: none;
+    background-color: #d48386;
   }
 .addWish{
   width: 160px;

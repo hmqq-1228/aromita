@@ -87,7 +87,7 @@
             <div class="list_detail">
               <p class="detail_title">{{item.sku_name}}</p>
               <div class="spec_color">
-                <p class="size"><span v-for="goodAttr in JSON.parse(item.sku_attrs)">{{goodAttr.attr_name}}:{{goodAttr.value.attr_value}}; </span></p>
+                <p class="size"><span v-for="goodAttr in JSON.parse(item.sku_attrs)">{{goodAttr.attr_name}}:<span style="color: #333;">{{goodAttr.value.attr_value}}</span>; </span></p>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
               </div>
             </div>
@@ -237,17 +237,17 @@
     }
   };
 </script>
-<style scope>
+<style scoped>
 .search .el-input{
     width: 220px;
-    border:none;  
+    border:none;
 }
-.search .el-input__inner{
-    border:none!important;
-    height: 32px!important;
-    line-height: 32px!important;
+.qty{
+  font-size: 14px;
+  font-family: Tahoma;
+  margin-top: 10px;
 }
 </style>
-<style lang="scss" scope>
+<style lang="scss" scoped>
     @import "@/assets/css/header.scss"
 </style>

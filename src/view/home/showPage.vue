@@ -122,9 +122,7 @@ export default {
     // Best Seller商品信息
     async homeSeller() {
       let data = await homeSeller();
-      for (let homeData of data.data) {
-        this.homeData = data.data;
-      }
+      this.homeData = data.data;
     },
     // NEW Arrivai 信息
     async homeArrivai() {
@@ -134,16 +132,12 @@ export default {
     //Collections区信息
     async homeCollections() {
       let data = await homeCollections();
-      for (let dataCollections of data.data) {
-        this.dataCollections = data.data;
-      }
+      this.dataCollections = data.data;
     },
     // Hot Style 信息
     async homeHotStyle() {
       let data = await homeHotStyle();
-      for (let hotStyle of data.data) {
-        this.hotStyle = data.data;
-      }
+      this.hotStyle = data.data;
     }
   },
   created() {
