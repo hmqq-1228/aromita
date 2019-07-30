@@ -14,7 +14,7 @@
                                 <h4>Shipping Address</h4>
                                 <div class="shipping_list">
                                     <div class="list add_address">
-                                        <i class="el-icon-plus"></i>
+                                        <i class="el-icon-plus" @click="addNew()"></i>
                                         <p>Add New Shipping Address</p>
                                         <div class="tip_max">（10 address maxed）</div>
                                     </div>
@@ -59,6 +59,53 @@
                 </div>
             </div>
         </div>
+        <!-- 新增地址弹框 -->
+        <el-dialog :visible.sync="addressFormVisible">
+            <div class="addressBox"> 
+                <el-form :model="addressForm">
+                    <el-form :inline="true">
+                        <el-form-item label="First name:" :label-width="formLabelWidth">
+                            <el-input v-model="addressForm.entry_firstname"></el-input>
+                        </el-form-item>
+                        <el-form-item label="last name:" :label-width="formLabelWidth">
+                            <el-input v-model="addressForm.entry_lastname"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <el-form-item label="Email Address:" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_email_address"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Country：" :label-width="formLabelWidth">
+                        <el-select v-model="addressForm.entry_country" @change="chooseCoutry()">
+                            <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Address Line1:" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_street_address1"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Address Line2:" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_street_address2"></el-input>
+                    </el-form-item>
+                    <el-form-item label="City:" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_city"></el-input>
+                    </el-form-item>
+                    <el-form-item label="State/Province:" :label-width="formLabelWidth">
+                        <el-select v-model="addressForm.entry_state">
+                            <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="Zip/Postcode:" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_postcode"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Mobie No./Phone:" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.telephone_number"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="addressFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="addressFormVisible = false">确 定</el-button>
+                </div>
+            </div>
+        </el-dialog>
         <div class="foot">
             <footer-com></footer-com>
         </div>
@@ -68,6 +115,8 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
+import {addAddress} from "@/api/account.js"
+import addressList from "static/config.js"
 export default {
     components: {
         "header-com": Header,
@@ -89,7 +138,42 @@ export default {
                 {
                     status:1
                 },
-            ]
+            ],
+            addressFormVisible:false,
+            formLabelWidth:'140px',
+            countryList:addressList.addressList.List,
+            ProvinceList:[],
+            addressForm:{
+                entry_firstname:'',
+                entry_lastname:'',
+                entry_street_address1:'',
+                entry_street_address2:'',
+                entry_email_address:'',
+                entry_country:'',
+                entry_city:'',
+                entry_state:'',
+                entry_postcode:'',
+                telephone_number:'',
+                is_default:''
+            }
+        }
+    },
+    created(){
+
+    },
+    methods:{
+        //新增地址弹框
+        addNew(){
+            this.addressFormVisible = true;
+            console.log(this.countryList)
+        },
+        //选择国家
+        chooseCoutry(){
+            this.ProvinceList = []
+            this.addressForm.entry_state = ''
+            //查询对应国家下的州区列表
+            let Province = this.countryList.find((n) => n.countryName == this.addressForm.entry_country).countryList
+            this.ProvinceList = Province
         }
     }
 }

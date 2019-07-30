@@ -8,3 +8,5 @@ export const accountPerson = params =>post("api/accountperson",params);
 export const accountPass = params =>post("api/accountpass",params)
 //我的订单
 export const myOrder = params=>get("api/myorder",params);
+//添加地址
+export const addAddress = params =>post("api/addressbook",params);
