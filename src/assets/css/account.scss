@@ -752,7 +752,12 @@
 }
 .addressBox{
     padding:0 80px;
+    .assressBtn{
+        display: flex;
+        margin-left: 130px;
+    }
 }
+
 //个人中心设置
 .account_set{
     .set_tab{

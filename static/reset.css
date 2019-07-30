@@ -35,6 +35,14 @@ ul,li {
 .el-tabs__active-bar{
     background-color:#C51015!important;
 }
+/* 单选框重置样式 */
+.el-radio__input.is-checked .el-radio__inner{
+    border-color:#a81015!important;
+    background:#C51015!important;
+}
+.el-radio__input.is-checked+.el-radio__label{
+    color: #C51015!important;
+}
 .wrapLogin .el-input__inner,.register .el-input__inner{
     width: 400px;
     position: relative;

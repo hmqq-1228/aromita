@@ -67,36 +67,36 @@
             <div class="addressBox"> 
                 <el-form :model="addressForm">
                     <el-form :inline="true">
-                        <el-form-item label="First name:" :label-width="formLabelWidth">
+                        <el-form-item label="First name:" :label-width="formLabelWidth" required>
                             <el-input v-model="addressForm.entry_firstname"></el-input>
                         </el-form-item>
-                        <el-form-item label="last name:" :label-width="formLabelWidth">
+                        <el-form-item label="last name:" :label-width="formLabelWidth" required>
                             <el-input v-model="addressForm.entry_lastname"></el-input>
                         </el-form-item>
                     </el-form>
                     <el-form-item label="Email Address:" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_email_address"></el-input>
                     </el-form-item>
-                    <el-form-item label="Country：" :label-width="formLabelWidth">
+                    <el-form-item label="Country：" :label-width="formLabelWidth" required>
                         <el-select v-model="addressForm.entry_country" @change="chooseCoutry()">
                             <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="Address Line1:" :label-width="formLabelWidth">
+                    <el-form-item label="Address Line1:" :label-width="formLabelWidth" required>
                         <el-input v-model="addressForm.entry_street_address1"></el-input>
                     </el-form-item>
                     <el-form-item label="Address Line2:" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_street_address2"></el-input>
                     </el-form-item>
-                    <el-form-item label="City:" :label-width="formLabelWidth">
+                    <el-form-item label="City:" :label-width="formLabelWidth" required>
                         <el-input v-model="addressForm.entry_city"></el-input>
                     </el-form-item>
-                    <el-form-item label="State/Province:" :label-width="formLabelWidth">
+                    <el-form-item label="State/Province:" :label-width="formLabelWidth" required>
                         <el-select v-model="addressForm.entry_state">
                             <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="Zip/Postcode:" :label-width="formLabelWidth">
+                    <el-form-item label="Zip/Postcode:" :label-width="formLabelWidth" required>
                         <el-input v-model="addressForm.entry_postcode"></el-input>
                     </el-form-item>
                     <el-form-item label="Mobie No./Phone:" :label-width="formLabelWidth">
@@ -107,9 +107,11 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="addressFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="addSub()" v-if="type == ''">确 定</el-button>
-                    <el-button type="primary" @click="editSub()" v-if="type == 'edit'">确认修改</el-button>
+                    <div class="assressBtn">
+                        <div class="com-sub-btn" @click="addSub()" v-if="type == ''">Save</div>
+                        <div class="com-sub-btn" @click="editSub()" v-if="type == 'edit'">Save</div>
+                        <div class="com-Cancel-btn" @click="addressFormVisible = false">Cancel</div>
+                    </div>
                 </div>
             </div>
         </el-dialog>
