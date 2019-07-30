@@ -107,8 +107,8 @@
           <div class="more"><span class="el-icon-d-arrow-left"></span></div>
         </div>
         <div class="point">
-          <div>Available Points: 30</div>
-          <div style="width: 180px;display: flex;justify-content: space-between;"><div>使用积分: </div><div class="inputVal"></div></div>
+          <div>Available Points: {{maxPoints}}</div>
+          <div style="width: 180px;display: flex;justify-content: space-between;"><div>使用积分: </div><input type="number" class="inputVal" min="0" :max="maxPoints"></div>
         </div>
       </div>
       <div class="orderInfo">
@@ -158,12 +158,14 @@ export default {
       payList: [],
       totalPay: 0,
       checkArr: [],
+      maxPoints: 300,
       totalPayShow: 0,
       goodsList: [],
       hasChecked: false,
       goodsListOn: [],
       goodsListOff: [],
       btnCanSub: true,
+      maxQuality: 0,
       btnLoading: false
     }
   },
@@ -202,14 +204,16 @@ export default {
       var that = this
       that.payList = []
       that.totalPay = 0
-      that.goodsListOn = []
-      that.goodsListOff = []
       if (tr) {
         let data = await getGoodsList();
         this.goodsList = data
+        let OnList = []
+        let OffList = []
         for (var i = 0;i<that.goodsList.length;i++){
           if (that.goodsList[i].sku_status === 1) {
-            that.goodsListOn.push(that.goodsList[i])
+            OnList.push(that.goodsList[i])
+            that.goodsListOn = OnList
+            console.log('onononon', that.goodsListOn)
             that.idList.push(that.goodsList[i].sku_id)
             for (var j = 0;j<that.goodsListOn.length;j++) {
               var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
@@ -217,7 +221,8 @@ export default {
               that.goodsChecked(that.checkedItem)
             }
           } else if (that.goodsList[i].sku_status === 0){
-            that.goodsListOff.push(that.goodsList[i])
+            OffList.push(that.goodsList[i])
+            that.goodsListOff = OffList
             console.log('list', that.goodsListOff)
           }
         }
@@ -328,8 +333,16 @@ export default {
       // that.btnLoading = true
       console.log('eeeeee', e)
       that.$axios.post(this.$store.state.localUrl+'api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
-        if (res.status === 200) {
-          that.getGoodsListFuc('add')
+        that.getGoodsListFuc('add')
+        that.getGoodsNum(skuId)
+      })
+    },
+    getGoodsNum: function (skuId) {
+      var that = this
+      this.$axios.get(this.$store.state.localUrl+'api/sku/getInStock/'+ skuId, {}).then(res => {
+        console.log('sssssss', res.data)
+        if (res.code === '200') {
+          that.maxQuality = res.data.inventory
         }
       })
     },
@@ -703,6 +716,15 @@ export default {
     height: 30px;
     margin-top: 5px;
     border: 1px solid #ccc;
+    padding-left: 6px;
+    outline: none;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  input[type="number"]{
+    -moz-appearance: textfield;
   }
   .orderInfo{
     width: 450px;

@@ -39,7 +39,7 @@
           </div>
           <div class="stateItem">
             <div class="jianTouLt"></div>
-            <div class="stateText" @click="test2()">Payment</div>
+            <div class="stateText">Payment</div>
             <div class="jianTou"></div>
           </div>
           <div class="stateItem">
@@ -79,8 +79,10 @@
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats">
-                  <el-option label="shanghai" value="shanghai"></el-option>
-                  <el-option label="beijing" value="beijing"></el-option>
+                  <el-option label="United States" value="United States"></el-option>
+                  <el-option label="France" value="France" disabled></el-option>
+                  <el-option label="Canada" value="Canada" disabled></el-option>
+                  <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Address Line1:" prop="Address1">
@@ -93,9 +95,12 @@
                 <el-input v-model="addNewForm.City"></el-input>
               </el-form-item>
               <el-form-item label="State/Province:" prop="Province">
+                <!--<el-input v-model="addNewForm.Province"></el-input>-->
                 <el-select v-model="addNewForm.Province" placeholder="Province">
-                  <el-option label="shanghai" value="shanghai"></el-option>
-                  <el-option label="beijing" value="beijing"></el-option>
+                  <el-option label="Alaska" value="Alaska"></el-option>
+                  <el-option label="California" value="California"></el-option>
+                  <el-option label="Washington" value="Washington"></el-option>
+                  <el-option label="Texas" value="Texas"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Zip/Postcode:" prop="Postcode">
@@ -315,11 +320,11 @@ export default {
         First: '',
         Last: '',
         email: '',
-        Country: '',
+        Country: 'United States',
         Address1: '',
         Address2: '',
         City: '',
-        Province: '',
+        Province: 'Alaska',
         Postcode: '',
         Phone: '',
         checked: true
@@ -430,9 +435,6 @@ export default {
     test: function () {
       this.modelShow = true
     },
-    test2: function () {
-      this.infoShow = true
-    },
     closeInfoModel: function(){
       this.infoShow = false
     },
@@ -453,11 +455,11 @@ export default {
       this.addNewForm.First = ''
       this.addNewForm.Last = ''
       this.addNewForm.email = ''
-      this.addNewForm.Country = ''
+      this.addNewForm.Country = 'United States'
       this.addNewForm.Address1 = ''
       this.addNewForm.Address2 = ''
       this.addNewForm.City = ''
-      this.addNewForm.Province = ''
+      this.addNewForm.Province = 'Alaska'
       this.addNewForm.Postcode = ''
       this.addNewForm.Phone = ''
     },
@@ -552,7 +554,6 @@ export default {
         })
       } else if (!id) {
         that.addressFormShow = true
-        that.clearForm()
       }
     },
     showMethod: function () {
