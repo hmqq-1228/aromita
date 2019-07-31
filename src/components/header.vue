@@ -171,7 +171,7 @@
       // 退出登录
       logout(){
         userLogout().then((res)=>{
-          if(res.code == '200'){
+          if(res.code === '200'){
             localStorage.removeItem("userToken")
             localStorage.removeItem("userName")
             this.$router.go(0)
@@ -196,7 +196,7 @@
         this.goodsList = data
         for (var i = 0;i<this.goodsList.length;i++){
           var obj = this.goodsList[i]
-          if (this.goodsList[i].sku_status == 1) {
+          if (this.goodsList[i].sku_status === 1) {
             goodsListOn.push(obj)
             for (var j = 0;j<goodsListOn.length;j++) {
               var itemPay = goodsListOn[j].sku_price * goodsListOn[j].goods_count

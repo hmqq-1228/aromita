@@ -236,18 +236,18 @@
           <div class="payName" @click="testAlert()">Subtotal:</div>
           <div class="payValue">$ {{totalPay.toFixed(2)}}</div>
         </div>
-        <!--<div class="payItem">-->
-          <!--<div class="payName">Coupon:</div>-->
-          <!--<div class="payValue">$ 30.66</div>-->
-        <!--</div>-->
-        <!--<div class="payItem">-->
-          <!--<div class="payName">Points:</div>-->
-          <!--<div class="payValue">$ 30.66</div>-->
-        <!--</div>-->
-        <!--<div class="payItem">-->
-          <!--<div class="payName">Tax:</div>-->
-          <!--<div class="payValue">$ 30.66</div>-->
-        <!--</div>-->
+        <div class="payItem">
+          <div class="payName">Coupon:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName">Points:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
+        <div class="payItem">
+          <div class="payName">Tax:</div>
+          <div class="payValue">$ 30.66</div>
+        </div>
         <div class="payItem">
           <div class="payName">Shipping:</div>
           <div class="payValue">$ {{shipFee}}</div>
@@ -270,7 +270,7 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
-import {orderAdd, orderAddress, editAddress, deleteAddress} from "../../api/register";
+import {orderAdd, orderAddress, billingList, deleteAddress} from "../../api/register";
 import qs from 'qs'
 import addressList from "static/config.js"
 export default {
@@ -624,6 +624,7 @@ export default {
           data[i].sku_pay = data[i].goods_count * data[i].sku_price
         }
         that.goodsList = data
+        that.getBillingList()
         for (var v=0; v<that.goodsList.length; v++){
           payItem.push(that.goodsList[v].sku_pay)
         }
@@ -637,6 +638,18 @@ export default {
       } else {
         console.log('订单失效')
       }
+    },
+    async getBillingList () {
+      var that = this
+      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var idStr = JSON.stringify(ids)
+      var coupon_id = sessionStorage.getItem('couponId')
+      let idList = {
+        ids: idStr,
+        coupon_id: coupon_id
+      }
+      let data = await billingList(idList)
+      console.log('hhhhhhhh', data)
     },
     // 修改
     submitForm(formName) {
