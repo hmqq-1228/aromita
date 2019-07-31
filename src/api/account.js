@@ -10,3 +10,5 @@ export const accountPass = params =>post("api/accountpass",params)
 export const myOrder = params=>get("api/myorder",params);
 //添加地址
 export const addAddress = params =>post("api/addressbook",params);
+//地址列表
+export const address = params =>get("api/address",params);

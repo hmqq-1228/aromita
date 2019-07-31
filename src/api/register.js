@@ -2,6 +2,8 @@ import { get, post } from "../utils/http.js";
 // http://www.aromita.com/api/homeproducts/10
 // 登录
 export const handleLogin = params=>post("/api/login",params);
+//退出登录
+export const userLogout = params =>post("/api/logout",params);
 // 注册
 export const handleRegist = params=>post("/api/register",params);
 // 登录验证码

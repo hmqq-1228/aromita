@@ -84,7 +84,7 @@
                                 <img :src="url+scope.row.products_pic" alt="">
                                 <div class="detail">
                                     <h5>{{scope.row.products_name}}</h5>
-                                    <p><span>Size:</span>3.0mm</p>
+                                    <p><span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
                                     <p>${{scope.row.final_price}}<span class="old_price">${{scope.row.products_price}}</span></p>
                                 </div>
                             </div>

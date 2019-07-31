@@ -22,19 +22,20 @@
             <div class="optionList">
               <!-- 登录 -->
               <div class="login">
-                <div class="login_left" @click="HandleLogin" v-if="login_status == false">
-                  <img src="@/assets/login.png" alt>
+                <div class="login_left" v-if="login_status == false">
+                  <img src="@/assets/login.png" @click="HandleLogin" alt>
+                  <span>{{userName}}</span>
                 </div>
-                <el-dropdown>
+                <el-dropdown v-if="login_status == true">
                   <div class="login_right" :title="userName">
-                    <router-link to="myAccount">{{userName}}</router-link>
+                    <router-link to="/myAccount">{{userName}}</router-link>
                   </div>
                   <div class="dropdown">
                     <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item><router-link to="myOrder">My Orders</router-link></el-dropdown-item>
                       <el-dropdown-item><router-link to="myCoupon">My Coupons</router-link></el-dropdown-item>
                       <el-dropdown-item><router-link to="myPoints">My Points</router-link></el-dropdown-item>
-                      <el-dropdown-item>Logout</el-dropdown-item>
+                      <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
                     </el-dropdown-menu>
                   </div>
                 </el-dropdown>
@@ -82,17 +83,17 @@
       </div>
       <div class="cart_center">
         <ul v-if="goodsListOn.length!=0">
-          <li v-for="item in goodsListOn">
+          <li v-for="(item,index) in goodsListOn" :key="index">
             <img :src="item.sku_image" alt>
             <div class="list_detail">
               <p class="detail_title">{{item.sku_name}}</p>
               <div class="spec_color">
-                <p class="size"><span v-for="goodAttr in JSON.parse(item.sku_attrs)">{{goodAttr.attr_name}}:<span style="color: #333;">{{goodAttr.value.attr_value}}</span>; </span></p>
+                <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
               </div>
             </div>
             <div class="price_del">
-              <i class="el-icon-error" @click="delList()"></i>
+              <i class="el-icon-error" @click="delList(item.sku_id)"></i>
               <div class="price">${{item.sku_price}}</div>
             </div>
           </li>
@@ -105,7 +106,7 @@
       <div class="total" v-if="goodsListOn.length!=0">
         <div class="total_price">
           <span>Total Price:</span>
-          <b>$ 108.27</b>
+          <b>${{TotalPrice}}</b>
         </div>
         <div class="view_cart" @click="toShopCart()"><span>View Cart</span></div>
       </div>
@@ -113,11 +114,13 @@
   </div>
 </template>
 <script>
-  import {getcartgoodscount, category,getGoodsList} from "../api/register";
+  import {getcartgoodscount, category,getGoodsList,userLogout} from "../api/register";
   export default {
     data() {
       return {
         login_status:false,//用户登录状态
+        userName:'Login',
+        TotalPrice:0,//购物车总价
         show:false,
         goodsList:[],
         goodsListOn:[],
@@ -147,6 +150,7 @@
       },
     },
     created() {
+      this.login_status = localStorage.getItem("userToken")?true:false
       this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
       this.column = this.column > this.maxRow ? this.maxRow : this.column;
       this.getGoodsCont()
@@ -164,6 +168,16 @@
       }
     },
     methods: {
+      // 退出登录
+      logout(){
+        userLogout().then((res)=>{
+          if(res.code == '200'){
+            localStorage.removeItem("userToken")
+            localStorage.removeItem("userName")
+            this.$router.go(0)
+          }
+        })
+      },
       goShopping: function () {
         this.$router.push('/')
       },
@@ -173,24 +187,42 @@
       invisible:function(){
         this.show = false;
       },
+      //获取购物车商品
       async getGoodsListFuc(){
-        var that = this
-        // that.payList = []
-        // that.totalPay = 0
         var goodsListOn = []
         var goodsListOff = []
+        var total = 0
         let data = await getGoodsList();
         this.goodsList = data
-        for (var i = 0;i<that.goodsList.length;i++){
-          var obj = that.goodsList[i]
-          if (that.goodsList[i].sku_status == 1) {
+        for (var i = 0;i<this.goodsList.length;i++){
+          var obj = this.goodsList[i]
+          if (this.goodsList[i].sku_status == 1) {
             goodsListOn.push(obj)
-          } else if (that.goodsList[i].sku_status === 0){
+            for (var j = 0;j<goodsListOn.length;j++) {
+              var itemPay = goodsListOn[j].sku_price * goodsListOn[j].goods_count
+              goodsListOn[j].totalPay = itemPay.toFixed(2)
+            }
+          } else if (this.goodsList[i].sku_status === 0){
             goodsListOff.push(obj)
           }
         }
+        for(var i = 0;i<goodsListOn.length;i++){
+            total += Number(goodsListOn[i].totalPay)
+        }
+        this.TotalPrice = total
         this.goodsListOn = goodsListOn
         this.goodsListOff = goodsListOff
+      },
+      //删除购物车商品
+      delList(skuId) {
+        this.$axios.post('api/deltocart/' + skuId).then(res => {
+          this.getGoodsListFuc()
+          this.getGoodsCont()
+          // if (res.status === 200) {
+          //   this.getGoodsListFuc()
+          //   this.getGoodsCont()
+          // }
+        })
       },
       getUserName: function () {
         if(localStorage.getItem('userName')){
