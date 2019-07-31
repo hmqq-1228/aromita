@@ -82,13 +82,13 @@ export const post = (url, params, config = {}) => {
     })
 }
 
-export const get = (url,params,config = {}) => {    
+export const get = (url,params,config = {}) => {
     return axios({
         method: 'get',
         url: url,
         params: params
     })
-    
+
 }
 
 export const deletes = (url, params, config = {}) => {
