@@ -1,7 +1,9 @@
 import { get, post } from "../utils/http.js";
 
 //个人中心首页
-export const myAccount = params =>get("api/accountset",params);
+export const myAccount = params =>get("api/myaccount",params);
+//个人中心详情
+export const myAccountSet = params =>get("api/accountset",params);
 //修改个人信息
 export const accountPerson = params =>post("api/accountperson",params);
 //修改密码

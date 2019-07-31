@@ -3,13 +3,26 @@ const addressList = {
         {
             countryName:"United States",
             countryList:[
-                "亚拉巴马州","阿拉斯加州","亚利桑那州","阿肯色州","加利福尼亚州"
+                "Alabama","Alaska","Arizona","Arkansas","California",
+                "Colorado","Connecticut","Delaware","Florida","Georgia",
+                "Hawaii","Idaho","Illinois","Indiana","Iowa",
+                "Kansas","Kentucky","Lousiana","Maine","Maryland",
+                "Massachusetts","Michigan","Minnesota","Mississippi",
+                "Missouri","Montana","Nebraska","Nevada","New Hampshire",
+                "New Jersey","New Mexico","New York","North Carolina","NNorth Dakota",
+                "Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
+                "South Carolina","South Dakota","Tennessee","Texas","Utah",
+                "Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"
             ]
         },
         {
             countryName:"Canada",
             countryList:[
-                "阿尔伯塔省","不列颠哥伦比亚省","马尼托巴省","纽芬兰与拉布拉多省","新不伦瑞克省"
+                "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario","Quebec",
+                "New Brunswick","Nova Scotia","Prince Edward Island","Newfoundland and Labrador",
+                "Nunavut","Northwest Territories","Yukon","Victoria","Edmonton","Regina",
+                "Winnipeg","Toronto","Quebec","Fredericton","Halifax","Charlottetown",
+                "St.Johns","Iqaluit","Yellowknife","Whitehorse"
             ]
         }
     ]
