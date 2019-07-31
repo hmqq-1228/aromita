@@ -150,7 +150,7 @@ ul li{
 }
   .footer {
   width: 100%;
-  height: 560px;
+  height: 480px;
   background:rgba(251,251,251,1);
   /* background:red; */
   /* margin-left: 139px; */
@@ -216,7 +216,6 @@ ul li{
   height: 174px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 23px;
 }
 .left_one1 {
   font-size: 14px;
@@ -312,7 +311,6 @@ ul li{
   color: rgba(255, 255, 255, 1);
 }
 .xian2 {
-  height: 30px;
   border-bottom: 1px solid gainsboro;
 }
 .pay-02{

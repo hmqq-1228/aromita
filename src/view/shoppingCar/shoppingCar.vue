@@ -67,7 +67,19 @@
     </div>
     <div class="pointCoupon">
       <div class="leftCont">
-        <div class="coupon" style="height: 130px">
+        <div class="coupon">
+          <div class="couponItem">
+            <div class="couponInfo">
+              <div class="info">
+                <div>优惠:</div>
+                <div>满100减20</div>
+              </div>
+              <div class="info" style="margin-top: 4px">
+                <div>Expired Data:</div>
+                <div>July 23,2019</div>
+              </div>
+            </div>
+          </div>
           <div class="couponItem">
             <div class="couponInfo">
               <div class="info">
@@ -671,6 +683,7 @@ export default {
     overflow: hidden;
     position: relative;
     border: 1px solid #eee;
+    padding: 0 0 20px 20px;
   }
   .more{
     cursor: pointer;
@@ -681,9 +694,9 @@ export default {
     transform: rotate(-90deg);
   }
   .couponItem{
-    width: 213px;
+    width: 240px;
     height: 80px;
-    margin: 20px 0 0 20px;
+    margin-top: 20px;
   }
   .couponInfo{
     width: 213px;

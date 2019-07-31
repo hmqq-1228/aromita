@@ -1,5 +1,6 @@
 <template>
 <div class="orderConfirm">
+  <!--<div class="model2" v-if="modelShow2"></div>-->
   <div class="model" v-if="modelShow">
     <div class="modelCont">
       <div class="modelClose" @click="closeModel"><i class="el-icon-close"></i></div>
@@ -53,7 +54,7 @@
             <div class="itemName"><el-radio v-model="radio" :label="address.id"><i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}</el-radio></div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText">{{address.entry_country}}{{address.entry_state}}{{address.entry_city}}{{address.entry_street_address1}}{{address.entry_street_address2}}</div>
+              <div class="addressText">{{address.entry_country}} {{address.entry_state}} {{address.entry_city}} {{address.entry_street_address1}}{{address.entry_street_address2}}</div>
             </div>
             <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
             <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
@@ -78,10 +79,9 @@
                 <el-input v-model="addNewForm.email"></el-input>
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
-                <el-select v-model="addNewForm.Country" placeholder="United Stats">
-                  <el-option label="United States" value="United States"></el-option>
+                <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
+                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
                   <el-option label="France" value="France" disabled></el-option>
-                  <el-option label="Canada" value="Canada" disabled></el-option>
                   <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
               </el-form-item>
@@ -97,10 +97,7 @@
               <el-form-item label="State/Province:" prop="Province">
                 <!--<el-input v-model="addNewForm.Province"></el-input>-->
                 <el-select v-model="addNewForm.Province" placeholder="Province">
-                  <el-option label="Alaska" value="Alaska"></el-option>
-                  <el-option label="California" value="California"></el-option>
-                  <el-option label="Washington" value="Washington"></el-option>
-                  <el-option label="Texas" value="Texas"></el-option>
+                  <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Zip/Postcode:" prop="Postcode">
@@ -236,7 +233,7 @@
       </div>
       <div class="payDiv">
         <div class="payItem">
-          <div class="payName">Subtotal:</div>
+          <div class="payName" @click="testAlert()">Subtotal:</div>
           <div class="payValue">$ {{totalPay.toFixed(2)}}</div>
         </div>
         <!--<div class="payItem">-->
@@ -275,6 +272,7 @@ import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import {orderAdd, orderAddress, editAddress, deleteAddress} from "../../api/register";
 import qs from 'qs'
+import addressList from "static/config.js"
 export default {
   components: {
     "header-com": Header,
@@ -292,9 +290,13 @@ export default {
       addressNum: 0,
       goodsList: [],
       addressList: [],
+      ProvinceList: [],
+      countryList: addressList.addressList.List,
       infoShow: false,
       modelShow: false,
+      modelShow2: false,
       methodShow: false,
+      dialogVisible: true,
       showCreditForm: false,
       addressFormShow: false,
       defultIcon: 'el-icon-d-arrow-right',
@@ -428,10 +430,28 @@ export default {
     // }
   },
   created(){
+    this.ProvinceList = addressList.addressList.List[0].countryList
     this.getGoodsOrder()
-    this.getOrderAddress()
+    this.getOrderAddress('defult', '')
   },
   methods: {
+    testAlert: function () {
+      // this.modelShow2 = true
+      var u = 'https://www.baidu.com/';
+      var iWidth=500; //弹出窗口的宽度;
+      var iHeight=600; //弹出窗口的高度;
+      var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
+      var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+      window.open(u, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
+    },
+    //选择国家
+    chooseCoutry(){
+      this.ProvinceList = []
+      //查询对应国家下的州区列表
+      let Province = this.countryList.find((n) => n.countryName === this.addNewForm.Country).countryList
+      this.ProvinceList = Province
+      this.addNewForm.Province = this.ProvinceList[0]
+    },
     test: function () {
       this.modelShow = true
     },
@@ -469,6 +489,22 @@ export default {
       if (data.code === '200') {
         that.addressNum = data.data.length
         if (!type && !id) {
+          that.addressList = data.data
+          for (var i=0; i<data.data.length; i++) {
+            if (data.data[i].is_default === 1) {
+              // let defultList = []
+              that.radio = data.data[i].id
+              that.showMethod()
+              // defultList.push(data.data[i])
+              // that.addressList = defultList
+            }
+            // else {
+            //   let noList = []
+            //   noList.push(data.data[0])
+            //   that.addressList = noList
+            // }
+          }
+        }else if (type === 'defult' && !id){
           for (var i=0; i<data.data.length; i++) {
             if (data.data[i].is_default === 1) {
               let defultList = []
@@ -482,7 +518,7 @@ export default {
               that.addressList = noList
             }
           }
-        } else if (type === 'more'){
+        }else if (type === 'more'){
           if (!id) {
             that.addressList = data.data
           } else if (id) {
@@ -629,9 +665,12 @@ export default {
               if (that.editId) {
                 that.$message.success('Successful address modification!')
               } else {
+                that.defultIcon = 'el-icon-d-arrow-left'
                 that.$message.success('Added Successfully!')
               }
               that.addressFormShow = false
+            } else {
+              that.$message.error(res.msg.entry_postcode[0])
             }
           })
         } else {
@@ -691,7 +730,16 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: 1000;
+  }
+  .model2{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
   }
   .modelCont{
     width: 380px;
@@ -819,7 +867,7 @@ export default {
     position: fixed;
     top: 192px;
     right: 10%;
-    z-index: 99;
+    z-index: 999;
     background-color: #fff;
     padding: 30px;
     box-sizing: border-box;
@@ -954,7 +1002,7 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 888;
+    z-index: 88;
     width: 0;
     height: 0;
     border-top: 16px solid transparent;
@@ -965,7 +1013,7 @@ export default {
     position: absolute;
     left: 0;
     top: 0;
-    z-index: 666;
+    z-index: 66;
     width: 0;
     height: 0;
     border-top: 16px solid transparent;
