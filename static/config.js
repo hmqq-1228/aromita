@@ -19,7 +19,7 @@ const addressList = {
         {
             countryName:"Canada",
             countryList:[
-                "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario","Quebec",
+                "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario",
                 "New Brunswick","Nova Scotia","Prince Edward Island","Newfoundland and Labrador",
                 "Nunavut","Northwest Territories","Yukon","Victoria","Edmonton","Regina",
                 "Winnipeg","Toronto","Quebec","Fredericton","Halifax","Charlottetown",

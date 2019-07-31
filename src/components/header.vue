@@ -52,7 +52,7 @@
                 </div>
               </router-link>
               <!-- 购物车 -->
-              <div class="cart" @click="toShopCart()" v-on:mouseenter="visible">
+              <div class="cart" v-on:click="visible">
                 <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" class="item">
                   <div class="cart_left">
                     <img src="@/assets/cart.png" alt>
@@ -114,7 +114,7 @@
   </div>
 </template>
 <script>
-  import {getcartgoodscount, category,getGoodsList,userLogout} from "../api/register";
+  import {getcartgoodscount, category,getGoodsList,userLogout,checkLogin} from "../api/register";
   export default {
     data() {
       return {
@@ -150,7 +150,8 @@
       },
     },
     created() {
-      this.login_status = localStorage.getItem("userToken")?true:false
+      this._checkLogin()
+      // this.login_status = localStorage.getItem("userToken")?true:false
       this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
       this.column = this.column > this.maxRow ? this.maxRow : this.column;
       this.getGoodsCont()
@@ -175,6 +176,18 @@
             localStorage.removeItem("userToken")
             localStorage.removeItem("userName")
             this.$router.go(0)
+          }
+        })
+      },
+      //判断用户登录状态
+      _checkLogin(){
+        checkLogin().then((res)=>{
+          if(res.code == '200'){
+            this.login_status = true;
+          }else{
+            this.login_status = false;
+            localStorage.removeItem("userToken")
+            localStorage.removeItem("userName")
           }
         })
       },

@@ -13,8 +13,8 @@
               <div class="user_detail">
                 <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
                 <h4 v-else>{{userDetail.firstname}} {{userDetail.lastname}}</h4>
-                <p><img src="@/assets/images/Settings.png" alt="">Address Book</p>
-                <p><img src="@/assets/images/Address.png" alt="">Account Setting</p>
+                <p><img src="@/assets/images/Settings.png" alt=""><router-link to="/addressBook">Address Book</router-link></p>
+                <p><img src="@/assets/images/Address.png" alt=""><router-link to="/accountSetting">Account Setting</router-link></p>
               </div>
               <div class="user_list">
                   <div class="list">
@@ -26,7 +26,7 @@
                     <h5>Coupon</h5>
                   </div>
                   <div class="list">
-                    <p>5</p>
+                    <p>{{userDetail.score}}</p>
                     <h5>Points</h5>
                   </div>
                   <div class="list">

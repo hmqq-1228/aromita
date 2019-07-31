@@ -183,7 +183,7 @@ export default {
         that.$message.success(data.msg)
         that.$router.push('/register_ok')
       } else {
-        that.$message.warning(data.msg.email[0])
+        // that.$message.warning(data.msg.email[0])
       }
     },
     //验证码

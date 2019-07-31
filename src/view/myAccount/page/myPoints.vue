@@ -13,7 +13,7 @@
                             <div class="available">
                                 <h4>Available Points</h4>
                                 <img src="@/assets/images/Points.png" alt="">
-                                <span>50</span>
+                                <span>{{userDetail.score}}</span>
                             </div>
                             <div class="Points_list">
                                 <div class="list">
@@ -43,11 +43,27 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
+import {myAccount} from "@/api/account.js"; 
 export default {
     components: {
         "header-com": Header,
         "footer-com": Footer,
         "Left-Nav":Left
+    },
+    data(){
+        return{
+            userDetail:{}
+        }
+    },
+    created(){
+        this._myAccount()
+    },
+    methods:{
+        _myAccount(){
+            myAccount().then((res)=>{
+                this.userDetail = res.data
+            })
+        }
     }
 }
 </script>
