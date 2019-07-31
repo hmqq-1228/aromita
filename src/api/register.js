@@ -4,6 +4,8 @@ import { get, post } from "../utils/http.js";
 export const handleLogin = params=>post("/api/login",params);
 //退出登录
 export const userLogout = params =>post("/api/logout",params);
+//检测用户登录状态
+export const checkLogin = params =>post("api/checklogin",params);
 // 注册
 export const handleRegist = params=>post("/api/register",params);
 // 登录验证码

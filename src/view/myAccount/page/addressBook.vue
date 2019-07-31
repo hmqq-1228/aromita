@@ -194,6 +194,7 @@ export default {
                         message: 'Successful setup',
                         type: 'success'
                     });
+                    this.addressForm ={}
                     this.addressFormVisible = false;
                     this._address()
                 }else{
