@@ -19,7 +19,7 @@
           <div class="banner2 swiper-container">
             <div class="swiper-wrapper">
               <div class="swiper-slide" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)" :class="index === 0? 'checkedStyle': ''">
-                <img :src="detailImg" class="small">
+                <img :src="detailImg.split('.jpg')[0] + '_80_80.jpg'" class="small">
               </div>
               <!--<div class="swiper-slide">-->
                 <!--<img src="@/assets/modelGoods.png" class="small">-->
@@ -53,7 +53,7 @@
       </div>
       <div class="goodsPrice">
         <div class="goodsLabel">price:</div>
-        <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price.toFixed(2)}}</span></div>
+        <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
       <!--<div style="display: flex;justify-content: start;margin-top: 20px;">-->
@@ -168,10 +168,10 @@
       <div>
         <div class="subBtn">
           <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart()">Add to Cart</div>
-          <div v-if="goodDetail.sku_status === 3" class="subType out">Out of Stock</div>
+          <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
           <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
         </div>
-        <div v-if="goodDetail.sku_status === 3" class="restocking">It is restocking now. Once available, you can buy it.</div>
+        <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
       </div>
     </div>
   </div>
@@ -299,6 +299,10 @@ export default {
     chooseImg: function (e, url) {
       var obj = e.currentTarget
       $(obj).addClass('checkedStyle').siblings().removeClass('checkedStyle')
+      var leftUrl = url.split('.jpg')[0]
+      console.log('jpg', leftUrl)
+      var imgUrl = leftUrl + '_500_500.jpg'
+      this.mainImgUrl = imgUrl
     },
     // 商品详情
     getGoodsDetail: function (spu, sku) {
@@ -318,34 +322,47 @@ export default {
         console.log(res)
         if (res.code === "200") {
           console.log('11111', res.data)
-          that.goodDetail = res.data.sku
-          that.imageList = res.data.sku.thumbnail_images
-          that.mainImgUrl = res.data.sku.sku_image
-          that.maxQuality = res.data.sku.inventory
-          that.priceOrder = res.data.sku.sku_price
-          that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
-          that.attrList =  res.data.attrs
-          that.attrId = res.data.sku_ids
-          that.skuList = res.data.sku_list
-          var list = JSON.parse(res.data.sku.sku_attrs)
-          // that.colorList = res.data.data.attrs.color
-          for (var i = 0; i < list.length; i++){
-            var obj = {
-              name: list[i].attr_name,
-              attr_id: parseInt(list[i].id),
-              val_id: parseInt(list[i].value.id)
+          if (res.data.sku.sku_status === 0) {
+            that.$router.push('/unavailable')
+          } else {
+            that.goodDetail = res.data.sku
+            that.imageList = res.data.sku.thumbnail_images
+            that.mainImgUrl = res.data.sku.sku_image
+            that.maxQuality = res.data.sku.inventory
+            that.priceOrder = res.data.sku.sku_price
+            that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
+            that.attrList =  res.data.attrs
+            that.attrId = res.data.sku_ids
+            that.skuList = res.data.sku_list
+            var list = JSON.parse(res.data.sku.sku_attrs)
+            // that.colorList = res.data.data.attrs.color
+            for(let key in that.imageList){
+              console.log('66666666', that.imageList[key])
+              var str = that.imageList[key].split('.')
+              var str2 = ''
+              for (var k = 0; k<str.length-1; k++) {
+
+              }
+              console.log('77777777', str)
             }
-            that.skuSpuIdList.push(obj)
-          }
-          that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
-          that.deleteSameObj(that.skuList, that.getSkuList)
-          for(let key in that.attrList){
-            for (var x=0; x<that.attrList[key].length; x++) {
-               for (var y=0; y< list.length; y++) {
-                 if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
-                   that.attrList[key][x].activeStyle = 1
-                 }
-               }
+            for (var i = 0; i < list.length; i++){
+              var obj = {
+                name: list[i].attr_name,
+                attr_id: parseInt(list[i].id),
+                val_id: parseInt(list[i].value.id)
+              }
+              that.skuSpuIdList.push(obj)
+            }
+            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+            that.deleteSameObj(that.skuList, that.getSkuList)
+            for(let key in that.attrList){
+              for (var x=0; x<that.attrList[key].length; x++) {
+                for (var y=0; y< list.length; y++) {
+                  if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
+                    that.attrList[key][x].activeStyle = 1
+                  }
+                }
+              }
             }
           }
         } else {

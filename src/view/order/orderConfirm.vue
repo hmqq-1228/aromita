@@ -234,7 +234,7 @@
       <div class="payDiv">
         <div class="payItem">
           <div class="payName" @click="testAlert()">Subtotal:</div>
-          <div class="payValue">$ {{totalPay.toFixed(2)}}</div>
+          <div class="payValue">$ 66.66</div>
         </div>
         <div class="payItem">
           <div class="payName">Coupon:</div>
@@ -402,6 +402,7 @@ export default {
       var that = this
       if (val) {
         console.log('gggg', val)
+        that.showMethod()
         that.methodShow = true
       } else {
         that.methodShow = false
@@ -625,16 +626,16 @@ export default {
         }
         that.goodsList = data
         that.getBillingList()
-        for (var v=0; v<that.goodsList.length; v++){
-          payItem.push(that.goodsList[v].sku_pay)
-        }
-        console.log('vvvvvv', payItem)
-        var sumPay = 0
-        for (var n=0;n<payItem.length;n++){
-          sumPay += payItem[n]
-        }
-        that.totalPay = sumPay
-        console.log('sssssss', that.totalPay.toFixed(2))
+        // for (var v=0; v<that.goodsList.length; v++){
+        //   payItem.push(that.goodsList[v].sku_pay)
+        // }
+        // console.log('vvvvvv', payItem)
+        // var sumPay = 0
+        // for (var n=0;n<payItem.length;n++){
+        //   sumPay += payItem[n]
+        // }
+        // that.totalPay = sumPay
+        // console.log('sssssss', that.totalPay.toFixed(2))
       } else {
         console.log('订单失效')
       }
