@@ -22,6 +22,8 @@ export const getcartgoodscount = params=>post("/api/getcartgoodscount",params);
 export const getGoodsList = params=>get("/api/cart",params);
 // 添加订单
 export const orderAdd = params=>post("/api/orderproductlist",params);
+// 获取账单
+export const billingList = params=>post("/api/showBillingList",params);
 // 获取订单地址
 export const orderAddress = params=>get("/api/address",params);
 // 修改地址

@@ -68,7 +68,7 @@
     <div class="pointCoupon">
       <div class="leftCont">
         <div class="coupon">
-          <div class="couponItem">
+          <div class="couponItem" @click="useCoupon($event, 1)">
             <div class="couponInfo">
               <div class="info">
                 <div>优惠:</div>
@@ -80,7 +80,7 @@
               </div>
             </div>
           </div>
-          <div class="couponItem">
+          <div class="couponItem" @click="useCoupon($event, 2)">
             <div class="couponInfo">
               <div class="info">
                 <div>优惠:</div>
@@ -92,7 +92,7 @@
               </div>
             </div>
           </div>
-          <div class="couponItem">
+          <div class="couponItem" @click="useCoupon($event, 3)">
             <div class="couponInfo">
               <div class="info">
                 <div>优惠:</div>
@@ -104,7 +104,7 @@
               </div>
             </div>
           </div>
-          <div class="couponItem">
+          <div class="couponItem" @click="useCoupon($event, 4)">
             <div class="couponInfo">
               <div class="info">
                 <div>优惠:</div>
@@ -173,6 +173,7 @@ export default {
       maxPoints: 300,
       totalPayShow: 0,
       goodsList: [],
+      couponId: '',
       hasChecked: false,
       goodsListOn: [],
       goodsListOff: [],
@@ -212,6 +213,11 @@ export default {
     this.getGoodsListFuc()
   },
   methods:{
+    useCoupon: function (e, cpId) {
+      var obj = e.currentTarget
+      $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
+      this.couponId = cpId
+    },
     async getGoodsListFuc(tr){
       var that = this
       that.payList = []
@@ -375,10 +381,11 @@ export default {
       }
     },
     subTotalPay: function() {
-       var that = this
-       console.log('hhh', that.checkedItem)
-       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
-       that.$router.push('/orderConfirm')
+      var that = this
+      console.log('hhh', that.checkedItem)
+      sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
+      sessionStorage.setItem('couponId', that.couponId)
+      that.$router.push('/orderConfirm')
     },
     toGoodDetail: function(spuid, skuid){
       if (spuid && skuid) {
@@ -697,6 +704,9 @@ export default {
     width: 240px;
     height: 80px;
     margin-top: 20px;
+  }
+  .couponItem.couponChecked .couponInfo{
+    border: 1px solid #C51015;
   }
   .couponInfo{
     width: 213px;

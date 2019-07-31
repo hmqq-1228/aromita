@@ -18,7 +18,7 @@
         <div class="swiper-father">
           <div class="banner2 swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(detailImg, index) in goodDetail.thumbnail_images" v-bind:key="index">
+              <div class="swiper-slide" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)" :class="index === 0? 'checkedStyle': ''">
                 <img :src="detailImg" class="small">
               </div>
               <!--<div class="swiper-slide">-->
@@ -32,7 +32,7 @@
       </div>
       <div class="largerBox">
         <div class="largePic">
-          <img :src="goodDetail.sku_image" alt="">
+          <img :src="mainImgUrl" alt="">
         </div>
         <div class="shareList">
           <div class="shareBox">
@@ -216,6 +216,7 @@ export default {
       skuDefult: '',
       numQuality: 1,
       goodDetail: '',
+      mainImgUrl: '',
       priceOrder: 0,
       totalPay: 0,
       sumIds: [],
@@ -226,6 +227,7 @@ export default {
       // colorList: [],
       getNewSkuId: 0,
       getSkuList: [],
+      imageList: [],
       skuSpuIdList: [],
       skuList: [],
       maxQuality: 0
@@ -279,7 +281,7 @@ export default {
           prevEl: '.swiper-button-prev1',
         }
       })
-    }, 400)
+    }, 500)
   },
   created(){
     this.getGoodsDetail()
@@ -293,6 +295,10 @@ export default {
     },
     toGoodsCart: function(){
       this.$router.push('/shoppingCar')
+    },
+    chooseImg: function (e, url) {
+      var obj = e.currentTarget
+      $(obj).addClass('checkedStyle').siblings().removeClass('checkedStyle')
     },
     // 商品详情
     getGoodsDetail: function (spu, sku) {
@@ -310,10 +316,11 @@ export default {
       }
       this.$axios.get(this.$store.state.localUrl+'api/product/'+ spuId + '/' + skuId, {}).then(res => {
         console.log(res)
-        if (res.code =="200") {
+        if (res.code === "200") {
           console.log('11111', res.data)
           that.goodDetail = res.data.sku
-          console.log(that.goodDetail)
+          that.imageList = res.data.sku.thumbnail_images
+          that.mainImgUrl = res.data.sku.sku_image
           that.maxQuality = res.data.sku.inventory
           that.priceOrder = res.data.sku.sku_price
           that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
@@ -723,13 +730,16 @@ export default {
 }
 .sizeSize.active .disStyle{
   color: #333;
-  border: 1px solid #B20605;
+  border: 1px solid #C51015;
   background-color: #fff;
 }
 .sizeSize.active div{
   color: #999;
-  border: 1px solid #B20605;
+  border: 1px solid #C51015;
   background-color: #f5f5f5;
+}
+.checkedStyle .small{
+  border: 1px solid #C51015;
 }
 .small{
   width: 80px;
