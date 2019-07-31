@@ -78,6 +78,11 @@
                             font-size: 14px;
                             color:#333;
                             margin:4px 0 0 6px;
+                            display: inline-block;
+                            width: 80px;
+                            text-overflow: ellipsis;//超出部分以省略号显示
+                             white-space: nowrap;
+                             overflow: hidden;
                           }
                         }
                         .login_right {
