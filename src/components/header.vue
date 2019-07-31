@@ -32,9 +32,9 @@
                   </div>
                   <div class="dropdown">
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item><router-link to="myOrder">My Orders</router-link></el-dropdown-item>
-                      <el-dropdown-item><router-link to="myCoupon">My Coupons</router-link></el-dropdown-item>
-                      <el-dropdown-item><router-link to="myPoints">My Points</router-link></el-dropdown-item>
+                      <el-dropdown-item><router-link to="/myOrder">My Orders</router-link></el-dropdown-item>
+                      <el-dropdown-item><router-link to="/myCoupon">My Coupons</router-link></el-dropdown-item>
+                      <el-dropdown-item><router-link to="/myPoints">My Points</router-link></el-dropdown-item>
                       <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
                     </el-dropdown-menu>
                   </div>

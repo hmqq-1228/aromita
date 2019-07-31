@@ -69,7 +69,7 @@
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
-import {accountPerson,accountPass} from "@/api/account.js"
+import {myAccountSet,accountPerson,accountPass} from "@/api/account.js"
 export default {
     components: {
         "header-com": Header,
@@ -115,9 +115,19 @@ export default {
             }
         }
     },
+    created(){
+        this._myAccountSet()
+    },
     methods:{
         change(str){
             this.activeName = str
+        },
+        //获取个人中心详情
+        _myAccountSet(){
+            myAccountSet().then((res)=>{
+                this.settingFrom = res
+                res.gender == 0?this.settingFrom.gender='0':this.settingFrom.gender='1'
+            })
         },
         //设置个人信息
         setSub(){

@@ -93,7 +93,7 @@ export default {
   methods:{
     _myAccount(){
       myAccount().then((res)=>{
-        this.userDetail = res
+        this.userDetail = res.data
       })
     }
   }

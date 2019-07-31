@@ -36,11 +36,11 @@ ul,li {
     background-color:#C51015!important;
 }
 /* 单选框重置样式 */
-.el-radio__input.is-checked .el-radio__inner{
+.account_set .el-radio__input.is-checked .el-radio__inner{
     border-color:#a81015!important;
     background:#C51015!important;
 }
-.el-radio__input.is-checked+.el-radio__label{
+.account_set .el-radio__input.is-checked+.el-radio__label{
     color: #C51015!important;
 }
 .wrapLogin .el-input__inner,.register .el-input__inner{
