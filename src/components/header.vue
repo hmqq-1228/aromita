@@ -181,7 +181,9 @@
       },
       //判断用户登录状态
       _checkLogin(){
+        console.log(111)
         checkLogin().then((res)=>{
+          console.log(111000)
           if(res.code == '200'){
             this.login_status = true;
           }else{
