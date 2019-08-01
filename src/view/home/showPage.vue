@@ -45,7 +45,7 @@
       <div class="banner2 swiper-container" dir="rtl">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in hotStyle" :key="index">
-            <img :src="url+item.picture_src" class="small" @click="link(item.picture_href)">
+            <img :src="url+item.picture_src" class="small2" @click="link(item.picture_href)">
           </div>
         </div>
         <!-- 如果需要分页器 -->
@@ -149,7 +149,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .wrap_1 {
   margin: 0 auto;
 }
@@ -294,7 +294,7 @@ export default {
     margin-bottom: 30px;
     color: #333;
   }
-  .small {
+  .small2 {
     width: 336px !important;
     height: 336px !important;
   }

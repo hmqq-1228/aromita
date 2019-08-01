@@ -544,7 +544,7 @@ export default {
     addToCart: function () {
       var that = this
       var skuId = that.$route.params.skuId
-      this.$axios.post(this.$store.state.localUrl+'api/addcart/'+ skuId + '/' +that.numQuality, {}).then(res => {
+      this.$axios.post(this.$store.state.localUrl+'api/addcart/'+ skuId + '/' +that.numQuality).then(res => {
         console.log('sssssss', res.data)
         that.$store.state.addCartState = true
         if (res.data === 2050) {
@@ -761,7 +761,6 @@ export default {
 .small{
   width: 80px;
   height: 80px;
-  border: 1px solid #ccc;
 }
 .goodsDetail{
   width: 1440px;
