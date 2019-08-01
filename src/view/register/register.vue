@@ -195,7 +195,6 @@ export default {
     async handleCatpchas () {
       let data = await Catpcha()
       this.identifyCodeNew = data.data
-      console.log('3333333', data)
     },
     toLogin: function () {
       this.$router.push('/login')
