@@ -6,8 +6,8 @@ Vue.use(Vuex)
 const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
   baseServiceUrl: 'https://arapi.panduo.com.cn/',
-  localUrl: '',
-  //localUrl: 'https://arapi.panduo.com.cn/',
+  //localUrl: '',
+  localUrl: 'http://arapi.panduo.com.cn/',
   cont: 0,
   contPrev: 0,
   addCartState: false,
