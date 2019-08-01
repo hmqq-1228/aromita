@@ -172,7 +172,7 @@
       // 退出登录
       logout(){
         userLogout().then((res)=>{
-          if(res.code === '200'){
+          if(res.code == '200'){
             localStorage.removeItem("userToken")
             localStorage.removeItem("userName")
             this.$router.go(0)
@@ -180,10 +180,8 @@
         })
       },
       //判断用户登录状态
-      _checkLogin(){
-        console.log(111)
+      _checkLogin(){ 
         checkLogin().then((res)=>{
-          console.log(111000)
           if(res.code == '200'){
             this.login_status = true;
           }else{
@@ -197,6 +195,7 @@
         this.$router.push('/')
       },
       visible:function(){
+        this.getGoodsListFuc()
         this.show = true;
       },
       invisible:function(){

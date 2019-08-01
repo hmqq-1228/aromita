@@ -66,7 +66,7 @@
                 </ul>
               </div>
             </div>
-            <el-button class="btn1" @click="handleLogin('ruleForm')">
+            <el-button class="btn1" @click="_handleLogin('ruleForm')">
               <p class="btn1_word">Login</p>
             </el-button>
           </el-form>
@@ -175,7 +175,7 @@ export default {
       let data = await handleCatpchas();
       this.identifyCodeNew = data.data
     },
-    handleLogin: function (formName) {
+    _handleLogin: function (formName) {
       var that = this
       let params = {
         cont: that.num,
@@ -194,35 +194,32 @@ export default {
         }
       })
     },
-    async handleLoginSub() {
-      var that = this
-      var params
-      params = {
-        catpchas: that.verifiCode,
+    handleLoginSub() {      
+      let pre = {
+        catpchas: this.verifiCode,
         email: this.ruleForm.name,
         password: this.ruleForm.password
       }
-      let data = await handleLogin(params)
-      this.loginData = data;
-      let code = this.loginData.code;
-      if (code === 200) {
-        that.$message({
-          message: " success",
-          type: "success"
-        });
-        that.mergeGoodsFuc()
-        that.$router.push('/')
-        localStorage.setItem('userName', that.ruleForm.name)
-        localStorage.setItem('userToken', this.loginData.data.token)
-      } else {
-        that.$message.error(data.msg)
-        that.num = data.data
-        localStorage.setItem('errNum', data.data)
-      }
+      handleLogin(pre).then((res)=>{
+        if (res.code === 200) {
+          this.loginData = res.data
+          this.$message({
+            message: " success",
+            type: "success"
+          });
+          this.mergeGoodsFuc()
+          this.$router.push('/')
+          localStorage.setItem('userName', this.ruleForm.name)
+          localStorage.setItem('userToken', this.loginData.token)
+        }else {
+          this.$message.error(data.msg)
+          this.num = data.data
+          localStorage.setItem('errNum', data.data)
+        }
+      })
     },
     async mergeGoodsFuc(){
       let data = await mergeGoods()
-      console.log('9999999', data)
     },
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();
