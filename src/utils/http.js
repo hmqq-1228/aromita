@@ -10,6 +10,13 @@ if(process.env.API_ROOT){
 }
 //本地开发
 axios.defaults.timeout = 60 * 1000;
+axios.default.headers ={
+    'Access-Control-Allow-Credentials':'true',
+    'Access-Control-Allow-Methods': 'POST,GET,OPTIONS,PUT,DELETE',
+    'Access-Control-Allow-Headers': 'cache-control,content-type,hash-referer,x-requested-with',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Access-Control-Allow-Origin':'*'
+}
 // axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 
 // request全局拦截
