@@ -547,7 +547,11 @@ export default {
     addToCart: function () {
       var that = this
       var skuId = that.$route.params.skuId
-      this.$axios.post(this.$store.state.localUrl+'api/addcart/'+ skuId + '/' +that.numQuality).then(res => {
+      var obj = qs.stringify({
+        product_id: skuId,
+        count: that.numQuality
+      })
+      this.$axios.post(this.$store.state.localUrl+'api/addcart', obj).then(res => {
         console.log('sssssss', res.data)
         that.$store.state.addCartState = true
         if (res.data === 2050) {
