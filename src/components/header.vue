@@ -22,8 +22,8 @@
             <div class="optionList">
               <!-- 登录 -->
               <div class="login">
-                <div class="login_left" v-if="login_status == false">
-                  <img src="@/assets/login.png" @click="HandleLogin" alt>
+                <div class="login_left" @click="HandleLogin" v-if="login_status == false">
+                  <img src="@/assets/login.png" alt>
                   <span>{{userName}}</span>
                 </div>
                 <el-dropdown v-if="login_status == true">

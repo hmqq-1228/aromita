@@ -39,7 +39,7 @@ const ENV_LIST = [
     //生产环境（命令行参数（process.arg）中prod是保留字，所以使用pro）
     envName: 'pro',
     dirName: path.resolve(__dirname, '../mySelf'),
-    baseUrl: 'http://47.104.xxx.xxx:8767',
+    baseUrl: 'https://arapi.panduo.com.cn',
     assetsPublicPath:'/'
   },
 
