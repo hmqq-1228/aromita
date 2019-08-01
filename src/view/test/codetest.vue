@@ -47,11 +47,10 @@
   };
 </script>
 
-<style>
+<style scoped>
   .code {
-    margin: 400px auto;
-    width: 114px;
-    height: 40px;
+    width: 120px;
+    height: 34px;
     border: 1px solid red;
   }
 </style>

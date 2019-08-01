@@ -339,11 +339,14 @@ export default {
             for(let key in that.imageList){
               console.log('66666666', that.imageList[key])
               var str = that.imageList[key].split('.')
-              var str2 = ''
+              var strArr = []
               for (var k = 0; k<str.length-1; k++) {
-
+                strArr.push(str[k])
               }
               console.log('77777777', str)
+              console.log('88888888', strArr)
+              var strArrJoin = strArr.join('.')
+              console.log('99999999', strArrJoin)
             }
             for (var i = 0; i < list.length; i++){
               var obj = {
