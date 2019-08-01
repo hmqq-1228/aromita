@@ -3,7 +3,12 @@ import qs from "qs";
 
 console.log(process.env.API_ROOT,'000')
 //axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
-axios.defaults.baseURL = '';//本地开发
+if(process.env.API_ROOT){
+    axios.defaults.baseURL = process.env.API_ROOT;
+}else{
+    axios.defaults.baseURL = ''
+}
+//本地开发
 axios.defaults.timeout = 60 * 1000;
 // axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 
