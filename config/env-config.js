@@ -25,7 +25,7 @@ const ENV_LIST = [
     //开发环境
     envName: 'dev',
     dirName: 'dev',
-    baseUrl: 'http://arapi.panduo.com.cn',
+    baseUrl: 'https://arapi.panduo.com.cn',
     assetsPublicPath:'/'
   },
   {

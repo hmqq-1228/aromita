@@ -1,8 +1,8 @@
 import axios from "axios";
 import qs from "qs";
 
-axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
-//axios.defaults.baseURL ='';//本地开发
+//axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
+axios.defaults.baseURL =process.env.API_ROOT;//本地开发
 axios.defaults.timeout = 60 * 1000;
 // axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 

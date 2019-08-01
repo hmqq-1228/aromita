@@ -15,8 +15,8 @@
                                 <div class="shipping_list">
                                     <div class="list add_address">
                                         <i class="el-icon-plus" @click="addNew()"></i>
-                                        <p>Add New Shipping Address</p>
-                                        <div class="tip_max">（10 address maxed）</div>
+                                        <p>Add a New Shipping Address</p>
+                                        <div class="tip_max">（(10 addresses max)）</div>
                                     </div>
                                     <div class="list shipping_address" v-for="(item,index) in list" :key="index">
                                         <h5>{{item.entry_firstname}}{{item.entry_lastname}}</h5>
@@ -103,7 +103,7 @@
                         <el-input v-model="addressForm.telephone_number"></el-input>
                     </el-form-item>
                     <el-form-item :label-width="formLabelWidth">
-                        <el-checkbox v-model="isdefault">As Default</el-checkbox>
+                        <el-checkbox v-model="isdefault">Set as default</el-checkbox>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">

@@ -9,33 +9,35 @@
         <div class="navCount">
           <div class="account_home">
             <div class="home_top">
-              <img src="@/assets/images/user.jpg" alt="" class="user">
               <div class="user_detail">
                 <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
                 <h4 v-else>{{userDetail.firstname}} {{userDetail.lastname}}</h4>
-                <p><img src="@/assets/images/Settings.png" alt=""><router-link to="/addressBook">Address Book</router-link></p>
-                <p><img src="@/assets/images/Address.png" alt=""><router-link to="/accountSetting">Account Setting</router-link></p>
+                <div class="other_link">
+                    <p style="margin-right:26px"><img src="@/assets/images/Address.png" alt=""><router-link to="/accountSetting">Account Setting</router-link></p>
+                    <p><img src="@/assets/images/Settings.png" alt=""><router-link to="/addressBook">Address Book</router-link></p>
+                </div>
+              </div>
+              <div class="processing_link">
+                <span><img src="@/assets/images/ProcessingOrders.png" alt=""></span>
+                <span class="text">1</span>
+                <span>Processing Orders</span>
+              </div>
+              <div class="processing_link">
+                <span><img src="@/assets/images/Wishlist.png" alt=""></span>
+                <span class="text">1</span>
+                <span>Wishlist</span>
               </div>
               <div class="user_list">
                   <div class="list">
-                    <p>5</p>
-                    <h5>Wishlist</h5>
+                    <h5>Coupon （2）</h5>
                   </div>
                   <div class="list">
-                    <p>5</p>
-                    <h5>Coupon</h5>
-                  </div>
-                  <div class="list">
-                    <p>{{userDetail.score}}</p>
-                    <h5>Points</h5>
-                  </div>
-                  <div class="list">
-                    <p>5</p>
-                    <h5>Subscribe</h5>
+                    <!-- <p>{{userDetail.score}}</p> -->
+                    <h5>Points <span v-if="userDetail.score!=null">({{userDetail.score}})</span></h5>
                   </div>
               </div>
             </div>
-            <div class="home_bot">
+            <!-- <div class="home_bot">
               <div class="order_list">
                   <div class="list">
                     <img src="@/assets/images/All-Orders.png" alt="">
@@ -58,7 +60,7 @@
                     <p>Refund(0)</p>
                   </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

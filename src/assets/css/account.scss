@@ -142,11 +142,9 @@
             width: 1230px;
             position: relative;
             .home_top{
-                height: 190px;
-                background-color: #ffff;
-                padding:40px;
-                box-sizing: border-box;
+                background-color:#E9E9E9;
                 margin-bottom:20px;
+                display: flex;
                 .user{
                     width:110px;
                     height: 110px;
@@ -155,35 +153,70 @@
                 }
                 .user_detail{
                     float: left;
+                    width: 360px;
+                    height: 271px;
+                    margin-right: 20px;
+                    background: #fff;
+                    display:flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
                     h4{
                         font-size: 16px;
                         color: #333;
                         margin-bottom: 12px;
                     }
-                    p{
-                        font-size: 14px;
-                        color: #333;
+                    .other_link{
                         display: flex;
-                        align-items: center;
-                        margin-bottom: 12px;
-                        cursor: pointer;
-                        img{
-                            width: 24px;
-                            height: 24px;
-                            margin-right: 7px;
+                        p{
+                            font-size: 14px;
+                            color: #333;
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 12px;
+                            cursor: pointer;
+                            img{
+                                width: 24px;
+                                height: 24px;
+                                margin-right: 7px;
+                            }
                         }
                     }
                 }
-                .user_list{
+                .processing_link{
+                    width: 270px;
+                    height: 271px;
+                    background: #fff;
+                    margin-right: 20px;
                     display: flex;
-                    height: 110px;
+                    flex-direction: column;
                     align-items: center;
+                    justify-content: center;
+                    span{
+                        margin-bottom:26px;
+                        font-size: 18px;
+                        color: #333;
+                        img{
+                            width: 24px;
+                        }
+                    }
+                    .text{
+                        color: #666;
+                        font-size: 20px;
+                    }
+                }
+                .user_list{
+                    width: 270px;
+                    height: 271px;
                     .list{
-                        flex:1;
                         text-align: center;
+                        height: 125px;
+                        line-height: 125px;
+                        background: #fff;
+                        margin-bottom: 20px;
                         h5{
-                            font-size: 14px;
-                            color: #666;
+                            font-size: 18px;
+                            color: #333;
                             font-weight: normal;
                         }
                         p{
@@ -220,6 +253,10 @@
         color:#003764;
         cursor: pointer;
         margin:0 10px;
+    }
+    .No_order{
+        height: 100px;
+        line-height: 100px;
     }
 }
 // 订单详情页
@@ -757,7 +794,6 @@
         margin-left: 130px;
     }
 }
-
 //个人中心设置
 .account_set{
     .set_tab{
