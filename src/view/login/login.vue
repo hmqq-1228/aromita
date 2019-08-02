@@ -194,7 +194,7 @@ export default {
         }
       })
     },
-    handleLoginSub() {      
+    handleLoginSub() {
       let pre = {
         catpchas: this.verifiCode,
         email: this.ruleForm.name,
@@ -209,12 +209,10 @@ export default {
           });
           this.mergeGoodsFuc()
           this.$router.push('/')
-          localStorage.setItem('userName', this.ruleForm.name)
           localStorage.setItem('userToken', this.loginData.token)
         }else {
           this.$message.error(data.msg)
           this.num = data.data
-          localStorage.setItem('errNum', data.data)
         }
       })
     },

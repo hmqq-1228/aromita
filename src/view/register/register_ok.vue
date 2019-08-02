@@ -79,7 +79,7 @@ margin-top: 5px;
 }
 }
  .left {
-    background: url('../../assets/time5.gif') no-repeat center ;
+    background: url('../../../static/img/time5.gif') no-repeat center ;
     height: 60px;
     width: 60px;
     text-align: center;

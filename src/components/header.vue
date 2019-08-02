@@ -22,11 +22,11 @@
             <div class="optionList">
               <!-- 登录 -->
               <div class="login">
-                <div class="login_left" @click="HandleLogin" v-if="login_status == false">
+                <div class="login_left" @click="HandleLogin" v-if="!login_status">
                   <img src="@/assets/login.png" alt>
                   <span>{{userName}}</span>
                 </div>
-                <el-dropdown v-if="login_status == true">
+                <el-dropdown v-if="login_status">
                   <div class="login_right" :title="userName">
                     <router-link to="/myAccount">{{userName}}</router-link>
                   </div>
@@ -172,22 +172,25 @@
       // 退出登录
       logout(){
         userLogout().then((res)=>{
-          if(res.code == '200'){
+          if(res.code === 200){
             localStorage.removeItem("userToken")
-            localStorage.removeItem("userName")
-            this.$router.go(0)
+            this.userName = 'Login'
+            this._checkLogin()
+            this.getGoodsCont()
+            // this.$router.go(0)
           }
         })
       },
       //判断用户登录状态
-      _checkLogin(){ 
+      _checkLogin(){
         checkLogin().then((res)=>{
-          if(res.code == '200'){
+          if(res.code === '200'){
             this.login_status = true;
+            this.userName = res.data
           }else{
             this.login_status = false;
+            this.userName = 'Login'
             localStorage.removeItem("userToken")
-            localStorage.removeItem("userName")
           }
         })
       },

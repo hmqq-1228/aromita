@@ -220,6 +220,7 @@ export default {
     width: 460px;
     height: 300px;
     margin-top: 30px;
+    cursor: pointer;
   }
   .word2_,.word3_{
     width: 1440px;
@@ -251,7 +252,7 @@ export default {
     justify-content: space-between;
   }
   .sell_1,.new_1{
-    width: 336px;
+    width: 338px;
     height: 388px;
     text-align: center;
     margin-top: 30px;
@@ -259,6 +260,8 @@ export default {
   .sell_1>img,.new_1>img{
     width: 336px;
     height: 336px;
+    cursor: pointer;
+    border: 1px solid #e9e9e9;
   }
   .sell_word,.new_word{
     font-size: 14px;

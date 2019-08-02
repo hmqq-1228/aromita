@@ -24,7 +24,6 @@ axios.interceptors.request.use(config => {
     config.headers['Access-Control-Allow-Origin'] = '*';
     config.headers['Access-Control-Allow-Credentials'] = 'true';
     config.headers['Access-Control-Allow-Methods'] = 'POST,GET,OPTIONS,PUT,DELETE';
-  console.log('request', config)
     let token = window.localStorage.getItem("userToken")
     if (token) {
         config.headers.Authorization = `bearer ${token}`;    //将token放到请求头发送给服务器
@@ -40,7 +39,6 @@ axios.interceptors.response.use(response => {
   response.headers['Access-Control-Allow-Origin'] = '*';
   response.headers['Access-Control-Allow-Credentials'] = 'true';
   response.headers['Access-Control-Allow-Methods'] = 'POST,GET,OPTIONS,PUT,DELETE';
-  console.log('response', response)
     return response.data
 }, error => {
     return Promise.reject(error.response)

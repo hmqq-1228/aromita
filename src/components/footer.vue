@@ -8,7 +8,6 @@
               <img :src="url+item.picture_src" alt>
             </a>
           </div>
-          <div><img src="../assets/pinterest.png" alt=""></div>
         </div>
         <!-- 服务 -->
         <div class="xian">
@@ -168,6 +167,8 @@ ul li{
   display: inline-block;
   width: 40px;
   height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
 }
 .xian {
   border-bottom: 1px solid gainsboro;
