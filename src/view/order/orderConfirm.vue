@@ -232,29 +232,29 @@
         </div>
       </div>
       <div class="payDiv">
-        <div class="payItem">
+        <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
           <div class="payName" @click="testAlert()">Subtotal:</div>
-          <div class="payValue">$ 66.66</div>
+          <div class="payValue">$ {{billing.subtotal.toFixed(2)}}</div>
         </div>
-        <div class="payItem">
+        <div class="payItem" v-if="billing.cc_amount && billing.cc_amount>0">
           <div class="payName">Coupon:</div>
-          <div class="payValue">$ 30.66</div>
+          <div class="payValue">$ {{billing.cc_amount.toFixed(2)}}</div>
         </div>
-        <div class="payItem">
+        <div class="payItem" v-if="billing.point && billing.point>0">
           <div class="payName">Points:</div>
-          <div class="payValue">$ 30.66</div>
+          <div class="payValue">$ {{billing.point.toFixed(2)}}</div>
         </div>
-        <div class="payItem">
+        <div class="payItem" v-if="billing.taxfee && billing.taxfee>0">
           <div class="payName">Tax:</div>
-          <div class="payValue">$ 30.66</div>
+          <div class="payValue">$ {{billing.taxfee.toFixed(2)}}</div>
         </div>
-        <div class="payItem">
+        <div class="payItem" v-if="shipFee>0">
           <div class="payName">Shipping:</div>
           <div class="payValue">$ {{shipFee}}</div>
         </div>
         <div class="payItem">
           <div class="payName total">Grand Total:</div>
-          <div class="payValue total">$ {{parseFloat(totalPay.toFixed(2)) + parseFloat(shipFee)}}</div>
+          <div class="payValue total">$ {{(parseFloat(shipFee) + billTotal).toFixed(2)}}</div>
         </div>
         <div style="margin-top: 15px;"><el-button @click="paySub('ruleForm', 'shipForm')">Confirm to pay</el-button></div>
         <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
@@ -285,8 +285,10 @@ export default {
       radio: '',
       radio2: '',
       radio3: '1',
+      billing: '',
       shipFee: 0,
       totalPay: 0,
+      billTotal: 0,
       addressNum: 0,
       goodsList: [],
       addressList: [],
@@ -645,12 +647,26 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
       var coupon_id = sessionStorage.getItem('couponId')
+      var billList = []
+      var sumBill = 0
       let idList = {
         ids: idStr,
         coupon_id: coupon_id
       }
       let data = await billingList(idList)
       console.log('hhhhhhhh', data)
+      that.billing = data
+      for (let k in data) {
+        if (data[k] && data[k]>0) {
+          billList.push(parseFloat(data[k].toFixed(2)))
+        }
+      }
+      console.log('88888', billList)
+      for (var i=0;i<billList.length;i++) {
+        sumBill = sumBill + billList[i]
+      }
+      console.log('99999', sumBill)
+      that.billTotal = sumBill
     },
     // 修改
     submitForm(formName) {

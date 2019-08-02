@@ -43,7 +43,7 @@ ul,li {
 .account_set .el-radio__input.is-checked+.el-radio__label{
     color: #C51015!important;
 }
-.wrapLogin .el-input__inner,.register .el-input__inner{
+.wrapLogin .el-input__inner,.register .right .el-input__inner{
     width: 400px;
     position: relative;
     border: 1px solid #121037;

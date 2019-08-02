@@ -18,8 +18,8 @@
         <div class="swiper-father">
           <div class="banner2 swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)" :class="index === 0? 'checkedStyle': ''">
-                <img :src="detailImg.split('.jpg')[0] + '_80_80.jpg'" class="small">
+              <div class="swiper-slide" v-for="(detailImg, index) in imageListNew" v-bind:key="index" @click="chooseImg($event, detailImg)">
+                <img :src="detailImg" class="small">
               </div>
               <!--<div class="swiper-slide">-->
                 <!--<img src="@/assets/modelGoods.png" class="small">-->
@@ -228,6 +228,7 @@ export default {
       getNewSkuId: 0,
       getSkuList: [],
       imageList: [],
+      imageListNew: [],
       skuSpuIdList: [],
       skuList: [],
       maxQuality: 0
@@ -299,9 +300,11 @@ export default {
     chooseImg: function (e, url) {
       var obj = e.currentTarget
       $(obj).addClass('checkedStyle').siblings().removeClass('checkedStyle')
-      var leftUrl = url.split('.jpg')[0]
-      console.log('jpg', leftUrl)
-      var imgUrl = leftUrl + '_500_500.jpg'
+      var leftUrl = url.split('_80_80')[0]
+      var rightUrl = url.split('_80_80')[1]
+      console.log('11111', leftUrl)
+      console.log('22222', rightUrl)
+      var imgUrl = leftUrl + '_500_500' + rightUrl
       this.mainImgUrl = imgUrl
     },
     // 商品详情
@@ -336,18 +339,20 @@ export default {
             that.skuList = res.data.sku_list
             var list = JSON.parse(res.data.sku.sku_attrs)
             // that.colorList = res.data.data.attrs.color
+            var imgList = []
             for(let key in that.imageList){
-              console.log('66666666', that.imageList[key])
               var str = that.imageList[key].split('.')
               var strArr = []
               for (var k = 0; k<str.length-1; k++) {
                 strArr.push(str[k])
               }
-              console.log('77777777', str)
-              console.log('88888888', strArr)
               var strArrJoin = strArr.join('.')
-              console.log('99999999', strArrJoin)
+              var imgStr = strArrJoin + '_80_80.' + str[4]
+              console.log('777777777', imgStr)
+              imgList.push(imgStr)
             }
+            that.imageListNew = imgList
+            console.log('88888888', that.imageListNew)
             for (var i = 0; i < list.length; i++){
               var obj = {
                 name: list[i].attr_name,

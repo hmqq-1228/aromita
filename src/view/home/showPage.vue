@@ -90,7 +90,6 @@ export default {
     };
   },
   mounted() {
-    this.homeHotStyle();
     var mySwiper = new Swiper(".banner2", {
       slidesPerView: 4,
       slidesPerGroup: 1,
@@ -145,6 +144,7 @@ export default {
     this.homeSeller();
     this.homeArrivai();
     this.homeFoote();
+    this.homeHotStyle();
     this.homeCollections();
   }
 };
