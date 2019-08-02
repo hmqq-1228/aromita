@@ -238,3 +238,10 @@ ul,li {
    border-color: rgba(18, 16, 55, 1) !important;
    background-color: rgba(18, 16, 55, 1) !important;
 }
+.payBtn .el-button:active{
+  color: #fff !important;
+  border: none !important;
+}
+.payBtn .el-button:focus,.payBtn .el-button:hover{
+  color: #fff !important;
+}
