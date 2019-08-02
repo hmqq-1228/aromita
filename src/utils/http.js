@@ -33,9 +33,6 @@ axios.interceptors.request.use(config => {
 
 // response全局拦截
 axios.interceptors.response.use(response => {
-    let token = window.localStorage.getItem("userToken")
-    response.headers.Authorization = `bearer ${token}`;
-    response.headers['Access-Control-Allow-Origin'] = '*';
     return response.data
 }, error => {
     return Promise.reject(error.response)

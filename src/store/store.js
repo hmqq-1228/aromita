@@ -5,8 +5,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
-  baseServiceUrl: 'https://arapi.panduo.com.cn/',
-  localUrl: 'http://localhost:8080/',
+  // baseServiceUrl: 'https://arapi.panduo.com.cn/',
+  // localUrl: 'http://localhost:8080/',
   //localUrl: 'https://arapi.panduo.com.cn/',
   cont: 0,
   contPrev: 0,

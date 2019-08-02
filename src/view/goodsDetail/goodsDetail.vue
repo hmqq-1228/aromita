@@ -318,7 +318,7 @@ export default {
         skuId = this.$route.params.skuId
         spuId = this.$route.params.spuId
       }
-      this.$axios.get(this.$store.state.localUrl+'api/product/'+ spuId + '/' + skuId, {}).then(res => {
+      this.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
         console.log(res)
         if (res.code === "200") {
           console.log('11111', res.data)
@@ -551,7 +551,7 @@ export default {
         product_id: skuId,
         count: that.numQuality
       })
-      this.$axios.post(this.$store.state.localUrl+'api/addcart', obj).then(res => {
+      this.$axios.post('api/addcart', obj).then(res => {
         console.log('sssssss', res.data)
         that.$store.state.addCartState = true
         if (res.data === 2050) {
@@ -566,7 +566,7 @@ export default {
       if (val) {
         that.totalPay = (val * that.priceOrder).toFixed(2)
       }
-      this.$axios.get(this.$store.state.localUrl+'api/sku/getInStock/'+ skuId, {}).then(res => {
+      this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
         console.log('sssssss', res.data)
         if (res.code === '200') {
           that.maxQuality = res.data.inventory

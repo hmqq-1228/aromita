@@ -318,7 +318,7 @@ export default {
     deleteItemCart: function (skuId) {
       var that = this
       // that.btnLoading = true
-      that.$axios.post(this.$store.state.localUrl + 'api/deltocart/' + skuId, {}).then(res => {
+      that.$axios.post('api/deltocart/' + skuId, {}).then(res => {
         if (res.status === 200) {
           that.getGoodsListFuc()
           that.$store.state.addCartState = true
@@ -330,7 +330,7 @@ export default {
       var that = this
       var skuList = JSON.stringify(this.checkedItem)
       // that.btnLoading = true
-      that.$axios.post(this.$store.state.localUrl + 'api/batchdeltocart/' + skuList, {}).then(res => {
+      that.$axios.post('api/batchdeltocart/' + skuList, {}).then(res => {
         if (res.status === 200) {
           that.getGoodsListFuc()
           that.$store.state.addCartState = true
@@ -350,14 +350,14 @@ export default {
       var that = this
       // that.btnLoading = true
       console.log('eeeeee', e)
-      that.$axios.post(this.$store.state.localUrl+'api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
+      that.$axios.post('api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
         that.getGoodsListFuc('add')
         that.getGoodsNum(skuId)
       })
     },
     getGoodsNum: function (skuId) {
       var that = this
-      this.$axios.get(this.$store.state.localUrl+'api/sku/getInStock/'+ skuId, {}).then(res => {
+      this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
         console.log('sssssss', res.data)
         if (res.code === '200') {
           that.maxQuality = res.data.inventory

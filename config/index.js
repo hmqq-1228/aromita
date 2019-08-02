@@ -14,7 +14,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api':{
-        target: 'https://arapi.panduo.com.cn',
+        target: 'https://aromita.panduo.com.cn',
         changeOrigin: true,
         secure: true,
         pathRewrite: {
