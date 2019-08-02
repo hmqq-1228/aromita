@@ -89,7 +89,7 @@
           <!--<div v-if="colorList.length > 5" class="swiper-button-next swiper-button-black swiper-button-next2"></div>-->
         <!--</div>-->
       <!--</div>-->
-      <div style="display: flex;justify-content: start;margin-top: 20px;" v-for="(attr, index5) in attrList" v-bind:key="index5">
+      <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
         <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
         <div class="smallSlider2">
           <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
@@ -302,9 +302,7 @@ export default {
       $(obj).addClass('checkedStyle').siblings().removeClass('checkedStyle')
       var leftUrl = url.split('_80_80')[0]
       var rightUrl = url.split('_80_80')[1]
-      console.log('11111', leftUrl)
-      console.log('22222', rightUrl)
-      var imgUrl = leftUrl + '_500_500' + rightUrl
+      var imgUrl = leftUrl + '_550_550' + rightUrl
       this.mainImgUrl = imgUrl
     },
     // 商品详情
@@ -321,7 +319,7 @@ export default {
         skuId = this.$route.params.skuId
         spuId = this.$route.params.spuId
       }
-      this.$axios.get(this.$store.state.localUrl+'api/product/'+ spuId + '/' + skuId, {}).then(res => {
+      this.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
         console.log(res)
         if (res.code === "200") {
           console.log('11111', res.data)
@@ -556,7 +554,7 @@ export default {
         product_id: skuId,
         count: that.numQuality
       })
-      this.$axios.post(this.$store.state.localUrl+'api/addcart', obj).then(res => {
+      this.$axios.post('api/addcart', obj).then(res => {
         console.log('sssssss', res.data)
         that.$store.state.addCartState = true
         if (res.data === 2050) {
@@ -571,7 +569,7 @@ export default {
       if (val) {
         that.totalPay = (val * that.priceOrder).toFixed(2)
       }
-      this.$axios.get(this.$store.state.localUrl+'api/sku/getInStock/'+ skuId, {}).then(res => {
+      this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
         console.log('sssssss', res.data)
         if (res.code === '200') {
           that.maxQuality = res.data.inventory

@@ -22,10 +22,10 @@
                     <div class="one">
                         <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
                         <p><span>Status.：</span>{{orders[0].orders_status}}</p>
-                        <p><span>Ship Via.：</span>{{orders[0].shipping_method}}</p>
+                        <p><span>Shipping Method.：</span>{{orders[0].shipping_method}}</p>
                     </div>
                     <div class="two">
-                        <p><span>Order Amount：</span><b>$ {{orders[0].order_total}}</b></p>
+                        <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
                         <p><span>Order Time：</span>{{orders[0].created_at}}</p>
                         <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
                     </div>

@@ -8,11 +8,11 @@
                 <Left-Nav></Left-Nav>  
                 <div class="navCount">
                     <div class="my_order">
-                        <h3 class="my_title">Account Setting</h3>
+                        <h3 class="my_title">Account Settings</h3>
                         <div class="account_set">
                             <ul class="set_tab">
-                                <li :class="{active:activeName=='one'}" @click="change('one')">Profile Setting</li>
-                                <li :class="{active:activeName=='two'}" @click="change('two')">Password Setting</li>
+                                <li :class="{active:activeName=='one'}" @click="change('one')">My profile</li>
+                                <li :class="{active:activeName=='two'}" @click="change('two')">Password</li>
                             </ul>
                             <div class="Profile_form">
                                 <div v-if="activeName=='one'">
@@ -42,13 +42,13 @@
                                 </div>
                                 <div v-if="activeName=='two'">
                                     <el-form label-position="right" label-width="180px" :rules="rules2" :model="passwordForm">
-                                        <el-form-item label="Old Password：" prop="pass" required>
+                                        <el-form-item label="Current Password：" prop="pass" required>
                                             <el-input type="password" v-model="passwordForm.oldpassword"></el-input>
                                         </el-form-item>
                                         <el-form-item label="New Password：" prop="pass" required>
                                             <el-input type="password" v-model="passwordForm.newpassword"></el-input>
                                         </el-form-item>
-                                        <el-form-item label="Re-enter password：" prop="checkPass" required>
+                                        <el-form-item label="Confirm New Password：" prop="checkPass" required>
                                             <el-input type="password" v-model="passwordForm.newpassword_confirmation"></el-input>
                                         </el-form-item>
                                     </el-form>

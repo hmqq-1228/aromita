@@ -32,6 +32,7 @@
                         </div> -->
                     </div>
                     <el-table
+                        v-if="orderList.length!=0"
                         :data="orderList"
                         style="width: 100%;border:1px solid #E9E9E9"
                         size="medium"
@@ -50,7 +51,7 @@
                         </el-table-column>
                         <el-table-column
                             prop="order_total"
-                            label="Amount">
+                            label="Total">
                             <template slot-scope="scope">
                                 <span style="color:#c51015">${{scope.row.order_total}}</span>
                             </template>
@@ -67,7 +68,7 @@
                                 <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                 <span class="list_btn" v-if="scope.row.orders_status== 10">Cancel</span>
                                 <span class="list_btn" v-if="scope.row.orders_status== 30">Tracking</span>
-                                <span class="list_btn" v-if="scope.row.orders_status== 30" @click="_refund()">After-sales</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 30" @click="_refund()">After-sale service</span>
                             </template>    
                         </el-table-column>
                     </el-table>
@@ -77,6 +78,9 @@
                             layout="prev, pager, next"
                             :total="total">
                         </el-pagination>
+                    </div>
+                    <div v-if="orderList.length ==0" class="No_order">
+                        <p>Sorry, you don’t have any orders yet. Shop Now.</p>
                     </div>
                 </div>
             </div>
@@ -105,7 +109,7 @@ export default {
             orderList:[],//订单列表
             order_statusList:{
                 '10':"Processing",
-                '20':"Processing（Waiting）",
+                '20':"Processing (Payment Review)",
                 '30':"Shipped",
                 '40':"Cancelled"
             }

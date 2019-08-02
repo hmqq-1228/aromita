@@ -21,7 +21,7 @@ const install = function (Vue, options) {
         }
       }
     }
-    baseurl = store.state.localUrl + actionName
+    // baseurl = store.state.localUrl + actionName
     return $.ajax({
       url: baseurl,
       type: 'POST',

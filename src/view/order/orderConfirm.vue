@@ -558,7 +558,7 @@ export default {
     // 删除
    deleteAddress: function (id) {
      var that = this
-     that.$axios.delete(this.$store.state.localUrl + 'api/address/' + id, {}).then(res => {
+     that.$axios.delete('api/address/' + id, {}).then(res => {
        console.log('ididididid', res)
        if (res.code === '200') {
          that.getOrderAddress()
@@ -571,7 +571,7 @@ export default {
       if (id) {
         that.editId = id
         that.addressFormShow = true
-        that.$axios.get(this.$store.state.localUrl + 'api/address/' + id, {}).then(res => {
+        that.$axios.get('api/address/' + id, {}).then(res => {
           if (res.code === '200') {
             console.log('yyyyyyyyy', res)
             that.addNewForm.First = res.data.entry_firstname
@@ -688,7 +688,7 @@ export default {
             is_default: that.addNewForm.checked === true ? 1 : 0
           })
           console.log('editObj', editObj)
-          that.$axios.post(this.$store.state.localUrl + 'api/address/' + that.editId, editObj).then(res => {
+          that.$axios.post('api/address/' + that.editId, editObj).then(res => {
             console.log('sssssss', res)
             if (res.code === 200 || res.code === '200'){
               that.getOrderAddress()
