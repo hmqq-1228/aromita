@@ -111,7 +111,7 @@ import {homeIcon,homeFootTitle} from '../api/home'
 export default {
    data() {
     return {
-      url:'http://arapi.panduo.com.cn/uploads/',
+      url:'https://arapi.panduo.com.cn/uploads/',
       input10: "",
        icon: [], //40
        footTitle: [], //50
