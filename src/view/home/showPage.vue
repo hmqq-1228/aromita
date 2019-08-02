@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       swiper1: "",
-      url: "http://arapi.panduo.com.cn/uploads/",
+      url: "https://arapi.panduo.com.cn/uploads/",
       homeData: [], //Best Seller商品信息
       dataBanner: [], //首页banner信息
       homeArr: [], //NEW Arrivai 信息
