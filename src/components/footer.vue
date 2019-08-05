@@ -15,13 +15,13 @@
             <div class="sixty" v-for="(item,index) in footTitle" :key="index">
               <div>
                 <a :href="item.picture_href">
-                <img :src="url+item.picture_src" alt>
+                    <img :src="url+item.picture_src" alt>
                 </a>
               </div>
-              <div class="sixty_word">
+              <!-- <div class="sixty_word">
                 <a :href="item.picture_href"><p class="sixty_word1">{{item.picture_title}}</p></a>
                 <span class="sixty_word2">{{item.picture_title}}</span>
-              </div>
+              </div> -->
             </div>
           <!-- <div class="payment">
             <img src="@/assets/02.png" alt>
@@ -187,7 +187,7 @@ ul li{
 }
 .sixty  img {
   display: inline-block;
-  width: 60px;
+  width: 260px;
   height: 60px;
   margin-right: 10px;
 }

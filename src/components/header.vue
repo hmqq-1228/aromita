@@ -173,11 +173,15 @@
       logout(){
         userLogout().then((res)=>{
           if(res.code === 200){
+            this.$message({
+              message: "success",
+              type: "success"
+            });
             localStorage.removeItem("userToken")
             this.userName = 'Login'
             this._checkLogin()
             this.getGoodsCont()
-            // this.$router.go(0)
+            this.$router.push('/')
           }
         })
       },
