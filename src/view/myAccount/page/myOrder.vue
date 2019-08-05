@@ -66,9 +66,9 @@
                         <el-table-column label="Action" width="280">
                             <template slot-scope="scope">
                                 <span class="list_btn" @click="detail(scope.row.id)">View</span>
-                                <span class="list_btn" v-if="scope.row.orders_status== 10">Cancel</span>
-                                <span class="list_btn" v-if="scope.row.orders_status== 30">Tracking</span>
-                                <span class="list_btn" v-if="scope.row.orders_status== 30" @click="_refund()">After-sale service</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 20">Cancel</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
+                                <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                             </template>    
                         </el-table-column>
                     </el-table>
@@ -108,10 +108,11 @@ export default {
             order_status:'',//订单状态
             orderList:[],//订单列表
             order_statusList:{
-                '10':"Processing",
-                '20':"Processing (Payment Review)",
-                '30':"Shipped",
-                '40':"Cancelled"
+                '10':"pending",
+                '20':"Processing",
+                '30':"Processing (Payment Review)",
+                '40':"Shipped",
+                '50':"Cancelled"
             }
                 
         }
