@@ -48,11 +48,9 @@
             <img :src="url+item.picture_src" class="small2" @click="link(item.picture_href)">
           </div>
         </div>
-        <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
         <!-- 如果需要导航按钮 -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev swiper-button-black"></div>
+        <div class="swiper-button-next swiper-button-black"></div>
       </div>
     </div>
     <footer-com></footer-com>
@@ -308,5 +306,17 @@ export default {
   .banner2 .swiper-slide{
     width: 336px !important;
     margin-right: 20px !important;
+  }
+.swiper-button-prev, .swiper-button-next{
+  height: 30px !important;
+  margin-top: -10px !important;
+  background-size: 20px !important;
+  color: #666 !important;
+}
+.swiper-button-prev{
+  right: 0 !important;
+}
+  .swiper-button-next{
+    left: 0 !important;
   }
 </style>

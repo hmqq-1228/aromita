@@ -117,6 +117,9 @@
     border: 1px solid #c30808;
     box-shadow: 0 0 8px 5px #e7e7e7;
   }
+.goodInner:hover .goodsPic{
+  border-bottom: 1px solid #c30808;
+}
   .price{
     padding: 10px;
   }
@@ -211,11 +214,11 @@
     padding-left: 10px;
   }
   .goodsPic{
-    width: 280px;
     height: 280px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    border-bottom: 1px solid #c9c9c9;
   }
   .goodsPic img{
     width: 100%;

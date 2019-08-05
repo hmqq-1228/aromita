@@ -345,7 +345,7 @@ export default {
                 strArr.push(str[k])
               }
               var strArrJoin = strArr.join('.')
-              var imgStr = strArrJoin + '_80_80.' + str[4]
+              var imgStr = strArrJoin + '_80_80.' + str[3]
               console.log('777777777', imgStr)
               imgList.push(imgStr)
             }
