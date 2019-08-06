@@ -1,0 +1,128 @@
+.tip{
+    color: #f56c6c;
+    height: 20px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #fff;
+  }
+  .register {
+    width: 100%;
+  }
+  .wrap {
+    width: 100%;
+  }
+  .content_5 {
+    width: 1440px;
+    height: 830px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+  }
+  .left_img > img {
+    width: 940px;
+    height: 530px;
+    background: rgba(0, 0, 0, 0);
+    border: 1px solid rgba(233, 233, 233, 1);
+  }
+  .right {
+    padding: 30px;
+    width: 462px;
+    height: 610px;
+    border: 1px solid gainsboro;
+    box-sizing: border-box;
+    padding-top: 10px;
+  }
+  .right_word1 {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+  }
+  .words_r{
+    font-size: 14px;
+    color: #333;
+    u{
+        color: #003764;
+    }
+  }
+  .el-form-item__error {
+    color: #f56c6c;
+    font-size: 14px;
+    line-height: 1;
+    padding-top: 4px;
+    position: absolute;
+    top: 49px;
+    left: -67px;
+  }
+  .word_r {
+    margin-bottom: 15px;
+  }
+  .word_p{
+    display: inline;
+    margin-left: 2px;
+    cursor: pointer;
+  }
+  .ivu-checkbox-wrapper {
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 100px;
+  }
+  .btn1 {
+    width: 398px;
+    height: 40px;
+    background: #121037;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  .btn1_word {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
+  }
+  hr {
+    width: 391px;
+    margin: 0 auto;
+    border: 1px solid rgba(228, 228, 228, 1);
+  }
+  .New_Customers_ {
+    width: 146px;
+    height: 21px;
+    background-color: #fff;
+    position: relative;
+    top: 11px;
+    left: 32%;
+    z-index: 1111;
+  }
+  .New_Customers {
+    width: 156px;
+    height: 21px;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+  }
+  .btn2 {
+    width: 396px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid rgba(51, 51, 51, 1);
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    cursor: pointer;
+    text-align: center;
+  }
+  .btn2:hover{
+    background-color: #eee;
+  }
+  .word_r {
+    margin-top: 37px;
+  }
+  .catpcha{
+    height: 30px;
+    line-height: 30px;
+  }
