@@ -14,15 +14,15 @@
                             <img src="@/assets/images/All-Orders.png" alt="">
                             <p>All Orders</p>
                         </div>
-                        <div class="list" :class="{'active':order_status=='10'}" @click="changeOrderStatus('10')">
+                        <div class="list" :class="{'active':order_status=='20'}" @click="changeOrderStatus('20')">
                             <img src="@/assets/images/Processing.png" alt="">
                             <p>Processing</p>
                         </div>
-                        <div class="list" :class="{'active':order_status=='30'}" @click="changeOrderStatus('30')">
+                        <div class="list" :class="{'active':order_status=='40'}" @click="changeOrderStatus('40')">
                             <img src="@/assets/images/Shipped.png" alt="">
                             <p>Shipped</p>
                         </div>
-                        <div class="list" :class="{'active':order_status=='40'}" @click="changeOrderStatus('40')">
+                        <div class="list" :class="{'active':order_status=='50'}" @click="changeOrderStatus('50')">
                             <img src="@/assets/images/Delivered.png" alt="">
                             <p>Cancelled</p>
                         </div>
@@ -63,7 +63,7 @@
                                 <span>{{order_statusList[scope.row.orders_status]}}</span>
                             </template>
                         </el-table-column>
-                        <el-table-column label="Action" width="280">
+                        <el-table-column label="Action" width="300">
                             <template slot-scope="scope">
                                 <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                 <span class="list_btn" v-if="scope.row.orders_status== 20">Cancel</span>
@@ -113,8 +113,7 @@ export default {
                 '30':"Processing (Payment Review)",
                 '40':"Shipped",
                 '50':"Cancelled"
-            }
-                
+            }               
         }
     },
     created(){

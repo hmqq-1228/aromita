@@ -68,7 +68,7 @@
             <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseover="getNavList(index, $event)">
               <div class="data">{{item.cate_name}}</div>
               <div class="content_box1" :style="'left: -' + leftVal + 'px'">
-                <div class="box-item" v-for="(nav, index2) in nav_arrList" v-bind:key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</div>
+                <div class="box-item" v-for="(nav, index2) in nav_arrList" :key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</div>
               </div>
             </li>
           </ul>
