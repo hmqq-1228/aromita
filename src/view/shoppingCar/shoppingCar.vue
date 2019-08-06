@@ -29,7 +29,7 @@
       <div class="goodsTotal">$ {{carItem.totalPay}}</div>
       <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish($event)" :src="wishUrl" alt=""></span></div>
     </div>
-    <div class="noGoods" v-if="goodsList && goodsList.length === 0">
+    <div class="noGoods" v-if="noProduct">
       <div class="noGoodsCont">
         <div class="imgType"><img src="../../assets/Cart-Empty.png" alt=""></div>
         <div class="noGoodsText">The Shopping Cart is Empty!</div>
@@ -179,6 +179,8 @@ export default {
       goodsListOff: [],
       btnCanSub: true,
       maxQuality: 0,
+      noProduct: false,
+      // gLoading: false,
       btnLoading: false
     }
   },
@@ -222,6 +224,7 @@ export default {
       var that = this
       that.payList = []
       that.totalPay = 0
+      // that.gLoading = true
       if (tr) {
         let data = await getGoodsList();
         this.goodsList = data
@@ -231,7 +234,6 @@ export default {
           if (that.goodsList[i].sku_status === 1) {
             OnList.push(that.goodsList[i])
             that.goodsListOn = OnList
-            console.log('onononon', that.goodsListOn)
             that.idList.push(that.goodsList[i].sku_id)
             for (var j = 0;j<that.goodsListOn.length;j++) {
               var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
@@ -241,26 +243,31 @@ export default {
           } else if (that.goodsList[i].sku_status === 0){
             OffList.push(that.goodsList[i])
             that.goodsListOff = OffList
-            console.log('list', that.goodsListOff)
           }
         }
+        // that.gLoading = false
       } else {
         let data = await getGoodsList();
         this.goodsList = data
-        for (var i = 0;i<that.goodsList.length;i++){
-          if (that.goodsList[i].sku_status === 1) {
-            that.goodsListOn.push(that.goodsList[i])
-            that.idList.push(that.goodsList[i].sku_id)
-            for (var j = 0;j<that.goodsListOn.length;j++) {
-              var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
-              that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+        if (this.goodsList.length === 0) {
+          that.noProduct = true
+        } else {
+          that.noProduct = false
+          for (var i = 0;i<that.goodsList.length;i++){
+            if (that.goodsList[i].sku_status === 1) {
+              that.goodsListOn.push(that.goodsList[i])
+              that.idList.push(that.goodsList[i].sku_id)
+              for (var j = 0;j<that.goodsListOn.length;j++) {
+                var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+                that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+              }
+            } else if (that.goodsList[i].sku_status === 0){
+              that.goodsListOff.push(that.goodsList[i])
             }
-          } else if (that.goodsList[i].sku_status === 0){
-            that.goodsListOff.push(that.goodsList[i])
-            console.log('list', that.goodsListOff)
+            // that.payList.push(parseFloat(itemPay.toFixed(2)))
           }
-          // that.payList.push(parseFloat(itemPay.toFixed(2)))
         }
+        // that.gLoading = false
       }
     },
     sumPay: function (arr) {
@@ -276,7 +283,6 @@ export default {
     goodsChecked: function(e){
       var that = this
       that.payList = []
-      console.log('ttttt', e)
       if (e.length > 0) {
         for (var m=0;m<e.length; m++){
           for (var n=0;n<that.goodsListOn.length; n++){
@@ -293,8 +299,6 @@ export default {
       var that = this
       var flag = false
       var k = 0
-      console.log('uuuuuuuuu', that.goodsListOn)
-      console.log('eeeeeeeee', e)
       if (that.payList.length > 0) {
         for(var i=0;i< that.payList.length; i++) {
           if(that.payList[i] === parseFloat(e)){
@@ -311,7 +315,6 @@ export default {
       } else {
         that.payList.push(parseFloat(e))
       }
-      console.log('899999', that.payList)
       that.sumPay(that.payList)
     },
     // 单个删除
@@ -338,7 +341,6 @@ export default {
       })
     },
     addWish: function(e) {
-      console.log('ddddddd', e.target.currentSrc.split('img/')[1])
       var imgName = e.target.currentSrc.split('img/')[1]
       if (imgName === 'loveOut.png') {
         this.wishUrl = '../../../static/img/love.png'
@@ -349,7 +351,6 @@ export default {
     handleChange: function (e, skuId) {
       var that = this
       // that.btnLoading = true
-      console.log('eeeeee', e)
       that.$axios.post('api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
         that.getGoodsListFuc('add')
         that.getGoodsNum(skuId)
@@ -358,7 +359,6 @@ export default {
     getGoodsNum: function (skuId) {
       var that = this
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        console.log('sssssss', res.data)
         if (res.code === '200') {
           that.maxQuality = res.data.inventory
         }
@@ -382,7 +382,6 @@ export default {
     },
     subTotalPay: function() {
       var that = this
-      console.log('hhh', that.checkedItem)
       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
       sessionStorage.setItem('couponId', that.couponId)
       that.$router.push('/orderConfirm')
