@@ -79,11 +79,27 @@
     <div class="cart_list" v-on:mouseenter="visible" v-on:mouseleave="invisible" :style="{right:(show==true?'0':'-560px')}">
       <div class="cart_title">
         <i class="el-icon-close" @click="invisible"></i>
-        <p v-if="goodsListOn.length!=0">{{this.goodsNum}} Items</p>
+        <p>{{this.goodsNum}} Items</p>
       </div>
       <div class="cart_center">
         <ul v-if="goodsListOn.length!=0">
           <li v-for="(item,index) in goodsListOn" :key="index">
+            <img :src="item.sku_image" alt>
+            <div class="list_detail">
+              <p class="detail_title">{{item.sku_name}}</p>
+              <div class="spec_color">
+                <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
+                <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
+              </div>
+            </div>
+            <div class="price_del">
+              <i class="el-icon-error" @click="delList(item.sku_id)"></i>
+              <div class="price">${{item.sku_price}}</div>
+            </div>
+          </li>
+        </ul>
+        <ul v-if="goodsListOff.length!=0" class="offGoodList">
+          <li v-for="(item,index) in goodsListOff" :key="index">
             <img :src="item.sku_image" alt>
             <div class="list_detail">
               <p class="detail_title">{{item.sku_name}}</p>
@@ -233,6 +249,7 @@
         this.TotalPrice = total
         this.goodsListOn = goodsListOn
         this.goodsListOff = goodsListOff
+        console.log(this.goodsListOff,'zhuyabei')
       },
       //删除购物车商品
       delList(skuId) {
