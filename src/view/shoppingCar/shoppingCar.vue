@@ -24,7 +24,7 @@
         <div class="goodsPrice">$ {{carItem.sku_price}}</div>
       </div>
       <div class="goodsNum">
-        <div><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id)" :min="1"></el-input-number></div>
+        <div><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id)" :min="1" :max="carItem.inventory"></el-input-number></div>
       </div>
       <div class="goodsTotal">$ {{carItem.totalPay}}</div>
       <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish($event)" :src="wishUrl" alt=""></span></div>
@@ -187,6 +187,7 @@ export default {
   watch:{
     checkedItem: function() {
       console.log('22222', this.checkedItem)
+      console.log('33333', this.idList)
       if (this.checkedItem.length === 0) {
         this.checkArr = []
         this.btnCanSub = true
@@ -230,6 +231,7 @@ export default {
         this.goodsList = data
         let OnList = []
         let OffList = []
+        that.idList = []
         for (var i = 0;i<that.goodsList.length;i++){
           if (that.goodsList[i].sku_status === 1) {
             OnList.push(that.goodsList[i])
@@ -352,7 +354,6 @@ export default {
       var that = this
       // that.btnLoading = true
       that.$axios.post('api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
-        that.getGoodsListFuc('add')
         that.getGoodsNum(skuId)
       })
     },
@@ -360,7 +361,7 @@ export default {
       var that = this
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
         if (res.code === '200') {
-          that.maxQuality = res.data.inventory
+          that.getGoodsListFuc('add')
         }
       })
     },
