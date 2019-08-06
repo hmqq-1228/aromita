@@ -165,8 +165,6 @@ export default {
   },
   methods: {
     toGoodsDetail: function (spuid, skuid) {
-      console.log('spuId', spuid)
-      console.log('skuId', skuid)
       if (spuid && skuid) {
         this.$store.state.spuId = spuid
         this.$store.state.skuId = skuid

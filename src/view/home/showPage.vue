@@ -15,7 +15,7 @@
       <div class="collections">
         <ul class="collections_thr1">
           <li class="thr2" v-for="(item,index) in dataCollections" :key="index">
-            <img :src="url+item.picture_src" alt @click="link(item.picture_href)">
+            <img :src="url+item.picture_src" alt>
           </li>
         </ul>
       </div>
@@ -24,7 +24,7 @@
         <div class="word2">Best SELLER</div>
       </div>
       <div class="sell">
-        <div class="sell_1" v-for="(item,index) in homeData" :key="index" @click="link(item.picture_href)">
+        <div class="sell_1" v-for="(item,index) in homeData" :key="index" @click="link(item.products_id,item.spu_id)">
           <img :src="url+item.products_src" alt>
           <p class="sell_word">{{ item.products_name }}</p>
           <p class="sell_word1">$ {{ item.products_price }}</p>
@@ -34,7 +34,7 @@
         <div class="word3">NEW ARRIVAL</div>
       </div>
       <div class="new">
-        <div class="new_1" v-for="(item,index) in homeArr" :key="index" @click="link(item.picture_href)">
+        <div class="new_1" v-for="(item,index) in homeArr" :key="index" @click="link(item.products_id,item.spu_id)">
           <img :src="url+item.products_src" alt>
           <p class="new_word">{{item.products_name}}</p>
           <p class="new_word1">$ {{ item.products_price }}</p>
@@ -45,7 +45,7 @@
       <div class="banner2 swiper-container" dir="rtl">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in hotStyle" :key="index">
-            <img :src="url+item.picture_src" class="small2" @click="link(item.picture_href)">
+            <img :src="url+item.picture_src" class="small2" @click="link(item.products_id,item.spu_id)">
           </div>
         </div>
         <!-- 如果需要导航按钮 -->
@@ -72,7 +72,7 @@ import {
 } from "../../api/home";
 export default {
   components: {
-    "header-com": Header,
+    "header-com": Header,  
     "footer-com": Footer
   },
   data() {
@@ -102,8 +102,8 @@ export default {
     });
   },
   methods: {
-    link(url){
-      window.open(url,'_blank')
+    link(skuid,spuid){
+      this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
     },
     // 首页banner信息
     async homeBanner() {
