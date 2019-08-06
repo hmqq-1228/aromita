@@ -251,8 +251,7 @@
               <div class="dataType">
                 <el-form-item label="Expiration Date:" prop="month" class="smallInput">
                   <el-select v-model="ruleForm.month" placeholder="MM">
-                    <el-option label="01" value="01"></el-option>
-                    <el-option label="02" value="02"></el-option>
+                    <el-option :label="mouth" :value="mouth" v-for="(mouth, index) in mouthList" v-bind:key="index"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item prop="year" class="smallInput noLabel">
@@ -332,7 +331,7 @@
           <div class="payValue">$ {{shipFee}}</div>
         </div>
         <div class="payItem">
-          <div class="payName total">Grand Total:</div>
+          <div class="payName total" @click="textPay()">Grand Total:</div>
           <div class="payValue total">$ {{(parseFloat(shipFee) + billTotal).toFixed(2)}}</div>
         </div>
         <div style="margin-top: 15px;"><el-button :disabled="butLoading" @click="paySub('ruleForm', 'shipForm')">Confirm to pay</el-button></div>
@@ -373,7 +372,9 @@ export default {
       addressList: [],
       addressList2: [],
       ProvinceList: [],
+      order_Address: [],
       checkedAdressId: '',
+      mouthList: ['01','02','03','04','05','06','07','08','09','10','11','12'],
       countryList: addressList.addressList.List,
       isLogin: false,
       infoShow: false,
@@ -756,6 +757,7 @@ export default {
     },
     getPostMethod: function (valStr) {
       var strList = []
+      var that = this
       console.log('mmmmmmm', valStr)
       strList = valStr.split('-')
       console.log('ppppppp', strList)
@@ -767,6 +769,12 @@ export default {
         entry_postcode: strList[4]
       }
       console.log('xxxxxxx', address_info)
+      for (var i=0;i<this.addressList.length;i++) {
+        if (that.addressList[i].id === parseInt(strList[0])) {
+          console.log('zzzzzzz', this.addressList[i])
+          that.order_Address = that.addressList[i]
+        }
+      }
     },
     shipChecked: function (e) {
       console.log('eeeeeeee', e)
@@ -902,6 +910,17 @@ export default {
     },
     toShopcar: function () {
       this.$router.push('/shoppingCar')
+    },
+    textPay: function () {
+      var that = this
+      // that.order_Address
+      var order_ship = {
+        ship_id: '06',
+        ship_name: 'DF HKDHL',
+        ship_fee: 41.23,
+        trans_min: 5,
+        trans_max: 8
+      }
     },
     paySub: function (formName, formName1) {
       var that = this
@@ -1085,7 +1104,7 @@ export default {
     font-family:Tahoma;
     position: fixed;
     top: 192px;
-    right: 10%;
+    right: 12%;
     z-index: 999;
     background-color: #fff;
     padding: 30px;

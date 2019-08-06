@@ -208,8 +208,8 @@ export default {
       if (picNum > 5) {
         var num = picNum - 5
         if (this.$store.state.cont <= num) {
-          $(obj).css('left', -45*num)
-          $(obj).css('transition', '0.3s')
+          $(obj).css('left', -47.8*num)
+          $(obj).css('transition', '0.4s')
           $(prev).css('color', '#333')
           $(objBtn).css('color', '#999')
         } else {
@@ -225,9 +225,9 @@ export default {
       if (picNum > 5) {
         var num = picNum - 5
         if (parseInt(obj.style.left) != 0) {
-          var distent = parseInt(obj.style.left) + 45 * num
+          var distent = parseInt(obj.style.left) + 47.8 * num
           $(obj).css('left', distent)
-          $(obj).css('transition', '0.3s')
+          $(obj).css('transition', '0.4s')
           $(nextBtn).css('color', '#333')
           $(prevBtn).css('color', '#999')
         } else {
