@@ -184,11 +184,12 @@
     <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
   </div>
   <div class="product">
-    <div class="productTitle">Main Feature</div>
-    <p><span>Materials: </span>This feature is good hug feature is good hug.</p>
-    <p><span>Materials: </span>This feature is good hug feature is good hug.</p>
-    <p><span>Color: </span>red</p>
-    <p><span>Size: </span>3.00cm</p>
+    <div class="productTitle">Product Details</div>
+    <p v-html="pruductDetail.product_detail">{{pruductDetail.product_detail}}</p>
+    <!--<p><span>Materials: </span>This feature is good hug feature is good hug.</p>-->
+    <!--<p><span>Materials: </span>This feature is good hug feature is good hug.</p>-->
+    <!--<p><span>Color: </span>red</p>-->
+    <!--<p><span>Size: </span>3.00cm</p>-->
   </div>
   <div class="foot">
     <footer-com></footer-com>
@@ -216,6 +217,7 @@ export default {
       skuDefult: '',
       numQuality: 1,
       goodDetail: '',
+      pruductDetail: '',
       mainImgUrl: '',
       priceOrder: 0,
       totalPay: 0,
@@ -223,6 +225,7 @@ export default {
       goodsIds: [],
       attrList: [],
       attrListDis: [],
+      attrNameList: [],
       // otherList: [],
       // colorList: [],
       getNewSkuId: 0,
@@ -311,15 +314,15 @@ export default {
       var skuId
       var spuId
       that.skuSpuIdList = []
+      that.attrNameList = []
       if (spu && sku) {
         spuId = spu
         skuId = sku
-        console.log('5555', spu, sku)
       } else {
-        skuId = this.$route.params.skuId
-        spuId = this.$route.params.spuId
+        skuId = that.$route.params.skuId
+        spuId = that.$route.params.spuId
       }
-      this.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
+      that.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
         console.log(res)
         if (res.code === "200") {
           console.log('11111', res.data)
@@ -327,6 +330,7 @@ export default {
             that.$router.push('/unavailable')
           } else {
             that.goodDetail = res.data.sku
+            that.pruductDetail = res.data.detail
             that.imageList = res.data.sku.thumbnail_images
             that.mainImgUrl = res.data.sku.sku_image
             that.maxQuality = res.data.sku.inventory
@@ -344,13 +348,13 @@ export default {
               for (var k = 0; k<str.length-1; k++) {
                 strArr.push(str[k])
               }
+              console.log('666666', str)
               var strArrJoin = strArr.join('.')
-              var imgStr = strArrJoin + '_80_80.' + str[3]
+              var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
               console.log('777777777', imgStr)
               imgList.push(imgStr)
             }
             that.imageListNew = imgList
-            console.log('88888888', that.imageListNew)
             for (var i = 0; i < list.length; i++){
               var obj = {
                 name: list[i].attr_name,
@@ -359,9 +363,9 @@ export default {
               }
               that.skuSpuIdList.push(obj)
             }
-            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
-            that.deleteSameObj(that.skuList, that.getSkuList)
+            console.log('88888888', that.attrList.length)
             for(let key in that.attrList){
+              that.attrNameList.push(key)
               for (var x=0; x<that.attrList[key].length; x++) {
                 for (var y=0; y< list.length; y++) {
                   if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
@@ -370,6 +374,9 @@ export default {
                 }
               }
             }
+            console.log('999999999', that.attrNameList)
+            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+            that.deleteSameObj(that.skuList, that.getSkuList)
           }
         } else {
           console.log(222222)
@@ -389,9 +396,10 @@ export default {
           objLista.push(obj)
         }
       }
-      for(var i=0;i<objLista.length;i+=3){
-        resulta.push(objLista.slice(i,i+3));
+      for(var i=0;i<objLista.length;i+=that.attrNameList.length){
+        resulta.push(objLista.slice(i,i+that.attrNameList.length));
       }
+      console.log('aaaaaaa', resulta)
       for(let key in getSkuList){
         // that.arrChange(that.skuList[a], that.getSkuList[key])
         // var flag = that.isContained(that.skuList[a], that.getSkuList[key])
@@ -400,9 +408,10 @@ export default {
           objListb.push(obj)
         }
       }
-      for(var i=0;i<objListb.length;i+=2){
-        resultb.push(objListb.slice(i,i+2));
+      for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
+        resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
+      console.log('bbbbbbbb', resultb)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -430,7 +439,7 @@ export default {
         }
       }
     },
-    getNumbers: function (source, count, isPermutation = true) {
+    getNumbers: function (source, count, isPermutation) {
       var that = this
       //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
       let currentList = source.map((item) => [item]);
@@ -442,11 +451,16 @@ export default {
         let current = currentList[i];
         //如果是排列的方式，在取count-1时，源数组中排除当前项
         let children = [];
+        isPermutation = true
+        console.log('cccccccc', current)
         if (isPermutation) {
+          console.log('cccc1111', source)
           children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
+          console.log('cccc222222', children)
         }
         //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
         else {
+          console.log('22222222222', isPermutation)
           children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
         }
         for (let child of children) {
@@ -501,6 +515,8 @@ export default {
         attr_id: spid,
         val_id: skid
       }
+      $(obj).addClass('active')
+      $(obj).siblings().removeClass('active')
       that.goodsIds = that.skuSpuIdList
       that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
       that.deleteSameObj(that.skuList, that.getSkuList)
@@ -544,8 +560,6 @@ export default {
           $('.subType').addClass('ban')
         }
       }
-      $(obj).addClass('active')
-      $(obj).siblings().removeClass('active')
     },
     addToCart: function () {
       var that = this
@@ -771,6 +785,7 @@ export default {
 .small{
   width: 80px;
   height: 80px;
+  border: 1px solid #e9e9e9;
 }
 .goodsDetail{
   width: 1440px;
@@ -999,6 +1014,7 @@ export default {
   .largePic{
     width: 550px;
     height: 550px;
+    border: 1px solid #e9e9e9;
   }
   .largePic img{
     width: 550px;

@@ -245,3 +245,9 @@ ul,li {
 .payBtn .el-button:focus,.payBtn .el-button:hover{
   color: #fff !important;
 }
+.detail .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled), .detail .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){
+  border-color: #888 !important;
+}
+.detail .el-input-number__decrease:hover, .detail .el-input-number__increase:hover{
+  color: #666 !important;
+}
