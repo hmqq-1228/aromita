@@ -71,7 +71,7 @@
               <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic($event)"></div>
               <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic($event)"></div>
             </div>
-            <div class="goodsInfo">
+            <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
               {{goods.defultTitle}}
             </div>
             <div class="goodsPrice">$ {{goods.defultPrice}}</div>

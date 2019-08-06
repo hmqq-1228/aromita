@@ -49,9 +49,13 @@
           </div>
         </div>
         <div class="navTitle" @click="test()">Shipping Address</div>
-        <div class="address">
+        <div class="address" v-if="isLogin">
           <div v-if="addressList && addressList.length>0" class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
-            <div class="itemName"><el-radio v-model="radio" :label="address.id"><i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}</el-radio></div>
+            <div class="itemName">
+              <el-radio v-model="radio" :label="address.id+'-'+address.entry_country+'-'+address.entry_state+'-'+address.entry_city+'-'+address.entry_postcode">
+                <i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}
+              </el-radio>
+            </div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
               <div class="addressText">{{address.entry_country}} {{address.entry_state}} {{address.entry_city}} {{address.entry_street_address1}}{{address.entry_street_address2}}</div>
@@ -65,6 +69,78 @@
           </div>
           <div v-if="addressNum && addressNum>1" class="showMore" @click="showMore(defultIcon)"><i :class="defultIcon"></i></div>
           <div class="addNew" @click="addNewAddress()"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
+          <div class="payBox" v-if="addressFormShow">
+            <el-form :model="addNewForm" :rules="rules" ref="addNewForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
+              <div class="dataType">
+                <el-form-item label="First name:" prop="First" class="shipInput">
+                  <el-input v-model="addNewForm.First"></el-input>
+                </el-form-item>
+                <el-form-item label="Last name:" prop="Last" class="shipInput">
+                  <el-input v-model="addNewForm.Last"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item label=" Email Address:" prop="email">
+                <el-input v-model="addNewForm.email"></el-input>
+              </el-form-item>
+              <el-form-item label="Country:" prop="Country">
+                <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
+                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                  <el-option label="France" value="France" disabled></el-option>
+                  <el-option label="Germany" value="Germany" disabled></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Address Line1:" prop="Address1">
+                <el-input v-model="addNewForm.Address1"></el-input>
+              </el-form-item>
+              <el-form-item label="Address Line2:" prop="Address2">
+                <el-input v-model="addNewForm.Address2"></el-input>
+              </el-form-item>
+              <el-form-item label="City:" prop="City">
+                <el-input v-model="addNewForm.City"></el-input>
+              </el-form-item>
+              <el-form-item label="State/Province:" prop="Province">
+                <!--<el-input v-model="addNewForm.Province"></el-input>-->
+                <el-select v-model="addNewForm.Province" placeholder="Province">
+                  <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Zip/Postcode:" prop="Postcode">
+                <el-input v-model="addNewForm.Postcode"></el-input>
+              </el-form-item>
+              <el-form-item label="Mobie No./Phone:" prop="Phone">
+                <el-input v-model="addNewForm.Phone"></el-input>
+              </el-form-item>
+              <div class="payConfirm" style="margin-left: 125px;">
+                <el-checkbox v-model="addNewForm.checked"></el-checkbox>
+                <span style="font-size: 14px;color: #333;">As Default</span>
+              </div>
+              <el-form-item class="addNewForm" style="margin-top: 10px">
+                <el-button class="save" @click="submitForm('addNewForm')">Save</el-button>
+                <el-button class="cancel" @click="resetForm('addNewForm')">Cancel</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+        <div class="address" v-if="!isLogin">
+          <div v-if="addressList2 && addressList2.length>0" class="addressItem" v-for="(address, index) in addressList2" v-bind:key="index">
+            <div class="itemName">
+              <el-radio v-model="radio" :label="address.id+'-'+address.entry_country+'-'+address.entry_state+'-'+address.entry_city+'-'+address.entry_postcode">
+                <i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}
+              </el-radio>
+            </div>
+            <div class="itemAddress">
+              <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
+              <div class="addressText">{{address.entry_country}} {{address.entry_state}} {{address.entry_city}} {{address.entry_street_address1}}{{address.entry_street_address2}}</div>
+            </div>
+            <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
+            <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
+            <div class="itemOption">
+              <div @click="addNewAddressOut()">Edit</div>
+              <div @click="deleteAddressOut()">Remove</div>
+            </div>
+          </div>
+          <!--<div v-if="addressNum && addressNum>1" class="showMore" @click="showMore(defultIcon)"><i :class="defultIcon"></i></div>-->
+          <div class="addNew" v-if="!addressList2 || addressList2.length === 0" @click="addNewAddress()"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
           <div class="payBox" v-if="addressFormShow">
             <el-form :model="addNewForm" :rules="rules" ref="addNewForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
               <div class="dataType">
@@ -256,7 +332,7 @@
           <div class="payName total">Grand Total:</div>
           <div class="payValue total">$ {{(parseFloat(shipFee) + billTotal).toFixed(2)}}</div>
         </div>
-        <div style="margin-top: 15px;"><el-button @click="paySub('ruleForm', 'shipForm')">Confirm to pay</el-button></div>
+        <div style="margin-top: 15px;"><el-button :disabled="butLoading" @click="paySub('ruleForm', 'shipForm')">Confirm to pay</el-button></div>
         <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
       </div>
     </div>
@@ -270,7 +346,7 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
-import {orderAdd, orderAddress, billingList, deleteAddress} from "../../api/register";
+import {orderAdd, orderAddress, billingList, checkLogin, deleteAddress} from "../../api/register";
 import qs from 'qs'
 import addressList from "static/config.js"
 export default {
@@ -292,12 +368,16 @@ export default {
       addressNum: 0,
       goodsList: [],
       addressList: [],
+      addressList2: [],
       ProvinceList: [],
+      checkedAdressId: '',
       countryList: addressList.addressList.List,
+      isLogin: false,
       infoShow: false,
       modelShow: false,
       modelShow2: false,
       methodShow: false,
+      butLoading: false,
       dialogVisible: true,
       showCreditForm: false,
       addressFormShow: false,
@@ -435,9 +515,63 @@ export default {
   created(){
     this.ProvinceList = addressList.addressList.List[0].countryList
     this.getGoodsOrder()
-    this.getOrderAddress('defult', '')
+    this.checkLoginInfo()
   },
   methods: {
+    async checkLoginInfo () {
+      let data = await checkLogin()
+      console.log('000000', data)
+      if(data.code === '200' || data.code === 200) {
+        this.isLogin = true
+        this.getOrderAddress('defult', '')
+      } else {
+        this.isLogin = false
+        this.getOrderAddressOut()
+      }
+    },
+    getOrderAddressOut: function () {
+      var that = this
+      that.addressList2 = []
+      var address = sessionStorage.getItem('addressList')
+      that.addressList2 = JSON.parse(address)
+      if (that.addressList2) {
+        console.log('111111', that.addressList2)
+        for (var i=0; i<this.addressList2.length; i++) {
+          if (that.addressList2[i].is_default === 1) {
+            that.radio = that.addressList2[i].id + '-'+that.addressList2[i].entry_country+'-'+that.addressList2[i].entry_state+'-'+that.addressList2[i].entry_city+'-'+that.addressList2[i].entry_postcode
+            console.log('22222', that.radio)
+            that.showMethod()
+          } else {
+            that.radio = ''
+          }
+        }
+      }
+    },
+    addNewAddressOut: function(){
+      var that = this
+      var address = sessionStorage.getItem('addressList')
+      that.addressList2 = JSON.parse(address)
+      that.addressFormShow = true
+      that.addNewForm.First = that.addressList2[0].entry_firstname
+      that.addNewForm.Last = that.addressList2[0].entry_lastname
+      that.addNewForm.email = that.addressList2[0].entry_email_address
+      that.addNewForm.Country = that.addressList2[0].entry_country
+      that.addNewForm.Address1 = that.addressList2[0].entry_street_address1
+      that.addNewForm.Address2 = that.addressList2[0].entry_street_address2
+      that.addNewForm.City = that.addressList2[0].entry_city
+      that.addNewForm.Province = that.addressList2[0].entry_state
+      that.addNewForm.Postcode = that.addressList2[0].entry_postcode
+      that.addNewForm.Phone = that.addressList2[0].telephone_number
+      if (that.addressList2[0].is_default === 1) {
+        that.addNewForm.checked = true
+      } else {
+        that.addNewForm.checked = false
+      }
+    },
+    deleteAddressOut: function () {
+      sessionStorage.removeItem('addressList')
+      this.getOrderAddressOut()
+    },
     testAlert: function () {
       // this.modelShow2 = true
       var u = 'https://www.baidu.com/';
@@ -468,10 +602,10 @@ export default {
       var that = this
       if (type === 'el-icon-d-arrow-right') {
         that.defultIcon = 'el-icon-d-arrow-left'
-        that.getOrderAddress('more', that.radio)
+        that.getOrderAddress('more', that.checkedAdressId)
       } else if (type === 'el-icon-d-arrow-left') {
         that.defultIcon = 'el-icon-d-arrow-right'
-        that.getOrderAddress('less', that.radio)
+        that.getOrderAddress('less', that.checkedAdressId)
       }
     },
     clearForm: function () {
@@ -490,65 +624,74 @@ export default {
       var that = this
       let data = await orderAddress()
       if (data.code === '200') {
-        that.addressNum = data.data.length
-        if (!type && !id) {
-          that.addressList = data.data
-          for (var i=0; i<data.data.length; i++) {
-            if (data.data[i].is_default === 1) {
-              // let defultList = []
-              that.radio = data.data[i].id
-              that.showMethod()
-              // defultList.push(data.data[i])
-              // that.addressList = defultList
-            }
-            // else {
-            //   let noList = []
-            //   noList.push(data.data[0])
-            //   that.addressList = noList
-            // }
-          }
-        }else if (type === 'defult' && !id){
-          for (var i=0; i<data.data.length; i++) {
-            if (data.data[i].is_default === 1) {
-              let defultList = []
-              that.radio = data.data[i].id
-              that.showMethod()
-              defultList.push(data.data[i])
-              that.addressList = defultList
-            } else {
-              let noList = []
-              noList.push(data.data[0])
-              that.addressList = noList
-            }
-          }
-        }else if (type === 'more'){
-          if (!id) {
+        if(data.data) {
+          that.addressNum = data.data.length
+          if (!type && !id) {
             that.addressList = data.data
-          } else if (id) {
-            console.log('moire', that.addressList)
-            let checkList = []
-            for (var j=0; j<data.data.length; j++) {
-              if (data.data[j].id === id) {
-                checkList.unshift(data.data[j])
+            for (var i=0; i<data.data.length; i++) {
+              if (data.data[i].is_default === 1) {
+                // let defultList = []
+                that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
+                that.showMethod()
+                var redioList = that.radio.split('-')
+                that.checkedAdressId = redioList[0]
+                console.log('idididiid', that.checkedAdressId)
+                // defultList.push(data.data[i])
+                // that.addressList = defultList
+              }
+              // else {
+              //   let noList = []
+              //   noList.push(data.data[0])
+              //   that.addressList = noList
+              // }
+            }
+          }else if (type === 'defult' && !id){
+            for (var i=0; i<data.data.length; i++) {
+              if (data.data[i].is_default === 1) {
+                let defultList = []
+                that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
+                var redioList = that.radio.split('-')
+                that.checkedAdressId = redioList[0]
+                console.log('idididiid', that.checkedAdressId)
+                that.showMethod()
+                defultList.push(data.data[i])
+                that.addressList = defultList
               } else {
-                checkList.push(data.data[j])
+                let noList = []
+                noList.push(data.data[0])
+                that.addressList = noList
               }
             }
-            that.addressList = checkList
-          }
-        } else if (type === 'less') {
-          if (!id) {
-            var list = []
-            list.push(data.data[0])
-            that.addressList = list
-          } else if (id) {
-            console.log('ppppppp')
-            for (var j=0; j<data.data.length; j++) {
-              if (data.data[j].id === id) {
-                let checkList = []
-                checkList.push(data.data[j])
-                that.addressList = checkList
+          }else if (type === 'more'){
+            if (!id) {
+              that.addressList = data.data
+            } else if (id) {
+              console.log('moire', that.addressList)
+              let checkList = []
+              for (var j=0; j<data.data.length; j++) {
+                if (data.data[j].id === id) {
+                  checkList.unshift(data.data[j])
+                } else {
+                  checkList.push(data.data[j])
+                }
               }
+              that.addressList = checkList
+            }
+          } else if (type === 'less') {
+            if (!id) {
+              var list = []
+              list.push(data.data[0])
+              that.addressList = list
+            } else if (id) {
+              console.log('ppppppp')
+              for (var j=0; j<data.data.length; j++) {
+                if (data.data[j].id === parseInt(id)) {
+                  let checkList = []
+                  checkList.push(data.data[j])
+                  that.addressList = checkList
+                }
+              }
+              console.log('ppppppp22', that.addressList)
             }
           }
         }
@@ -596,6 +739,7 @@ export default {
       }
     },
     showMethod: function () {
+      console.log('kkkkk', this.radio)
       var that = this
       if (that.radio === ''){
         that.methodShow = false
@@ -603,8 +747,22 @@ export default {
         that.methodShow = true
         that.radio2 = '1-3.67'
         that.shipFee = that.radio2.split('-')[1]
-        console.log('111111111', that.shipFee)
+        that.getPostMethod(that.radio)
       }
+    },
+    getPostMethod: function (valStr) {
+      var strList = []
+      console.log('mmmmmmm', valStr)
+      strList = valStr.split('-')
+      console.log('ppppppp', strList)
+      var address_info = {
+        address_id: strList[0],
+        entry_country: strList[1],
+        entry_state: strList[2],
+        entry_city: strList[3],
+        entry_postcode: strList[4]
+      }
+      console.log('xxxxxxx', address_info)
     },
     shipChecked: function (e) {
       console.log('eeeeeeee', e)
@@ -620,6 +778,7 @@ export default {
       let idList = {
         ids: idStr
       }
+      that.butLoading = true
       console.log('7777777', idList)
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
@@ -667,47 +826,68 @@ export default {
       }
       console.log('99999', sumBill)
       that.billTotal = sumBill
+      that.butLoading = false
     },
     // 修改
     submitForm(formName) {
       var that = this
+      var objList = []
       console.log('fffff', that.addNewForm.checked)
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          var editObj = qs.stringify({
-            entry_firstname: that.addNewForm.First,
-            entry_lastname: that.addNewForm.Last,
-            entry_email_address: that.addNewForm.email,
-            entry_country: that.addNewForm.Country,
-            entry_street_address1: that.addNewForm.Address1,
-            entry_street_address2: that.addNewForm.Address2,
-            entry_city: that.addNewForm.City,
-            entry_state: that.addNewForm.Province,
-            entry_postcode: that.addNewForm.Postcode,
-            telephone_number: that.addNewForm.Phone,
-            is_default: that.addNewForm.checked === true ? 1 : 0
-          })
-          console.log('editObj', editObj)
-          that.$axios.post('api/address/' + that.editId, editObj).then(res => {
-            console.log('sssssss', res)
-            if (res.code === 200 || res.code === '200'){
-              that.getOrderAddress()
-              if (that.editId) {
-                that.$message.success('Successful address modification!')
-              } else {
-                that.defultIcon = 'el-icon-d-arrow-left'
-                that.$message.success('Added Successfully!')
+      if (that.isLogin){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var editObj = qs.stringify({
+              entry_firstname: that.addNewForm.First,
+              entry_lastname: that.addNewForm.Last,
+              entry_email_address: that.addNewForm.email,
+              entry_country: that.addNewForm.Country,
+              entry_street_address1: that.addNewForm.Address1,
+              entry_street_address2: that.addNewForm.Address2,
+              entry_city: that.addNewForm.City,
+              entry_state: that.addNewForm.Province,
+              entry_postcode: that.addNewForm.Postcode,
+              telephone_number: that.addNewForm.Phone,
+              is_default: that.addNewForm.checked === true ? 1 : 0
+            })
+            console.log('editObj', editObj)
+            that.$axios.post('api/address/' + that.editId, editObj).then(res => {
+              console.log('sssssss', res)
+              if (res.code === 200 || res.code === '200'){
+                that.getOrderAddress()
+                if (that.editId) {
+                  that.$message.success('Successful address modification!')
+                } else {
+                  that.defultIcon = 'el-icon-d-arrow-left'
+                  that.$message.success('Added Successfully!')
+                }
+                that.addressFormShow = false
               }
-              that.addressFormShow = false
-            } else {
-              that.$message.error(res.msg.entry_postcode[0])
-            }
-          })
-        } else {
-          console.log('error submit!!');
-          return false;
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        })
+      } else if (!that.isLogin) {
+        var obj = {
+          id: 0,
+          entry_firstname: that.addNewForm.First,
+          entry_lastname: that.addNewForm.Last,
+          entry_email_address: that.addNewForm.email,
+          entry_country: that.addNewForm.Country,
+          entry_street_address1: that.addNewForm.Address1,
+          entry_street_address2: that.addNewForm.Address2,
+          entry_city: that.addNewForm.City,
+          entry_state: that.addNewForm.Province,
+          entry_postcode: that.addNewForm.Postcode,
+          telephone_number: that.addNewForm.Phone,
+          is_default: that.addNewForm.checked === true ? 1 : 0
         }
-      });
+        objList.push(obj)
+        sessionStorage.setItem('addressList', JSON.stringify(objList))
+        that.getOrderAddressOut()
+        this.addressFormShow = false
+      }
     },
     resetForm(formName) {
       console.log(55555)
