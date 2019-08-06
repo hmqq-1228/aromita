@@ -251,8 +251,8 @@
     .cart_center{
       max-height:80vh;
       overflow-y:scroll;
+      padding-bottom: 120px;
       ul{
-        padding-bottom: 120px;
         li{
           height: 80px;
           margin:20px 0;
@@ -304,6 +304,9 @@
             }
           }
         }
+      }
+      .offGoodList{
+        opacity: 0.5;
       }
       .empty_cart{
         width:100%;
