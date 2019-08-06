@@ -27,7 +27,7 @@
         <div class="sell_1" v-for="(item,index) in homeData" :key="index" @click="link(item.products_id,item.spu_id)">
           <img :src="url+item.products_src" alt>
           <p class="sell_word">{{ item.products_name }}</p>
-          <p class="sell_word1">${{ item.products_price }}</p>
+          <p class="sell_word1">$ {{ item.products_price }}</p>
         </div>
       </div>
       <div class="word3_">
@@ -37,7 +37,7 @@
         <div class="new_1" v-for="(item,index) in homeArr" :key="index" @click="link(item.products_id,item.spu_id)">
           <img :src="url+item.products_src" alt>
           <p class="new_word">{{item.products_name}}</p>
-          <p class="new_word1">${{ item.products_price }}</p>
+          <p class="new_word1">$ {{ item.products_price }}</p>
         </div>
       </div>
       <div class="word4">Hot Style in Social Medias</div>
@@ -291,8 +291,7 @@ export default {
     font-weight: 400;
     line-height: 48px;
     text-align: center;
-    margin: 0 auto;
-    margin-bottom: 30px;
+    margin: 20px auto;
     color: #333;
   }
   .small2 {

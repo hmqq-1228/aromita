@@ -231,6 +231,9 @@
               <div style="width: 200px;line-height: 108px;font-size: 14px">{{goods.goods_count}}</div>
               <div class="totalPay">$ {{goods.sku_pay.toFixed(2)}}</div>
             </div>
+            <div class="goodsItem" v-if="orderListInvalid">
+              <div class="noOrder">The order has expired. Please <span @click="toShopcar()">add it</span> again.</div>
+            </div>
           </div>
         </div>
         <div class="navTitle">Payment Method</div>
@@ -381,6 +384,7 @@ export default {
       dialogVisible: true,
       showCreditForm: false,
       addressFormShow: false,
+      orderListInvalid: false,
       defultIcon: 'el-icon-d-arrow-right',
       ruleForm: {
         number: '',
@@ -787,6 +791,7 @@ export default {
         }
         that.goodsList = data
         that.getBillingList()
+        that.orderListInvalid = false
         // for (var v=0; v<that.goodsList.length; v++){
         //   payItem.push(that.goodsList[v].sku_pay)
         // }
@@ -799,6 +804,7 @@ export default {
         // console.log('sssssss', that.totalPay.toFixed(2))
       } else {
         console.log('订单失效')
+        that.orderListInvalid = true
       }
     },
     async getBillingList () {
@@ -893,6 +899,9 @@ export default {
       console.log(55555)
       this.$refs[formName].resetFields();
       this.addressFormShow = false
+    },
+    toShopcar: function () {
+      this.$router.push('/shoppingCar')
     },
     paySub: function (formName, formName1) {
       var that = this
@@ -1402,5 +1411,18 @@ export default {
   }
   .checkTitle>div{
     text-align: center;
+  }
+  .noOrder{
+    text-align: center;
+    width: 950px;
+    line-height: 100px;
+    color: #888;
+    font-family: Tahoma;
+  }
+  .noOrder span{
+    display: inline-block;
+    cursor: pointer;
+    color: #003764;
+    text-decoration: underline;
   }
 </style>
