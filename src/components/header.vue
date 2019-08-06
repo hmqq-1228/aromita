@@ -134,7 +134,7 @@
   export default {
     data() {
       return {
-        login_status:false,//用户登录状态
+        login_status:true,//用户登录状态
         userName:'Login',
         TotalPrice:0,//购物车总价
         show:false,
@@ -171,7 +171,6 @@
       this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
       this.column = this.column > this.maxRow ? this.maxRow : this.column;
       this.getGoodsCont()
-      this.getUserName()
       this.getCategory()
     },
     computed: {
@@ -261,13 +260,6 @@
           //   this.getGoodsCont()
           // }
         })
-      },
-      getUserName: function () {
-        if(localStorage.getItem('userName')){
-          this.userName = localStorage.getItem('userName')
-        }else {
-          this.userName = 'Login'
-        }
       },
       getNavList: function(event, e) {
         this.leftVal = event*150
