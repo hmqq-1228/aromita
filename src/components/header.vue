@@ -135,7 +135,7 @@
     data() {
       return {
         login_status:true,//用户登录状态
-        userName:'Login',
+        userName: 'Welcome',
         TotalPrice:0,//购物车总价
         show:false,
         goodsList:[],
