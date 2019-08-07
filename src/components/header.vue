@@ -28,7 +28,7 @@
                 </div>
                 <el-dropdown v-if="login_status">
                   <div class="login_right" :title="userName">
-                    <router-link to="/myAccount">{{userName}}</router-link>
+                    <router-link to="/myAccount">Hello,{{userName}}</router-link>
                   </div>
                   <div class="dropdown">
                     <el-dropdown-menu slot="dropdown">
@@ -245,7 +245,7 @@
         for(var i = 0;i<goodsListOn.length;i++){
             total += Number(goodsListOn[i].totalPay)
         }
-        this.TotalPrice = total
+        this.TotalPrice = total.toFixed(2)
         this.goodsListOn = goodsListOn
         this.goodsListOff = goodsListOff
         console.log(this.goodsListOff,'zhuyabei')
