@@ -24,6 +24,8 @@ export const getGoodsList = params=>get("/api/cart",params);
 export const orderAdd = params=>post("/api/orderproductlist",params);
 // 获取账单
 export const billingList = params=>post("/api/showBillingList",params);
+// 获取运输方式
+export const shipMethod = params=>post("/api/ship",params);
 // 获取订单地址
 export const orderAddress = params=>get("/api/address",params);
 // 修改地址

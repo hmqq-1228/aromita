@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="succeed">
-          <div class="title"><i class="el-icon-warning"></i> <span>Payment Failed</span></div>
+          <div class="titlePaySucceed"><i class="el-icon-warning"></i> <span>Payment Failed</span></div>
           <div class="payInfo">
             <div class="payItem">Sorry, your payment was not successfully</div>
             <div class="payItem">
@@ -94,18 +94,18 @@
     margin: 0 auto;
     margin-top: 30px;
   }
-  .title{
+  .titlePaySucceed{
     font-size: 18px;
     font-weight:bold;
     color: #333;
     line-height: 60px;
   }
-  .title i{
+  .titlePaySucceed i{
     font-size: 60px;
     float: left;
     color: #c51015;
   }
-  .title span{
+  .titlePaySucceed span{
     float: left;
     margin-left: 10px;
   }

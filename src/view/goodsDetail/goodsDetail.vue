@@ -56,39 +56,6 @@
         <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
-      <!--<div style="display: flex;justify-content: start;margin-top: 20px;">-->
-        <!--<div class="goodsLabelColor">color:</div>-->
-        <!--<div class="swiper-fatherColor">-->
-          <!--<div class="goodsDetail2 swiper-container">-->
-            <!--<div class="swiper-wrapper">-->
-              <!--<div class="swiper-slide" v-for="(color, index2) in colorList" v-bind:key="index2" @click="getSize($event, color.attr_name, color.id, color.val_id)">-->
-                <!--<img class="ColorPic" :class="color.activeStyle === 1?'active': ''" :src="color.image_url">-->
-                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
-              <!--</div>-->
-              <!--&lt;!&ndash;<div class="swiper-slide" @click="getColor($event)">&ndash;&gt;-->
-                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
-                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
-                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
-                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
-                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
-                <!--&lt;!&ndash;<img class="ColorPic" src="@/assets/modelGoods.png">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div v-if="colorList.length > 5" class="swiper-button-prev swiper-button-black swiper-button-prev2"></div>-->
-          <!--<div v-if="colorList.length > 5" class="swiper-button-next swiper-button-black swiper-button-next2"></div>-->
-        <!--</div>-->
-      <!--</div>-->
       <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
         <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
         <div class="smallSlider2">
@@ -99,61 +66,12 @@
                 <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
                 <!--<div v-if="item.image_url" class="model"></div>-->
               </div>
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
-              <!--<div class="sizeSize">2.5mm</div>-->
             </div>
           </div>
-          <div v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-          <div v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+          <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+          <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
         </div>
-        <!--<div class="swiper-fatherSize">-->
-          <!--<div class="goodsDetailSize swiper-container">-->
-            <!--<div class="swiper-wrapper">-->
-              <!--<div class="swiper-slide smallText" v-for="(attr, index) in level_size" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id, attr.value.id)">-->
-                <!--<div class="sizeSize" :class="attr.activeStyle === 1?'active': ''">{{attr.value.attr_value}} cm</div>-->
-                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="swiper-button-prev swiper-button-black swiper-button-prev3"></div>-->
-          <!--<div class="swiper-button-next swiper-button-black swiper-button-next3"></div>-->
-        <!--</div>-->
       </div>
-      <!--<div style="display: flex;justify-content: start;margin-top: 20px;" v-if="level_weight.length > 0">-->
-        <!--<div class="goodsLabelWeight">Weight:</div>-->
-        <!--<div class="swiper-fatherSize">-->
-          <!--<div class="goodsDetailWeight swiper-container">-->
-            <!--<div class="swiper-wrapper">-->
-              <!--<div class="swiper-slide smallText" v-for="(attr, index) in level_weight" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id, attr.value.id)">-->
-                <!--<div class="sizeSize" :class="attr.activeStyle === 1?'active': ''">{{attr.value.attr_value}} g</div>-->
-                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="swiper-button-prev swiper-button-black swiper-button-prev4"></div>-->
-          <!--<div class="swiper-button-next swiper-button-black swiper-button-next4"></div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div style="display: flex;justify-content: start;margin-top: 20px;" v-if="level_material.length > 0">-->
-        <!--<div class="goodsLabelWeight">Material:</div>-->
-        <!--<div class="swiper-fatherSize">-->
-          <!--<div class="goodsDetailMat swiper-container">-->
-            <!--<div class="swiper-wrapper">-->
-              <!--<div class="swiper-slide smallText" v-for="(attr, index) in level_material" v-bind:key="index" @click="getSize($event, attr.attr_name, attr.id, attr.value.id)">-->
-                <!--<div class="sizeSize" :class="attr.activeStyle === 1?'active': ''">{{attr.value.attr_value}} g</div>-->
-                <!--&lt;!&ndash;<div class="checkedTag"></div>&ndash;&gt;-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="swiper-button-prev swiper-button-black swiper-button-prev5"></div>-->
-          <!--<div class="swiper-button-next swiper-button-black swiper-button-next5"></div>-->
-        <!--</div>-->
-      <!--</div>-->
       <div style="display: flex;justify-content: start;margin-top: 20px;">
         <div class="goodsLabelSize" style="width: 130px;">quality:</div>
         <div style="display: flex;">
@@ -177,19 +95,11 @@
   </div>
   <div class="mainFeature">
     <div class="mainFeatureTitle">Main Feature</div>
-    <p>- {{goodDetail.main_feature}}</p>
-    <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
-    <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
-    <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
-    <p>- Clear true Beat Tool List: This feature is good hug feature is good hug.</p>
+    <p v-if="goodDetail.main_feature">- {{goodDetail.main_feature}}</p>
   </div>
   <div class="product">
     <div class="productTitle">Product Details</div>
     <p v-html="pruductDetail.product_detail">{{pruductDetail.product_detail}}</p>
-    <!--<p><span>Materials: </span>This feature is good hug feature is good hug.</p>-->
-    <!--<p><span>Materials: </span>This feature is good hug feature is good hug.</p>-->
-    <!--<p><span>Color: </span>red</p>-->
-    <!--<p><span>Size: </span>3.00cm</p>-->
   </div>
   <div class="foot">
     <footer-com></footer-com>
@@ -375,8 +285,16 @@ export default {
               }
             }
             console.log('999999999', that.attrNameList)
-            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
-            that.deleteSameObj(that.skuList, that.getSkuList)
+            if (that.attrNameList.length > 1) {
+              that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+              that.deleteSameObj(that.skuList, that.getSkuList)
+            } else {
+              for(let key in that.attrList){
+                for (var x=0; x<that.attrList[key].length; x++) {
+                  that.attrList[key][x].disStyle = 2
+                }
+              }
+            }
           }
         } else {
           console.log(222222)
@@ -411,7 +329,7 @@ export default {
       for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
         resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
-      console.log('bbbbbbbb', resultb)
+      // console.log('bbbbbbbb', resultb)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -434,12 +352,13 @@ export default {
               }
               bList.push(Bobj)
             }
+            // console.log('ccccccccc', bList)
             that.arrChange(aList, bList)
           }
         }
       }
     },
-    getNumbers: function (source, count, isPermutation) {
+    getNumbers: function (source, count, isPermutation = true) {
       var that = this
       //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
       let currentList = source.map((item) => [item]);
@@ -451,20 +370,23 @@ export default {
         let current = currentList[i];
         //如果是排列的方式，在取count-1时，源数组中排除当前项
         let children = [];
-        isPermutation = true
-        console.log('cccccccc', current)
+        // isPermutation = true
+        console.log('cccc', current)
         if (isPermutation) {
-          console.log('cccc1111', source)
           children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
           console.log('cccc222222', children)
         }
         //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
         else {
-          console.log('22222222222', isPermutation)
+          console.log('22222222222', source)
           children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
+          console.log('33333333', children)
         }
-        for (let child of children) {
-          that.getSkuList.push([...current, ...child]);
+        if (children && children.length>0) {
+          for (let child of children) {
+            that.getSkuList.push([...current, ...child]);
+          }
+          console.log('4444444', that.getSkuList)
         }
       }
     },
@@ -518,8 +440,16 @@ export default {
       $(obj).addClass('active')
       $(obj).siblings().removeClass('active')
       that.goodsIds = that.skuSpuIdList
-      that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
-      that.deleteSameObj(that.skuList, that.getSkuList)
+      if (that.attrNameList.length > 1) {
+        that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
+        that.deleteSameObj(that.skuList, that.getSkuList)
+      } else {
+        for(let key in that.attrList){
+          for (var x=0; x<that.attrList[key].length; x++) {
+            that.attrList[key][x].disStyle = 2
+          }
+        }
+      }
       if (that.goodsIds.length > 0) {
         for(var i=0;i< that.goodsIds.length; i++) {
           if(that.goodsIds[i].name === info.name){
@@ -601,7 +531,7 @@ export default {
         // this.$store.state.contPrev = this.$store.state.contPrev + 1
         console.log('88888', this.$store.state.contPrev)
         // if (this.$store.state.contPrev <= num) {
-          $(obj).css('left', -88*num)
+          $(obj).css('left', -89.5 * num)
           $(obj).css('transition', '0.3s')
           $(prev).css('color', '#333')
           // $(objBtn).css('pointer-events', 'auto')
@@ -622,8 +552,8 @@ export default {
       var prevBtn = e.currentTarget
       if (picNum > 5) {
         var num = picNum - 5
-        if (parseInt(obj.style.left) != 0) {
-          var distent = parseInt(obj.style.left) + 88 * num
+        if (parseInt(obj.style.left) !== 0) {
+          var distent = parseInt(obj.style.left) + 89.5 * num
           $(obj).css('left', distent)
           $(obj).css('transition', '0.3s')
           // this.$store.state.contPrev = 0
@@ -752,6 +682,20 @@ export default {
     position: absolute;
     right: 0;
     top:6px;
+    font-size: 24px;
+  }
+  .isImg.prev{
+    color: #ccc;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    font-size: 24px;
+  }
+  .isImg.next{
+    color: #333;
+    position: absolute;
+    right: 0;
+    top:25px;
     font-size: 24px;
   }
   .ColorPic{

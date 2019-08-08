@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="succeed">
-          <div class="title"><i class="el-icon-success"></i> <span>Payment Successful</span></div>
+          <div class="titlePaySucceed"><i class="el-icon-success"></i> <span>Payment Successful</span></div>
           <div class="payInfo">
             <div class="payItem">
               <div class="itemName">Order:</div>
@@ -86,18 +86,18 @@ export default {
     margin: 0 auto;
     margin-top: 30px;
   }
-  .title{
+  .titlePaySucceed{
     font-size: 18px;
     font-weight:bold;
     color: #333;
     line-height: 60px;
   }
-  .title i{
+  .titlePaySucceed i{
     font-size: 60px;
     float: left;
     color: #7cd35f;
   }
-  .title span{
+  .titlePaySucceed span{
     float: left;
     margin-left: 10px;
   }

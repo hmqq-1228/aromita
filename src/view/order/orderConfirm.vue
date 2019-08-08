@@ -1,6 +1,6 @@
 <template>
 <div class="orderConfirm">
-  <!--<div class="model2" v-if="modelShow2"></div>-->
+  <div class="model2" v-if="modelShow2"></div>
   <div class="model" v-if="modelShow">
     <div class="modelCont">
       <div class="modelClose" @click="closeModel"><i class="el-icon-close"></i></div>
@@ -195,20 +195,10 @@
         </div>
         <div class="navTitle" v-if="methodShow">Shipping Method</div>
         <div class="shopBox" v-if="methodShow">
-          <div class="shopItem">
-            <div class="shopName"><el-radio v-model="radio2" label="1-3.67" @change="shipChecked($event)"> Rosie Eva</el-radio></div>
-            <div>5-7 workdays</div>
-            <div>$ 3.67</div>
-          </div>
-          <div class="shopItem">
-            <div class="shopName"><el-radio v-model="radio2" label="2-5.67" @change="shipChecked($event)"> Rosie Eva</el-radio></div>
-            <div>5-7 workdays</div>
-            <div>$ 5.67</div>
-          </div>
-          <div class="shopItem">
-            <div class="shopName"><el-radio v-model="radio2" label="3-6.67" @change="shipChecked($event)"> Rosie Eva</el-radio></div>
-            <div>5-7 workdays</div>
-            <div>$ 6.67</div>
+          <div class="shopItem" v-for="(ship, index) in shipMethodList" v-bind:key="index">
+            <div class="shopName"><el-radio v-model="radio2" :label="ship.ship_id + '-' + ship.ship_fee" @change="shipChecked($event)"> {{ship.ship_name}}</el-radio></div>
+            <div style="width: 200px;">{{ship.trans_min}}—{{ship.trans_max}} workdays</div>
+            <div style="width: 100px;text-align: right;">$ {{ship.ship_fee.toFixed(2)}}</div>
           </div>
         </div>
         <div class="navTitle">Checkout Review</div>
@@ -240,7 +230,7 @@
         <div class="payBox">
           <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
           <div class="moreCard">
-            <el-radio v-model="radio3" label="2">Credit/Deibt Card</el-radio>
+            <el-radio v-model="radio3" :disabled="true" label="2">Credit/Deibt Card</el-radio>
             <img style="float: right;" src="../../../static/img/pay-02.png" alt="">
           </div>
           <div v-if="showCreditForm">
@@ -332,9 +322,14 @@
         </div>
         <div class="payItem">
           <div class="payName total" @click="textPay()">Grand Total:</div>
-          <div class="payValue total">$ {{(parseFloat(shipFee) + billTotal).toFixed(2)}}</div>
+          <div class="payValue total">$ {{billTotalSum.toFixed(2)}}</div>
         </div>
-        <div style="margin-top: 15px;"><el-button :disabled="butLoading" @click="paySub('ruleForm', 'shipForm')">Confirm to pay</el-button></div>
+        <div style="margin-top: 15px;">
+          <el-button :loading="butLoading" @click="paySub('ruleForm', 'shipForm')">
+            <span v-if="!butLoading">Confirm to pay</span>
+            <span v-if="butLoading">Calculating</span>
+          </el-button>
+        </div>
         <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
       </div>
     </div>
@@ -368,11 +363,14 @@ export default {
       totalPay: 0,
       billTotal: 0,
       addressNum: 0,
+      billTotalSum: 0,
       goodsList: [],
       addressList: [],
       addressList2: [],
       ProvinceList: [],
-      order_Address: [],
+      order_Address: {},
+      orderShipMethod: {},
+      shipMethodList: [],
       checkedAdressId: '',
       mouthList: ['01','02','03','04','05','06','07','08','09','10','11','12'],
       countryList: addressList.addressList.List,
@@ -490,7 +488,7 @@ export default {
       if (val) {
         console.log('gggg', val)
         that.showMethod()
-        that.methodShow = true
+        // that.methodShow = true
       } else {
         that.methodShow = false
       }
@@ -578,13 +576,30 @@ export default {
       this.getOrderAddressOut()
     },
     testAlert: function () {
-      // this.modelShow2 = true
-      var u = 'https://www.baidu.com/';
-      var iWidth=500; //弹出窗口的宽度;
-      var iHeight=600; //弹出窗口的高度;
-      var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;
-      var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
-      window.open(u, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
+      var that = this
+      var payUrl = ''
+      var payLoad = qs.stringify({
+        amount: that.billTotalSum,
+        order_number: '8888773336'
+      })
+      that.modelShow2 = true
+      that.$axios.post('api/paypal-pay', payLoad).then(res => {
+        if (res.code === 200) {
+          console.log('11111111', res.data)
+          payUrl = res.data
+          var iWidth=500; // 弹出窗口的宽度;
+          var iHeight=600; // 弹出窗口的高度;
+          var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
+          var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
+          var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
+          var loop = setInterval(function() {
+            if(winObj.closed) {
+              clearInterval(loop);
+              that.modelShow2 = false
+            }
+          }, 500);
+        }
+      })
     },
     //选择国家
     chooseCoutry(){
@@ -658,7 +673,7 @@ export default {
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
                 console.log('idididiid', that.checkedAdressId)
-                that.showMethod()
+                // that.showMethod()
                 defultList.push(data.data[i])
                 that.addressList = defultList
               } else {
@@ -746,12 +761,10 @@ export default {
     showMethod: function () {
       console.log('kkkkk', this.radio)
       var that = this
+      that.butLoading = true
       if (that.radio === ''){
         that.methodShow = false
       } else {
-        that.methodShow = true
-        that.radio2 = '1-3.67'
-        that.shipFee = that.radio2.split('-')[1]
         that.getPostMethod(that.radio)
       }
     },
@@ -768,6 +781,7 @@ export default {
         entry_city: strList[3],
         entry_postcode: strList[4]
       }
+      that.getShipMethod(address_info)
       console.log('xxxxxxx', address_info)
       for (var i=0;i<this.addressList.length;i++) {
         if (that.addressList[i].id === parseInt(strList[0])) {
@@ -778,19 +792,50 @@ export default {
     },
     shipChecked: function (e) {
       console.log('eeeeeeee', e)
-      this.radio2 = e
-      this.shipFee = this.radio2.split('-')[1]
+      var that = this
+      that.radio2 = e
+      that.shipFee = that.radio2.split('-')[1]
+      that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+      console.log('wwwwww', that.billTotalSum)
+    },
+    getShipMethod (aStr) {
+      var that = this
+      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var idStr = ids.map(String)
+      let payLoad = qs.stringify({
+        ids: JSON.stringify(idStr),
+        address_info: JSON.stringify(aStr)
+      })
+      console.log('ids', JSON.stringify(idStr))
+      console.log('address_info', payLoad)
+      that.$axios.post('api/ship', payLoad).then(res => {
+        console.log('hhhhh', res)
+        if (res.code === '200') {
+          that.shipMethodList = res.data
+          that.methodShow = true
+          that.radio2 = res.data[0].ship_id + '-' + res.data[0].ship_fee
+          that.shipFee = that.radio2.split('-')[1]
+          that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+          that.butLoading = false
+          for(var i=0;i<that.shipMethodList.length;i++) {
+            if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
+              console.log('h1h1h1h', that.shipMethodList[i])
+              that.orderShipMethod = that.shipMethodList[i]
+            }
+          }
+        }
+      })
+      // let data = await shipMethod(payLoad)
+      // console.log('data', data)
     },
     // 获取订单
     async getGoodsOrder(){
       var that = this
-      var payItem = []
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
       let idList = {
         ids: idStr
       }
-      that.butLoading = true
       console.log('7777777', idList)
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
@@ -800,16 +845,6 @@ export default {
         that.goodsList = data
         that.getBillingList()
         that.orderListInvalid = false
-        // for (var v=0; v<that.goodsList.length; v++){
-        //   payItem.push(that.goodsList[v].sku_pay)
-        // }
-        // console.log('vvvvvv', payItem)
-        // var sumPay = 0
-        // for (var n=0;n<payItem.length;n++){
-        //   sumPay += payItem[n]
-        // }
-        // that.totalPay = sumPay
-        // console.log('sssssss', that.totalPay.toFixed(2))
       } else {
         console.log('订单失效')
         that.orderListInvalid = true
@@ -840,7 +875,6 @@ export default {
       }
       console.log('99999', sumBill)
       that.billTotal = sumBill
-      that.butLoading = false
     },
     // 修改
     submitForm(formName) {
@@ -913,14 +947,27 @@ export default {
     },
     textPay: function () {
       var that = this
-      // that.order_Address
-      var order_ship = {
-        ship_id: '06',
-        ship_name: 'DF HKDHL',
-        ship_fee: 41.23,
-        trans_min: 5,
-        trans_max: 8
+      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var coupon_id = sessionStorage.getItem('couponId')
+      var orderAddress = that.order_Address
+      var shipMethod = that.orderShipMethod
+      var payMethod = {
+        payment_module_code: 1,
+        payment_method: "paypal"
       }
+      console.log('111111', ids)
+      console.log('222222', coupon_id)
+      console.log('333333', orderAddress)
+      console.log('444444', shipMethod)
+      console.log('555555', payMethod)
+      var payLoad = {
+        ids: JSON.stringify(ids),
+        coupon_id: coupon_id,
+        order_address_info: JSON.stringify(orderAddress),
+        order_ship_delivered: JSON.stringify(shipMethod),
+        pay_method: JSON.stringify(payMethod)
+      }
+      console.log('6666666', payLoad)
     },
     paySub: function (formName, formName1) {
       var that = this
@@ -973,7 +1020,7 @@ export default {
   .model2{
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,.2);
+    background: rgba(0,0,0,.4);
     position: fixed;
     top: 0;
     left: 0;
@@ -1404,6 +1451,7 @@ export default {
   .shopName{
     height: 40px;
     line-height: 40px;
+    width: 500px;
   }
   .shopItem>div{
     height: 40px;
