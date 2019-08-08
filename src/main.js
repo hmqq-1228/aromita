@@ -13,6 +13,9 @@ import qs from 'qs'
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios
 
+router.afterEach((to,from,next)=>{
+  　window,scrollTo(0,0)
+})
 
 new Vue({
   el: '#app',

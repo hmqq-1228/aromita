@@ -28,7 +28,7 @@
                 </div>
                 <el-dropdown v-if="login_status">
                   <div class="login_right" :title="userName">
-                    <router-link to="/myAccount">{{userName}}</router-link>
+                    <router-link to="/myAccount">Hello,{{userName}}</router-link>
                   </div>
                   <div class="dropdown">
                     <el-dropdown-menu slot="dropdown">
@@ -68,7 +68,7 @@
             <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseover="getNavList(index, $event)">
               <div class="data">{{item.cate_name}}</div>
               <div class="content_box1" :style="'left: -' + leftVal + 'px'">
-                <div class="box-item" v-for="(nav, index2) in nav_arrList" v-bind:key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</div>
+                <div class="box-item" v-for="(nav, index2) in nav_arrList" :key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</div>
               </div>
             </li>
           </ul>
@@ -245,7 +245,7 @@
         for(var i = 0;i<goodsListOn.length;i++){
             total += Number(goodsListOn[i].totalPay)
         }
-        this.TotalPrice = total
+        this.TotalPrice = total.toFixed(2)
         this.goodsListOn = goodsListOn
         this.goodsListOff = goodsListOff
         console.log(this.goodsListOff,'zhuyabei')
