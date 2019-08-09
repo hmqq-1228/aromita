@@ -205,7 +205,7 @@ export default {
     handleScroll(){
         let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //屏幕的高度
-        let prodListHeight = document.querySelector('.listGoods').offsetHeight-h;  //.myOrderListWrapper 商品列表容器
+        let prodListHeight = document.querySelector('.listGoods').offsetHeight-h-500;  //.myOrderListWrapper 商品列表容器
         if(scrollTop>prodListHeight && this.prodListLoadingOver && !this.prodListLastPage){
           this.page = this.page + 1;
           this.getList();
