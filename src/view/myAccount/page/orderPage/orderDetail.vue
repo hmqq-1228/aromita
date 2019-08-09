@@ -81,7 +81,7 @@
                         label="Product">
                         <template slot-scope="scope">
                             <div class="product">
-                                <img :src="url+scope.row.products_pic" alt="">
+                                <img :src="scope.row.products_pic" alt="">
                                 <div class="detail">
                                     <h5>{{scope.row.products_name}}</h5>
                                     <p><span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
@@ -152,7 +152,7 @@ export default {
     }
   },
   watch:{
-    
+
   },
   created(){
       this.orderId = this.$route.query.orderId
