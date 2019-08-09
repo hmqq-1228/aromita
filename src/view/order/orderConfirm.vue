@@ -82,6 +82,9 @@
               <el-form-item label=" Email Address:" prop="email">
                 <el-input v-model="addNewForm.email"></el-input>
               </el-form-item>
+              <el-form-item label="Company name:" prop="Company">
+                <el-input v-model="addNewForm.Company"></el-input>
+              </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
                   <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
@@ -153,6 +156,9 @@
               </div>
               <el-form-item label=" Email Address:" prop="email">
                 <el-input v-model="addNewForm.email"></el-input>
+              </el-form-item>
+              <el-form-item label="Company name:" prop="Company">
+                <el-input v-model="addNewForm.Company"></el-input>
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
@@ -268,6 +274,9 @@
               <el-form-item label=" Email Address:" prop="email">
                 <el-input v-model="shipForm.email"></el-input>
               </el-form-item>
+              <el-form-item label="Company name:" prop="Company">
+                <el-input v-model="shipForm.Company"></el-input>
+              </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="shipForm.Country" placeholder="United Stats">
                   <el-option label="shanghai" value="shanghai"></el-option>
@@ -301,7 +310,7 @@
       </div>
       <div class="payDiv">
         <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
-          <div class="payName" @click="testAlert()">Subtotal:</div>
+          <div class="payName">Subtotal:</div>
           <div class="payValue">$ {{billing.subtotal.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="billing.cc_amount && billing.cc_amount>0">
@@ -321,7 +330,7 @@
           <div class="payValue">$ {{shipFee}}</div>
         </div>
         <div class="payItem">
-          <div class="payName total" @click="textPay()">Grand Total:</div>
+          <div class="payName total">Grand Total:</div>
           <div class="payValue total">$ {{billTotalSum.toFixed(2)}}</div>
         </div>
         <div style="margin-top: 15px;">
@@ -394,6 +403,7 @@ export default {
       shipForm: {
         First: '',
         Last: '',
+        Company: '',
         email: '',
         Country: '',
         Address1: '',
@@ -407,6 +417,7 @@ export default {
         First: '',
         Last: '',
         email: '',
+        Company: '',
         Country: 'United States',
         Address1: '',
         Address2: '',
@@ -557,6 +568,7 @@ export default {
       that.addressFormShow = true
       that.addNewForm.First = that.addressList2[0].entry_firstname
       that.addNewForm.Last = that.addressList2[0].entry_lastname
+      that.addNewForm.Company = that.addressList2[0].entry_company
       that.addNewForm.email = that.addressList2[0].entry_email_address
       that.addNewForm.Country = that.addressList2[0].entry_country
       that.addNewForm.Address1 = that.addressList2[0].entry_street_address1
@@ -574,32 +586,6 @@ export default {
     deleteAddressOut: function () {
       sessionStorage.removeItem('addressList')
       this.getOrderAddressOut()
-    },
-    testAlert: function () {
-      var that = this
-      var payUrl = ''
-      var payLoad = qs.stringify({
-        amount: that.billTotalSum,
-        order_number: '8888773336'
-      })
-      that.modelShow2 = true
-      that.$axios.post('api/paypal-pay', payLoad).then(res => {
-        if (res.code === 200) {
-          console.log('11111111', res.data)
-          payUrl = res.data
-          var iWidth=500; // 弹出窗口的宽度;
-          var iHeight=600; // 弹出窗口的高度;
-          var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
-          var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
-          var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
-          var loop = setInterval(function() {
-            if(winObj.closed) {
-              clearInterval(loop);
-              that.modelShow2 = false
-            }
-          }, 500);
-        }
-      })
     },
     //选择国家
     chooseCoutry(){
@@ -632,6 +618,7 @@ export default {
       this.addNewForm.First = ''
       this.addNewForm.Last = ''
       this.addNewForm.email = ''
+      this.addNewForm.Company = ''
       this.addNewForm.Country = 'United States'
       this.addNewForm.Address1 = ''
       this.addNewForm.Address2 = ''
@@ -739,6 +726,7 @@ export default {
             console.log('yyyyyyyyy', res)
             that.addNewForm.First = res.data.entry_firstname
             that.addNewForm.Last = res.data.entry_lastname
+            that.addNewForm.Company = res.data.entry_company
             that.addNewForm.email = res.data.entry_email_address
             that.addNewForm.Country = res.data.entry_country
             that.addNewForm.Address1 = res.data.entry_street_address1
@@ -752,6 +740,7 @@ export default {
             } else {
               that.addNewForm.checked = false
             }
+            that.defultIcon = 'el-icon-d-arrow-left'
           }
         })
       } else if (!id) {
@@ -794,6 +783,12 @@ export default {
       console.log('eeeeeeee', e)
       var that = this
       that.radio2 = e
+      for(var i=0;i<that.shipMethodList.length;i++) {
+        if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
+          console.log('h1h1h1h', that.shipMethodList[i])
+          that.orderShipMethod = that.shipMethodList[i]
+        }
+      }
       that.shipFee = that.radio2.split('-')[1]
       that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
       console.log('wwwwww', that.billTotalSum)
@@ -802,12 +797,12 @@ export default {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = ids.map(String)
+      console.log('address_info', aStr)
       let payLoad = qs.stringify({
         ids: JSON.stringify(idStr),
         address_info: JSON.stringify(aStr)
       })
       console.log('ids', JSON.stringify(idStr))
-      console.log('address_info', payLoad)
       that.$axios.post('api/ship', payLoad).then(res => {
         console.log('hhhhh', res)
         if (res.code === '200') {
@@ -836,9 +831,10 @@ export default {
       let idList = {
         ids: idStr
       }
-      console.log('7777777', idList)
+      console.log('66666', ids)
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
+        console.log('7777777', data)
         for (var i=0;i<data.length;i++){
           data[i].sku_pay = data[i].goods_count * data[i].sku_price
         }
@@ -887,6 +883,7 @@ export default {
             var editObj = qs.stringify({
               entry_firstname: that.addNewForm.First,
               entry_lastname: that.addNewForm.Last,
+              entry_company: that.addNewForm.Company,
               entry_email_address: that.addNewForm.email,
               entry_country: that.addNewForm.Country,
               entry_street_address1: that.addNewForm.Address1,
@@ -921,6 +918,7 @@ export default {
           id: 0,
           entry_firstname: that.addNewForm.First,
           entry_lastname: that.addNewForm.Last,
+          entry_company: that.addNewForm.Company,
           entry_email_address: that.addNewForm.email,
           entry_country: that.addNewForm.Country,
           entry_street_address1: that.addNewForm.Address1,
@@ -945,7 +943,7 @@ export default {
     toShopcar: function () {
       this.$router.push('/shoppingCar')
     },
-    textPay: function () {
+    confirmPay: function () {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var coupon_id = sessionStorage.getItem('couponId')
@@ -960,16 +958,45 @@ export default {
       console.log('333333', orderAddress)
       console.log('444444', shipMethod)
       console.log('555555', payMethod)
-      var payLoad = {
+      var payLoad = qs.stringify({
         ids: JSON.stringify(ids),
         coupon_id: coupon_id,
         order_address_info: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),
         pay_method: JSON.stringify(payMethod)
-      }
+      })
       console.log('6666666', payLoad)
       that.$axios.post('api/order_pay', payLoad).then(res => {
-        console.log('ididididid', res)
+        if (res.order_num && res.total_price) {
+          console.log('ididididid', res)
+          that.payByPaypal(res.total_price, res.order_num)
+        }
+      })
+    },
+    payByPaypal: function (total, order) {
+      var that = this
+      var payUrl = ''
+      var payLoad = qs.stringify({
+        amount: total,
+        order_number: order
+      })
+      that.modelShow2 = true
+      that.$axios.post('api/paypal-pay', payLoad).then(res => {
+        if (res.code === 200) {
+          console.log('11111111', res.data)
+          payUrl = res.data
+          var iWidth=500; // 弹出窗口的宽度;
+          var iHeight=600; // 弹出窗口的高度;
+          var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
+          var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
+          var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
+          var loop = setInterval(function() {
+            if(winObj.closed) {
+              clearInterval(loop);
+              that.modelShow2 = false
+            }
+          }, 500);
+        }
       })
     },
     paySub: function (formName, formName1) {
@@ -980,6 +1007,7 @@ export default {
           if (formName) {
             if (that.radio3 === '1') {
               console.log('你选择了第一种支付方式')
+              that.confirmPay()
             }else if (that.radio3 === '2') {
               if (that.checked) {
                 that.$refs[formName].validate((valid) => {
