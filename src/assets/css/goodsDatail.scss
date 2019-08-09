@@ -59,6 +59,18 @@
         background-color: #B20605;
     }
   }
+  .mainImage{
+    height: 82px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    display: flex;
+  }
+  .mainImage .sliderBox{
+    height: 82px;
+  }
+  .mainImage .activeType img{
+    border: 1px solid #c51015;
+  }
   .smallSlider2{
     /*height: 38px;*/
     width: 506px;
@@ -73,6 +85,15 @@
     position: relative;
     left:0;
     top: 0;
+  }
+  .mainImage .prev{
+    top:30px;
+  }
+  .mainImage .next{
+    top:30px;
+  }
+  .mainImage .sliderCont div{
+    margin-right: 3px;
   }
   .sliderBox.isImg{
     height: 82px;
@@ -591,7 +612,7 @@
     0% {
       left: 220px;
       transform: scale(1);
-    }  
+    }
     100% {
       left: 800px;
       transform: scale(0.2);
