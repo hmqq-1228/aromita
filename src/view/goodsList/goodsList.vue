@@ -50,7 +50,7 @@
           </el-collapse>
         </div>
       </div>
-      <div class="listGoods" v-loading="loading" v-if="goodsList && goodsList.length>0">
+      <div class="listGoods" v-if="goodsList && goodsList.length>0">
         <div class="goodsItem"  v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
           <div class="goodInner">
             <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
@@ -103,11 +103,15 @@ export default {
   data () {
     return {
       loading:true,
+      page:1,
+      pageSize:20,
+      prodListLoadingOver:false,
+      prodListLastPage: false,
+      goodsList: [],
       activeNamesMetal: '',
       activeNamesColor: '',
       activeNamesSize: '',
       picNum: 5,
-      goodsList: [],
       s_cate_id:'',//分类id
       // navigation:{
       //   nextEl: '.swiper-button-next',
@@ -131,6 +135,7 @@ export default {
     }
   },
   mounted() {
+    window.addEventListener('scroll', this.handleScroll);
     var swiper2 = new Swiper('.goods2',{
         slidesPerView: 5,
         slidesPerGroup: 1,
@@ -172,10 +177,18 @@ export default {
       }
     },
     getList() {
-      getGoodsList({s_cate_id:this.s_cate_id}).then((res)=>{
+      this.prodListLoadingOver = false;
+      getGoodsList({s_cate_id:this.s_cate_id,page:this.page}).then((res)=>{
         if(res.code == '200'){
-          this.loading = false
-          this.goodsList = res.data.data
+          this.prodListLoadingOver = true;
+          if(this.page == 1){
+            this.goodsList = res.data.data
+          }else{
+            this.goodsList = this.goodsList.concat(res.data.data);
+          }
+          if(res.data.data.length < this.pageSize){
+              this.prodListLastPage = true;
+          }
           for (var i = 0;i < this.goodsList.length; i++) {
             if (this.goodsList[i].skus.length > 0) {
               this.goodsList[i].firstLargePic = this.goodsList[i].skus[0].sku_image
@@ -187,6 +200,16 @@ export default {
         }
           
       })
+    },
+    //下拉加载列表
+    handleScroll(){
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //屏幕的高度
+        let prodListHeight = document.querySelector('.listGoods').offsetHeight-h;  //.myOrderListWrapper 商品列表容器
+        if(scrollTop>prodListHeight && this.prodListLoadingOver && !this.prodListLastPage){
+          this.page = this.page + 1;
+          this.getList();
+        }
     },
     getColorPicture: function (e, index1, url, title, price, id) {
       var obj = e.currentTarget
@@ -249,6 +272,9 @@ export default {
       $(obj).removeClass('biggerView')
       $(obj).addClass('defultView')
     }
+  },
+  destroyed(){
+      window.removeEventListener('scroll', this.handleScroll);
   }
 }
 </script>
