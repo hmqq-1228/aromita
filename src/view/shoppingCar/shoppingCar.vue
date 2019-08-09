@@ -153,7 +153,7 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
-import {getGoodsList} from "../../api/register";
+import {getGoodsList,checkLogin} from "../../api/register";
 import qs from 'qs'
 export default {
   components: {
@@ -164,6 +164,7 @@ export default {
   data () {
     return{
       wishUrl: '../../../static/img/loveOut.png',
+      isLogin: false,
       checkedAll: false,
       checkedItem: [],
       idList: [],
@@ -213,9 +214,18 @@ export default {
     // }
   },
   created(){
+    this.checkLoginInfo()
     this.getGoodsListFuc()
   },
   methods:{
+    async checkLoginInfo () {
+      let data = await checkLogin()
+      if(data.code === '200' || data.code === 200) {
+        this.isLogin = true
+      } else {
+        this.isLogin = false
+      }
+    },
     useCoupon: function (e, cpId) {
       var obj = e.currentTarget
       $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
@@ -247,17 +257,23 @@ export default {
             that.goodsListOff = OffList
           }
         }
+        that.$store.state.addCartState = false
         // that.gLoading = false
       } else {
+        var onList = []
+        console.log('8888888')
         let data = await getGoodsList();
         this.goodsList = data
+        console.log('999999', this.goodsList)
         if (this.goodsList.length === 0) {
           that.noProduct = true
+          that.goodsListOn = []
         } else {
           that.noProduct = false
           for (var i = 0;i<that.goodsList.length;i++){
             if (that.goodsList[i].sku_status === 1) {
-              that.goodsListOn.push(that.goodsList[i])
+              onList.push(that.goodsList[i])
+              that.goodsListOn = onList
               that.idList.push(that.goodsList[i].sku_id)
               for (var j = 0;j<that.goodsListOn.length;j++) {
                 var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
@@ -269,7 +285,7 @@ export default {
             // that.payList.push(parseFloat(itemPay.toFixed(2)))
           }
         }
-        // that.gLoading = false
+        that.$store.state.addCartState = false
       }
     },
     sumPay: function (arr) {
@@ -324,7 +340,12 @@ export default {
       var that = this
       // that.btnLoading = true
       that.$axios.post('api/deltocart/' + skuId, {}).then(res => {
-        if (res.status === 200) {
+        if (that.isLogin){
+          if (res.status === 200) {
+            that.getGoodsListFuc()
+            that.$store.state.addCartState = true
+          }
+        } else {
           that.getGoodsListFuc()
           that.$store.state.addCartState = true
         }
@@ -336,7 +357,12 @@ export default {
       var skuList = JSON.stringify(this.checkedItem)
       // that.btnLoading = true
       that.$axios.post('api/batchdeltocart/' + skuList, {}).then(res => {
-        if (res.status === 200) {
+        if (that.isLogin){
+          if (res.status === 200) {
+            that.getGoodsListFuc()
+            that.$store.state.addCartState = true
+          }
+        } else {
           that.getGoodsListFuc()
           that.$store.state.addCartState = true
         }
@@ -360,8 +386,14 @@ export default {
     getGoodsNum: function (skuId) {
       var that = this
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        if (res.code === '200') {
+        if (that.isLogin){
+          if (res.status === 200 || res.code === '200') {
+            that.getGoodsListFuc('add')
+            that.$store.state.addCartState = true
+          }
+        } else {
           that.getGoodsListFuc('add')
+          that.$store.state.addCartState = true
         }
       })
     },

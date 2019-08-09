@@ -28,7 +28,7 @@
                 </div>
                 <el-dropdown v-if="login_status">
                   <div class="login_right" :title="userName">
-                    <router-link to="/myAccount">Hello,{{userName}}</router-link>
+                    <router-link to="/myAccount"><span>Hello, {{userName}}</span></router-link>
                   </div>
                   <div class="dropdown">
                     <el-dropdown-menu slot="dropdown">
@@ -177,7 +177,7 @@
       addCartState: function () {
         var that = this
         if (that.$store.state.addCartState === true) {
-          that.getGoodsCont(this.nodeId)
+          that.getGoodsCont()
         }
         that.$store.state.addCartState = false
         return that.$store.state.addCartState

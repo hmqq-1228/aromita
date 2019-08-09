@@ -968,6 +968,9 @@ export default {
         pay_method: JSON.stringify(payMethod)
       }
       console.log('6666666', payLoad)
+      that.$axios.post('api/order_pay', payLoad).then(res => {
+        console.log('ididididid', res)
+      })
     },
     paySub: function (formName, formName1) {
       var that = this
