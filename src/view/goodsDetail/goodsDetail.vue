@@ -57,6 +57,20 @@
           <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
           <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
         </div>
+        <div class="mainImage" v-if="attrList.length === 0">
+          <div class="goodsLabelSize isImgLabel"></div>
+          <div class="smallSlider2">
+            <div class="sliderBox">
+              <div class="sliderCont">
+                <div class="sizeSize" :class="img.activeType === 1?'activeType': ''" v-for="(img, index) in mainImageList" v-bind:key="index" @click="getSkuByImage($event, img.sku)">
+                  <img :src="img.url" alt="">
+                </div>
+              </div>
+            </div>
+            <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+            <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+          </div>
+        </div>
         <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
           <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
           <div class="smallSlider2">
@@ -83,7 +97,7 @@
         <div class="goodsPrice">
           <div class="goodsLabel">Total Price:</div>
           <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
-        </div>         
+        </div>
       </div>
       <div>
         <div class="subBtn shop_cart">
@@ -143,6 +157,7 @@ export default {
       attrList: [],
       attrListDis: [],
       attrNameList: [],
+      mainImageList: [],
       // otherList: [],
       // colorList: [],
       getNewSkuId: 0,
@@ -254,18 +269,26 @@ export default {
             that.priceOrder = res.data.sku.sku_price
             that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
             that.attrList =  res.data.attrs
+            that.mainImageList = res.data.main_img
             that.attrId = res.data.sku_ids
             that.skuList = res.data.sku_list
             var list = JSON.parse(res.data.sku.sku_attrs)
             // that.colorList = res.data.data.attrs.color
             var imgList = []
+            if (that.mainImageList.length >0) {
+              for (var t=0;t<that.mainImageList.length;t++) {
+                if (that.mainImageList[t].sku === parseInt(skuId)) {
+                  that.mainImageList[t].activeType = 1
+                }
+              }
+            }
+            console.log('666666', that.mainImageList)
             for(let key in that.imageList){
               var str = that.imageList[key].split('.')
               var strArr = []
               for (var k = 0; k<str.length-1; k++) {
                 strArr.push(str[k])
               }
-              console.log('666666', str)
               var strArrJoin = strArr.join('.')
               var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
               console.log('777777777', imgStr)
@@ -307,6 +330,14 @@ export default {
           console.log(222222)
         }
       })
+    },
+    getSkuByImage: function (e, sku) {
+      var obj = e.currentTarget
+      $(obj).addClass('activeType').siblings().removeClass('activeType')
+      if (sku) {
+        $('.subType').removeClass('ban')
+        this.getNewSkuId = sku
+      }
     },
     deleteSameObj: function (skuList, getSkuList) {
       var that = this
