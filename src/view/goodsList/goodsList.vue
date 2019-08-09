@@ -50,7 +50,7 @@
           </el-collapse>
         </div>
       </div>
-      <div class="listGoods" v-if="goodsList && goodsList.length>0">
+      <div class="listGoods" v-loading="loading" v-if="goodsList && goodsList.length>0">
         <div class="goodsItem"  v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
           <div class="goodInner">
             <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
@@ -102,6 +102,7 @@ export default {
   name: "goodsList",
   data () {
     return {
+      loading:true,
       activeNamesMetal: '',
       activeNamesColor: '',
       activeNamesSize: '',
@@ -161,7 +162,6 @@ export default {
   created() {
     this.s_cate_id = this.$route.query.s_cate_id
     this.getList()
-    console.log('8888', this.s_cate_id)
   },
   methods: {
     toGoodsDetail: function (spuid, skuid) {
@@ -173,6 +173,8 @@ export default {
     },
     getList() {
       getGoodsList({s_cate_id:this.s_cate_id}).then((res)=>{
+        if(res.code == '200'){
+          this.loading = false
           this.goodsList = res.data.data
           for (var i = 0;i < this.goodsList.length; i++) {
             if (this.goodsList[i].skus.length > 0) {
@@ -182,6 +184,8 @@ export default {
               this.goodsList[i].skuId = this.goodsList[i].skus[0].id
             }
           }
+        }
+          
       })
     },
     getColorPicture: function (e, index1, url, title, price, id) {

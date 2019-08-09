@@ -48,44 +48,50 @@
       </div>
     </div>
     <div class="goodsInfo">
-      <div class="goodsTitle">
-        {{goodDetail.sku_name}}
-      </div>
-      <div class="goodsPrice">
-        <div class="goodsLabel">price:</div>
-        <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
-        <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
-      </div>
-      <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
-        <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
-        <div class="smallSlider2">
-          <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
-            <div class="sliderCont">
-              <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
-                <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
-                <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
-                <!--<div v-if="item.image_url" class="model"></div>-->
+      <div style="min-height:480px">
+        <div class="goodsTitle">
+          {{goodDetail.sku_name}}
+        </div>
+        <div class="goodsPrice">
+          <div class="goodsLabel">price:</div>
+          <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
+          <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
+        </div>
+        <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
+          <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
+          <div class="smallSlider2">
+            <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
+              <div class="sliderCont">
+                <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
+                  <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
+                  <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
+                  <!--<div v-if="item.image_url" class="model"></div>-->
+                </div>
               </div>
             </div>
+            <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+            <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
           </div>
-          <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-          <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
         </div>
-      </div>
-      <div style="display: flex;justify-content: start;margin-top: 20px;">
-        <div class="goodsLabelSize" style="width: 130px;">quality:</div>
-        <div style="display: flex;">
-          <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
-          <div class="kuCun">{{maxQuality}} available</div>
+        <div style="display: flex;justify-content: start;margin-top: 20px;">
+          <div class="goodsLabelSize" style="width: 130px;">quality:</div>
+          <div style="display: flex;">
+            <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
+            <div class="kuCun">{{maxQuality}} available</div>
+          </div>
         </div>
-      </div>
-      <div class="goodsPrice">
-        <div class="goodsLabel">Total Price:</div>
-        <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
+        <div class="goodsPrice">
+          <div class="goodsLabel">Total Price:</div>
+          <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
+        </div>         
       </div>
       <div>
-        <div class="subBtn">
-          <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart()">Add to Cart</div>
+        <div class="subBtn shop_cart">
+          <div class="add">
+              <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
+              <div class="z_addbtn"></div>
+              <img class="add_img run_top_right" v-show="addShow" src="@/assets/g.png" alt="">
+          </div>
           <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
           <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
         </div>
@@ -122,6 +128,7 @@ export default {
   name: "goodsDetail",
   data(){
     return{
+      addShow:false,//加入购物车动画显示
       addButton: false,
       showModel: false,
       skuDefult: '',
@@ -491,18 +498,22 @@ export default {
         }
       }
     },
-    addToCart: function () {
-      var that = this
-      var skuId = that.$route.params.skuId
+    //加入购物车
+    addToCart: function ($event) {
+      this.addShow = true
+      setTimeout(() => {
+        this.addShow = false
+      }, 1000)
+      var skuId = this.$route.params.skuId
       var obj = qs.stringify({
         product_id: skuId,
-        count: that.numQuality
+        count: this.numQuality
       })
       this.$axios.post('api/addcart', obj).then(res => {
         console.log('sssssss', res.data)
-        that.$store.state.addCartState = true
+        this.$store.state.addCartState = true
         if (res.data === 2050) {
-          that.showModel = true
+          this.showModel = true
         }
       })
     },
@@ -570,552 +581,6 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .bgModel{
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.3);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 999;
-  }
-  .modelClose{
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 0;
-    top: 5px;
-    color: #666;
-    cursor: pointer;
-  }
-  .modelClose:hover{
-    color: #333;
-  }
-  .modelCont{
-    width: 345px;
-    height: 130px;
-    padding: 20px 10px;
-    text-align: center;
-    font-family: Tahoma;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 1px 1px 6px #666;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-  }
-  .modelText{
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 4px;
-  }
-  .modelTitle{
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 16px;
-  }
-  .toCart{
-    color: #fff;
-    width: 100px;
-    height: 30px;
-    line-height: 30px;
-    background-color: #c51015;
-    margin: 0 auto;
-    cursor: pointer;
-    margin-top: 18px;
-  }
-  .toCart:hover{
-    cursor: pointer;
-    background-color: #B20605;
-  }
-  .smallSlider2{
-    /*height: 38px;*/
-    width: 506px;
-    position: relative;
-  }
-  .sliderBox{
-    /*height: 38px;*/
-    width: 445px;
-    margin: 0 auto;
-    white-space: nowrap;
-    overflow: hidden;
-    position: relative;
-    left:0;
-    top: 0;
-  }
-  .sliderBox.isImg{
-    height: 82px;
-  }
-  .sliderBox.isImg .sizeSize{
-    height: 82px;
-  }
-  .sliderBox.isText{
-    height: 38px;
-  }
-  .sliderCont{
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 445px;
-    margin: 0 auto;
-  }
-  .sliderCont div{
-    width: 82px;
-    /*height: 32px;*/
-    margin-right: 8px;
-    display: inline-block;
-  }
-  .prev{
-    color: #ccc;
-    position: absolute;
-    left: 0;
-    top: 6px;
-    font-size: 24px;
-  }
-  .next{
-    color: #333;
-    position: absolute;
-    right: 0;
-    top:6px;
-    font-size: 24px;
-  }
-  .isImg.prev{
-    color: #ccc;
-    position: absolute;
-    left: 0;
-    top: 25px;
-    font-size: 24px;
-  }
-  .isImg.next{
-    color: #333;
-    position: absolute;
-    right: 0;
-    top:25px;
-    font-size: 24px;
-  }
-  .ColorPic{
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-    border: 1px solid #eee;
-  }
-.sizeSize.active div,.sizeSize.active img{
-  border: 1px solid #B20605;
-  transition: all .3s;
-}
-.sizeSize .disStyle{
-  color: #333;
-  border: 1px solid #999;
-  background-color: #fff;
-}
-.sizeSize.active .disStyle{
-  color: #333;
-  border: 1px solid #C51015;
-  background-color: #fff;
-}
-.sizeSize.active div{
-  color: #999;
-  border: 1px solid #C51015;
-  background-color: #f5f5f5;
-}
-.checkedStyle .small{
-  border: 1px solid #C51015;
-}
-.small{
-  width: 80px;
-  height: 80px;
-  border: 1px solid #e9e9e9;
-}
-.goodsDetail{
-  width: 1440px;
-  margin: 10px auto;
-  margin-top: 10px;
-  display: flex;
-  padding-bottom: 10px;
-  justify-content: space-between;
-  border-bottom: 1px solid #eee;
-}
-.mainFeature,.product{
-  width: 1440px;
-  margin: 0 auto;
-  color: #333;
-  font-size: 14px;
-  font-family: Tahoma;
-  line-height: 30px;
-}
-.mainFeature{
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
-}
-.product span{
-  color: #999;
-}
-.product{
-  margin-bottom: 30px;
-}
-.mainFeatureTitle,.productTitle{
-  color: #333;
-  font-size: 18px;
-  font-family: Tahoma;
-  margin-top: 21px;
-  margin-bottom: 6px;
-}
-.goodsImg{
-  width: 650px;
-  height: 620px;
-  display: flex;
-  justify-content: space-between;
-}
-.sizeSize{
-  font-size: 14px;
-  cursor: pointer;
-  line-height: 32px;
-  text-align: center;
-  font-family: Tahoma;
-  /*position: relative;*/
-}
-/*.sizeSize .model{*/
-  /*position: absolute;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*background: rgba(0,0,0,0.1);*/
-/*}*/
-.sizeSize div{
-  color: #888;
-  height: 32px;
-  width: 80px;
-  border: 1px dashed #ccc;
-}
-  .sizeSize img{
-    height: 80px;
-    width: 80px;
-    border: 1px dashed #ccc;
-  }
-.sizeSize .textStyle{
-  color: #333;
-}
-.sizeSize div{
-  color: #999;
-  border: 1px dashed #ccc;
-  background-color: #f5f5f5;
-}
-.detailSwiper{
-  width: 80px;
-  height: 506px;
-}
-.swiper-father{
-  position: relative;
-  top: 25px;
-  height: 445px;
-}
-.swiper-fatherColor{
-  position: relative;
-  width: 506px;
-}
-.swiper-fatherSize{
-  position: relative;
-  width: 506px;
-}
-.goodsImg .swiper-container{
-  height: 445px;
-  width: 82px;
-}
-.goodsDetail2.swiper-container{
-  height: 82px;
-  width: 445px;
-}
-.swiper-container{
-  height: 38px;
-  width: 445px;
-}
-.swiper-fatherColor .swiper-button-prev {
-  color: #333;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  width: 18px;
-  height: 28px;
-  /* margin-top: -13px; */
-  z-index: 10;
-  cursor: pointer;
-  background-size: 12px;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.swiper-fatherSize .swiper-button-prev {
-  color: #333;
-  position: absolute;
-  top: 24px;
-  left: 0;
-  width: 18px;
-  height: 28px;
-  /* margin-top: -13px; */
-  z-index: 10;
-  cursor: pointer;
-  background-size: 12px;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.goodsImg .swiper-button-prev{
-  color: #333;
-  position: absolute;
-  top: -5px;
-  left: 30px;
-  width: 18px;
-  height: 28px;
-  /* margin-top: -13px; */
-  z-index: 10;
-  cursor: pointer;
-  background-size: 12px;
-  background-position: center;
-  transform:rotate(90deg);
-  -ms-transform:rotate(90deg); 	/* IE 9 */
-  -moz-transform:rotate(90deg); 	/* Firefox */
-  -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
-  -o-transform:rotate(90deg); 	/* Opera */
-  background-repeat: no-repeat;
-}
-.goodsImg .swiper-button-next {
-  color: #333;
-  position: absolute;
-  top: 450px;
-  right: 30px;
-  width: 18px;
-  height: 28px;
-  margin-top: -10px;
-  z-index: 10;
-  cursor: pointer;
-  background-size: 12px;
-  transform:rotate(90deg);
-  -ms-transform:rotate(90deg); 	/* IE 9 */
-  -moz-transform:rotate(90deg); 	/* Firefox */
-  -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
-  -o-transform:rotate(90deg);
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.swiper-fatherColor .swiper-button-next {
-  color: #333;
-  position: absolute;
-  top: 50px;
-  right: 5px;
-  width: 18px;
-  height: 28px;
-  z-index: 10;
-  cursor: pointer;
-  background-size: 12px;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.swiper-fatherSize .swiper-button-next {
-  color: #333;
-  position: absolute;
-  top: 24px;
-  right: 5px;
-  width: 18px;
-  height: 28px;
-  z-index: 10;
-  cursor: pointer;
-  background-size: 12px;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.goodsDetail2 .swiper-slide{
-  width: 82px !important;
-  margin-right: 8px;
-  position: relative;
-  overflow: hidden;
-}
-.checkedTag.active{
-  position: absolute;
-  right: 1px;
-  bottom: 1px;
-  width: 0;
-  height: 0;
-  border-color: #B20605 transparent;
-  border-width: 0px 0px 20px 20px;
-  border-style: solid;
-}
-  .goodsDetailSize .checkedTag.active{
-    position: absolute;
-    right: 1px;
-    bottom: 1px;
-    width: 0;
-    height: 0;
-    border-color: #B20605 transparent;
-    border-width: 0px 0px 10px 10px;
-    border-style: solid;
-  }
-.goodsImg .swiper-slide {
-  width: 82px !important;
-  height: 90px !important;
-}
-  .largePic{
-    width: 550px;
-    height: 550px;
-    border: 1px solid #e9e9e9;
-  }
-  .largePic img{
-    width: 550px;
-    height: 550px;
-  }
-  .shareTo{
-    width: 200px;
-    height: 40px;
-    display: flex;
-    justify-content: space-between;
-  }
-  .shareTo img{
-    height: 40px;
-    width: 40px;
-    cursor: pointer;
-  }
-  .shareList{
-    width: 100%;
-    height: 40px;
-    margin-top: 20px;
-  }
-  .shareBox{
-    height: 40px;
-    width: 250px;
-    display: flex;
-    margin: 0 auto;
-    justify-content: space-between;
-  }
-  .shareText{
-    width: 50px;
-    font-size: 14px;
-    font-family: Tahoma;
-    line-height: 40px;
-  }
-  .goodsInfo{
-    width: 760px;
-  }
-  .goodsTitle{
-    font-size: 18px;
-    color: #333;
-    font-family: Tahoma;
-  }
-  .goodsPrice{
-    margin-top: 20px;
-    display: flex;
-    justify-content: start;
-  }
-  .goodsLabel{
-    width: 130px;
-    height: 40px;
-    font-size: 16px;
-    color: #333;
-    line-height: 40px;
-    font-family: Tahoma;
-  }
-.goodsLabelSize.isTextLabel,.goodsLabelSize{
-  width: 100px;
-  height: 32px;
-  font-size: 16px;
-  color: #333;
-  line-height: 32px;
-}
-  .goodsLabelSize.isImgLabel{
-    width: 100px;
-    height: 80px;
-    font-size: 16px;
-    color: #333;
-    line-height: 80px;
-    font-family: Tahoma;
-  }
-  .priceCon{
-    height: 40px;
-    font-size: 18px;
-    color: #333;
-    font-weight: 600;
-    line-height: 40px;
-    font-family: Tahoma;
-  }
-  .priceCon .disCont{
-    display: inline-block;
-    margin-left: 10px;
-    font-size: 14px;
-    color: #888;
-    font-weight: normal;
-    text-decoration:line-through;
-  }
-.disContTag{
-  display: inline-block;
-  color: #c30808;
-  font-family: Tahoma;
-  font-size: 14px;
-  height: 20px;
-  width: 70px;
-  text-align: center;
-  line-height: 20px;
-  margin-left: 10px;
-  font-weight: normal;
-  border: 1px solid chocolate;
-}
-  .subBtn{
-    margin-top: 20px;
-    display: flex;
-    justify-content: start;
-  }
-  .subType{
-    width: 300px;
-    height: 45px;
-    color: #fff;
-    background-color: #c51015;
-    line-height: 45px;
-    text-align: center;
-    cursor: pointer;
-  }
-.subType:hover{
-  cursor: pointer;
-  background-color: #B20605;
-}
-  .subType.out{
-    width: 300px;
-    height: 45px;
-    color: #888;
-    background-color: #fff;
-    line-height: 45px;
-    text-align: center;
-    border: 1px solid #e1e1e1;
-    cursor: not-allowed;
-  }
-  .subType.ban{
-    pointer-events: none;
-    background-color: #d48386;
-  }
-.addWish{
-  width: 160px;
-  height: 45px;
-  display: flex;
-  justify-content: space-between;
-  line-height: 45px;
-  text-align: center;
-  font-size: 18px;
-  font-family: Tahoma;
-  color: #333;
-  margin-left: 60px;
-}
-  .addWish span:nth-of-type(1){
-    margin-top: 4px;
-    cursor: pointer;
-  }
-  .kuCun{
-    line-height: 40px;
-    font-size: 14px;
-    color: #666;
-    margin-left: 10px;
-  }
-  .restocking{
-    font-size: 14px;
-    font-family: Tahoma;
-    color: #888;
-    margin-top: 4px;
-  }
+<style scoped lang="scss">
+  @import "@/assets/css/goodsDatail.scss"
 </style>

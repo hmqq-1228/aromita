@@ -84,9 +84,9 @@
       <div class="cart_center">
         <ul v-if="goodsListOn.length!=0">
           <li v-for="(item,index) in goodsListOn" :key="index">
-            <img :src="item.sku_image" alt>
+            <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
             <div class="list_detail">
-              <p class="detail_title">{{item.sku_name}}</p>
+              <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
               <div class="spec_color">
                 <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
@@ -100,9 +100,9 @@
         </ul>
         <ul v-if="goodsListOff.length!=0" class="offGoodList">
           <li v-for="(item,index) in goodsListOff" :key="index">
-            <img :src="item.sku_image" alt>
+            <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
             <div class="list_detail">
-              <p class="detail_title">{{item.sku_name}}</p>
+              <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
               <div class="spec_color">
                 <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
@@ -137,12 +137,10 @@
         login_status:true,//用户登录状态
         userName: 'Welcome',
         TotalPrice:0,//购物车总价
-        show:false,
-        goodsList:[],
-        goodsListOn:[],
-        goodsListOff:[],
-        idList: [],
-        input:'',
+        show:false,//购物车显示状态
+        goodsList:[],//购物车列表
+        goodsListOn:[],//上架商品列表
+        goodsListOff:[],//已下架商品列表
         nav_arr: [],
         nav_arrList: [],
         leftVal: 100,
@@ -162,13 +160,14 @@
           this.getGoodsListFuc()
         }else{
           this.goodsListOn = []
+          this.goodsListOff = []
         }
       },
     },
     created() {
       this._checkLogin()
-      // this.login_status = localStorage.getItem("userToken")?true:false
-      this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow; //这个是算会有几列
+      //这个是算会有几列
+      this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow;
       this.column = this.column > this.maxRow ? this.maxRow : this.column;
       this.getGoodsCont()
       this.getCategory()
@@ -184,6 +183,10 @@
       }
     },
     methods: {
+      //购物车到商品详情
+      link(skuid,spuid){
+        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+      },
       // 退出登录
       logout(){
         userLogout().then((res)=>{
@@ -215,13 +218,14 @@
       },
       goShopping: function () {
         this.$router.push('/')
+        this.show = false
       },
       visible:function(){
         this.getGoodsListFuc()
         this.show = true;
       },
       invisible:function(){
-        this.show = false;
+        this.show = false; 
       },
       //获取购物车商品
       async getGoodsListFuc(){
@@ -248,7 +252,6 @@
         this.TotalPrice = total.toFixed(2)
         this.goodsListOn = goodsListOn
         this.goodsListOff = goodsListOff
-        console.log(this.goodsListOff,'zhuyabei')
       },
       //删除购物车商品
       delList(skuId) {
