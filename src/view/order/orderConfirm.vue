@@ -431,7 +431,7 @@ export default {
       checkedSub: false,
       rules: {
         Last: [
-          {required: true, message: 'Please enter your last name.', trigger: 'blur'}
+          {required: true, message: 'Please enter last name.', trigger: 'blur'}
         ],
         email: [
           {required: true, message: 'Please enter your email address.', trigger: 'blur'},
