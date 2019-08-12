@@ -1,8 +1,5 @@
 <template>
     <div class="myAccount">
-        <div class="header">
-            <header-com></header-com>
-        </div>
         <div class="account">
             <div class="accountBox">
                 <Left-Nav></Left-Nav>  
@@ -34,20 +31,13 @@
                 </div>
             </div>
         </div>
-        <div class="foot">
-            <footer-com></footer-com>
-        </div>
     </div>
 </template>
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
 import {myAccount} from "@/api/account.js"; 
 export default {
     components: {
-        "header-com": Header,
-        "footer-com": Footer,
         "Left-Nav":Left
     },
     data(){

@@ -1,8 +1,5 @@
 <template>
   <div class="goodsList">
-    <div class="header">
-      <header-com></header-com>
-    </div>
     <div class="listBox">
       <div class="listNav">
         <div class="navTitle">Sort By</div>
@@ -82,24 +79,14 @@
         NO Exact matches found
       </div>
     </div>
-    <div class="foot">
-      <footer-com></footer-com>
-    </div>
   </div>
 </template>
 
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import {getGoodsList} from "../../api/home";
 export default {
-  components: {
-    "header-com": Header,
-    "footer-com": Footer
-  },
-  name: "goodsList",
   data () {
     return {
       loading:true,
