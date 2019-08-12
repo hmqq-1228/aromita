@@ -981,23 +981,24 @@ export default {
         amount: total,
         order_number: order
       })
-      that.modelShow2 = true
+      // that.modelShow2 = true
       that.$axios.post('api/paypal-pay', payLoad).then(res => {
         if (res.code === 200) {
           console.log('11111111', res.data)
           payUrl = res.data
-          var iWidth=500; // 弹出窗口的宽度;
-          var iHeight=600; // 弹出窗口的高度;
-          var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
-          var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
-          var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
-          var loop = setInterval(function() {
-            console.log('rrrrul', parent.window.opener)
-            if(winObj.closed) {
-              clearInterval(loop);
-              that.modelShow2 = false
-            }
-          }, 500);
+          window.location.href = payUrl
+          // var iWidth=500; // 弹出窗口的宽度;
+          // var iHeight=600; // 弹出窗口的高度;
+          // var iTop = (window.screen.availHeight-30-iHeight)/2; // 获得窗口的垂直位置;
+          // var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
+          // var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
+          // var loop = setInterval(function() {
+          //   console.log('rrrrul', parent.window.opener)
+          //   if(winObj.closed) {
+          //     clearInterval(loop);
+          //     that.modelShow2 = false
+          //   }
+          // }, 500);
         } else {
           that.$message.warning(res.msg)
           that.modelShow2 = false
