@@ -519,13 +519,13 @@
     text-align: center;
     cursor: pointer;
   }
-.subType:hover{
-  cursor: pointer;
-  background-color: #B20605;
-  .z_addbtn{
-      background: #B20605;
-  }
-}
+// .subType:hover{
+//   cursor: pointer;
+//   background-color: #B20605;
+//   .z_addbtn{
+//       background: #B20605;
+//   }
+// }
   .subType.out{
     width: 300px;
     height: 45px;
@@ -573,11 +573,11 @@
 .shop_cart .add {
     position: relative;
 }
-.add:hover{
-    .z_addbtn{
-        background:#B20605;
-    }
-}
+// .add:hover{
+//     .z_addbtn{
+//         background:#B20605;
+//     }
+// }
 .z_addbtn{
     height: 40px;
     width: 40px;
