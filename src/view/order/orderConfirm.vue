@@ -431,26 +431,26 @@ export default {
       checkedSub: false,
       rules: {
         Last: [
-          {required: true, message: '请输入活动名称', trigger: 'blur'}
+          {required: true, message: 'Please enter last name.', trigger: 'blur'}
         ],
         email: [
-          {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-          {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
+          {required: true, message: 'Please enter your email address.', trigger: 'blur'},
+          {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
         ],
         Country: [
-          {required: true, message: '请输入国家名称', trigger: 'blur'}
+          {required: true, message: 'Please enter your country name.', trigger: 'blur'}
         ],
         Address1: [
-          {required: true, message: '请输入第一地址', trigger: 'blur'}
+          {required: true, message: 'Please enter your first address.', trigger: 'blur'}
         ],
         City: [
-          {required: true, message: '请输入城市名称', trigger: 'blur'}
+          {required: true, message: 'Please enter your city name.', trigger: 'blur'}
         ],
         Province: [
-          {required: true, message: '请输入省份名称', trigger: 'blur'}
+          {required: true, message: 'Please enter your province name.', trigger: 'blur'}
         ],
         Postcode: [
-          {required: true, message: '请输入邮编', trigger: 'blur'}
+          {required: true, message: 'Please enter your zip code.', trigger: 'blur'}
         ]
       },
       rules2: {
@@ -871,6 +871,7 @@ export default {
       }
       console.log('99999', sumBill)
       that.billTotal = sumBill
+      that.billTotalSum = sumBill
     },
     // 修改
     submitForm(formName) {
@@ -991,11 +992,15 @@ export default {
           var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
           var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
           var loop = setInterval(function() {
+            console.log('rrrrul', parent.window.opener.localhost)
             if(winObj.closed) {
               clearInterval(loop);
               that.modelShow2 = false
             }
           }, 500);
+        } else {
+          that.$message.warning(res.msg)
+          that.modelShow2 = false
         }
       })
     },

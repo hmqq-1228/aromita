@@ -340,15 +340,8 @@ export default {
       var that = this
       // that.btnLoading = true
       that.$axios.post('api/deltocart/' + skuId, {}).then(res => {
-        if (that.isLogin){
-          if (res.status === 200) {
-            that.getGoodsListFuc()
-            that.$store.state.addCartState = true
-          }
-        } else {
-          that.getGoodsListFuc()
-          that.$store.state.addCartState = true
-        }
+        that.getGoodsListFuc()
+        that.$store.state.addCartState = true
       })
     },
     // 批量删除
@@ -357,15 +350,8 @@ export default {
       var skuList = JSON.stringify(this.checkedItem)
       // that.btnLoading = true
       that.$axios.post('api/batchdeltocart/' + skuList, {}).then(res => {
-        if (that.isLogin){
-          if (res.status === 200) {
-            that.getGoodsListFuc()
-            that.$store.state.addCartState = true
-          }
-        } else {
-          that.getGoodsListFuc()
-          that.$store.state.addCartState = true
-        }
+        that.getGoodsListFuc()
+        that.$store.state.addCartState = true
       })
     },
     addWish: function(e) {
@@ -386,15 +372,8 @@ export default {
     getGoodsNum: function (skuId) {
       var that = this
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        if (that.isLogin){
-          if (res.status === 200 || res.code === '200') {
-            that.getGoodsListFuc('add')
-            that.$store.state.addCartState = true
-          }
-        } else {
-          that.getGoodsListFuc('add')
-          that.$store.state.addCartState = true
-        }
+        that.getGoodsListFuc('add')
+        that.$store.state.addCartState = true
       })
     },
     allChecked: function() {

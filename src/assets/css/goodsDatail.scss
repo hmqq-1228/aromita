@@ -95,25 +95,22 @@
   .mainImage .sliderCont div{
     margin-right: 3px;
   }
+  .isImg.prev{
+    color: #ccc;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    font-size: 24px;
+  }
+  .isImg.next{
+    color: #333;
+    position: absolute;
+    right: 0;
+    top:25px;
+    font-size: 24px;
+  }
   .sliderBox.isImg{
     height: 82px;
-    .prev{
-        color: #ccc;
-        position: absolute;
-        left: 0;
-        top: 25px;
-        font-size: 24px;
-    }
-    .next{
-        color: #333;
-        position: absolute;
-        right: 0;
-        top:25px;
-        font-size: 24px;
-    }
-    .sizeSize{
-        height: 82px;
-    }
   }
   .sliderBox.isText{
     height: 38px;

@@ -18,7 +18,7 @@
         <div class="swiper-father">
           <div class="banner2 swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(detailImg, index) in imageListNew" v-bind:key="index" @click="chooseImg($event, detailImg)">
+              <div class="swiper-slide" :class="index === 0?'checkedStyle': ''" v-for="(detailImg, index) in imageListNew" v-bind:key="index" @click="chooseImg($event, detailImg)">
                 <img :src="detailImg" class="small">
               </div>
               <!--<div class="swiper-slide">-->
@@ -103,8 +103,8 @@
         <div class="subBtn shop_cart">
           <div class="add">
               <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
-              <div class="z_addbtn"></div>
-              <img class="add_img run_top_right" v-show="addShow" src="@/assets/g.png" alt="">
+              <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
+              <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
           </div>
           <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
           <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
