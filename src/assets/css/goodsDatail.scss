@@ -68,7 +68,7 @@
   .mainImage .sliderBox{
     height: 82px;
   }
-  .mainImage .activeType img{
+  .mainImage .sizeSize.activeType img{
     border: 1px solid #c51015;
   }
   .smallSlider2{
@@ -93,7 +93,7 @@
     top:30px;
   }
   .mainImage .sliderCont div{
-    margin-right: 3px;
+    margin-right: 8px;
   }
   .isImg.prev{
     color: #ccc;
@@ -235,11 +235,16 @@
   width: 80px;
   border: 1px dashed #ccc;
 }
-  .sizeSize img{
-    height: 80px;
-    width: 80px;
-    border: 1px dashed #ccc;
-  }
+.mainImage .sizeSize img{
+  height: 80px;
+  width: 80px;
+  border: 1px solid #ccc;
+}
+.sizeSize img{
+  height: 80px;
+  width: 80px;
+  border: 1px dashed #ccc;
+}
 .sizeSize .textStyle{
   color: #333;
 }

@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="listGoods noData" v-if="!goodsList || goodsList.length === 0">
+      <div class="listGoods noData" v-if="noDataShow">
         NO Exact matches found
       </div>
     </div>
@@ -108,6 +108,7 @@ export default {
       prodListLoadingOver:false,
       prodListLastPage: false,
       goodsList: [],
+      noDataShow: false,
       activeNamesMetal: '',
       activeNamesColor: '',
       activeNamesSize: '',
@@ -197,8 +198,13 @@ export default {
               this.goodsList[i].skuId = this.goodsList[i].skus[0].id
             }
           }
+          if (this.goodsList.length === 0) {
+            this.noDataShow = true
+          } else {
+            this.noDataShow = false
+          }
         }
-          
+
       })
     },
     //下拉加载列表
