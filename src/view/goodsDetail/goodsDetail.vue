@@ -100,8 +100,10 @@
         <div class="subBtn shop_cart">
           <div class="add">
               <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
-              <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
-              <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+              <div style="position: relative;width: 45px;height: 45px;">
+                <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
+                <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+              </div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
           <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>

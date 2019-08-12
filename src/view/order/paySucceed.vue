@@ -48,12 +48,33 @@
 <script>
 import Header from "@/components/header.vue";
 import Footer from "@/components/footer.vue";
+import {succeedState} from "../../api/register";
 export default {
   components: {
     "header-com": Header,
     "footer-com": Footer
   },
-  name: "paySucceed"
+  name: "paySucceed",
+  data(){
+    return{
+
+    }
+  },
+  created(){
+    this.getSucceedState()
+  },
+  methods:{
+    // getSucceedState: function () {
+    //   var that = this
+    //   that.$axios.get('api/paypal-pay',{}).then(res => {
+    //
+    //   })
+    // }
+    async getSucceedState () {
+      let data = await succeedState()
+      console.log('dddddd', data)
+    }
+  }
 }
 </script>
 

@@ -40,3 +40,5 @@ export const editAddress = params=>get("/api/address",params);
 export const mergeGoods = params=>get("/api/cart/datamerging",params);
 // 商品导航
 export const category = params=>get("/api/category/index/category",params);
+// succeed
+export const succeedState = params=>get("/api/paypal-getOrderNumber",params);
