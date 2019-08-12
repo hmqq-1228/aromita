@@ -144,7 +144,7 @@
         nav_arr: [],//导航栏一级分类
         nav_arrList: [],//导航栏二级分类
         nav_show:false,//下拉菜单显示状态
-        navHeight:'',
+        navHeight:'100px',
         goodsNum: 0,//购物车商品数量
       };
     },
@@ -156,14 +156,7 @@
           this.goodsListOn = []
           this.goodsListOff = []
         }
-      },
-      // 'nav_show':function(){
-      //   if(this.nav_show == true){
-      //     this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
-      //   }else{
-      //     this.navHeight = ''
-      //   }
-      // }
+      }
     },
     created() {
       this._checkLogin()
@@ -271,12 +264,11 @@
       },
       //获取二级分类列表
       getNavList: function(dex) {
-        this.navHeight = ''
+        // this.navHeight = ''
         this.nav_arrList = this.nav_arr[dex].sub
         if(this.nav_arrList.length!=0){
           this.nav_show = true;
-          this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
-          console.log(this.$refs.boxItem.offsetHeight)
+          // this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
         }
       },
       //显示二级分类

@@ -1,8 +1,5 @@
 <template>
     <div class="myAccount">
-        <div class="header">
-            <header-com></header-com>
-        </div>
         <div class="account">
             <div class="accountBox">
                 <Left-Nav></Left-Nav>  
@@ -121,16 +118,12 @@
     </div>
 </template>
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
 import {addAddress,address} from "@/api/account.js"
 import addressList from "static/config.js"
 import qs from 'qs'
 export default {
     components: {
-        "header-com": Header,
-        "footer-com": Footer,
         "Left-Nav":Left
     },
     data(){

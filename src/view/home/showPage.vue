@@ -1,6 +1,5 @@
 <template>
   <div class="wrap_1">
-    <header-com></header-com>
     <div class="wrap">
       <!-- 轮播图 -->
       <div class="home_banner">
@@ -53,13 +52,10 @@
         <div class="swiper-button-next swiper-button-black"></div>
       </div>
     </div>
-    <footer-com></footer-com>
   </div>
 </template>
 
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import Swiper from "swiper";
 import { setTimeout } from "timers";
 import {
@@ -71,10 +67,6 @@ import {
   homeHotStyle
 } from "../../api/home";
 export default {
-  components: {
-    "header-com": Header,  
-    "footer-com": Footer
-  },
   data() {
     return {
       swiper1: "",

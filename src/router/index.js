@@ -50,12 +50,15 @@ export default new Router({
       path: '/',
       name: 'showPage',
       component: ShowPage,
+      meta:{
+        keepAlive: true
+      }
     },
-    {
-      path: '/header',
-      name: 'header',
-      component: Header,
-    },
+    // {
+    //   path: '/header',
+    //   name: 'header',
+    //   component: Header,
+    // },
     {
       path: '/footer',
       name: 'footer',
@@ -65,6 +68,9 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
+      meta:{
+        keepAlive: false
+      }
     },
     {
       path: '/codetest',
@@ -115,76 +121,118 @@ export default new Router({
       path: '/goodsList',
       name: 'goodsList',
       component: goodsList,
+      meta:{
+        keepAlive: true
+      }
     },
-    {
-      path: '/goodsDetail',
-      name: 'goodsDetail',
-      component: goodsDetail,
-    },
+    // {
+    //   path: '/goodsDetail',
+    //   name: 'goodsDetail',
+    //   component: goodsDetail,
+    // },
     {
       path: '/goodsDetail/:spuId/:skuId',
       name: 'goodsDetail',
       component: goodsDetail,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path: '/shoppingCar',
       name: 'shoppingCar',
       component: shoppingCar,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path: '/unavailable',
       name: 'unavailable',
       component: unavailable,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path: '/myAccount',
       name: 'myAccount',
       component: myAccount,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/myOrder',
       component:myOrder,
-      name:'myOrder'
+      name:'myOrder',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/myWishlist',
       component:myWishlist,
-      name:'myWishlist'
+      name:'myWishlist',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/myCoupon',
       component:myCoupon,
-      name:'myCoupon'
+      name:'myCoupon',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/myPoints',
       component:myPoints,
-      name:'myPoints'
+      name:'myPoints',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/mySubscription',
       component:mySubscription,
-      name:'mySubscription'
+      name:'mySubscription',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/addressBook',
       component:addressBook,
-      name:'addressBook'
+      name:'addressBook',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/accountSetting',
       component:accountSetting,
-      name:'accountSetting'
+      name:'accountSetting',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/orderDetail',
       component:orderDetail,
-      name:'orderDetail'
+      name:'orderDetail',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/orderRefund',
       component:orderRefund,
-      name:'orderRefund'
+      name:'orderRefund',
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path:'/orderRefundApply',
@@ -195,6 +243,9 @@ export default new Router({
       path: '/orderConfirm',
       name: 'orderConfirm',
       component: orderConfirm,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path: '/paySucceed',

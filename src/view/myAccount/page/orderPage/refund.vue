@@ -1,8 +1,5 @@
 <template>
   <div class="myAccount orderDetail">
-    <div class="header">
-      <header-com></header-com>
-    </div>
     <div class="account">
       <div class="accountBox">
         <div class="accountNav">
@@ -118,20 +115,11 @@
         </el-dialog>
       </div>
     </div>
-    <div class="foot">
-      <footer-com></footer-com>
-    </div>
   </div>
 </template>
 
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 export default {
-  components: {
-    "header-com": Header,
-    "footer-com": Footer
-  },
   data(){
     return{
         status:'Refund',//判断是退款还是换货

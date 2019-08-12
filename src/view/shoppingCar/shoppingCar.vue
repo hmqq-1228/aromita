@@ -1,8 +1,5 @@
 <template>
 <div class="shoppingCar">
-  <div class="header">
-    <header-com></header-com>
-  </div>
   <div class="carCont">
     <div class="cartHeader">
       <div class="checkState">
@@ -151,16 +148,9 @@
 </template>
 
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import {getGoodsList,checkLogin} from "../../api/register";
 import qs from 'qs'
 export default {
-  components: {
-    "header-com": Header,
-    "footer-com": Footer
-  },
-  name: "shoppingCar",
   data () {
     return{
       wishUrl: '../../../static/img/loveOut.png',

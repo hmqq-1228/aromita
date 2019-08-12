@@ -1,12 +1,25 @@
 <template>
   <div id="app">
-    <router-view/>
+    <div class="header" v-if="$route.meta.keepAlive">
+      <header-com></header-com>
+      <router-view></router-view>
+    </div>
+    <router-view v-if="!$route.meta.keepAlive"/>
+    <div class="foot">
+      <footer-com></footer-com>
+    </div>
   </div>
 </template>
 
 <script>
+import Header from "@/components/header.vue";
+import Footer from "@/components/footer.vue";
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    "header-com": Header,
+    "footer-com": Footer
+  },
 }
 </script>
 

@@ -1,8 +1,5 @@
 <template>
     <div class="myAccount">
-        <div class="header">
-            <header-com></header-com>
-        </div>
         <div class="account">
             <div class="accountBox">
                 <Left-Nav></Left-Nav>  
@@ -26,20 +23,13 @@
                 </div>
             </div>
         </div>
-        <div class="foot">
-            <footer-com></footer-com>
-        </div>
     </div>
 </template>
 <script>
 const cityOptions = ['上海', '北京', '广州', '深圳'];
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import Left from "../element/leftNav"
 export default {
     components: {
-        "header-com": Header,
-        "footer-com": Footer,
         "Left-Nav":Left
     },
     data(){

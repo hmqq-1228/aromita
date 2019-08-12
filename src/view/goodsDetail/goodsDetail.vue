@@ -9,9 +9,6 @@
       <div class="toCart" @click="toGoodsCart()">Go to Cart</div>
     </div>
   </div>
-  <div class="header">
-    <header-com></header-com>
-  </div>
   <div class="goodsDetail">
     <div class="goodsImg">
       <div class="detailSwiper">
@@ -121,25 +118,15 @@
     <div class="productTitle">Product Details</div>
     <p v-html="pruductDetail.product_detail">{{pruductDetail.product_detail}}</p>
   </div>
-  <div class="foot">
-    <footer-com></footer-com>
-  </div>
 </div>
 </template>
 
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
 import {addToShopCard, getSkuNum, getInStock} from "../../api/register";
 import qs from 'qs'
 export default {
-  components: {
-    "header-com": Header,
-    "footer-com": Footer
-  },
-  name: "goodsDetail",
   data(){
     return{
       addShow:false,//加入购物车动画显示

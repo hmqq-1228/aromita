@@ -27,9 +27,6 @@
       <div class="payBtn info" @click="closeInfoModel">OK</div>
     </div>
   </div>
-  <div class="header">
-    <header-com></header-com>
-  </div>
   <div class="orderBox">
     <div class="orderCont">
       <div class="orderInfo">
@@ -342,9 +339,6 @@
         <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
       </div>
     </div>
-  </div>
-  <div class="foot">
-    <footer-com></footer-com>
   </div>
 </div>
 </template>
