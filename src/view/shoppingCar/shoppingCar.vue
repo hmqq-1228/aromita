@@ -141,9 +141,9 @@
       </div>
     </div>
   </div>
-  <div class="foot">
-    <footer-com></footer-com>
-  </div>
+  <!--<div class="foot">-->
+    <!--<footer-com></footer-com>-->
+  <!--</div>-->
 </div>
 </template>
 
