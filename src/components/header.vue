@@ -223,7 +223,7 @@
         this.show = true;
       },
       invisible:function(){
-        this.show = false; 
+        this.show = false;
       },
       //获取购物车商品
       async getGoodsListFuc(){

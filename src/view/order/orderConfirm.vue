@@ -992,7 +992,7 @@ export default {
           var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
           var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
           var loop = setInterval(function() {
-            console.log('rrrrul', parent.window.opener.localhost)
+            console.log('rrrrul', parent.window.opener)
             if(winObj.closed) {
               clearInterval(loop);
               that.modelShow2 = false
