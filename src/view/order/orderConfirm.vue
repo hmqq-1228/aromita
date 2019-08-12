@@ -871,6 +871,7 @@ export default {
       }
       console.log('99999', sumBill)
       that.billTotal = sumBill
+      that.billTotalSum = sumBill
     },
     // 修改
     submitForm(formName) {
@@ -991,11 +992,15 @@ export default {
           var iLeft = (window.screen.availWidth-10-iWidth)/2; // 获得窗口的水平位置;
           var winObj = window.open(payUrl, "newwindow", "height="+iHeight+", width="+iWidth+", top="+iTop+", left="+iLeft+", status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no");
           var loop = setInterval(function() {
+            console.log('rrrrul', parent.window.opener.localhost)
             if(winObj.closed) {
               clearInterval(loop);
               that.modelShow2 = false
             }
           }, 500);
+        } else {
+          that.$message.warning(res.msg)
+          that.modelShow2 = false
         }
       })
     },
