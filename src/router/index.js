@@ -3,25 +3,13 @@ import Router from 'vue-router'
 const ShowPage = () => import('@/view/home/showPage.vue')
 const Login = () => import('@/view/login/login.vue')
 const codetest = () => import('@/view/test/codetest.vue')
-// import Login from '@/view/login/login.vue'
 const Register_ok = () => import('@/view/register/register_ok.vue')
-// import Register_ok from '@/view/register/register_ok.vue'
 const Apply_reset_password = () => import('@/view/register/apply_reset_password.vue')
-// import Apply_reset_password from '@/view/register/apply_reset_password.vue'
 const Psd_reset_ok = () => import('@/view/register/psd_reset_ok.vue')
-// import Psd_reset_ok from '@/view/register/psd_reset_ok.vue'
 const Sort_out_warn = () => import('@/view/register/sort_out_warn.vue')
-// import Sort_out_warn from '@/view/register/sort_out_warn.vue'
 const Register = () => import('@/view/register/register.vue')
-// import Register from '@/view/register/register.vue'
-const Header = () => import('@/components/header.vue')
-// import Header from '@/components/header.vue'
-const Footer = () => import('@/components/footer.vue')
-// import Footer from '@/components/footer.vue'
 const Forgot_password = () => import('@/view/register/forgot_password.vue')
-// import Forgot_password from '@/view/register/forgot_password.vue'
 const Erqi = () => import('@/view/Kongbai/erqi.vue')
-// import Erqi from '@/view/Kongbai/erqi.vue'
 // hm api newPassword
 const goodsList = () => import('@/view/goodsList/goodsList.vue')
 const goodsDetail = () => import('@/view/goodsDetail/goodsDetail.vue')
@@ -53,16 +41,6 @@ export default new Router({
       meta:{
         keepAlive: true
       }
-    },
-    // {
-    //   path: '/header',
-    //   name: 'header',
-    //   component: Header,
-    // },
-    {
-      path: '/footer',
-      name: 'footer',
-      component: Footer,
     },
     {
       path: '/login',
