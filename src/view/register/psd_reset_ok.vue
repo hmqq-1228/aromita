@@ -2,15 +2,17 @@
   <div class="wrap">
     <aheader-com></aheader-com>
     <div class="content_3">
-      <div class="left">
-        <img src="@/assets/pass.png" alt>
-      </div>
-      <div class="right">
-        <p class="word_one">
-          Your password has been updated. Go to
-          <span @click="toSign()">Sign in</span> or <span @click="toShopping()">Shopping</span>
-        </p>
-        <!-- https://www.cnblogs.com/cckui/p/10349827.html -->
+      <div style="display: flex;justify-content: space-between;width: 608px;margin: 150px auto;">
+        <div class="left">
+          <img src="@/assets/pass.png" alt>
+        </div>
+        <div class="right">
+          <p class="word_one">
+            Your password has been updated. Go to
+            <span @click="toSign()">Sign in</span> or <span @click="toShopping()">Shopping</span>
+          </p>
+          <!-- https://www.cnblogs.com/cckui/p/10349827.html -->
+        </div>
       </div>
     </div>
   </div>
@@ -34,18 +36,17 @@ export default {
 <style lang="scss" scoped>
 .content_3 {
   width: 1440px;
+  margin: 0 auto;
+  height: 400px;
   .left {
-    width: 40px;
-    height: 40px;
-    margin-left: 514px;
-    margin-top: 155px;
+    width: 60px;
+    height: 60px;
   }
   .right {
     width: 542px;
-    height: 76px;
+    height: 60px;
+    line-height: 60px;
     // background-color: aqua;
-    margin-left: 593px;
-    margin-top: -23px;
     .word_one {
       font-size: 18px;
       font-family: Tahoma;

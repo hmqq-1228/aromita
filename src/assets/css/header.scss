@@ -152,7 +152,7 @@
             }
         }
         .nav{
-          width: 1440px; 
+          width: 1440px;
           margin-top: 30px;
           margin: 0 auto;
           position: relative;
@@ -184,10 +184,10 @@
     .logo{
       width:148px;
       height: 34px;
-      margin-right: 23px; 
+      margin-right: 23px;
     }
     .nav{
-      min-width: 1100px;
+      min-width: 1050px;
       .content_box1{
         border-top: 1px solid gainsboro;
         top: 50px;
@@ -195,7 +195,7 @@
         background: rgba(255, 255, 255,0.95);
         z-index:999;
       }
-    } 
+    }
     .el-icon-search{
       font-size: 22px;
       color: #000;
@@ -211,7 +211,7 @@
   }
 }
 // 分类列表样式
-.nav{ 
+.nav{
   .content_box {
       overflow: hidden;
       .navListLi{
@@ -233,11 +233,12 @@
     overflow: hidden;
     box-sizing: border-box;
     position: absolute;
-    z-index: 100;   
+    z-index: 100;
     background: rgba(255, 255, 255,0.85);
     transition: all .2s ease;
     .box-item{
       padding: 20px 0;
+      border-top: 1px solid gainsboro;
         .item {
           display: inline-block;
           height: 30px;
