@@ -1,8 +1,8 @@
 <template>
   <div class="paySucceed">
-    <div class="header">
-      <header-com></header-com>
-    </div>
+    <!--<div class="header">-->
+      <!--<header-com></header-com>-->
+    <!--</div>-->
     <div class="orderCont">
       <div class="orderInfo">
         <div class="orderState">

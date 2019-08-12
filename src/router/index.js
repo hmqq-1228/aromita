@@ -227,11 +227,17 @@ export default new Router({
       path: '/paySucceed',
       name: 'paySucceed',
       component: paySucceed,
+      meta:{
+        keepAlive: true
+      }
     },
     {
       path: '/payFailed',
       name: 'payFailed',
       component: payFailed,
+      meta:{
+        keepAlive: true
+      }
     }
   ]
 })
