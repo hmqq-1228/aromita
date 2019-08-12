@@ -74,7 +74,7 @@
       <div class="box">
           <img src="@/assets/LOGO2.png" alt @click="handleGoHome" class="logo">     
           <nav-com></nav-com>
-          <i class="el-icon-search"></i>
+          <i class="el-icon-search" @click="searchIcon()" v-if="searchShow == false"></i>
           <div class="login">
             <div class="login_left" @click="HandleLogin" v-if="!login_status">
               <img src="@/assets/login.png" alt>
@@ -98,6 +98,13 @@
                 <img src="@/assets/cart.png" alt>
             </el-badge>
           </div>
+      </div>
+      <div class="search_box" v-if="searchShow == true">
+        <div class="search">
+            <i class="el-icon-search"></i>
+            <el-input v-model="keyword"></el-input>
+            <i class="el-icon-close" @click="searchIcon()"></i>
+        </div>
       </div>
     </div>
     <!-- 购物车缩略版 -->
@@ -164,6 +171,7 @@
     },
     data() {
       return {
+        keyword:'',//搜索关键字
         login_status:true,//用户登录状态
         userName: 'Welcome',
         TotalPrice:0,//购物车总价
@@ -173,6 +181,7 @@
         goodsListOff:[],//已下架商品列表
         goodsNum: 0,//购物车商品数量
         headerShow:false,//头部显示状态
+        searchShow:false,//搜索框显示状态
       };
     },
     mounted() {
@@ -203,12 +212,17 @@
       }
     },
     methods: {
+      //小头部搜索框显示
+      searchIcon(){
+        this.searchShow = !this.searchShow
+      },
       // 头部切换
       showIcon() {
         if (!!document.documentElement.scrollTop && document.documentElement.scrollTop > 120) {            
             this.headerShow = true;
         } else {
             this.headerShow = false;
+            this.searchShow = false;
         }
       },
       //购物车到商品详情
