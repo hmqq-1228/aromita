@@ -65,13 +65,13 @@
         </div>
         <div class="nav">
           <ul class="content_box">
-            <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseover="getNavList(index, $event)">
-              <div class="data">{{item.cate_name}}</div>
-              <div class="content_box1" :style="'left: -' + leftVal + 'px'">
-                <div class="box-item" v-for="(nav, index2) in nav_arrList" :key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</div>
-              </div>
-            </li>
+            <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseenter="getNavList(index)" @mouseleave="invisibleNav">{{item.cate_name}}</li>
           </ul>
+          <div class="content_box1" @mouseenter="visibleNav" @mouseleave="invisibleNav" :style="{height:(nav_show == true?navHeight:'0px')}">
+            <div class="box-item" ref="boxItem">
+                <span class="item" v-for="(nav, index2) in nav_arrList" :key="index2" @click="checkGoodsType(nav.id, nav.parent_id)">{{nav.cate_name}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -141,17 +141,11 @@
         goodsList:[],//购物车列表
         goodsListOn:[],//上架商品列表
         goodsListOff:[],//已下架商品列表
-        nav_arr: [],
-        nav_arrList: [],
-        leftVal: 100,
-        theNum: 5,
-        goodsNum: 0,
-        showNavList: false,
-        interval: null,
-        maxShowNum: 12,
-        maxRow: 4,
-        column: '',
-        array:[1,2,3,4,5,6,7,8,9,10,11,12,13]
+        nav_arr: [],//导航栏一级分类
+        nav_arrList: [],//导航栏二级分类
+        nav_show:false,//下拉菜单显示状态
+        navHeight:'',
+        goodsNum: 0,//购物车商品数量
       };
     },
     watch: {
@@ -163,12 +157,16 @@
           this.goodsListOff = []
         }
       },
+      'nav_show':function(){
+        if(this.nav_show == true){
+          this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
+        }else{
+          this.navHeight = ''
+        }
+      }
     },
     created() {
       this._checkLogin()
-      //这个是算会有几列
-      this.column = this.array.length % this.maxRow ? parseInt (this.array.length / this.maxRow) + 1 : this.array.length / this.maxRow;
-      this.column = this.column > this.maxRow ? this.maxRow : this.column;
       this.getGoodsCont()
       this.getCategory()
     },
@@ -264,19 +262,33 @@
           // }
         })
       },
-      getNavList: function(event, e) {
-        this.leftVal = event*150
-        this.nav_arrList = this.nav_arr[event].sub
-      },
-      async getGoodsCont(){
-        let data = await getcartgoodscount()
-        this.goodsNum = data
-      },
+      //获取分类列表
       async getCategory(){
         let data = await category()
         if (data.code === '200') {
           this.nav_arr = data.data
         }
+      },
+      //获取二级分类列表
+      getNavList: function(dex) {
+        this.nav_arrList = this.nav_arr[dex].sub
+        if(this.nav_arrList.length!=0){
+          this.nav_show = true;
+        }
+        
+      },
+      //显示二级分类
+      visibleNav(){
+        this.nav_show = true;
+      },
+      //隐藏二级分类
+      invisibleNav(){
+        this.nav_show = false;
+      },
+      //获取购物车商品总量
+      async getGoodsCont(){
+        let data = await getcartgoodscount()
+        this.goodsNum = data
       },
       checkGoodsType: function(id, parentId){
         this.$router.push({
