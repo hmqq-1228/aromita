@@ -79,6 +79,9 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register,
+      meta:{
+        keepAlive: false
+      }
     },
     {
       path: '/forgot_password',
@@ -93,7 +96,7 @@ export default new Router({
     {
       path: '/erqi',
       name: 'erqi',
-      component: Erqi,
+      component: Erqi
     },
     {
       path: '/goodsList',
@@ -103,11 +106,6 @@ export default new Router({
         keepAlive: true
       }
     },
-    // {
-    //   path: '/goodsDetail',
-    //   name: 'goodsDetail',
-    //   component: goodsDetail,
-    // },
     {
       path: '/goodsDetail/:spuId/:skuId',
       name: 'goodsDetail',
