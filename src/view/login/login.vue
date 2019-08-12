@@ -80,12 +80,9 @@
         </div>
       </div>
     </div>
-    <!-- <div style="height:1000px;">aaaa</div> -->
-    <footer-com></footer-com>
   </div>
 </template>
 <script>
-import Footer from "@/components/footer.vue";
 import aheader from "@/components/aheader.vue";
 import { handleLogin, handleCatpchas, mergeGoods } from "../../api/register";
 import { async } from "q";
@@ -96,7 +93,6 @@ import { constants } from 'fs';
 export default {
   name: "codetest",
   components: {
-    "footer-com": Footer,
     "aheader-com": aheader,
     identify
   },
