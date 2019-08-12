@@ -157,13 +157,13 @@
           this.goodsListOff = []
         }
       },
-      'nav_show':function(){
-        if(this.nav_show == true){
-          this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
-        }else{
-          this.navHeight = ''
-        }
-      }
+      // 'nav_show':function(){
+      //   if(this.nav_show == true){
+      //     this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
+      //   }else{
+      //     this.navHeight = ''
+      //   }
+      // }
     },
     created() {
       this._checkLogin()
@@ -271,11 +271,13 @@
       },
       //获取二级分类列表
       getNavList: function(dex) {
+        this.navHeight = ''
         this.nav_arrList = this.nav_arr[dex].sub
         if(this.nav_arrList.length!=0){
           this.nav_show = true;
+          this.navHeight = `${this.$refs.boxItem.offsetHeight+20}px`
+          console.log(this.$refs.boxItem.offsetHeight)
         }
-        
       },
       //显示二级分类
       visibleNav(){
@@ -291,6 +293,7 @@
         this.goodsNum = data
       },
       checkGoodsType: function(id, parentId){
+        this.nav_show = false;
         this.$router.push({
           path: '/goodsList',
           query: {
