@@ -94,6 +94,8 @@ export default {
   data () {
     return {
       radio3: '1',
+      payTotal: '',
+      orderNum: '',
       checked: true,
       modelShow2: false,
       checkedSub: false,
@@ -174,13 +176,19 @@ export default {
       }
     }
   },
+  created(){
+    this.payTotal = this.$route.query.totalPay
+    this.orderNum = this.$route.query.orderNum
+    console.log('22222222', this.payTotal)
+    console.log('33333333', this.orderNum)
+  },
   methods:{
-    payByPaypal: function (total, order) {
+    payByPaypal: function () {
       var that = this
       var payUrl = ''
       var payLoad = qs.stringify({
-        amount: total,
-        order_number: order
+        amount: that.payTotal,
+        order_number: that.orderNum
       })
       // that.$store.state.addCartState = true
       that.modelShow2 = true
@@ -202,7 +210,7 @@ export default {
         if (formName) {
           if (that.radio3 === '1') {
             console.log('你选择了第一种支付方式')
-            // that.confirmPay()
+            that.payByPaypal()
           }else if (that.radio3 === '2') {
             if (that.checked) {
               that.$refs[formName].validate((valid) => {

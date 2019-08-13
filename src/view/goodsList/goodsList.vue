@@ -61,7 +61,7 @@
               <div class="sliderBox">
                 <div class="sliderCont">
                   <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id)">
-                    <img :src="pic.imgStr" class="smallPic" :class="index2 === 0 ? 'active': ''">
+                    <img :src="pic.sku_color_img" class="smallPic" :class="index2 === 0 ? 'active': ''">
                   </div>
                 </div>
               </div>
@@ -208,18 +208,18 @@ export default {
           } else {
             this.noDataShow = false
           }
-          for(var k=0;k<that.goodsList.length;k++){
-            for (var n=0;n<that.goodsList[k].skus.length;n++) {
-              var newImgList = []
-              that.goodsList[k].skus[n].imgList = that.goodsList[k].skus[n].sku_color_img.split('.')
-              for (var m=0; m<that.goodsList[k].skus[n].imgList.length-1;m++) {
-                newImgList.push(that.goodsList[k].skus[n].imgList[m])
-              }
-              that.goodsList[k].skus[n].newImgList = newImgList
-              that.goodsList[k].skus[n].strArrJoin = that.goodsList[k].skus[n].newImgList.join('.')
-              that.goodsList[k].skus[n].imgStr = that.goodsList[k].skus[n].strArrJoin + '_40_40.' + that.goodsList[k].skus[n].imgList[that.goodsList[k].skus[n].imgList.length-1]
-            }
-          }
+          // for(var k=0;k<that.goodsList.length;k++){
+          //   for (var n=0;n<that.goodsList[k].skus.length;n++) {
+          //     var newImgList = []
+          //     that.goodsList[k].skus[n].imgList = that.goodsList[k].skus[n].sku_color_img.split('.')
+          //     for (var m=0; m<that.goodsList[k].skus[n].imgList.length-1;m++) {
+          //       newImgList.push(that.goodsList[k].skus[n].imgList[m])
+          //     }
+          //     that.goodsList[k].skus[n].newImgList = newImgList
+          //     that.goodsList[k].skus[n].strArrJoin = that.goodsList[k].skus[n].newImgList.join('.')
+          //     that.goodsList[k].skus[n].imgStr = that.goodsList[k].skus[n].strArrJoin + '_40_40.' + that.goodsList[k].skus[n].imgList[that.goodsList[k].skus[n].imgList.length-1]
+          //   }
+          // }
         }
       })
     },

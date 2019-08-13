@@ -2,7 +2,7 @@
      <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>  
+                <Left-Nav></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
                         <h3 class="my_title">My Orders</h3>
@@ -46,7 +46,7 @@
                                     <p style="display:none">{{scope.row}}</p>
                                     <p>{{scope.row.orders_number}}</p>
                                     <p style="color:#C51015;text-align:center;font-weight:bolder" v-if="scope.row.orders_status== 10">Time Left:{{scope.row.remainTimeStr}}</p>
-                                </template>    
+                                </template>
                             </el-table-column>
                             <el-table-column
                                 prop="created_at"
@@ -69,12 +69,12 @@
                             </el-table-column>
                             <el-table-column label="Action" width="300">
                                 <template slot-scope="scope">
-                                    <span class="list_btn" @click="pay(scope.row.id)" v-if="scope.row.orders_status== 10">Pay</span>
+                                    <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number)" v-if="scope.row.orders_status== 10">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 20" @click="cancelOrder(scope.row.orders_number)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
-                                </template>    
+                                </template>
                             </el-table-column>
                         </el-table>
                         <div class="page_list" v-if="total!=0">
@@ -108,7 +108,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {myOrder,cancelOrder} from "@/api/account.js"; 
+import {myOrder,cancelOrder} from "@/api/account.js";
 export default {
     components: {
         "Left-Nav":Left
@@ -125,8 +125,8 @@ export default {
                 '40':"Shipped",
                 '50':"Cancelled"
             },
-            cancelVisity:false,   
-            orderNum:'',//订单号   
+            cancelVisity:false,
+            orderNum:'',//订单号
         }
     },
     created(){
@@ -158,8 +158,8 @@ export default {
                         this.orderList[i].remainTimeStr = `over` // 结束文案
                     }
                 }
-            }, 1000)   
-               
+            }, 1000)
+
         },
         //订单列表
         myOrderList(){
@@ -202,8 +202,16 @@ export default {
             })
         },
         //到支付页面
-        pay(){
-
+        pay(total, num){
+          console.log('11111111', total)
+          console.log('22222222', num)
+          this.$router.push({
+            path: '/payAgain',
+            query: {
+              totalPay: total,
+              orderNum: num
+            }
+          })
         },
         _refund(){
             this.$router.push({
