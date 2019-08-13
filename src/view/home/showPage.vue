@@ -95,7 +95,9 @@ export default {
   },
   methods: {
     link(skuid,spuid){
-      this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+      if(skuid && spuid){
+        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+      }
     },
     // 首页banner信息
     async homeBanner() {

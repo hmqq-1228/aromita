@@ -149,6 +149,7 @@
 
 <script>
 import {getGoodsList,checkLogin} from "../../api/register";
+import { mapGetters } from 'vuex'
 import qs from 'qs'
 export default {
   data () {
@@ -172,10 +173,16 @@ export default {
       maxQuality: 0,
       noProduct: false,
       // gLoading: false,
-      btnLoading: false
+      btnLoading: false,
     }
   },
   watch:{
+    delcart: function(del) {
+        if(del == true){
+          this.getGoodsListFuc()
+        }
+        this.$store.state.delcartList = false
+    },
     checkedItem: function() {
       console.log('22222', this.checkedItem)
       console.log('33333', this.idList)
@@ -202,6 +209,11 @@ export default {
     //     this.btnCanSub = true
     //   }
     // }
+  },
+  computed: {
+    ...mapGetters([
+        'delcart'
+    ])
   },
   created(){
     this.checkLoginInfo()
@@ -251,10 +263,8 @@ export default {
         // that.gLoading = false
       } else {
         var onList = []
-        console.log('8888888')
         let data = await getGoodsList();
         this.goodsList = data
-        console.log('999999', this.goodsList)
         if (this.goodsList.length === 0) {
           that.noProduct = true
           that.goodsListOn = []
