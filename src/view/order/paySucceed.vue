@@ -25,7 +25,7 @@
           <div class="payInfo">
             <div class="payItem">
               <div class="itemName">Order:</div>
-              <div class="itemCont">1556666542636622</div>
+              <div class="itemCont">15566665426</div>
             </div>
             <div class="payItem">
               <div class="itemName">Status:</div>
