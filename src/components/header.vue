@@ -3,7 +3,6 @@
   <div>
     <!-- 大头部 -->
     <div class="wrap1">
-        <div>{{addCartState?'':''}}</div>
         <div class="wrap">
           <div class="title">
             <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
@@ -163,8 +162,9 @@
   
 </template>
 <script>
-  import {getcartgoodscount,getGoodsList,userLogout,checkLogin} from "../api/register";
-  import Nav from "@/components/nav.vue"
+import {getcartgoodscount,getGoodsList,userLogout,checkLogin} from "../api/register";
+import Nav from "@/components/nav.vue"
+import { mapGetters } from 'vuex';
   export default {
     components:{
       "nav-com":Nav
@@ -188,6 +188,12 @@
         window.addEventListener("scroll", this.showIcon);
     },
     watch: {
+      addCart(add){
+        if(add == true){
+          this.getGoodsCont()
+        }
+        this.$store.state.addCartState = false
+      },
       'show': function(){
         if(this.show == true){
           this.getGoodsListFuc()
@@ -202,14 +208,9 @@
       this.getGoodsCont()
     },
     computed: {
-      addCartState: function () {
-        var that = this
-        if (that.$store.state.addCartState === true) {
-          that.getGoodsCont()
-        }
-        that.$store.state.addCartState = false
-        return that.$store.state.addCartState
-      }
+      ...mapGetters([
+        'addCart'
+      ])
     },
     methods: {
       //小头部搜索框显示
@@ -229,7 +230,7 @@
       link(skuid,spuid){
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       },
-      // 退出登录
+      //退出登录
       logout(){
         userLogout().then((res)=>{
           if(res.code === 200){
@@ -300,6 +301,7 @@
         this.$axios.post('api/deltocart/' + skuId).then(res => {
           this.getGoodsListFuc()
           this.getGoodsCont()
+          this.$store.state.delcartList = true
           // if (res.status === 200) {
           //   this.getGoodsListFuc()
           //   this.getGoodsCont()
@@ -318,6 +320,7 @@
       },
       toShopCart: function(){
         this.$router.push('/shoppingCar')
+        this.show = false;
       },
       HandleLogin(){
         this.$router.push({

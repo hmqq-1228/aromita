@@ -47,6 +47,7 @@ export default {
         invisibleNav(){
             this.nav_show = false;
         },
+        //二级类目到商品列表
         checkGoodsType: function(id, parentId){
             this.nav_show = false;
             this.$router.push({

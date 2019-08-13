@@ -1,24 +1,32 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import $ from 'jquery'
-
 Vue.use(Vuex)
 const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
-  // baseServiceUrl: 'https://arapi.panduo.com.cn/',
-  // localUrl: 'http://localhost:8080/',
-  //localUrl: 'https://arapi.panduo.com.cn/',
   cont: 0,
   contPrev: 0,
-  addCartState: false,
+  addCartState: false,//添加购物车商品
+  delcartList:false,//删除购物车商品
   spuId: '',
   skuId: '',
   idList: []
 }
+
 const mutations = {
 
 }
+
+const getters={
+  delcart: state => {
+    return state.delcartList;
+  },
+  addCart:state =>{
+    return state.addCartState;
+  }
+};
+
 export default new Vuex.Store({
   state,
+  getters,
   mutations
 })
