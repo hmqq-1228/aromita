@@ -116,6 +116,7 @@ export default {
     data(){
         return{
             total:0,//总条目
+            page:1,
             order_status:'10',//订单状态
             orderList:[],//订单列表
             order_statusList:{
@@ -163,7 +164,7 @@ export default {
         },
         //订单列表
         myOrderList(){
-            myOrder({status:this.order_status}).then((res)=>{
+            myOrder({status:this.order_status,page:this.page}).then((res)=>{
                 this.orderList = res.data
                 this.total = res.total
             })

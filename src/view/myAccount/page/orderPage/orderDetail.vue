@@ -14,17 +14,17 @@
         </div>
         <div class="navCount">
             <h3 class="my_title">Order Details</h3>
+            <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;"><span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}</p>
             <div class="order_num">
                 <div class="num num_list" v-if="orders[0]">
                     <div class="one">
                         <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
                         <p><span>Status.：</span>{{orders[0].orders_status}}</p>
-                        <p><span>Shipping Method.：</span>{{orders[0].shipping_method}}</p>
+                        <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
                     </div>
                     <div class="two">
                         <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
                         <p><span>Order Time：</span>{{orders[0].created_at}}</p>
-                        <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
                     </div>
                 </div>
                 <div class="num num_right">
