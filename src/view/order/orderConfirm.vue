@@ -976,7 +976,7 @@ export default {
         order_number: order
       })
       that.$store.state.addCartState = true
-      // that.modelShow2 = true
+      that.modelShow2 = true
       that.$axios.post('api/paypal-pay', payLoad).then(res => {
         if (res.code === 200) {
           console.log('11111111', res.data)

@@ -30,6 +30,7 @@ const accountSetting = () =>import('@/view/myAccount/page/accountSetting.vue')
 const orderConfirm = () => import('@/view/order/orderConfirm.vue')
 const paySucceed = () => import('@/view/order/paySucceed.vue')
 const payFailed = () => import('@/view/order/payFailed.vue')
+const payAgain = () => import('@/view/order/payAgain.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -235,6 +236,14 @@ export default new Router({
       path: '/payFailed',
       name: 'payFailed',
       component: payFailed,
+      meta:{
+        keepAlive: true
+      }
+    },
+    {
+      path: '/payAgain',
+      name: 'payAgain',
+      component: payAgain,
       meta:{
         keepAlive: true
       }
