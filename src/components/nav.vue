@@ -1,7 +1,7 @@
 <template>
     <div class="nav">
         <ul class="content_box">
-          <li class="navListLi" v-for="(item,index) in nav_arr" :key="index" @mouseenter="getNavList(index)" @mouseleave="invisibleNav">{{item.cate_name}}</li>
+          <li class="navListLi" @click="toGoodsList(item.id)" v-for="(item,index) in nav_arr" :key="index" @mouseenter="getNavList(index)" @mouseleave="invisibleNav">{{item.cate_name}}</li>
         </ul>
         <div class="content_box1" @mouseenter="visibleNav" @mouseleave="invisibleNav" :style="{height:(nav_show == true?navHeight:'0px')}">
           <div class="box-item" ref="boxItem">
@@ -46,6 +46,14 @@ export default {
         //隐藏二级分类
         invisibleNav(){
             this.nav_show = false;
+        },
+        toGoodsList:function (id) {
+          this.$router.push({
+            path: '/goodsList',
+            query: {
+              f_cate_id: id
+            }
+          })
         },
         checkGoodsType: function(id, parentId){
             this.nav_show = false;
