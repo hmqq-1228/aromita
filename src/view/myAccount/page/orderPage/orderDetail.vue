@@ -14,7 +14,7 @@
         </div>
         <div class="navCount">
             <h3 class="my_title">Order Details</h3>
-            <p style="font-size:14px;color:#333;padding-left:30px;"><span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}</p>
+            <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;"><span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}</p>
             <div class="order_num">
                 <div class="num num_list" v-if="orders[0]">
                     <div class="one">
