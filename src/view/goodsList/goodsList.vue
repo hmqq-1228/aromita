@@ -61,7 +61,7 @@
               <div class="sliderBox">
                 <div class="sliderCont">
                   <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id)">
-                    <img :src="pic.sku_color_img" class="smallPic" :class="index2 === 0 ? 'active': ''">
+                    <img :src="pic.imgStr" class="smallPic" :class="index2 === 0 ? 'active': ''">
                   </div>
                 </div>
               </div>
@@ -101,6 +101,7 @@ export default {
       activeNamesSize: '',
       picNum: 5,
       s_cate_id:'',//分类id
+      f_cate_id: '',
       // navigation:{
       //   nextEl: '.swiper-button-next',
       //   prevEl: '.swiper-button-prev',
@@ -110,11 +111,14 @@ export default {
   watch: {
     $route(){
         this.s_cate_id = this.$route.query.s_cate_id
+        this.f_cate_id = this.$route.query.f_cate_id
       },
       s_cate_id() {
         this.getList()
       },
-
+      f_cate_id () {
+        this.getList()
+      }
   },
   computed: {
     picUrl: function () {
@@ -154,7 +158,8 @@ export default {
   },
   created() {
     this.s_cate_id = this.$route.query.s_cate_id
-    this.getList()
+    this.f_cate_id = this.$route.query.f_cate_id
+    // this.getList()
   },
   methods: {
     toGoodsDetail: function (spuid, skuid) {
@@ -165,8 +170,21 @@ export default {
       }
     },
     getList() {
+      var that = this
+      var obj
+      if (that.s_cate_id){
+        obj = {
+          s_cate_id: that.s_cate_id,
+          page: that.page
+        }
+      } else if (that.f_cate_id) {
+        obj = {
+          f_cate_id: that.f_cate_id,
+          page: that.page
+        }
+      }
       this.prodListLoadingOver = false;
-      getGoodsList({s_cate_id:this.s_cate_id,page:this.page}).then((res)=>{
+      getGoodsList(obj).then((res)=>{
         if(res.code == '200'){
           this.prodListLoadingOver = true;
           if(this.page == 1){
@@ -190,8 +208,19 @@ export default {
           } else {
             this.noDataShow = false
           }
+          for(var k=0;k<that.goodsList.length;k++){
+            for (var n=0;n<that.goodsList[k].skus.length;n++) {
+              var newImgList = []
+              that.goodsList[k].skus[n].imgList = that.goodsList[k].skus[n].sku_color_img.split('.')
+              for (var m=0; m<that.goodsList[k].skus[n].imgList.length-1;m++) {
+                newImgList.push(that.goodsList[k].skus[n].imgList[m])
+              }
+              that.goodsList[k].skus[n].newImgList = newImgList
+              that.goodsList[k].skus[n].strArrJoin = that.goodsList[k].skus[n].newImgList.join('.')
+              that.goodsList[k].skus[n].imgStr = that.goodsList[k].skus[n].strArrJoin + '_40_40.' + that.goodsList[k].skus[n].imgList[that.goodsList[k].skus[n].imgList.length-1]
+            }
+          }
         }
-
       })
     },
     //下拉加载列表
