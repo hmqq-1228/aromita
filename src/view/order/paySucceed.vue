@@ -25,7 +25,7 @@
           <div class="payInfo">
             <div class="payItem">
               <div class="itemName">Order:</div>
-              <div class="itemCont">15566665426</div>
+              <div class="itemCont">{{orderNumber}}</div>
             </div>
             <div class="payItem">
               <div class="itemName">Status:</div>
@@ -57,7 +57,7 @@ export default {
   name: "paySucceed",
   data(){
     return{
-
+      orderNumber: ''
     }
   },
   created(){
@@ -73,6 +73,7 @@ export default {
     async getSucceedState () {
       let data = await succeedState()
       console.log('dddddd', data)
+      this.orderNumber = data.data
     }
   }
 }
