@@ -10,6 +10,8 @@ export const accountPerson = params =>post("api/accountperson",params);
 export const accountPass = params =>post("api/accountpass",params)
 //我的订单
 export const myOrder = params=>get("api/myorder",params);
+//取消订单
+export const cancelOrder = params =>post("api/cancelOrder",params);
 //添加地址
 export const addAddress = params =>post("api/addressbook",params);
 //地址列表
