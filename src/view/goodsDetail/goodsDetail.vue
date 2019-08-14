@@ -45,70 +45,73 @@
       </div>
     </div>
     <div class="goodsInfo">
-      <div style="min-height:480px">
-        <div class="goodsTitle">
-          {{goodDetail.sku_name}}
-        </div>
-        <div class="goodsPrice">
-          <div class="goodsLabel">price:</div>
-          <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
-          <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
-        </div>
-        <div class="mainImage" v-if="attrList.length === 0">
-          <div class="goodsLabelSize isImgLabel"></div>
-          <div class="smallSlider2">
-            <div class="sliderBox">
-              <div class="sliderCont">
-                <div class="sizeSize" :class="img.activeType === 1?'activeType': ''" v-for="(img, index) in mainImageList" v-bind:key="index" @click="getSkuByImage($event, img.sku)">
-                  <img :src="img.url" alt="">
-                </div>
-              </div>
-            </div>
-            <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-            <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
-          </div>
-        </div>
-        <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
-          <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
-          <div class="smallSlider2">
-            <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
-              <div class="sliderCont">
-                <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
-                  <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
-                  <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
-                  <!--<div v-if="item.image_url" class="model"></div>-->
-                </div>
-              </div>
-            </div>
-            <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-            <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
-          </div>
-        </div>
-        <div style="display: flex;justify-content: start;margin-top: 20px;">
-          <div class="goodsLabelSize" style="width: 130px;">quality:</div>
-          <div style="display: flex;">
-            <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
-            <div class="kuCun">{{maxQuality}} available</div>
-          </div>
-        </div>
-        <div class="goodsPrice">
-          <div class="goodsLabel">Total Price:</div>
-          <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
-        </div>
+      <div class="goodsTitle">
+        {{goodDetail.sku_name}}
       </div>
-      <div>
-        <div class="subBtn shop_cart">
-          <div class="add">
-              <div v-if="goodDetail.sku_status === 1" class="subType" :class="[isActive ? 'subType' : 'subType disabled']" @click="addToCart($event)">Add to Cart</div>
-              <div style="position: relative;width: 45px;height: 45px;">
-                <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
-                <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+      <div class="goodsPrice">
+        <div class="goodsLabel">price:</div>
+        <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
+        <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
+      </div>
+      <div class="soldOut" v-if="soldOut">Sold Out</div>
+      <div v-if="!soldOut">
+        <div style="min-height:380px">
+          <div class="mainImage" v-if="attrList.length === 0">
+            <div class="goodsLabelSize isImgLabel"></div>
+            <div class="smallSlider2">
+              <div class="sliderBox">
+                <div class="sliderCont">
+                  <div class="sizeSize" :class="img.activeType === 1?'activeType': ''" v-for="(img, index) in mainImageList" v-bind:key="index" @click="getSkuByImage($event, img.sku)">
+                    <img :src="img.url" alt="">
+                  </div>
+                </div>
               </div>
+              <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+              <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+            </div>
           </div>
-          <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-          <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+          <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
+            <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
+            <div class="smallSlider2">
+              <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
+                <div class="sliderCont">
+                  <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
+                    <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
+                    <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
+                    <!--<div v-if="item.image_url" class="model"></div>-->
+                  </div>
+                </div>
+              </div>
+              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+            </div>
+          </div>
+          <div style="display: flex;justify-content: start;margin-top: 20px;">
+            <div class="goodsLabelSize" style="width: 130px;">quality:</div>
+            <div style="display: flex;">
+              <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
+              <div class="kuCun">{{maxQuality}} available</div>
+            </div>
+          </div>
+          <div class="goodsPrice">
+            <div class="goodsLabel">Total Price:</div>
+            <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
+          </div>
         </div>
-        <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
+        <div>
+          <div class="subBtn shop_cart">
+            <div class="add">
+                <div v-if="goodDetail.sku_status === 1" class="subType" :class="[isActive ? 'subType' : 'subType disabled']" @click="addToCart($event)">Add to Cart</div>
+                <div style="position: relative;width: 45px;height: 45px;">
+                  <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
+                  <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+                </div>
+            </div>
+            <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
+            <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+          </div>
+          <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -126,7 +129,7 @@
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
-import {addToShopCard, getSkuNum, getInStock ,getGoodsQuantityInCart} from "../../api/register";
+import {addToShopCard, getSkuNum, getInStock} from "../../api/register";
 import qs from 'qs'
 export default {
   data(){
@@ -136,7 +139,7 @@ export default {
       addButton: false,
       showModel: false,
       skuDefult: '',
-      numQuality:1,
+      numQuality: 1,
       goodDetail: '',
       pruductDetail: '',
       mainImgUrl: '',
@@ -156,7 +159,7 @@ export default {
       imageListNew: [],
       skuSpuIdList: [],
       skuList: [],
-      maxQuality:1,
+      maxQuality: 0,
       isActive:true
     }
   },
@@ -534,11 +537,12 @@ export default {
         count: this.numQuality
       })
       this.$axios.post('api/addcart', obj).then(res => {
+        console.log('sssssss', res.data)
         this.$store.state.addCartState = true
         if (res.data === 2050) {
           this.showModel = true
+          this.numQuality =1
         }
-        this.numQuality =1
       })
       this._getInStock()
       this._getGoodsQuantityInCart()

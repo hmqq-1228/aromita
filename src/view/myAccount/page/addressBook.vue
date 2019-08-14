@@ -63,10 +63,10 @@
         <el-dialog :visible.sync="addressFormVisible" width="900px">
             <div class="addressBox"> 
                 <el-form :model="addressForm" :rules="rules">
-                    <el-form-item label="First name:" prop="entry_firstname" class="fristInput" :label-width="formLabelWidth">
+                    <el-form-item label="First name:" prop="entry_firstname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_firstname"></el-input>
                     </el-form-item>
-                    <el-form-item label="last name:" prop="entry_lastname" class="fristInput" :label-width="formLabelWidth">
+                    <el-form-item label="last name:" prop="entry_lastname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_lastname"></el-input>
                     </el-form-item>
                     <el-form-item label="Email Address:" prop="entry_email_address" :label-width="formLabelWidth">
