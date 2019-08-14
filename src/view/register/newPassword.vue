@@ -48,9 +48,9 @@ export default {
     // <!--二次验证密码-->
     let validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error("Please enter your confirmation password"))
+        callback(new Error("Please enter your confirmation password."))
       } else if (value !== this.newForm.newPassword) {
-        callback(new Error("Confirmation password is inconsistent with the new password!"))
+        callback(new Error("Please make sure your passwords match."))
       } else {
         callback()
       }
@@ -67,8 +67,8 @@ export default {
       identifyCodeNew: '12345',
       rules:{
         newPassword: [
-          { required: true, message: 'please enter a new password', trigger: 'blur' },
-          { pattern: /^[a-zA-Z0-9]{6,14}$/, message: 'The format is letters plus numbers', trigger: 'blur' }
+          { required: true, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' },
+          { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'The format is letters plus numbers, 6-14 characters', trigger: 'blur' }
         ],
         comfirmPass: [
           { validator: validatePass2, trigger: 'blur'}
@@ -111,6 +111,10 @@ export default {
       console.log('7777777', data)
       if (data.code === 200) {
         that.$router.push('/psd_reset_ok')
+      } else if (data.code === 401) {
+        that.$message.warning('New password and old password cannot be the same!')
+      } else {
+        that.$message.error(data.msg)
       }
     }
   }
