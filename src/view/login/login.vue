@@ -210,7 +210,7 @@ export default {
           this.$router.push('/')
           localStorage.setItem('userToken', this.loginData.token)
         }else {
-          this.$message.error(res.msg)
+          this.$message.error('ERROR Incorrect username or password!')
           this.num = res.data
         }
       })

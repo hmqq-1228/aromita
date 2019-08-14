@@ -245,7 +245,7 @@
     overflow: hidden;
     box-sizing: border-box;
     position: absolute;
-    z-index: 100;
+    z-index: 99999;
     background: rgba(255, 255, 255,0.85);
     transition: all .2s ease;
     .box-item{
