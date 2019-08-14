@@ -14,7 +14,7 @@
         </div>
         <div class="navCount">
           <h3 class="my_title">Order Details</h3>
-          <div>
+          <div style="display: flex;justify-content: start;border-bottom:1px dashed #e9e9e9;">
             <div class="order_Detail">
               <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;height: 32px;line-height: 32px;">
                 <span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}
@@ -36,6 +36,13 @@
                           <p v-for="item in orders_total"><span>{{item.title}}：</span>${{item.value}}</p>
                       </div>
                   </div>
+              </div>
+            </div>
+            <div class="payAgain">
+              <div style="margin-top: 15px;" v-if="orders[0].orders_status === 10">
+                <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
+                  Pay now
+                </el-button>
               </div>
             </div>
           </div>
@@ -153,13 +160,22 @@ export default {
       this.orderDetail()
   },
   methods:{
-        orderDetail(){
-            this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
-                this.orders = res.orders
-                this.orders_total = res.orders_total
-                this.orders_products = res.orders_products
-            })
+    orderDetail(){
+      this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
+        this.orders = res.orders
+        this.orders_total = res.orders_total
+        this.orders_products = res.orders_products
+      })
+    },
+    pay(total, num){
+      this.$router.push({
+        path: '/payAgain',
+        query: {
+          totalPay: total,
+          orderNum: num
         }
+      })
+    }
   }
 }
 </script>
