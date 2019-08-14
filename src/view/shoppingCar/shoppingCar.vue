@@ -803,19 +803,11 @@ export default {
     width: 210px;
   }
   .payTwo{
-    color: #fff;
-    /*height: 45px;*/
-    /*width: 210px;*/
-    /*outline: none;*/
-    /*border: none;*/
-    /*cursor: pointer;*/
-    /*font-size: 16px;*/
-    /*line-height: 45px;*/
-    /*text-align: center;*/
-    background-color: #c51015;
+    color: #fff !important;
+    background-color: #c51015 !important;
   }
   .payTwo:hover{
-    background-color: #a20e12;
+    background-color: #a20e12 !important;
   }
   .payInfoTip{
     font-size: 14px;
