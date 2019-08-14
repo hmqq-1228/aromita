@@ -406,7 +406,6 @@ export default {
         console.log('cccc', current)
         if (isPermutation) {
           children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
-          console.log('cccc222222', children)
         }
         //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
         else {
