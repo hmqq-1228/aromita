@@ -13,7 +13,7 @@
                                     <div class="list add_address">
                                         <i class="el-icon-plus" @click="addNew()"></i>
                                         <p>Add a New Shipping Address</p>
-                                        <div class="tip_max">（(10 addresses max)）</div>
+                                        <div class="tip_max">(10 addresses max)</div>
                                     </div>
                                     <div class="list shipping_address" v-for="(item,index) in list" :key="index">
                                         <h5>{{item.entry_firstname}}{{item.entry_lastname}}</h5>

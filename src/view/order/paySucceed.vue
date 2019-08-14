@@ -68,7 +68,6 @@ export default {
     // }
     async getSucceedState () {
       let data = await succeedState()
-      console.log('dddddd', data)
       this.orderNumber = data.data
     }
   }
