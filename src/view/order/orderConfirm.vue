@@ -85,7 +85,7 @@
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
-                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
                   <el-option label="France" value="France" disabled></el-option>
                   <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
@@ -160,7 +160,7 @@
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
-                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
                   <el-option label="France" value="France" disabled></el-option>
                   <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
@@ -332,7 +332,7 @@
           <div class="payValue total">$ {{billTotalSum.toFixed(2)}}</div>
         </div>
         <div style="margin-top: 15px;">
-          <el-button :loading="butLoading" @click="paySub('ruleForm', 'shipForm')">
+          <el-button :loading="butLoading" :disabled="payDisabled" @click="paySub('ruleForm', 'shipForm')">
             <span v-if="!butLoading">Confirm to pay</span>
             <span v-if="butLoading">Calculating</span>
           </el-button>
@@ -385,6 +385,7 @@ export default {
       modelShow2: false,
       methodShow: false,
       butLoading: false,
+      payDisabled: false,
       dialogVisible: true,
       showCreditForm: false,
       addressFormShow: false,
@@ -597,7 +598,7 @@ export default {
     chooseCoutry(){
       this.ProvinceList = []
       //查询对应国家下的州区列表
-      let Province = this.countryList.find((n) => n.countryName === this.addNewForm.Country).countryList
+      let Province = this.countryList.find((n) => n.countryValue === this.addNewForm.Country).countryList
       this.ProvinceList = Province
       this.addNewForm.Province = this.ProvinceList[0]
     },
@@ -828,6 +829,10 @@ export default {
               that.orderShipMethod = that.shipMethodList[i]
             }
           }
+        } else {
+          that.$message.warning(res.msg)
+          that.butLoading = false
+          that.payDisabled = true
         }
       })
       // let data = await shipMethod(payLoad)
