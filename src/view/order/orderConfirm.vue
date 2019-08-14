@@ -1,5 +1,6 @@
 <template>
 <div class="orderConfirm">
+  <aheader-com></aheader-com>
   <div class="model2" v-if="modelShow2"></div>
   <div class="model" v-if="modelShow">
     <div class="modelCont">
@@ -340,19 +341,20 @@
       </div>
     </div>
   </div>
+  <afooter-com></afooter-com>
 </div>
 </template>
 
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
+import aFooter from "@/components/afooter.vue";
+import aheader from "@/components/aheader.vue";
 import {orderAdd, orderAddress, billingList, checkLogin, deleteAddress} from "../../api/register";
 import qs from 'qs'
 import addressList from "static/config.js"
 export default {
   components: {
-    "header-com": Header,
-    "footer-com": Footer
+    "aheader-com": aheader,
+    "afooter-com": aFooter
   },
   name: "orderConfirm",
   data () {

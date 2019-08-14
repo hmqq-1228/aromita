@@ -1,6 +1,6 @@
 <template>
   <div class="newPassword">
-    <div><aheader-com></aheader-com></div>
+    <aheader-com></aheader-com>
     <div class="passwordCont">
       <div class="titleNew">Reset a Password</div>
       <el-form ref="newForm" :model="newForm" :rules="rules" status-icon style="margin-top: 20px">
@@ -27,17 +27,20 @@
         </el-form-item>
       </el-form>
     </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 
 <script>
 import Aheader from "@/components/aheader.vue";
+import Footer from "@/components/afooter.vue"
 import identify from '../test/identify.vue'
 import {Catpcha,resetPassword} from "../../api/register";
 import qs from 'qs'
 export default {
   components: {
     "aheader-com": Aheader,
+    "afooter-com":Footer,
     identify
   },
   name: "newPassword",

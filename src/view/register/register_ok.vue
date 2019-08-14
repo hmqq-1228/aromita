@@ -11,17 +11,20 @@
         <p class="word_thr">a confirmation email. This link is valid only once.</p>
       </div>
     </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 <script>
 import Aheader from "@/components/aheader.vue";
+import Footer from "@/components/afooter.vue";
 export default {
   components:{
-    "aheader-com": Aheader
+    "aheader-com": Aheader,
+    "aheader-com": Footer
   },
   data(){
     return{
-      activeNav: '',
+        activeNav: '',
         theNum: 5,
         interval: null
     }

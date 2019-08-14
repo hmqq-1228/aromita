@@ -80,10 +80,12 @@
         </div>
       </div>
     </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 <script>
 import aheader from "@/components/aheader.vue";
+import afooter from "@/components/afooter.vue"
 import { handleLogin, handleCatpchas, mergeGoods } from "../../api/register";
 import { async } from "q";
 import qs from 'qs'
@@ -94,6 +96,7 @@ export default {
   name: "codetest",
   components: {
     "aheader-com": aheader,
+    "afooter-com":afooter,
     identify
   },
   data() {

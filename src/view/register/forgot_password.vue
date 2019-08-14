@@ -26,16 +26,19 @@
         </el-form>
       </div>
     </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 <script>
 import Aheader from "@/components/aheader.vue";
+import Footer from "@/components/afooter.vue"
 import identify from '../test/identify.vue'
 import {Catpcha,forgetPassword} from "../../api/register";
 import qs from 'qs'
 export default {
   components: {
     "aheader-com": Aheader,
+    "afooter-com":Footer,
     identify
   },
   data() {

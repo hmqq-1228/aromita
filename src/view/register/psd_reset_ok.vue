@@ -15,13 +15,16 @@
         </div>
       </div>
     </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 <script>
 import aheader from "@/components/aheader.vue";
+import Footer from "@/components/afooter.vue"
 export default {
   components: {
     "aheader-com": aheader,
+    "afooter-com":Footer
   },
   methods:{
     toSign: function () {
