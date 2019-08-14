@@ -426,12 +426,15 @@ export default {
       checked: true,
       checkedSub: false,
       rules: {
+        First: [
+          {required: true, message: 'Please enter the first name.', trigger: 'blur'}
+        ],
         Last: [
-          {required: true, message: 'Please enter last name.', trigger: 'blur'}
+          {required: true, message: 'Please enter the last name.', trigger: 'blur'}
         ],
         email: [
-          {required: true, message: 'Please enter your email address.', trigger: 'blur'},
-          {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
+          {required: true, message: 'Please enter a valid email.', trigger: 'blur'},
+          {type: 'email', message: 'Please enter a valid email.', trigger: ['blur', 'change']}
         ],
         Country: [
           {required: true, message: 'Please enter your country name.', trigger: 'blur'}
@@ -440,13 +443,14 @@ export default {
           {required: true, message: 'Please enter your first address.', trigger: 'blur'}
         ],
         City: [
-          {required: true, message: 'Please enter your city name.', trigger: 'blur'}
+          {required: true, message: "Please enter the consignee's city.", trigger: 'blur'},
+          { min: 1, max: 30, message: 'You can write a maximum of 35 characters.', trigger: 'blur' }
         ],
         Province: [
           {required: true, message: 'Please enter your province name.', trigger: 'blur'}
         ],
         Postcode: [
-          {required: true, message: 'Please enter your zip code.', trigger: 'blur'}
+          {required: true, message: 'Please enter the Zip/Postal Code.', trigger: 'blur'}
         ]
       },
       rules2: {

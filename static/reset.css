@@ -157,7 +157,9 @@ ul,li {
 .payAgain .el-radio__inner:hover{
   border-color: #707070 !important;
 }
-
+.el-form-item.is-success .el-input__validateIcon {
+  color: #67C23A !important;
+}
 
 .imgRadio .el-radio__input{
     margin-top: 8px !important;

@@ -56,11 +56,11 @@ export default {
       },
       rules: {
         inputEmail: [
-          { required: true, message: "please enter your valid email address.", trigger: "blur" },
-          { type: "email", message: "Please enter the correct email address", trigger: "blur" }
+          { required: true, message: "Please enter your email.", trigger: "blur" },
+          { type: "email", message: "Please enter a valid email.", trigger: "blur" }
         ],
         inputCode: [
-          { required: true, message: 'please enter your verification code', trigger: 'blur' },
+          { required: true, message: 'Please enter the verification code.', trigger: 'blur' },
           { min: 5, max: 5, message: 'Verification code length is 5', trigger: 'blur' }
         ]
       }
