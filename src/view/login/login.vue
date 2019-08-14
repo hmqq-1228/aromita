@@ -115,24 +115,24 @@ export default {
         name: [
           {
             required: true,
-            message: "please enter your email!",
+            message: "Please enter a valid email.",
             trigger: "blur"
           },
           {
             type: "email",
-            message: "The email address you entered is invalid.",
+            message: "Please enter a valid email.",
             trigger: "blur"
           }
         ],
         password: [
           {
             required: true,
-            message: "please enter your password!",
+            message: "Please enter password.",
             trigger: "blur"
           },
           {
-            pattern: /^[a-zA-Z0-9]{6,14}$/,
-            message: "The password you entered is invalid.",
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g,
+            message: "The password you entered is incorrect.",
             trigger: "blur"
           }
         ]

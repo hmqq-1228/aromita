@@ -106,7 +106,7 @@ export default {
       if (value === "") {
         callback(new Error("Please enter your password again."));
       } else if (value !== this.ruleForm2.password) {
-        callback(new Error("Two inconsistencies in password input!"));
+        callback(new Error("Please make sure your password match."));
       } else {
         callback();
       }
@@ -123,19 +123,19 @@ export default {
       },
       rules2: {
         email: [
-          { required: true, message: 'Please enter your mailbox', trigger: 'blur' },
-          { type: 'email', message: 'Input error of mailbox format', trigger: 'blur' }
+          { required: true, message: 'Please enter a valid email', trigger: 'blur' },
+          { type: 'email', message: 'Please enter a valid email', trigger: 'blur' }
         ],
         password: [
-            { required: true, message: 'Please input a password', trigger: 'blur' },
-            { pattern:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,14}$/, message: 'Please enter a 6-14 digit and alphabetic combination password', trigger: 'blur' }
+            { required: true, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' },
+            { pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
         ],
         checkpass: [
           { validator: validatePass2, trigger: 'blur'}
         ],
         Verification: [
           { required: true, message: 'Please enter the verification code.', trigger: 'blur' },
-          { min: 5, max: 5, message: 'Verification code length is 3 to 5 characters', trigger: 'blur' }
+          { min: 5, max: 5, message: 'Verification code length is 5 characters', trigger: 'blur' }
         ]
       },
         tipInfo: '',
@@ -182,7 +182,7 @@ export default {
         that.$message.success(data.msg)
         that.$router.push('/register_ok')
       } else {
-        // that.$message.warning(data.msg.email[0])
+        that.$message.error(data.msg)
       }
     },
     //验证码

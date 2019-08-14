@@ -68,7 +68,7 @@ export default {
       rules:{
         newPassword: [
           { required: true, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' },
-          { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'The format is letters plus numbers, 6-14 characters', trigger: 'blur' }
+          { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
         ],
         comfirmPass: [
           { validator: validatePass2, trigger: 'blur'}
@@ -112,7 +112,11 @@ export default {
       if (data.code === 200) {
         that.$router.push('/psd_reset_ok')
       } else if (data.code === 401) {
-        that.$message.warning('New password and old password cannot be the same!')
+        that.$message({
+          message: "New password can't be old password!",
+          type: 'warning',
+          duration: 5000
+        })
       } else {
         that.$message.error(data.msg)
       }

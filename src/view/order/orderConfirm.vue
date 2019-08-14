@@ -85,7 +85,7 @@
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
-                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
                   <el-option label="France" value="France" disabled></el-option>
                   <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
@@ -160,7 +160,7 @@
               </el-form-item>
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
-                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                  <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
                   <el-option label="France" value="France" disabled></el-option>
                   <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
@@ -332,7 +332,7 @@
           <div class="payValue total">$ {{billTotalSum.toFixed(2)}}</div>
         </div>
         <div style="margin-top: 15px;">
-          <el-button :loading="butLoading" @click="paySub('ruleForm', 'shipForm')">
+          <el-button :loading="butLoading" :disabled="payDisabled" @click="paySub('ruleForm', 'shipForm')">
             <span v-if="!butLoading">Confirm to pay</span>
             <span v-if="butLoading">Calculating</span>
           </el-button>
@@ -385,6 +385,7 @@ export default {
       modelShow2: false,
       methodShow: false,
       butLoading: false,
+      payDisabled: false,
       dialogVisible: true,
       showCreditForm: false,
       addressFormShow: false,
@@ -426,12 +427,15 @@ export default {
       checked: true,
       checkedSub: false,
       rules: {
+        First: [
+          {required: true, message: 'Please enter the first name.', trigger: 'blur'}
+        ],
         Last: [
-          {required: true, message: 'Please enter last name.', trigger: 'blur'}
+          {required: true, message: 'Please enter the last name.', trigger: 'blur'}
         ],
         email: [
-          {required: true, message: 'Please enter your email address.', trigger: 'blur'},
-          {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
+          {required: true, message: 'Please enter a valid email.', trigger: 'blur'},
+          {type: 'email', message: 'Please enter a valid email.', trigger: ['blur', 'change']}
         ],
         Country: [
           {required: true, message: 'Please enter your country name.', trigger: 'blur'}
@@ -440,13 +444,14 @@ export default {
           {required: true, message: 'Please enter your first address.', trigger: 'blur'}
         ],
         City: [
-          {required: true, message: 'Please enter your city name.', trigger: 'blur'}
+          {required: true, message: "Please enter the consignee's city.", trigger: 'blur'},
+          { min: 1, max: 30, message: 'You can write a maximum of 35 characters.', trigger: 'blur' }
         ],
         Province: [
           {required: true, message: 'Please enter your province name.', trigger: 'blur'}
         ],
         Postcode: [
-          {required: true, message: 'Please enter your zip code.', trigger: 'blur'}
+          {required: true, message: 'Please enter the Zip/Postal Code.', trigger: 'blur'}
         ]
       },
       rules2: {
@@ -593,7 +598,7 @@ export default {
     chooseCoutry(){
       this.ProvinceList = []
       //查询对应国家下的州区列表
-      let Province = this.countryList.find((n) => n.countryName === this.addNewForm.Country).countryList
+      let Province = this.countryList.find((n) => n.countryValue === this.addNewForm.Country).countryList
       this.ProvinceList = Province
       this.addNewForm.Province = this.ProvinceList[0]
     },
@@ -824,6 +829,10 @@ export default {
               that.orderShipMethod = that.shipMethodList[i]
             }
           }
+        } else {
+          that.$message.warning(res.msg)
+          that.butLoading = false
+          that.payDisabled = true
         }
       })
       // let data = await shipMethod(payLoad)

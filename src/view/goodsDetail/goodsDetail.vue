@@ -45,70 +45,73 @@
       </div>
     </div>
     <div class="goodsInfo">
-      <div style="min-height:480px">
-        <div class="goodsTitle">
-          {{goodDetail.sku_name}}
-        </div>
-        <div class="goodsPrice">
-          <div class="goodsLabel">price:</div>
-          <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
-          <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
-        </div>
-        <div class="mainImage" v-if="attrList.length === 0">
-          <div class="goodsLabelSize isImgLabel"></div>
-          <div class="smallSlider2">
-            <div class="sliderBox">
-              <div class="sliderCont">
-                <div class="sizeSize" :class="img.activeType === 1?'activeType': ''" v-for="(img, index) in mainImageList" v-bind:key="index" @click="getSkuByImage($event, img.sku)">
-                  <img :src="img.url" alt="">
-                </div>
-              </div>
-            </div>
-            <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-            <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
-          </div>
-        </div>
-        <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
-          <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
-          <div class="smallSlider2">
-            <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
-              <div class="sliderCont">
-                <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
-                  <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
-                  <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
-                  <!--<div v-if="item.image_url" class="model"></div>-->
-                </div>
-              </div>
-            </div>
-            <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-            <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
-          </div>
-        </div>
-        <div style="display: flex;justify-content: start;margin-top: 20px;">
-          <div class="goodsLabelSize" style="width: 130px;">quality:</div>
-          <div style="display: flex;">
-            <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
-            <div class="kuCun">{{maxQuality}} available</div>
-          </div>
-        </div>
-        <div class="goodsPrice">
-          <div class="goodsLabel">Total Price:</div>
-          <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
-        </div>
+      <div class="goodsTitle">
+        {{goodDetail.sku_name}}
       </div>
-      <div>
-        <div class="subBtn shop_cart">
-          <div class="add">
-              <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
-              <div style="position: relative;width: 45px;height: 45px;">
-                <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
-                <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+      <div class="goodsPrice">
+        <div class="goodsLabel">price:</div>
+        <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
+        <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
+      </div>
+      <div class="soldOut" v-if="soldOut">Sold Out</div>
+      <div v-if="!soldOut">
+        <div style="min-height:380px">
+          <div class="mainImage" v-if="attrList.length === 0">
+            <div class="goodsLabelSize isImgLabel"></div>
+            <div class="smallSlider2">
+              <div class="sliderBox">
+                <div class="sliderCont">
+                  <div class="sizeSize" :class="img.activeType === 1?'activeType': ''" v-for="(img, index) in mainImageList" v-bind:key="index" @click="getSkuByImage($event, img.sku)">
+                    <img :src="img.url" alt="">
+                  </div>
+                </div>
               </div>
+              <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+              <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+            </div>
           </div>
-          <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-          <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+          <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
+            <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
+            <div class="smallSlider2">
+              <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
+                <div class="sliderCont">
+                  <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
+                    <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
+                    <img :class="item.disStyle === 2?'disStyle':''" v-if="item.image_url" :src="item.image_url">
+                    <!--<div v-if="item.image_url" class="model"></div>-->
+                  </div>
+                </div>
+              </div>
+              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
+              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+            </div>
+          </div>
+          <div style="display: flex;justify-content: start;margin-top: 20px;">
+            <div class="goodsLabelSize" style="width: 130px;">quality:</div>
+            <div style="display: flex;">
+              <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
+              <div class="kuCun">{{maxQuality}} available</div>
+            </div>
+          </div>
+          <div class="goodsPrice">
+            <div class="goodsLabel">Total Price:</div>
+            <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
+          </div>
         </div>
-        <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
+        <div>
+          <div class="subBtn shop_cart">
+            <div class="add">
+                <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
+                <div style="position: relative;width: 45px;height: 45px;">
+                  <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
+                  <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+                </div>
+            </div>
+            <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
+            <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+          </div>
+          <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -131,6 +134,7 @@ import qs from 'qs'
 export default {
   data(){
     return{
+      soldOut: false,
       addShow:false,//加入购物车动画显示
       addButton: false,
       showModel: false,
@@ -248,70 +252,71 @@ export default {
         if (res.code === "200") {
           console.log('11111', res.data)
           if (res.data.sku.sku_status === 0) {
-            that.$router.push('/unavailable')
+            that.soldOut = true
           } else {
-            that.goodDetail = res.data.sku
-            that.pruductDetail = res.data.detail
-            that.imageList = res.data.sku.thumbnail_images
-            that.mainImgUrl = res.data.sku.sku_image
-            that.maxQuality = res.data.sku.inventory
-            that.priceOrder = res.data.sku.sku_price
-            that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
-            that.attrList =  res.data.attrs
-            that.mainImageList = res.data.main_img
-            that.attrId = res.data.sku_ids
-            that.skuList = res.data.sku_list
-            var list = JSON.parse(res.data.sku.sku_attrs)
-            // that.colorList = res.data.data.attrs.color
-            var imgList = []
-            if (that.mainImageList.length >0) {
-              for (var t=0;t<that.mainImageList.length;t++) {
-                if (that.mainImageList[t].sku === parseInt(skuId)) {
-                  that.mainImageList[t].activeType = 1
+            that.soldOut = false
+          }
+          that.goodDetail = res.data.sku
+          that.pruductDetail = res.data.detail
+          that.imageList = res.data.sku.thumbnail_images
+          that.mainImgUrl = res.data.sku.sku_image
+          that.maxQuality = res.data.sku.inventory
+          that.priceOrder = res.data.sku.sku_price
+          that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
+          that.attrList =  res.data.attrs
+          that.mainImageList = res.data.main_img
+          that.attrId = res.data.sku_ids
+          that.skuList = res.data.sku_list
+          var list = JSON.parse(res.data.sku.sku_attrs)
+          // that.colorList = res.data.data.attrs.color
+          var imgList = []
+          if (that.mainImageList.length >0) {
+            for (var t=0;t<that.mainImageList.length;t++) {
+              if (that.mainImageList[t].sku === parseInt(skuId)) {
+                that.mainImageList[t].activeType = 1
+              }
+            }
+          }
+          console.log('666666', that.mainImageList)
+          for(let key in that.imageList){
+            var str = that.imageList[key].split('.')
+            var strArr = []
+            for (var k = 0; k<str.length-1; k++) {
+              strArr.push(str[k])
+            }
+            var strArrJoin = strArr.join('.')
+            var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
+            console.log('777777777', imgStr)
+            imgList.push(imgStr)
+          }
+          that.imageListNew = imgList
+          for (var i = 0; i < list.length; i++){
+            var obj = {
+              name: list[i].attr_name,
+              attr_id: parseInt(list[i].id),
+              val_id: parseInt(list[i].value.id)
+            }
+            that.skuSpuIdList.push(obj)
+          }
+          console.log('88888888', that.attrList.length)
+          for(let key in that.attrList){
+            that.attrNameList.push(key)
+            for (var x=0; x<that.attrList[key].length; x++) {
+              for (var y=0; y< list.length; y++) {
+                if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
+                  that.attrList[key][x].activeStyle = 1
                 }
               }
             }
-            console.log('666666', that.mainImageList)
-            for(let key in that.imageList){
-              var str = that.imageList[key].split('.')
-              var strArr = []
-              for (var k = 0; k<str.length-1; k++) {
-                strArr.push(str[k])
-              }
-              var strArrJoin = strArr.join('.')
-              var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
-              console.log('777777777', imgStr)
-              imgList.push(imgStr)
-            }
-            that.imageListNew = imgList
-            for (var i = 0; i < list.length; i++){
-              var obj = {
-                name: list[i].attr_name,
-                attr_id: parseInt(list[i].id),
-                val_id: parseInt(list[i].value.id)
-              }
-              that.skuSpuIdList.push(obj)
-            }
-            console.log('88888888', that.attrList.length)
+          }
+          console.log('999999999', that.attrNameList)
+          if (that.attrNameList.length > 1) {
+            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+            that.deleteSameObj(that.skuList, that.getSkuList)
+          } else {
             for(let key in that.attrList){
-              that.attrNameList.push(key)
               for (var x=0; x<that.attrList[key].length; x++) {
-                for (var y=0; y< list.length; y++) {
-                  if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
-                    that.attrList[key][x].activeStyle = 1
-                  }
-                }
-              }
-            }
-            console.log('999999999', that.attrNameList)
-            if (that.attrNameList.length > 1) {
-              that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
-              that.deleteSameObj(that.skuList, that.getSkuList)
-            } else {
-              for(let key in that.attrList){
-                for (var x=0; x<that.attrList[key].length; x++) {
-                  that.attrList[key][x].disStyle = 2
-                }
+                that.attrList[key][x].disStyle = 2
               }
             }
           }
