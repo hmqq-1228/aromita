@@ -13,26 +13,32 @@
           <router-link to="accountSetting"><div class="navItem">Account Setting</div></router-link>
         </div>
         <div class="navCount">
-            <h3 class="my_title">Order Details</h3>
-            <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;"><span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}</p>
-            <div class="order_num">
-                <div class="num num_list" v-if="orders[0]">
-                    <div class="one">
-                        <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
-                        <p><span>Status.：</span>{{orders[0].orders_status}}</p>
-                        <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
-                    </div>
-                    <div class="two">
-                        <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
-                        <p><span>Order Time：</span>{{orders[0].created_at}}</p>
-                    </div>
-                </div>
-                <div class="num num_right">
-                    <div class="one">
-                        <p v-for="item in orders_total"><span>{{item.title}}：</span>${{item.value}}</p>
-                    </div>
-                </div>
+          <h3 class="my_title">Order Details</h3>
+          <div>
+            <div class="order_Detail">
+              <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;height: 32px;line-height: 32px;">
+                <span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}
+              </p>
+              <div class="order_num">
+                  <div class="num num_list" v-if="orders[0]">
+                      <div class="one">
+                          <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
+                          <p><span>Status.：</span>{{orders[0].orders_status}}</p>
+                          <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
+                      </div>
+                      <div class="two">
+                          <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
+                          <p><span>Order Time：</span>{{orders[0].created_at}}</p>
+                      </div>
+                  </div>
+                  <div class="num num_right">
+                      <div class="one">
+                          <p v-for="item in orders_total"><span>{{item.title}}：</span>${{item.value}}</p>
+                      </div>
+                  </div>
+              </div>
             </div>
+          </div>
             <div class="order_address">
                 <div class="list">
                     <h4>Shipping Address</h4>

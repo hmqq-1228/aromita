@@ -207,13 +207,13 @@ export default {
           this.$router.push('/')
           localStorage.setItem('userToken', this.loginData.token)
         }else {
-          this.$message.error(data.msg)
-          this.num = data.data
+          this.$message.error(res.msg)
+          this.num = res.data
         }
       })
     },
     async mergeGoodsFuc(){
-      let data = await mergeGoods()
+      await mergeGoods()
     },
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();

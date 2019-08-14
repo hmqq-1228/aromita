@@ -512,6 +512,11 @@ export default {
         that.showCreditForm = false
       }
     },
+    checkedSub: function (val, ov) {
+      if(val){
+        $('.payConfirm').removeClass('error')
+      }
+    }
     // modelShow: function(val, ov){
     //   if (val) {
     //     document.documentElement.style.overflowY = 'hidden';
@@ -543,7 +548,8 @@ export default {
       var address = sessionStorage.getItem('addressList')
       that.addressList2 = JSON.parse(address)
       if (that.addressList2) {
-        console.log('111111', that.addressList2)
+        that.order_Address = that.addressList2[0]
+        console.log('111111', that.order_Address)
         for (var i=0; i<this.addressList2.length; i++) {
           if (that.addressList2[i].is_default === 1) {
             that.radio = that.addressList2[i].id + '-'+that.addressList2[i].entry_country+'-'+that.addressList2[i].entry_state+'-'+that.addressList2[i].entry_city+'-'+that.addressList2[i].entry_postcode
@@ -791,7 +797,9 @@ export default {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = ids.map(String)
-      console.log('address_info', aStr)
+      if (aStr.entry_country === 'United States'){
+        aStr.entry_country = 'US'
+      }
       let payLoad = qs.stringify({
         ids: JSON.stringify(idStr),
         address_info: JSON.stringify(aStr)
