@@ -163,7 +163,7 @@ export default {
     orderDetail(){
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
-        this.orders_total = res.orders_total
+        this.orders_total = res.orders_total 
         this.orders_products = res.orders_products
       })
     },
