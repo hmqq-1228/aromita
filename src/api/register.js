@@ -42,3 +42,7 @@ export const mergeGoods = params=>get("/api/cart/datamerging",params);
 export const category = params=>get("/api/category/index/category",params);
 // succeed
 export const succeedState = params=>get("/api/paypal-getOrderNumber",params);
+
+//查询商品已加购数量
+export const getGoodsQuantityInCart = params =>post("/api/getGoodsQuantityInCart",params)
+

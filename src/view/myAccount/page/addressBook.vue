@@ -60,18 +60,16 @@
             </div>
         </div>
         <!-- 新增地址弹框 -->
-        <el-dialog :visible.sync="addressFormVisible">
+        <el-dialog :visible.sync="addressFormVisible" width="900px">
             <div class="addressBox"> 
-                <el-form :model="addressForm">
-                    <el-form :inline="true">
-                        <el-form-item label="First name:" :label-width="formLabelWidth" required>
-                            <el-input v-model="addressForm.entry_firstname"></el-input>
-                        </el-form-item>
-                        <el-form-item label="last name:" :label-width="formLabelWidth" required>
-                            <el-input v-model="addressForm.entry_lastname"></el-input>
-                        </el-form-item>
-                    </el-form>
-                    <el-form-item label="Email Address:" :label-width="formLabelWidth">
+                <el-form :model="addressForm" :rules="rules">
+                    <el-form-item label="First name:" prop="entry_firstname" class="fristInput" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_firstname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="last name:" prop="entry_lastname" class="fristInput" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_lastname"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Email Address:" prop="entry_email_address" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_email_address"></el-input>
                     </el-form-item>
                     <el-form-item label="Country：" :label-width="formLabelWidth" required>
@@ -79,13 +77,13 @@
                             <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="Address Line1:" :label-width="formLabelWidth" required>
+                    <el-form-item label="Address Line1:" :label-width="formLabelWidth" prop="entry_street_address1">
                         <el-input v-model="addressForm.entry_street_address1"></el-input>
                     </el-form-item>
                     <el-form-item label="Address Line2:" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_street_address2"></el-input>
                     </el-form-item>
-                    <el-form-item label="City:" :label-width="formLabelWidth" required>
+                    <el-form-item label="City:" :label-width="formLabelWidth" prop="entry_city">
                         <el-input v-model="addressForm.entry_city"></el-input>
                     </el-form-item>
                     <el-form-item label="State/Province:" :label-width="formLabelWidth" required>
@@ -93,7 +91,7 @@
                             <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="Zip/Postcode:" :label-width="formLabelWidth" required>
+                    <el-form-item label="Zip/Postcode:" :label-width="formLabelWidth" prop="entry_postcode">
                         <el-input v-model="addressForm.entry_postcode"></el-input>
                     </el-form-item>
                     <el-form-item label="Mobie No./Phone:" :label-width="formLabelWidth">
@@ -145,7 +143,28 @@ export default {
             },
             isdefault:false,
             addressId:'',//地址id
-            type:''
+            type:'',
+            rules: {
+                entry_firstname:[
+                    {required: true, message: 'Please enter the first name.', trigger: 'blur'}
+                ],
+                entry_lastname: [
+                    {required: true, message: 'Please enter the last name.', trigger: 'blur'}
+                ],
+                entry_email_address: [
+                    {required: true, message: 'Please enter your email address.', trigger: 'blur'},
+                    {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
+                ],
+                entry_street_address1: [
+                    {required: true, message: 'Please enter your full address.', trigger: 'blur'}
+                ],
+                entry_city: [
+                    {required: true, message:"Please enter the consignee's city.", trigger: 'blur'}
+                ],
+                entry_postcode: [
+                    {required: true, message: 'Please enter the Zip/Postal Code.', trigger: 'blur'}
+                ]
+            }
         }
     },
     created(){
@@ -236,7 +255,6 @@ export default {
             this.addressForm = item
             this.addressForm.entry_state = item.entry_state
             this.addressFormVisible = true;
-            //this.chooseCoutry() 
             item.is_default =='1'? this.isdefault=true : this.isdefault=false 
             this.addressId = id   
             this.type = str
@@ -265,6 +283,12 @@ export default {
     }
 }
 </script>
+<style>
+.fristInput{
+    width: 340px;
+    float: left;
+}
+</style>
 <style lang="scss" scoped>
 @import "@/assets/css/account.scss"
 </style>

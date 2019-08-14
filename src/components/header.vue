@@ -150,7 +150,7 @@
             <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
           </div>
         </div>
-        <div class="total" v-if="goodsListOn.length!=0">
+        <div class="total" v-if="this.goodsList.length!=0">
           <div class="total_price">
             <span>Total Price:</span>
             <b>${{TotalPrice}}</b>
