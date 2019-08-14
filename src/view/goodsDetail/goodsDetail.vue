@@ -129,7 +129,7 @@
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
-import {addToShopCard, getSkuNum, getInStock} from "../../api/register";
+import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart} from "../../api/register";
 import qs from 'qs'
 export default {
   data(){
