@@ -215,6 +215,8 @@ export default {
   },
   created(){
     this.getGoodsDetail()
+    this._getInStock()
+    this._getGoodsQuantityInCart()
   },
   methods:{
     tastModel: function(){
@@ -542,20 +544,66 @@ export default {
           this.numQuality =1
         }
       })
+      this._getInStock()
+      this._getGoodsQuantityInCart()
     },
-    handleChange: function (val) {
-      console.log('num', val)
-      var that = this
-      var skuId = that.$route.params.skuId
+    //添加购物车数量显示
+    handleChange(val){
+      var skuId = this.$route.params.skuId
       if (val) {
-        that.totalPay = (val * that.priceOrder).toFixed(2)
+        this.totalPay = (val * this.priceOrder).toFixed(2)
       }
+      this._getInStock()
+      //已加购商品数量
+      this._getGoodsQuantityInCart()
+      // let pre ={
+      //     sku_id:this.$route.params.skuId
+      // }
+      // getGoodsQuantityInCart(pre).then((res)=>{
+      //   if(res == '101'){
+          
+      //   }else{
+      //     var goods_count = res.goods_count
+      //     var purchase = this.maxQuality - goods_count
+      //     if(purchase <=this.numQuality){
+      //       this.$message('购物车已加购数已超过该商品库存数');
+      //       this.numQuality = purchase
+      //       // this.isActive = false
+      //     }
+      //   }
+      // })
+    },
+    _getInStock(){
+      var skuId = this.$route.params.skuId
+        //查库存
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        console.log('sssssss', res.data)
         if (res.code === '200') {
-          that.maxQuality = res.data.inventory
+          this.maxQuality = res.data.inventory
         }
       })
+    },
+    _getGoodsQuantityInCart(){
+      console.log(this.maxQuality)
+        //已加购商品数量
+        let pre ={
+            sku_id:this.$route.params.skuId
+        }
+        getGoodsQuantityInCart(pre).then((res)=>{
+          if(res == '101'){
+            
+          }else{
+            var goods_count = res.goods_count
+            var purchase = this.maxQuality - goods_count
+            console.log(purchase)
+            if(purchase < this.numQuality || purchase<=0){
+              this.$message('购物车已加购数已超过该商品库存数');
+              //this.numQuality = purchase
+              this.isActive = false
+            }else{
+              this.isActive = true
+            }
+          }
+        })
     },
     nextPic:function (e) {
       console.log(e)
