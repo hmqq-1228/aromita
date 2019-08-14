@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="listGoods" v-if="goodsList && goodsList.length>0">
-        <div class="goodsItem"  v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
+        <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
           <div class="goodInner">
             <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
               <div class="cheap">
@@ -109,14 +109,22 @@ export default {
     }
   },
   watch: {
-    $route(){
+      $route(){
         this.s_cate_id = this.$route.query.s_cate_id
         this.f_cate_id = this.$route.query.f_cate_id
       },
       s_cate_id() {
+        window,scrollTo(0,0)
+        this.page = 1
+        this.prodListLastPage = false
+        this.prodListLoadingOver = false
         this.getList()
       },
       f_cate_id () {
+        window,scrollTo(0,0)
+        this.page = 1
+        this.prodListLastPage = false
+        this.prodListLoadingOver = false
         this.getList()
       }
   },
