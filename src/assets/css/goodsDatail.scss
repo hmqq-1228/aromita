@@ -639,7 +639,6 @@
     animation: run-right-right 1s 0.2s 1 linear, run-right-top 1s 0.2s 1 cubic-bezier(.13,.89,.73,.98);
     animation-fill-mode: forwards;
 }
-
 .disabled {
   pointer-events: none;
   cursor: default;
