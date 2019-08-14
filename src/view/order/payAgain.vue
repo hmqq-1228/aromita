@@ -1,96 +1,105 @@
 <template>
-  <div class="payAgain">
-    <div class="model2" v-if="modelShow2"></div>
-    <div class="GrandTotal">Grand Total：<span>$ 88.88</span></div>
-    <div class="payBox">
-      <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
-      <div class="moreCard">
-        <el-radio v-model="radio3" :disabled="true" label="2">Credit/Deibt Card</el-radio>
-        <img style="float: right;" src="../../../static/img/pay-02.png" alt="">
-      </div>
-      <div v-if="showCreditForm">
-        <el-form :model="ruleForm" :rules="rules2" ref="ruleForm" label-width="130px" class="demo-ruleForm">
-          <el-form-item label="Card Number:" prop="number">
-            <el-input v-model="ruleForm.number"></el-input>
-          </el-form-item>
-          <div class="dataType">
-            <el-form-item label="Expiration Date:" prop="month" class="smallInput">
-              <el-select v-model="ruleForm.month" placeholder="MM">
-                <el-option :label="mouth" :value="mouth" v-for="(mouth, index) in mouthList" v-bind:key="index"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item prop="year" class="smallInput noLabel">
-              <el-select v-model="ruleForm.year" placeholder="YY">
-                <el-option label="2019" value="2019"></el-option>
-                <el-option label="2020" value="2020"></el-option>
-              </el-select>
-            </el-form-item>
+  <div>
+    <aheader-com></aheader-com>
+    <div class="payAgain">
+        <div class="model2" v-if="modelShow2"></div>
+        <div class="GrandTotal">Grand Total：<span>$ 88.88</span></div>
+        <div class="payBox">
+          <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
+          <div class="moreCard">
+            <el-radio v-model="radio3" :disabled="true" label="2">Credit/Deibt Card</el-radio>
+            <img style="float: right;" src="../../../static/img/pay-02.png" alt="">
           </div>
-          <el-form-item label="Secure Code:" prop="secure">
-            <el-input v-model="ruleForm.secure"></el-input>
-          </el-form-item>
-        </el-form>
-        <div><el-checkbox v-model="checked">Billing is the same as shipping address</el-checkbox></div>
-        <el-form v-if="!checked" :model="shipForm" :rules="rules3" ref="shipForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
-          <div class="dataType">
-            <el-form-item label="First name:" prop="First" class="shipInput">
-              <el-input v-model="shipForm.First"></el-input>
-            </el-form-item>
-            <el-form-item label="Last name:" prop="Last" class="shipInput">
-              <el-input v-model="shipForm.Last"></el-input>
-            </el-form-item>
+          <div v-if="showCreditForm">
+            <el-form :model="ruleForm" :rules="rules2" ref="ruleForm" label-width="130px" class="demo-ruleForm">
+              <el-form-item label="Card Number:" prop="number">
+                <el-input v-model="ruleForm.number"></el-input>
+              </el-form-item>
+              <div class="dataType">
+                <el-form-item label="Expiration Date:" prop="month" class="smallInput">
+                  <el-select v-model="ruleForm.month" placeholder="MM">
+                    <el-option :label="mouth" :value="mouth" v-for="(mouth, index) in mouthList" v-bind:key="index"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item prop="year" class="smallInput noLabel">
+                  <el-select v-model="ruleForm.year" placeholder="YY">
+                    <el-option label="2019" value="2019"></el-option>
+                    <el-option label="2020" value="2020"></el-option>
+                  </el-select>
+                </el-form-item>
+              </div>
+              <el-form-item label="Secure Code:" prop="secure">
+                <el-input v-model="ruleForm.secure"></el-input>
+              </el-form-item>
+            </el-form>
+            <div><el-checkbox v-model="checked">Billing is the same as shipping address</el-checkbox></div>
+            <el-form v-if="!checked" :model="shipForm" :rules="rules3" ref="shipForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
+              <div class="dataType">
+                <el-form-item label="First name:" prop="First" class="shipInput">
+                  <el-input v-model="shipForm.First"></el-input>
+                </el-form-item>
+                <el-form-item label="Last name:" prop="Last" class="shipInput">
+                  <el-input v-model="shipForm.Last"></el-input>
+                </el-form-item>
+              </div>
+              <el-form-item label=" Email Address:" prop="email">
+                <el-input v-model="shipForm.email"></el-input>
+              </el-form-item>
+              <el-form-item label="Company name:" prop="Company">
+                <el-input v-model="shipForm.Company"></el-input>
+              </el-form-item>
+              <el-form-item label="Country:" prop="Country">
+                <el-select v-model="shipForm.Country" placeholder="United Stats">
+                  <el-option label="shanghai" value="shanghai"></el-option>
+                  <el-option label="beijing" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Address Line1:" prop="Address1">
+                <el-input v-model="shipForm.Address1"></el-input>
+              </el-form-item>
+              <el-form-item label="Address Line2:" prop="Address2">
+                <el-input v-model="shipForm.Address2"></el-input>
+              </el-form-item>
+              <el-form-item label="City:" prop="City">
+                <el-input v-model="shipForm.City"></el-input>
+              </el-form-item>
+              <el-form-item label="State/Province:" prop="Province">
+                <el-select v-model="shipForm.Province" placeholder="Province">
+                  <el-option label="shanghai" value="shanghai"></el-option>
+                  <el-option label="beijing" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="Zip/Postcode:" prop="Postcode">
+                <el-input v-model="shipForm.Postcode"></el-input>
+              </el-form-item>
+              <el-form-item label="Mobie No./Phone:" prop="Phone">
+                <el-input v-model="shipForm.Phone"></el-input>
+              </el-form-item>
+            </el-form>
           </div>
-          <el-form-item label=" Email Address:" prop="email">
-            <el-input v-model="shipForm.email"></el-input>
-          </el-form-item>
-          <el-form-item label="Company name:" prop="Company">
-            <el-input v-model="shipForm.Company"></el-input>
-          </el-form-item>
-          <el-form-item label="Country:" prop="Country">
-            <el-select v-model="shipForm.Country" placeholder="United Stats">
-              <el-option label="shanghai" value="shanghai"></el-option>
-              <el-option label="beijing" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Address Line1:" prop="Address1">
-            <el-input v-model="shipForm.Address1"></el-input>
-          </el-form-item>
-          <el-form-item label="Address Line2:" prop="Address2">
-            <el-input v-model="shipForm.Address2"></el-input>
-          </el-form-item>
-          <el-form-item label="City:" prop="City">
-            <el-input v-model="shipForm.City"></el-input>
-          </el-form-item>
-          <el-form-item label="State/Province:" prop="Province">
-            <el-select v-model="shipForm.Province" placeholder="Province">
-              <el-option label="shanghai" value="shanghai"></el-option>
-              <el-option label="beijing" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Zip/Postcode:" prop="Postcode">
-            <el-input v-model="shipForm.Postcode"></el-input>
-          </el-form-item>
-          <el-form-item label="Mobie No./Phone:" prop="Phone">
-            <el-input v-model="shipForm.Phone"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
+        </div>
+        <div class="payConfirm">
+          <el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions.</span>
+          <div style="margin-top: 15px;">
+            <el-button @click="paySub('ruleForm', 'shipForm')">
+            Pay now
+            </el-button>
+          </div>
+        </div>
     </div>
-    <div class="payConfirm">
-      <el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions.</span>
-      <div style="margin-top: 15px;">
-        <el-button @click="paySub('ruleForm', 'shipForm')">
-         Pay now
-        </el-button>
-      </div>
-    </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
-
 <script>
+import aFooter from "@/components/afooter.vue";
+import aheader from "@/components/aheader.vue";
 import qs from 'qs'
 export default {
   name: "payAgain",
+  components: {
+    "aheader-com": aheader,
+    "afooter-com": aFooter
+  },
   data () {
     return {
       radio3: '1',

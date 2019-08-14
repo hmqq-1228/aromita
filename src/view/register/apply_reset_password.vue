@@ -10,13 +10,16 @@
         <p class="word_two">You will receive an email with a link to reset your password .It may take several minutes to show up in your inbox. If you don’t receive this email, please check your spam folder or contact <span class="help">Live Help</span> for further assistant.</p>
       </div>
     </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 <script>
 import aheader from "@/components/aheader.vue";
+import Footer from "@/components/afooter.vue"
 export default {
   components: {
-    "aheader-com": aheader
+    "aheader-com": aheader,
+    "afooter-com":Footer
   }
 };
 </script>

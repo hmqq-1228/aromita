@@ -1,8 +1,6 @@
 <template>
   <div class="paySucceed">
-    <!--<div class="header">-->
-      <!--<header-com></header-com>-->
-    <!--</div>-->
+    <aheader-com></aheader-com>
     <div class="orderCont">
       <div class="orderInfo">
         <div class="orderState">
@@ -34,19 +32,17 @@
         </div>
       </div>
     </div>
-    <div class="foot">
-      <footer-com></footer-com>
-    </div>
+    <afooter-com></afooter-com>
   </div>
 </template>
 
 <script>
-  import Header from "@/components/header.vue";
-  import Footer from "@/components/footer.vue";
+  import Header from "@/components/aheader.vue";
+  import Footer from "@/components/afooter.vue";
   export default {
     components: {
-      "header-com": Header,
-      "footer-com": Footer
+      "aheader-com": Header,
+      "afooter-com": Footer
     },
     name: "payFailed"
   }

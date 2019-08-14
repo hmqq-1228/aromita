@@ -46,10 +46,7 @@ export default new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login,
-      meta:{
-        keepAlive: false
-      }
+      component: Login
     },
     {
       path: '/codetest',
@@ -79,10 +76,7 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      component: Register,
-      meta:{
-        keepAlive: false
-      }
+      component: Register
     },
     {
       path: '/forgot_password',
@@ -219,34 +213,22 @@ export default new Router({
     {
       path: '/orderConfirm',
       name: 'orderConfirm',
-      component: orderConfirm,
-      meta:{
-        keepAlive: true
-      }
+      component: orderConfirm
     },
     {
       path: '/paySucceed',
       name: 'paySucceed',
-      component: paySucceed,
-      meta:{
-        keepAlive: true
-      }
+      component: paySucceed
     },
     {
       path: '/payFailed',
       name: 'payFailed',
-      component: payFailed,
-      meta:{
-        keepAlive: true
-      }
+      component: payFailed
     },
     {
       path: '/payAgain',
       name: 'payAgain',
-      component: payAgain,
-      meta:{
-        keepAlive: true
-      }
+      component: payAgain
     }
   ]
 })

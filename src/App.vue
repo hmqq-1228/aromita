@@ -3,11 +3,9 @@
     <div class="header" v-if="$route.meta.keepAlive">
       <header-com></header-com>
       <router-view></router-view>
-    </div>
-    <router-view v-if="!$route.meta.keepAlive"/>
-    <div class="foot">
       <footer-com></footer-com>
     </div>
+    <router-view v-if="!$route.meta.keepAlive"/>
   </div>
 </template>
 

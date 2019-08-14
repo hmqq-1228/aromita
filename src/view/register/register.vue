@@ -82,15 +82,13 @@
           <hr>
           <div class="btn2" @click="toLogin()">Login</div>
         </div>
-              <!-- 复选框 -->
       </div>
     </div>
-    <!-- <div style="height:1000px;">aaaa</div> -->
-    <footer-com></footer-com>
+    <afooter-com></afooter-com>
   </div>
 </template>
 <script>
-import Footer from "@/components/footer.vue";
+import Footer from "@/components/afooter.vue";
 import aheader from "@/components/aheader.vue";
 import {handleRegist, Catpcha} from "../../api/register";
 import identify from "../test/identify";
@@ -98,7 +96,7 @@ import qs from 'qs'
 export default {
   name: "register",
   components: {
-    "footer-com": Footer,
+    "afooter-com": Footer,
     "aheader-com": aheader,
     identify
   },
