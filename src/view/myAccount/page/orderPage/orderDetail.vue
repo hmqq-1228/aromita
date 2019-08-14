@@ -39,7 +39,7 @@
               </div>
             </div>
             <div class="payAgain">
-              <div style="margin-top: 15px;" v-if="orders[0].orders_status === 10">
+              <div style="margin-top: 15px;">
                 <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
                   Pay now
                 </el-button>
