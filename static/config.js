@@ -2,6 +2,7 @@ const addressList = {
     List:[
         {
             countryName:"United States",
+            countryValue:"US",
             countryList:[
                 "Alabama","Alaska","Arizona","Arkansas","California",
                 "Colorado","Connecticut","Delaware","Florida","Georgia",
@@ -18,6 +19,7 @@ const addressList = {
         },
         {
             countryName:"Canada",
+            countryValue:"Canada",
             countryList:[
                 "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario",
                 "New Brunswick","Nova Scotia","Prince Edward Island","Newfoundland and Labrador",

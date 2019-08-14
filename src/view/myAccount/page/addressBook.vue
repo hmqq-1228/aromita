@@ -76,7 +76,7 @@
                     </el-form-item>
                     <el-form-item label="Country：" :label-width="formLabelWidth" required>
                         <el-select v-model="addressForm.entry_country" @change="chooseCoutry()">
-                            <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryName" :key="item.countryName"></el-option>
+                            <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="Address Line1:" :label-width="formLabelWidth" required>
@@ -112,9 +112,6 @@
                 </div>
             </div>
         </el-dialog>
-        <div class="foot">
-            <footer-com></footer-com>
-        </div>
     </div>
 </template>
 <script>
@@ -171,7 +168,7 @@ export default {
             this.ProvinceList = []
             this.addressForm.entry_state = ''
             //查询对应国家下的州区列表
-            let Province = this.countryList.find((n) => n.countryName == this.addressForm.entry_country).countryList
+            let Province = this.countryList.find((n) => n.countryValue == this.addressForm.entry_country).countryList
             this.ProvinceList = Province
         },
         //提交地址

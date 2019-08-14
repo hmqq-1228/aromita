@@ -530,24 +530,22 @@ export default {
         count: this.numQuality
       })
       this.$axios.post('api/addcart', obj).then(res => {
-        console.log('sssssss', res.data)
         this.$store.state.addCartState = true
         if (res.data === 2050) {
           this.showModel = true
         }
       })
     },
-    handleChange: function (val) {
-      console.log('num', val)
-      var that = this
-      var skuId = that.$route.params.skuId
+    //添加购物车数量显示
+    handleChange(val){
+      var skuId = this.$route.params.skuId
       if (val) {
-        that.totalPay = (val * that.priceOrder).toFixed(2)
+        this.totalPay = (val * this.priceOrder).toFixed(2)
       }
+      //查库存
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        console.log('sssssss', res.data)
         if (res.code === '200') {
-          that.maxQuality = res.data.inventory
+          this.maxQuality = res.data.inventory
         }
       })
     },

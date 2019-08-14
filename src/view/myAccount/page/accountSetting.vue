@@ -38,7 +38,7 @@
                                     <div class="com-sub-btn" @click="setSub()">Save</div>
                                 </div>
                                 <div v-if="activeName=='two'">
-                                    <el-form label-position="right" label-width="180px" :rules="rules2" :model="passwordForm">
+                                    <el-form label-position="right" label-width="220px" :rules="rules2" :model="passwordForm">
                                         <el-form-item label="Current Password：" prop="pass" required>
                                             <el-input type="password" v-model="passwordForm.oldpassword"></el-input>
                                         </el-form-item>
@@ -127,8 +127,9 @@ export default {
                         message: 'Successful setup',
                         type: 'success'
                     });
-                    this.settingFrom = {}
-                    this.settingFrom.gender = '1'
+                    this._myAccountSet()
+                    // this.settingFrom = {}
+                    // this.settingFrom.gender = '1'
                 }
             })
         },

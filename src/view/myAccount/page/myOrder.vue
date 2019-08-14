@@ -81,6 +81,7 @@
                             <el-pagination
                                 background
                                 layout="prev, pager, next"
+                                @current-change="handleCurrentChange"
                                 :total="total">
                             </el-pagination>
                         </div>
@@ -135,6 +136,11 @@ export default {
         this.countdown()
     },
     methods:{
+        //分页
+        handleCurrentChange(val){
+           this.page = val
+           this.myOrderList()
+        },
         //倒计时
         countdown() {
             let timer = setInterval(()=>{
@@ -205,8 +211,6 @@ export default {
         },
         //到支付页面
         pay(total, num){
-          console.log('11111111', total)
-          console.log('22222222', num)
           this.$router.push({
             path: '/payAgain',
             query: {
@@ -225,9 +229,9 @@ export default {
         }
     },
     destroyed () {
-        this.orderList.forEach((val) => {
-            val.time = 0
-        })
+        // this.orderList.forEach((val) => {
+        //     val.time = 0
+        // })
     }
 }
 </script>
