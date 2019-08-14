@@ -849,7 +849,6 @@ export default {
       console.log('66666', ids)
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
-        console.log('7777777', data)
         for (var i=0;i<data.length;i++){
           data[i].sku_pay = data[i].goods_count * data[i].sku_price
         }
