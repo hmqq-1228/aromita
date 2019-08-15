@@ -172,9 +172,11 @@ export default {
     },
     spuId(){
       this.getGoodsDetail()
+      this._getInStock()
     },
     skuId(){
       this.getGoodsDetail()
+      this._getInStock()
     },
     showModel: function(val, ov){
       if (val) {
