@@ -1068,5 +1068,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "@/assets/css/orderconfirm.scss"
+  @import "@/assets/css/orderConfirm.scss"
 </style>
