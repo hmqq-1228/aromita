@@ -74,7 +74,7 @@
             </div>
           </div>
           <button class="btn1">
-            <p class="btn1_word" @click="handleRegister()">Create an Account</p>
+            <p class="btn1_word" @click="handleRegister('ruleForm2')">Create an Account</p>
           </button>
           <div class="New_Customers_">
             <p class="New_Customers">I Have an Accout？</p>
@@ -111,6 +111,15 @@ export default {
         callback();
       }
     };
+    let validateCode = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("Please enter the verification code."));
+      } else if (value !== this.identifyCodeNew) {
+        callback(new Error("Please make sure your verification match."));
+      } else {
+        callback();
+      }
+    };
     return {
       policyChecked:false,//是否勾选policy协议
       servicechecked:false,//是否勾选服务协议
@@ -134,8 +143,9 @@ export default {
           { validator: validatePass2, trigger: 'blur'}
         ],
         Verification: [
-          { required: true, message: 'Please enter the verification code.', trigger: 'blur' },
-          { min: 5, max: 5, message: 'Verification code length is 5 characters', trigger: 'blur' }
+          // { required: true, message: 'Please enter the verification code.', trigger: 'blur' },
+          // { min: 5, max: 5, message: 'Verification code length is 5 characters', trigger: 'blur' }
+          { validator: validateCode, trigger: 'blur'}
         ]
       },
         tipInfo: '',
@@ -156,7 +166,7 @@ export default {
       })
     },
     //点击注册
-    handleRegister() {
+    handleRegister(formName) {
       if (!this.ruleForm2.email || !this.ruleForm2.password || !this.ruleForm2.checkpass || !this.ruleForm2.Verification) {
         this.tipInfo = 'Please complete your information'
         return false
@@ -165,7 +175,11 @@ export default {
         return false
       }else{
         this.tipInfo = ''
-        this.registerFormSub()
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.registerFormSub()
+          }
+        })
       }
     },
     async registerFormSub () {
@@ -181,8 +195,10 @@ export default {
       if (data.code === 200) {
         that.$message.success(data.msg)
         that.$router.push('/register_ok')
-      } else {
+      } else if (data.code === 1006){
         that.$message.error(data.msg)
+      } else {
+        that.$message.error(data.msg.email[0])
       }
     },
     //验证码
