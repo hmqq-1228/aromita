@@ -561,7 +561,7 @@ export default {
       // }
       // getGoodsQuantityInCart(pre).then((res)=>{
       //   if(res == '101'){
-          
+
       //   }else{
       //     var goods_count = res.goods_count
       //     var purchase = this.maxQuality - goods_count
@@ -590,7 +590,7 @@ export default {
         }
         getGoodsQuantityInCart(pre).then((res)=>{
           if(res == '101'){
-            
+
           }else{
             var goods_count = res.goods_count
             var purchase = this.maxQuality - goods_count
