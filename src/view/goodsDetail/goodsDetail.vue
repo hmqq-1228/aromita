@@ -228,7 +228,6 @@ export default {
   created(){
     this.getGoodsDetail()
     this._getInStock()
-    this._getGoodsQuantityInCart()
   },
   methods:{
     tastModel: function(){
@@ -557,7 +556,6 @@ export default {
         }
       })
       this._getInStock()
-      this._getGoodsQuantityInCart()
     },
     //添加购物车数量显示
     handleChange(val){
@@ -567,7 +565,6 @@ export default {
       }
       this._getInStock()
       //已加购商品数量
-      this._getGoodsQuantityInCart()
       // let pre ={
       //     sku_id:this.$route.params.skuId
       // }
@@ -590,7 +587,10 @@ export default {
         //查库存
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
         if (res.code === '200') {
-          this.maxQuality = res.data.inventory
+          if (res.data){
+            this.maxQuality = res.data.inventory
+            this._getGoodsQuantityInCart()
+          }
         }
       })
     },
@@ -606,7 +606,8 @@ export default {
           }else{
             var goods_count = res.goods_count
             var purchase = this.maxQuality - goods_count
-            console.log(purchase)
+            console.log('55555', purchase)
+            console.log('66666', this.maxQuality)
             if(purchase < this.numQuality || purchase<=0){
               this.$message('购物车已加购数已超过该商品库存数');
               //this.numQuality = purchase
