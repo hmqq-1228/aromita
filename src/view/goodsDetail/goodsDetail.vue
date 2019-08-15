@@ -160,10 +160,22 @@ export default {
       skuSpuIdList: [],
       skuList: [],
       maxQuality:1,
-      isActive:true
+      isActive:true,
+      skuId:'',
+      spuId:''
     }
   },
   watch:{
+    $route(){
+      this.spuId = this.$route.params.spuId
+      this.skuId = this.$route.params.skuId
+    },
+    spuId(){
+      this.getGoodsDetail()
+    },
+    skuId(){
+      this.getGoodsDetail()
+    },
     showModel: function(val, ov){
       if (val) {
         document.documentElement.style.overflowY = 'hidden';
