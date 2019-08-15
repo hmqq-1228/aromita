@@ -2,7 +2,7 @@
     <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>  
+                <Left-Nav></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
                         <h3 class="my_title">Account Settings</h3>
@@ -50,7 +50,7 @@
                                         </el-form-item>
                                     </el-form>
                                     <div class="com-sub-btn" @click="editPassword()">Save</div>
-                                </div>                               
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export default {
         //设置个人信息
         setSub(){
             accountPerson(this.settingFrom).then((res)=>{
-                if(res.code == '200'){
+                if(res.code === '200' || res.code === 200){
                     this.$message({
                         message: 'Successful setup',
                         type: 'success'
@@ -149,7 +149,7 @@ export default {
                 return false
             }
             accountPass(this.passwordForm).then((res)=>{
-                if(res.code == '200'){
+                if(res.code === '200' || res.code === 200){
                     this.$message({
                         message: 'Successful setup',
                         type: 'success'

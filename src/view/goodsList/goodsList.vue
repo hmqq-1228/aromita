@@ -193,7 +193,7 @@ export default {
       }
       this.prodListLoadingOver = false;
       getGoodsList(obj).then((res)=>{
-        if(res.code == '200'){
+        if(res.code === '200' || res.code === 200){
           this.prodListLoadingOver = true;
           if(this.page == 1){
             this.goodsList = res.data.data

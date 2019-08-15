@@ -46,11 +46,12 @@
                                     <p style="display:none">{{scope.row}}</p>
                                     <p>{{scope.row.orders_number}}</p>
                                     <p style="color:#C51015;text-align:center;font-weight:bolder" v-if="scope.row.orders_status== 10 && order_status == '10'">Time Left:{{scope.row.remainTimeStr}}</p>
-                                </template>    
+                                </template>
                             </el-table-column>
                             <el-table-column
                                 prop="created_at"
                                 label="Order time"
+
                                 width="280">
                             </el-table-column>
                             <el-table-column

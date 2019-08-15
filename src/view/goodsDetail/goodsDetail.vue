@@ -265,7 +265,7 @@ export default {
       }
       that.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
         console.log(res)
-        if (res.code === "200") {
+        if (res.code === '200' || res.code === 200) {
           console.log('11111', res.data)
           if (res.data.sku.sku_status === 0) {
             that.soldOut = true
@@ -589,7 +589,7 @@ export default {
       var skuId = this.$route.params.skuId
         //查库存
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        if (res.code === '200') {
+        if (res.code === '200' || res.code === 200) {
           if (res.data){
             this.maxQuality = res.data.inventory
             this._getGoodsQuantityInCart()

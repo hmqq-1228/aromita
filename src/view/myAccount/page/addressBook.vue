@@ -2,7 +2,7 @@
     <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>  
+                <Left-Nav></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
                         <h3 class="my_title">Address Book</h3>
@@ -17,7 +17,7 @@
                                     </div>
                                     <div class="list shipping_address" v-for="(item,index) in list" :key="index">
                                         <h5>{{item.entry_firstname}}{{item.entry_lastname}}</h5>
-                                        <p> 
+                                        <p>
                                             {{item.entry_city}}<br/>
                                             {{item.entry_street_address1}}<br/>
                                             {{item.entry_street_address1}}<br/>
@@ -61,7 +61,7 @@
         </div>
         <!-- 新增地址弹框 -->
         <el-dialog :visible.sync="addressFormVisible" width="900px">
-            <div class="addressBox"> 
+            <div class="addressBox">
                 <el-form :model="addressForm" :rules="rules">
                     <el-form-item label="First name:" prop="entry_firstname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_firstname"></el-input>
@@ -198,7 +198,7 @@ export default {
                 this.addressForm.is_default = '1'
             }
             addAddress(this.addressForm).then((res)=>{
-                if(res.code == '200'){
+                if(res.code === '200' || res.code === 200){
                     this.$message({
                         message: 'Successful setup',
                         type: 'success'
@@ -222,7 +222,7 @@ export default {
                 type: 'warning'
             }).then(() => {
                 this.$axios.delete(`api/address/${id}`, {}).then(res => {
-                    if(res.code == '200'){
+                    if(res.code === '200' || res.code === 200){
                         this.$message({
                             type: 'success',
                             message: 'Successful deletion!'
@@ -234,14 +234,14 @@ export default {
                 this.$message({
                     type: 'info',
                     message: 'Delete Successfully Canceled Delete'
-                });          
+                });
             });
         },
         //设置为默认地址
         setDefault(id){
             let pre = qs.stringify({is_default:'1'})
             this.$axios.post(`api/address/${id}`,pre).then(res => {
-                if(res.code == '200'){
+                if(res.code === '200' || res.code === 200){
                     this.$message({
                         type: 'success',
                         message: 'Successful deletion!'
@@ -255,8 +255,8 @@ export default {
             this.addressForm = item
             this.addressForm.entry_state = item.entry_state
             this.addressFormVisible = true;
-            item.is_default =='1'? this.isdefault=true : this.isdefault=false 
-            this.addressId = id   
+            item.is_default =='1'? this.isdefault=true : this.isdefault=false
+            this.addressId = id
             this.type = str
         },
         //编辑地址提交
@@ -268,7 +268,7 @@ export default {
             }
             let pre = qs.stringify(this.addressForm)
             this.$axios.post(`api/address/${this.addressId}`,pre).then(res => {
-                if(res.code == '200'){
+                if(res.code === '200' || res.code === 200){
                     this.$message({
                         type: 'success',
                         message: 'Successful deletion!'
@@ -277,8 +277,8 @@ export default {
                     this.addressForm = {}
                     this._address()
                 }
-            }) 
-        }   
+            })
+        }
 
     }
 }

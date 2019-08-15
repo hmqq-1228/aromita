@@ -28,7 +28,7 @@ export default {
         //获取分类列表
         async getCategory(){
             let data = await category()
-            if (data.code === '200') {
+            if (data.code === '200' || data.code === 200) {
             this.nav_arr = data.data
             }
         },

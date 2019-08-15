@@ -71,7 +71,7 @@
     <!-- 小头部 -->
     <div class="small_header" :style="{top:(headerShow==true?'0':'-60px')}">
       <div class="box">
-          <img src="@/assets/LOGO2.png" alt @click="handleGoHome" class="logo">     
+          <img src="@/assets/LOGO2.png" alt @click="handleGoHome" class="logo">
           <nav-com></nav-com>
           <i class="el-icon-search" @click="searchIcon()" v-if="searchShow == false"></i>
           <div class="login">
@@ -159,7 +159,7 @@
         </div>
     </div>
   </div>
-  
+
 </template>
 <script>
 import {getcartgoodscount,getGoodsList,userLogout,checkLogin} from "../api/register";
@@ -219,7 +219,7 @@ import { mapGetters } from 'vuex';
       },
       // 头部切换
       showIcon() {
-        if (!!document.documentElement.scrollTop && document.documentElement.scrollTop > 120) {            
+        if (!!document.documentElement.scrollTop && document.documentElement.scrollTop > 120) {
             this.headerShow = true;
         } else {
             this.headerShow = false;
@@ -249,7 +249,7 @@ import { mapGetters } from 'vuex';
       //判断用户登录状态
       _checkLogin(){
         checkLogin().then((res)=>{
-          if(res.code === '200'){
+          if(res.code === '200' || res.code === 200){
             this.login_status = true;
             this.userName = res.data
           }else{

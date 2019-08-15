@@ -542,9 +542,9 @@ export default {
   methods: {
     async checkLoginInfo () {
       let data = await checkLogin()
-      console.log('000000', data)
       if(data.code === '200' || data.code === 200) {
         this.isLogin = true
+        console.log('000000', data)
         this.getOrderAddress('defult', '')
       } else {
         this.isLogin = false
@@ -639,7 +639,7 @@ export default {
     async getOrderAddress (type, id) {
       var that = this
       let data = await orderAddress()
-      if (data.code === '200') {
+      if (data.code === 200 || data.code === '200') {
         if(data.data) {
           that.addressNum = data.data.length
           if (!type && !id) {
@@ -651,7 +651,6 @@ export default {
                 that.showMethod()
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
-                console.log('idididiid', that.checkedAdressId)
                 // defultList.push(data.data[i])
                 // that.addressList = defultList
               }
@@ -668,7 +667,6 @@ export default {
                 that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
-                console.log('idididiid', that.checkedAdressId)
                 // that.showMethod()
                 defultList.push(data.data[i])
                 that.addressList = defultList
@@ -699,7 +697,6 @@ export default {
               list.push(data.data[0])
               that.addressList = list
             } else if (id) {
-              console.log('ppppppp')
               for (var j=0; j<data.data.length; j++) {
                 if (data.data[j].id === parseInt(id)) {
                   let checkList = []
@@ -707,7 +704,6 @@ export default {
                   that.addressList = checkList
                 }
               }
-              console.log('ppppppp22', that.addressList)
             }
           }
         }
@@ -719,7 +715,7 @@ export default {
      var that = this
      that.$axios.delete('api/address/' + id, {}).then(res => {
        console.log('ididididid', res)
-       if (res.code === '200') {
+       if (res.code === '200' || res.code === 200) {
          that.getOrderAddress()
        }
      })
@@ -731,7 +727,7 @@ export default {
         that.editId = id
         that.addressFormShow = true
         that.$axios.get('api/address/' + id, {}).then(res => {
-          if (res.code === '200') {
+          if (res.code === '200' || res.code === 200) {
             console.log('yyyyyyyyy', res)
             that.addNewForm.First = res.data.entry_firstname
             that.addNewForm.Last = res.data.entry_lastname
@@ -818,7 +814,7 @@ export default {
       console.log('ids', JSON.stringify(idStr))
       that.$axios.post('api/ship', payLoad).then(res => {
         console.log('hhhhh', res)
-        if (res.code === '200') {
+        if (res.code === '200' || res.code === 200) {
           that.shipMethodList = res.data
           that.methodShow = true
           that.radio2 = res.data[0].ship_id + '-' + res.data[0].ship_fee
@@ -831,7 +827,7 @@ export default {
               that.orderShipMethod = that.shipMethodList[i]
             }
           }
-        } else if (res.code === '10002') {
+        } else if (res.code === '10002' || res.code === '10002') {
           that.errorInfo = 'No mode of transportation, please choose a new valid address.'
           that.butLoading = false
           that.payDisabled = true
@@ -1006,7 +1002,7 @@ export default {
       that.$store.state.addCartState = true
       that.modelShow2 = true
       that.$axios.post('api/paypal-pay', payLoad).then(res => {
-        if (res.code === 200) {
+        if (res.code === '200' || res.code === 200) {
           console.log('11111111', res.data)
           payUrl = res.data
           window.location.href = payUrl
