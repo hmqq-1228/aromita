@@ -58,9 +58,10 @@ export default {
 }
 .xian_a {
   width: 100%;
-  height: 105px;
+  height: 65px;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 12px 0;
   box-sizing: border-box;
+  border-bottom: 1px solid #e9e9e9;
 }
 </style>

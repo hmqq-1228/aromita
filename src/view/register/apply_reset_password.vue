@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <aheader-com></aheader-com>
-    <div class="content_2">
+    <div class="content_2" style="min-height: 360px">
       <div class="left">
         <img src="@/assets/pass.png" alt>
       </div>

@@ -26,6 +26,7 @@
                 v-model="ruleForm.password"
                 placeholder="Enter your Password"
                 style="width: 100%;"
+                show-password
               ></el-input>
             </el-form-item>
             <!-- 验证码 -->

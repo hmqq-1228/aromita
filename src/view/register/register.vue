@@ -35,6 +35,7 @@
                   v-model="ruleForm2.password"
                   placeholder="Enter your Password"
                   auto-complete="off"
+                  show-password
                 ></el-input>
               </el-form-item>
               <!-- 验证密码 -->
@@ -45,6 +46,7 @@
                   v-model="ruleForm2.checkpass"
                   placeholder="Enter your Password"
                   auto-complete="off"
+                  show-password
                 ></el-input>
               </el-form-item>
               <p class="right_word1">Verification code:</p>

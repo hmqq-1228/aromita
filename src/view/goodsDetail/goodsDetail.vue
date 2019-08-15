@@ -336,8 +336,9 @@ export default {
               }
             }
           }
-        } else {
+        } else if (res.code === 410) {
           console.log(222222)
+          that.$router.push('/noprojuct')
         }
       })
     },

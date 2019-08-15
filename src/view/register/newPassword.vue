@@ -1,31 +1,33 @@
 <template>
   <div class="newPassword">
     <aheader-com></aheader-com>
-    <div class="passwordCont">
-      <div class="titleNew">Reset a Password</div>
-      <el-form ref="newForm" :model="newForm" :rules="rules" status-icon style="margin-top: 20px">
-        <p class="itemTitle">New Password:</p>
-        <el-form-item prop="newPassword">
-          <el-input type="password" v-model="newForm.newPassword" placeholder="please enter a new password"></el-input>
-        </el-form-item>
-        <p class="itemTitle">Confirm New Password:</p>
-        <el-form-item prop="comfirmPass">
-          <el-input type="password" v-model="newForm.comfirmPass" placeholder="please comfirm your new password"></el-input>
-        </el-form-item>
-        <div style="display: flex;justify-content: space-between">
-          <el-form-item prop="identifyCode" style="width:260px;">
-            <el-input v-model="newForm.identifyCode" placeholder="please enter your verification code"></el-input>
+    <div style="min-height: 500px;">
+      <div class="passwordCont">
+        <div class="titleNew">Reset a Password</div>
+        <el-form ref="newForm" :model="newForm" :rules="rules" status-icon style="margin-top: 20px">
+          <p class="itemTitle">New Password:</p>
+          <el-form-item prop="newPassword">
+            <el-input type="password" v-model="newForm.newPassword" placeholder="please enter a new password"></el-input>
           </el-form-item>
-          <div class="code" @click="refreshCode">
-            <component v-bind:is="compArr.identify"
-                       :identifyCode="identifyCodeNew">
-            </component>
+          <p class="itemTitle">Confirm New Password:</p>
+          <el-form-item prop="comfirmPass">
+            <el-input type="password" v-model="newForm.comfirmPass" placeholder="please comfirm your new password"></el-input>
+          </el-form-item>
+          <div style="display: flex;justify-content: space-between">
+            <el-form-item prop="identifyCode" style="width:260px;">
+              <el-input v-model="newForm.identifyCode" placeholder="please enter your verification code"></el-input>
+            </el-form-item>
+            <div class="code" @click="refreshCode">
+              <component v-bind:is="compArr.identify"
+                         :identifyCode="identifyCodeNew">
+              </component>
+            </div>
           </div>
-        </div>
-        <el-form-item style="margin-top: 30px;">
-          <el-button style="width: 400px;font-size:16px;background-color: #121037;" @click="submitForm('newForm')">Continue</el-button>
-        </el-form-item>
-      </el-form>
+          <el-form-item style="margin-top: 30px;">
+            <el-button style="width: 400px;font-size:16px;background-color: #121037;" @click="submitForm('newForm')">Continue</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
     <afooter-com></afooter-com>
   </div>
@@ -55,6 +57,15 @@ export default {
         callback()
       }
     };
+    let validateCode = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("Please enter the verification code."));
+      } else if (value !== this.identifyCodeNew) {
+        callback(new Error("Please make sure your verification match."));
+      } else {
+        callback();
+      }
+    };
     return{
       newForm:{
         newPassword: '',
@@ -74,8 +85,7 @@ export default {
           { validator: validatePass2, trigger: 'blur'}
         ],
         identifyCode:[
-          { required: true, message: 'Please enter the verification code', trigger: 'blur' },
-          { min: 5, max: 5, message: 'Five characters in length', trigger: 'blur' }
+          { validator: validateCode, trigger: 'blur'}
         ]
       }
     }
@@ -128,7 +138,7 @@ export default {
 <style scoped>
   .passwordCont{
     width: 400px;
-    margin: 60px auto;
+    margin: 100px auto;
   }
   .titleNew{
     color: #333;

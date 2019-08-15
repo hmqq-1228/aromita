@@ -31,6 +31,7 @@ const orderConfirm = () => import('@/view/order/orderConfirm.vue')
 const paySucceed = () => import('@/view/order/paySucceed.vue')
 const payFailed = () => import('@/view/order/payFailed.vue')
 const payAgain = () => import('@/view/order/payAgain.vue')
+const noprojuct = () => import('@/view/errorPage/noprojuct.vue')
 Vue.use(Router)
 
 export default new Router({
@@ -229,6 +230,11 @@ export default new Router({
       path: '/payAgain',
       name: 'payAgain',
       component: payAgain
+    },
+    {
+      path: '/noprojuct',
+      name: 'noprojuct',
+      component: noprojuct
     }
   ]
 })

@@ -42,6 +42,15 @@ export default {
     identify
   },
   data() {
+    let validateCode = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("Please enter the verification code."));
+      } else if (value !== this.identifyCodeNew) {
+        callback(new Error("Please make sure your verification match."));
+      } else {
+        callback();
+      }
+    };
     return {
       code: "",
       checkCode: "",
@@ -60,8 +69,7 @@ export default {
           { type: "email", message: "Please enter a valid email.", trigger: "blur" }
         ],
         inputCode: [
-          { required: true, message: 'Please enter the verification code.', trigger: 'blur' },
-          { min: 5, max: 5, message: 'Verification code length is 5', trigger: 'blur' }
+          { validator: validateCode, trigger: 'blur'}
         ]
       }
     };
@@ -102,19 +110,19 @@ export default {
       } else {
         that.$message.warning(data.msg)
       }
-      that.$router.push('/apply_reset_password')
     }
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .warp_1 {
   .warp {
-    height: 308px;
+    min-height: 500px;
     .content_forgot {
       width: 400px;
       height: 308px;
       margin: 0 auto;
+      margin-top: 200px;
       text-align: center;
       .word_a {
         font-size: 20px;

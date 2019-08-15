@@ -7,7 +7,7 @@
     height: 480px;
     background:rgba(251,251,251,1);
     border-top: 1px solid gainsboro;
-  
+
   }
   .footer > .img {
     text-align: center;
@@ -34,15 +34,17 @@
     justify-content: space-between;
   }
   .sixty{
+    width: 25%;
     height: 60px;
     display: flex;
     justify-content: space-between;
   }
+  .sixty div{
+    margin: 0 auto;
+  }
   .sixty  img {
     display: inline-block;
-    width: 260px;
     height: 60px;
-    margin-right: 10px;
   }
   .sixty_word > a{
     text-decoration: none;
