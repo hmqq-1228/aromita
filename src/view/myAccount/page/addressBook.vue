@@ -60,8 +60,8 @@
             </div>
         </div>
         <!-- 新增地址弹框 -->
-        <el-dialog :visible.sync="addressFormVisible" width="900px">
-            <div class="addressBox">
+        <el-dialog :visible.sync="addressFormVisible" width="800px">
+            <div class="addressBox payBox">
                 <el-form :model="addressForm" :rules="rules">
                     <el-form-item label="First name:" prop="entry_firstname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_firstname"></el-input>
@@ -94,7 +94,7 @@
                     <el-form-item label="Zip/Postcode:" :label-width="formLabelWidth" prop="entry_postcode">
                         <el-input v-model="addressForm.entry_postcode"></el-input>
                     </el-form-item>
-                    <el-form-item label="Mobie No./Phone:" :label-width="formLabelWidth">
+                    <el-form-item label="Mobie No./Phone:" :label-width="formLabelWidth" prop="telephone_number">
                         <el-input v-model="addressForm.telephone_number"></el-input>
                     </el-form-item>
                     <el-form-item :label-width="formLabelWidth">
@@ -134,7 +134,7 @@ export default {
                 entry_street_address1:'',
                 entry_street_address2:'',
                 entry_email_address:'',
-                entry_country:'',
+                entry_country:'US',
                 entry_city:'',
                 entry_state:'',
                 entry_postcode:'',
@@ -146,10 +146,12 @@ export default {
             type:'',
             rules: {
                 entry_firstname:[
-                    {required: true, message: 'Please enter the first name.', trigger: 'blur'}
+                    {required: true, message: 'Please enter the first name.', trigger: 'blur'},
+                    { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
                 ],
                 entry_lastname: [
-                    {required: true, message: 'Please enter the last name.', trigger: 'blur'}
+                    {required: true, message: 'Please enter the last name.', trigger: 'blur'},
+                    { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
                 ],
                 entry_email_address: [
                     {required: true, message: 'Please enter your email address.', trigger: 'blur'},
@@ -163,12 +165,16 @@ export default {
                 ],
                 entry_postcode: [
                     {required: true, message: 'Please enter the Zip/Postal Code.', trigger: 'blur'}
+                ],
+                telephone_number: [
+                    {min: 0, max: 15,message:'You can write a maximum of 15 characters.',trigger: 'blur'}
                 ]
             }
         }
     },
     created(){
         this._address()
+        
     },
     methods:{
         //地址列表
@@ -180,7 +186,7 @@ export default {
         //新增地址弹框
         addNew(){
             this.addressFormVisible = true;
-            console.log(this.countryList)
+            console.log(this.countryList,'1111')
         },
         //选择国家
         chooseCoutry(){
@@ -207,8 +213,14 @@ export default {
                     this.addressFormVisible = false;
                     this._address()
                 }else{
+                    var arr = []
+                    for(var i in res.msg) {
+                        var obj = res.msg[i][0];
+                        console.log(obj)
+                        arr.push(obj)
+                    }
                     this.$message({
-                        message: res.msg,
+                        message:arr[0],
                         type: 'error'
                     });
                 }

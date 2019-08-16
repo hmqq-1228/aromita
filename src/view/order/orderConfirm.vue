@@ -76,14 +76,12 @@
           <div class="addNew" @click="addNewAddress()"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
           <div class="payBox" v-if="addressFormShow">
             <el-form :model="addNewForm" :rules="rules" ref="addNewForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
-              <div class="dataType">
-                <el-form-item label="First name:" prop="First" class="shipInput">
-                  <el-input v-model="addNewForm.First"></el-input>
-                </el-form-item>
-                <el-form-item label="Last name:" prop="Last" class="shipInput">
-                  <el-input v-model="addNewForm.Last"></el-input>
-                </el-form-item>
-              </div>
+              <el-form-item label="First name:" prop="First">
+                <el-input v-model="addNewForm.First"></el-input>
+              </el-form-item>
+              <el-form-item label="Last name:" prop="Last">
+                <el-input v-model="addNewForm.Last"></el-input>
+              </el-form-item>
               <el-form-item label=" Email Address:" prop="email">
                 <el-input v-model="addNewForm.email"></el-input>
               </el-form-item>
@@ -151,14 +149,12 @@
           <div class="addNew" v-if="!addressList2 || addressList2.length === 0" @click="addNewAddress()"><i class="el-icon-plus" style="color: #ccc;font-size: 18px;"></i> Add a new address</div>
           <div class="payBox" v-if="addressFormShow">
             <el-form :model="addNewForm" :rules="rules" ref="addNewForm" label-width="125px" class="demo-ruleForm" style="margin-top: 20px;">
-              <div class="dataType">
-                <el-form-item label="First name:" prop="First" class="shipInput">
-                  <el-input v-model="addNewForm.First"></el-input>
-                </el-form-item>
-                <el-form-item label="Last name:" prop="Last" class="shipInput">
-                  <el-input v-model="addNewForm.Last"></el-input>
-                </el-form-item>
-              </div>
+              <el-form-item label="First name:" prop="First">
+                <el-input v-model="addNewForm.First"></el-input>
+              </el-form-item>
+              <el-form-item label="Last name:" prop="Last">
+                <el-input v-model="addNewForm.Last"></el-input>
+              </el-form-item>
               <el-form-item label=" Email Address:" prop="email">
                 <el-input v-model="addNewForm.email"></el-input>
               </el-form-item>
@@ -425,7 +421,7 @@ export default {
         Last: '',
         email: '',
         Company: '',
-        Country: 'United States',
+        Country: 'US',
         Address1: '',
         Address2: '',
         City: '',
@@ -438,10 +434,12 @@ export default {
       checkedSub: false,
       rules: {
         First: [
-          {required: true, message: 'Please enter the first name.', trigger: 'blur'}
+          {required: true, message: 'Please enter the first name.', trigger: 'blur'},
+          { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
         ],
         Last: [
-          {required: true, message: 'Please enter the last name.', trigger: 'blur'}
+          {required: true, message: 'Please enter the last name.', trigger: 'blur'},
+          { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
         ],
         email: [
           {required: true, message: 'Please enter a valid email.', trigger: 'blur'},
@@ -451,14 +449,18 @@ export default {
           {required: true, message: 'Please enter your country name.', trigger: 'blur'}
         ],
         Address1: [
-          {required: true, message: 'Please enter your first address.', trigger: 'blur'}
+          {required: true, message: 'Please enter your first address.', trigger: 'blur'},
+          { min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur' }
         ],
         City: [
           {required: true, message: "Please enter the consignee's city.", trigger: 'blur'},
-          { min: 1, max: 30, message: 'You can write a maximum of 35 characters.', trigger: 'blur' }
+          { min: 1, max: 35, message: 'You can write a maximum of 35 characters.', trigger: 'blur' }
         ],
         Province: [
           {required: true, message: 'Please enter your province name.', trigger: 'blur'}
+        ],
+        Phone: [
+          { min: 0, max: 15, message: 'You can write a maximum of 15 characters.', trigger: 'blur' }
         ],
         Postcode: [
           {required: true, message: 'Please enter the Zip/Postal Code.', trigger: 'blur'}
@@ -639,7 +641,7 @@ export default {
       this.addNewForm.Last = ''
       this.addNewForm.email = ''
       this.addNewForm.Company = ''
-      this.addNewForm.Country = 'United States'
+      this.addNewForm.Country = 'US'
       this.addNewForm.Address1 = ''
       this.addNewForm.Address2 = ''
       this.addNewForm.City = ''
@@ -822,7 +824,7 @@ export default {
         ids: JSON.stringify(idStr),
         address_info: JSON.stringify(aStr)
       })
-      console.log('ids', JSON.stringify(idStr))
+      console.log('ids', aStr)
       that.$axios.post('api/ship', payLoad).then(res => {
         console.log('hhhhh', res)
         if (res.code === '200' || res.code === 200) {

@@ -50,7 +50,7 @@
 <style scoped>
   .code {
     width: 120px;
-    height: 34px;
+    height: 40px;
     border: 1px solid red;
   }
 </style>

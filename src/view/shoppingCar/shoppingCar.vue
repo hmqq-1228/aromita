@@ -293,7 +293,7 @@ export default {
       that.checkArr = arr
       let totalPay = 0
       for (var i = 0; i < that.checkArr.length; i++) {
-        totalPay = totalPay + that.checkArr[i]
+        totalPay += that.checkArr[i]
       }
       that.totalPayShow = totalPay
       // that.btnLoading = false
@@ -315,24 +315,25 @@ export default {
     },
     getPayList: function (e) {
       var that = this
-      var flag = false
-      var k = 0
-      if (that.payList.length > 0) {
-        for(var i=0;i< that.payList.length; i++) {
-          if(that.payList[i] === parseFloat(e)){
-            flag = true
-            k = i
-            break
-          }
-        }
-        if (flag) {
-          that.payList.splice(k, 1, parseFloat(e))
-        } else {
-          that.payList.push(parseFloat(e))
-        }
-      } else {
-        that.payList.push(parseFloat(e))
-      }
+      // var flag = false
+      // var k = 0
+      // if (that.payList.length > 0) {
+      //   for(var i=0;i< that.payList.length; i++) {
+      //     if(that.payList[i] === parseFloat(e)){
+      //       flag = true
+      //       k = i
+      //       break
+      //     }
+      //   }
+      //   if (flag) {
+      //     that.payList.splice(k, 1, parseFloat(e))
+      //   } else {
+      //     that.payList.push(parseFloat(e))
+      //   }
+      // } else {
+      //   that.payList.push(parseFloat(e))
+      // }
+      that.payList.push(parseFloat(e))
       that.sumPay(that.payList)
     },
     // 单个删除
@@ -383,6 +384,7 @@ export default {
         this.checkedItem = this.idList
         for (var i = 0;i<that.goodsListOn.length;i++){
           that.payList.push(parseFloat(that.goodsListOn[i].totalPay))
+          console.log('kkkk', that.goodsListOn[i].totalPay)
         }
         that.sumPay(that.payList)
       } else {
