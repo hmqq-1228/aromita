@@ -194,6 +194,12 @@ import { mapGetters } from 'vuex';
         }
         this.$store.state.addCartState = false
       },
+      changeusername(user){
+        if(user == true){
+          this._checkLogin()
+        }
+        this.$store.state.username = false
+      },
       'show': function(){
         if(this.show == true){
           this.getGoodsListFuc()
@@ -209,7 +215,8 @@ import { mapGetters } from 'vuex';
     },
     computed: {
       ...mapGetters([
-        'addCart'
+        'addCart',
+        'changeusername'
       ])
     },
     methods: {

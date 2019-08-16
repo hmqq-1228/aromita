@@ -216,7 +216,6 @@ export default {
                     var arr = []
                     for(var i in res.msg) {
                         var obj = res.msg[i][0];
-                        console.log(obj)
                         arr.push(obj)
                     }
                     this.$message({

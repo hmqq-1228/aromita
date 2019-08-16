@@ -50,15 +50,15 @@
                                         </el-form-item>
                                     </el-form>
                                     <div class="com-sub-btn" @click="editPassword()">Save</div>
-                                    <el-dialog
-                                        :visible.sync="editPasswordVisible"
-                                        width="380px">
-                                        <div class="okbtn">
-                                            <span>Save  Successfully</span>
-                                            <div class="sub_btn" @click="okEdit()">ok</div>
-                                        </div>
-                                    </el-dialog>
                                 </div>
+                                <el-dialog
+                                    :visible.sync="editPasswordVisible"
+                                    width="380px">
+                                    <div class="okbtn">
+                                        <span>Save  Successfully</span>
+                                        <div class="sub_btn" @click="okEdit()">ok</div>
+                                    </div>
+                                </el-dialog>
                             </div>
                         </div>
                     </div>
@@ -143,12 +143,14 @@ export default {
         //设置个人信息
         setSub(){
             accountPerson(this.settingFrom).then((res)=>{
-                if(res.code === '200' || res.code === 200){
-                    this.$message({
-                        message: 'Successful setup',
-                        type: 'success'
-                    });
+                if(res.code == 200){
+                    // this.$message({
+                    //     message: 'Successful setup',
+                    //     type: 'success'
+                    // });
                     this._myAccountSet()
+                    
+                    this.editPasswordVisible = true
                 }
             })
         },
@@ -174,6 +176,7 @@ export default {
         },
         okEdit(){
             this.editPasswordVisible = false
+            this.$store.state.username = true
             this.$router.push({
                 path: '/myAccount'
             })
