@@ -213,8 +213,14 @@ export default {
                     this.addressFormVisible = false;
                     this._address()
                 }else{
+                    var arr = []
+                    for(var i in res.msg) {
+                        var obj = res.msg[i][0];
+                        console.log(obj)
+                        arr.push(obj)
+                    }
                     this.$message({
-                        message: res.msg,
+                        message:arr[0],
                         type: 'error'
                     });
                 }
