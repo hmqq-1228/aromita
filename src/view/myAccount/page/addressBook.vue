@@ -174,7 +174,7 @@ export default {
     },
     created(){
         this._address()
-        this.ProvinceList = addressList.addressList.List[0].countryList
+        
     },
     methods:{
         //地址列表
@@ -186,7 +186,7 @@ export default {
         //新增地址弹框
         addNew(){
             this.addressFormVisible = true;
-            console.log(this.countryList)
+            console.log(this.countryList,'1111')
         },
         //选择国家
         chooseCoutry(){
