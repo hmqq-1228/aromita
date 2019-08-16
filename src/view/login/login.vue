@@ -87,7 +87,7 @@
 <script>
 import aheader from "@/components/aheader.vue";
 import afooter from "@/components/afooter.vue"
-import { handleLogin, handleCatpchas, mergeGoods } from "../../api/register";
+import { handleLogin, handleCatpchas} from "../../api/register";
 import { async } from "q";
 import qs from 'qs'
 import identify from "../test/identify";
@@ -207,7 +207,7 @@ export default {
             message: " success",
             type: "success"
           });
-          this.mergeGoodsFuc()
+          // this.mergeGoodsFuc()
           this.$router.push('/')
           localStorage.setItem('userToken', this.loginData.token)
         }else {
@@ -216,9 +216,9 @@ export default {
         }
       })
     },
-    async mergeGoodsFuc(){
-      await mergeGoods()
-    },
+    // async mergeGoodsFuc(){
+    //   await mergeGoods()
+    // },
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();
       d.setDate(d.getDate()+cookieDates)
