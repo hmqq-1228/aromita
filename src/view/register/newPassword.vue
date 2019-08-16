@@ -149,5 +149,6 @@ export default {
     color: #666;
     font-size: 14px;
     font-family: Tahoma;
+    margin-bottom: 2px;
   }
 </style>

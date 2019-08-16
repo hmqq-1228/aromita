@@ -1,5 +1,5 @@
 <template>
-  <div class="s-canvas" style="height: 34px;">
+  <div class="s-canvas" style="height: 40px;">
     <canvas id="s-canvas" :width="contentWidth" :height="contentHeight"></canvas>
   </div>
 </template>
@@ -57,7 +57,7 @@
       },
       contentHeight: {
         type: Number,
-        default: 34
+        default: 40
       }
     },
     data() {

@@ -52,8 +52,6 @@ ul,li {
     width: 400px !important;
     position: relative;
     border: 1px solid #121037 !important;
-    height: 34px !important;
-    line-height: 34px !important;
     border-radius: 0 !important;
 }
 .register .Verification .el-input__inner {
@@ -78,10 +76,6 @@ ul,li {
 }
 [class*=" el-icon-"], [class^=el-icon-]{
     font-weight: 600 !important;
-}
-.content_forgot .el-input__inner,.newPassword .el-input__inner{
-    height: 34px !important;
-    line-height: 34px !important;
 }
 .content_forgot .el-button,.newPassword .el-button{
     color: #ccc !important;
