@@ -226,7 +226,7 @@
                   <div class="price">$ {{goods.sku_price}} <span>$ 3.33</span></div>
                 </div>
               </div>
-              <div style="width: 200px;padding-top: 20px;font-size: 14px">
+              <div style="width: 200px;padding-top: 20px;font-size: 14px" :class="goods.realNum !== 0? 'realNum': ''">
                 <p>{{goods.goods_count}}</p>
                 <p style="color: #C51015;padding-top: 15px;" v-if="goods.realNum === 0">Only {{goods.inventory}} Available</p>
               </div>
@@ -442,10 +442,9 @@ export default {
         ],
         Last: [
           {required: true, message: 'Please enter the last name.', trigger: 'blur'},
-          { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+          {min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
         ],
         email: [
-          {required: true, message: 'Please enter a valid email.', trigger: 'blur'},
           {type: 'email', message: 'Please enter a valid email.', trigger: ['blur', 'change']}
         ],
         Country: [
