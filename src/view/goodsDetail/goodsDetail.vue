@@ -101,7 +101,7 @@
         <div>
           <div class="subBtn shop_cart">
             <div class="add">
-                <div v-if="goodDetail.sku_status === 1" class="subType" :class="[isActive ? 'subType' : 'subType disabled']" @click="addToCart($event)">Add to Cart</div>
+                <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
                 <div style="position: relative;width: 45px;height: 45px;">
                   <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
                   <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
@@ -161,18 +161,18 @@ export default {
       skuSpuIdList: [],
       skuList: [],
       maxQuality:1,
-      isActive:true,
+      //isActive:true,
       skuId:'',
-      spuId:''
+      spuId:'',
+      goods_count:0,//购物车已加商品数
+
     }
   },
   watch:{
     delcart: function(del) {
         if(del == true){
-          this.isActive=true
           this.numQuality = 1
           this.getGoodsDetail()
-          this._getInStock()
         }
         this.$store.state.delcartList = false
     },
@@ -182,11 +182,9 @@ export default {
     },
     spuId(){
       this.getGoodsDetail()
-      this._getInStock()
     },
     skuId(){
       this.getGoodsDetail()
-      this._getInStock()
     },
     showModel: function(val, ov){
       if (val) {
@@ -238,7 +236,6 @@ export default {
   },
   created(){
     this.getGoodsDetail()
-    this._getInStock()
   },
   methods:{
     tastModel: function(){
@@ -550,6 +547,28 @@ export default {
     },
     //加入购物车
     addToCart: function ($event) {
+      this._getGoodsQuantityInCart() 
+    },
+    //添加购物车数量显示
+    handleChange(val){
+      var skuId = this.$route.params.skuId
+      if (val) {
+        this.totalPay = (val * this.priceOrder).toFixed(2)
+      }
+    },
+    // _getInStock(){
+    //   var skuId = this.$route.params.skuId
+    //   //查库存
+    //   this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
+    //     if (res.code === '200' || res.code === 200) {
+    //       if (res.data){
+    //         this.maxQuality = res.data.inventory
+    //         // this._getGoodsQuantityInCart()
+    //       }
+    //     }
+    //   })
+    // },
+    _addcartList(){
       this.addShow = true
       setTimeout(() => {
         this.addShow = false
@@ -564,28 +583,6 @@ export default {
         this.$store.state.addCartState = true
         if (res.data === 2050) {
           this.showModel = true
-          this.numQuality =1
-        }
-      })
-      this._getInStock()
-    },
-    //添加购物车数量显示
-    handleChange(val){
-      var skuId = this.$route.params.skuId
-      if (val) {
-        this.totalPay = (val * this.priceOrder).toFixed(2)
-      }
-      this._getInStock()
-    },
-    _getInStock(){
-      var skuId = this.$route.params.skuId
-      //查库存
-      this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        if (res.code === '200' || res.code === 200) {
-          if (res.data){
-            this.maxQuality = res.data.inventory
-            this._getGoodsQuantityInCart()
-          }
         }
       })
     },
@@ -596,15 +593,16 @@ export default {
         }
         getGoodsQuantityInCart(pre).then((res)=>{
           if(res == '101'){
-
+            this._addcartList()
           }else{
-            var goods_count = res.goods_count
-            var purchase = this.maxQuality - goods_count
-            if(purchase < this.numQuality || purchase<=0){
+            this.maxQuality = res.inventory
+            this.goods_count = res.goods_count
+            this.purchase = this.maxQuality - this.goods_count
+            if(this.numQuality > this.purchase){
               this.$message('Exceeds maximun quantity available for this product.')
-              this.isActive = false
+              return false
             }else{
-              this.isActive = true
+              this._addcartList()
             }
           }
         })
