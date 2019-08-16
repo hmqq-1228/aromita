@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="edit_btn" v-if="item.is_default == 1">
                                             <span @click="editAddress(item,item.id,'edit')">Edit</span><i>|</i>
-                                            <span @click="removeAdress(item.id)">Remove</span>
+                                            <span @click="removeAddress(item.id)">Remove</span>
                                             <!-- <span>Set as Billing Address</span> -->
                                             <b>Default</b>
                                         </div>
