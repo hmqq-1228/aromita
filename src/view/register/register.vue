@@ -59,7 +59,7 @@
                     auto-complete="off"
                   ></el-input>
                 </el-form-item>
-                <div class="code" style="cursor: pointer;margin-top: 3px;" @click="refreshCode">
+                <div class="code" style="cursor: pointer;" @click="refreshCode">
                   <component
                     :firstCode="firstCode"
                     v-bind:is="compArr.identify"

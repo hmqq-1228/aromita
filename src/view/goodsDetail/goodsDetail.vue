@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-            <div class="addWish" @click="tastModel()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+            <div class="addWish"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
         </div>
