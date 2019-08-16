@@ -131,6 +131,7 @@ import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
 import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart} from "../../api/register";
 import qs from 'qs'
+import { mapGetters } from 'vuex'
 export default {
   data(){
     return{
@@ -166,6 +167,15 @@ export default {
     }
   },
   watch:{
+    delcart: function(del) {
+        if(del == true){
+          this.isActive=true
+          this.numQuality = 1
+          this.getGoodsDetail()
+          this._getInStock()
+        }
+        this.$store.state.delcartList = false
+    },
     $route(){
       this.spuId = this.$route.params.spuId
       this.skuId = this.$route.params.skuId
@@ -208,10 +218,9 @@ export default {
     }
   },
   computed: {
-    // picUrl: function () {
-    //   var that = this
-    //   return that.$store.state.baseServiceUrl
-    // }
+    ...mapGetters([
+        'delcart'
+    ])
   },
   mounted() {
     setTimeout(function () {
@@ -567,27 +576,10 @@ export default {
         this.totalPay = (val * this.priceOrder).toFixed(2)
       }
       this._getInStock()
-      //已加购商品数量
-      // let pre ={
-      //     sku_id:this.$route.params.skuId
-      // }
-      // getGoodsQuantityInCart(pre).then((res)=>{
-      //   if(res == '101'){
-
-      //   }else{
-      //     var goods_count = res.goods_count
-      //     var purchase = this.maxQuality - goods_count
-      //     if(purchase <=this.numQuality){
-      //       this.$message('购物车已加购数已超过该商品库存数');
-      //       this.numQuality = purchase
-      //       // this.isActive = false
-      //     }
-      //   }
-      // })
     },
     _getInStock(){
       var skuId = this.$route.params.skuId
-        //查库存
+      //查库存
       this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
         if (res.code === '200' || res.code === 200) {
           if (res.data){
@@ -598,7 +590,6 @@ export default {
       })
     },
     _getGoodsQuantityInCart(){
-      console.log(this.maxQuality)
         //已加购商品数量
         let pre ={
             sku_id:this.$route.params.skuId
@@ -609,11 +600,8 @@ export default {
           }else{
             var goods_count = res.goods_count
             var purchase = this.maxQuality - goods_count
-            console.log('55555', purchase)
-            console.log('66666', this.maxQuality)
             if(purchase < this.numQuality || purchase<=0){
-              this.$message('购物车已加购数已超过该商品库存数');
-              //this.numQuality = purchase
+              this.$message('Exceeds maximun quantity available for this product.')
               this.isActive = false
             }else{
               this.isActive = true
