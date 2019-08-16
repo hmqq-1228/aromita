@@ -28,6 +28,13 @@
       <div class="payBtn info" @click="closeInfoModel">OK</div>
     </div>
   </div>
+  <div class="model" v-if="overQuanlity">
+    <div class="modelCont alert">
+      <div class="modelClose" @click="closeOverModel"><i class="el-icon-close"></i></div>
+      <div class="modelTitle tip">Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.</div>
+      <div class="payBtn info" @click="closeOverModel">OK</div>
+    </div>
+  </div>
   <div class="orderBox">
     <div class="orderCont">
       <div class="orderInfo">
@@ -383,6 +390,7 @@ export default {
       modelShow2: false,
       methodShow: false,
       butLoading: false,
+      overQuanlity: false,
       payDisabled: false,
       dialogVisible: true,
       showCreditForm: false,
@@ -611,6 +619,9 @@ export default {
     },
     closeInfoModel: function(){
       this.infoShow = false
+    },
+    closeOverModel: function () {
+      this.overQuanlity = false
     },
     closeModel: function(){
       this.modelShow = false
@@ -991,6 +1002,9 @@ export default {
         if (res.order_num && res.total_price) {
           console.log('ididididid', res)
           that.payByPaypal(res.total_price, res.order_num)
+        } else if (res.code === 110) {
+          console.log('ggggg', res.data)
+          that.overQuanlity = true
         }
       })
     },
