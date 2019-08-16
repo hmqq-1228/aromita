@@ -9,7 +9,8 @@ const state = {
   delcartList:false,//删除购物车商品
   spuId: '',
   skuId: '',
-  idList: []
+  idList: [],
+  username:false,//用户名
 }
 
 const mutations = {
@@ -22,6 +23,9 @@ const getters={
   },
   addCart:state =>{
     return state.addCartState;
+  },
+  changeusername:state =>{
+    return state.username
   }
 };
 
