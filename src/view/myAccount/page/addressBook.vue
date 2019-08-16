@@ -139,6 +139,7 @@ export default {
                 entry_state:'Alabama',
                 entry_postcode:'',
                 telephone_number:'',
+                entry_company:'',
                 is_default:'0'//1为默认 0为非默认
             },
             isdefault:false,
