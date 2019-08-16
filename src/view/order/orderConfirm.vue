@@ -31,7 +31,7 @@
   <div class="model" v-if="overQuanlity">
     <div class="modelCont alert">
       <div class="modelClose" @click="closeOverModel"><i class="el-icon-close"></i></div>
-      <div class="modelTitle tip">Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.</div>
+      <div class="modelTitle tip" style="height: 90px;">Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.</div>
       <div class="payBtn info" @click="closeOverModel">OK</div>
     </div>
   </div>
@@ -226,7 +226,10 @@
                   <div class="price">$ {{goods.sku_price}} <span>$ 3.33</span></div>
                 </div>
               </div>
-              <div style="width: 200px;line-height: 108px;font-size: 14px">{{goods.goods_count}}</div>
+              <div style="width: 200px;padding-top: 20px;font-size: 14px">
+                <p>{{goods.goods_count}}</p>
+                <p style="color: #C51015;padding-top: 15px;" v-if="goods.realNum === 0">Only {{goods.inventory}} Available</p>
+              </div>
               <div class="totalPay">$ {{goods.sku_pay.toFixed(2)}}</div>
             </div>
             <div class="goodsItem" v-if="orderListInvalid">
@@ -937,7 +940,15 @@ export default {
                 }
                 that.addressFormShow = false
               } else {
-                that.$message.warning(res.msg)
+                var arr = []
+                for(var i in res.msg) {
+                  var obj = res.msg[i][0];
+                  arr.push(obj)
+                }
+                this.$message({
+                  message:arr[0],
+                  type: 'error'
+                });
               }
             })
           } else {
@@ -1003,8 +1014,17 @@ export default {
           console.log('ididididid', res)
           that.payByPaypal(res.total_price, res.order_num)
         } else if (res.code === 110) {
-          console.log('ggggg', res.data)
+          console.log('ggggg', that.goodsList)
+          var ids = JSON.parse(res.data)
           that.overQuanlity = true
+          for (var i=0; i<that.goodsList.length; i++) {
+            for (var j=0; j<ids.length; j++) {
+              if (that.goodsList[i].sku_id === ids[j]) {
+                that.goodsList[i].realNum = 0
+              }
+            }
+          }
+          console.log('ggggg2222', that.goodsList)
         }
       })
     },
