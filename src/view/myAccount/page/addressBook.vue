@@ -136,9 +136,10 @@ export default {
                 entry_email_address:'',
                 entry_country:'US',
                 entry_city:'',
-                entry_state:'',
+                entry_state:'Alabama',
                 entry_postcode:'',
                 telephone_number:'',
+                entry_company:'',
                 is_default:'0'//1为默认 0为非默认
             },
             isdefault:false,
@@ -154,7 +155,7 @@ export default {
                     { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
                 ],
                 entry_email_address: [
-                    {required: true, message: 'Please enter your email address.', trigger: 'blur'},
+                    // {required: true, message: 'Please enter your email address.', trigger: 'blur'},
                     {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
                 ],
                 entry_street_address1: [
@@ -174,7 +175,7 @@ export default {
     },
     created(){
         this._address()
-        
+        this.ProvinceList = addressList.addressList.List[0].countryList
     },
     methods:{
         //地址列表
