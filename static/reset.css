@@ -15,6 +15,16 @@ a{
 ul,li {
     list-style: none;
 }
+/* 轮播图按钮样式重置 */
+.el-carousel__button{
+    width: 10px!important;
+    height: 10px!important;
+    border:1px solid #333!important;
+    border-radius: 50%!important;
+}
+.el-carousel__indicator.is-active button{
+    background: #333!important;
+}
 /* 分页器重置样式 */
 .el-pagination.is-background .el-pager li:hover{
     color: #C51015 !important;

@@ -125,11 +125,11 @@
               </div>
               <div class="price_del">
                 <i class="el-icon-error" @click="delList(item.sku_id)"></i>
-                <div class="price">${{item.sku_price}}</div>
+                <div class="price">${{(item.sku_price*item.goods_count).toFixed(2)}}</div>
               </div>
             </li>
           </ul>
-          <ul v-if="goodsListOff.length!=0" class="offGoodList">
+          <!-- <ul v-if="goodsListOff.length!=0" class="offGoodList">
             <li v-for="(item,index) in goodsListOff" :key="index">
               <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
               <div class="list_detail">
@@ -141,10 +141,10 @@
               </div>
               <div class="price_del">
                 <i class="el-icon-error" @click="delList(item.sku_id)"></i>
-                <div class="price">${{item.sku_price}}</div>
+                <div class="price">${{item.sku_price*item.goods_count}}</div>
               </div>
             </li>
-          </ul>
+          </ul> -->
           <div v-if="this.goodsList.length == 0" class="empty_cart">
             <div class="noGoodsText">The Shopping Cart is Empty!</div>
             <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
