@@ -20,7 +20,7 @@
                                         <p>
                                             {{item.entry_city}}<br/>
                                             {{item.entry_street_address1}}<br/>
-                                            {{item.entry_street_address1}}<br/>
+                                            {{item.entry_street_address2}}<br/>
                                         </p>
                                         <p>{{item.entry_country}} {{item.entry_postcode}}，{{item.entry_state}}</p>
                                         <p class="cancat">{{item.telephone_number}}</p>
@@ -80,7 +80,7 @@
                     <el-form-item label="Address Line1:" :label-width="formLabelWidth" prop="entry_street_address1">
                         <el-input v-model="addressForm.entry_street_address1"></el-input>
                     </el-form-item>
-                    <el-form-item label="Address Line2:" :label-width="formLabelWidth">
+                    <el-form-item label="Address Line2:" :label-width="formLabelWidth" prop="entry_street_address2">
                         <el-input v-model="addressForm.entry_street_address2"></el-input>
                     </el-form-item>
                     <el-form-item label="City:" :label-width="formLabelWidth" prop="entry_city">
@@ -155,14 +155,18 @@ export default {
                     { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
                 ],
                 entry_email_address: [
-                    // {required: true, message: 'Please enter your email address.', trigger: 'blur'},
                     {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
                 ],
                 entry_street_address1: [
-                    {required: true, message: 'Please enter your full address.', trigger: 'blur'}
+                    {required: true, message: 'Please enter your full address.', trigger: 'blur'},
+                    {min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur'}
+                ],
+                entry_street_address2: [
+                    {min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur'}
                 ],
                 entry_city: [
-                    {required: true, message:"Please enter the consignee's city.", trigger: 'blur'}
+                    {required: true, message:"Please enter the consignee's city.", trigger: 'blur'},
+                    {min: 1, max: 50, message: 'You can write a maximum of 50 characters.', trigger: 'blur'}
                 ],
                 entry_postcode: [
                     {required: true, message: 'Please enter the Zip/Postal Code.', trigger: 'blur'}
@@ -186,8 +190,15 @@ export default {
         },
         //新增地址弹框
         addNew(){
-            this.addressFormVisible = true;
-            console.log(this.countryList,'1111')
+            if(this.list.length<10){
+                this.clearFrom()
+                this.addressFormVisible = true;
+            }else{
+               this.$message({
+                    type:'info',
+                    message: '10 addresses max'
+                }); 
+            }   
         },
         //选择国家
         chooseCoutry(){
@@ -204,13 +215,14 @@ export default {
             }else{
                 this.addressForm.is_default = '1'
             }
+            console.log(this.addressForm)
             addAddress(this.addressForm).then((res)=>{
                 if(res.code === '200' || res.code === 200){
                     this.$message({
                         message: 'Successful setup',
                         type: 'success'
                     });
-                    this.addressForm ={}
+                    this.clearFrom()
                     this.addressFormVisible = false;
                     this._address()
                 }else{
@@ -286,10 +298,24 @@ export default {
                         message: 'Successful deletion!'
                     });
                     this.addressFormVisible = false;
-                    this.addressForm = {}
+                    this.clearFrom()
                     this._address()
                 }
             })
+        },
+        clearFrom(){
+            this.addressForm.entry_firstname = ''
+            this.addressForm.entry_lastname = ''
+            this.addressForm.entry_street_address1= ''
+            this.addressForm.entry_street_address2= ''
+            this.addressForm.entry_email_address= ''
+            this.addressForm.entry_country= 'US'
+            this.addressForm.entry_city= ''
+            this.addressForm.entry_state= 'Alabama'
+            this.addressForm.entry_postcode= ''
+            this.addressForm.telephone_number= ''
+            this.addressForm.entry_company= ''
+            this.addressForm.is_default= '0'
         }
 
     }
