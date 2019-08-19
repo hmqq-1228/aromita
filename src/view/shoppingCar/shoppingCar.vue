@@ -21,7 +21,8 @@
         <div class="goodsPrice">$ {{carItem.sku_price}}</div>
       </div>
       <div class="goodsNum">
-        <div><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id)" :min="1" :max="carItem.inventory"></el-input-number></div>
+        <div class="addNum"><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory"></el-input-number></div>
+        <div class="tipOver" v-if="carItem.overTipShow">Only {{carItem.inventory}} Available</div>
       </div>
       <div class="goodsTotal">$ {{carItem.totalPay}}</div>
       <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish($event)" :src="wishUrl" alt=""></span></div>
@@ -156,7 +157,9 @@ export default {
     return{
       wishUrl: '../../../static/img/loveOut.png',
       isLogin: false,
+      visible: true,
       checkedAll: false,
+      tipOverShow: false,
       checkedItem: [],
       idList: [],
       payList: [],
@@ -241,9 +244,10 @@ export default {
       if (tr) {
         let data = await getGoodsList();
         this.goodsList = data
+        that.idList = []
         let OnList = []
         let OffList = []
-        that.idList = []
+        console.log('ffffff', tr)
         for (var i = 0;i<that.goodsList.length;i++){
           if (that.goodsList[i].sku_status === 1) {
             OnList.push(that.goodsList[i])
@@ -253,6 +257,11 @@ export default {
               var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
               that.goodsListOn[j].totalPay = itemPay.toFixed(2)
               that.goodsChecked(that.checkedItem)
+              // if (tr.num >= tr.max) {
+              //   if (that.goodsListOn[j].sku_id === tr.id) {
+              //     that.goodsListOn[j].overTipShow = true
+              //   }
+              // }
             }
           } else if (that.goodsList[i].sku_status === 0){
             OffList.push(that.goodsList[i])
@@ -263,6 +272,7 @@ export default {
         // that.gLoading = false
       } else {
         var onList = []
+        var offList = []
         let data = await getGoodsList();
         this.goodsList = data
         if (this.goodsList.length === 0) {
@@ -280,9 +290,9 @@ export default {
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
               }
             } else if (that.goodsList[i].sku_status === 0){
-              that.goodsListOff.push(that.goodsList[i])
+              offList.push(that.goodsList[i])
+              that.goodsListOff = offList
             }
-            // that.payList.push(parseFloat(itemPay.toFixed(2)))
           }
         }
         that.$store.state.addCartState = false
@@ -363,20 +373,34 @@ export default {
         this.wishUrl = '../../../static/img/loveOut.png'
       }
     },
-    handleChange: function (e, skuId) {
+    handleChange: function (e, skuId, max) {
       var that = this
-      // that.btnLoading = true
+      // console.log('hhhhh',e, max)
+      var obj = {
+        num: e,
+        sid: skuId,
+        max: max
+      }
       that.$axios.post('api/changecartcount/'+ skuId + '/' + e, {}).then(res => {
-        that.getGoodsNum(skuId)
-      })
-    },
-    getGoodsNum: function (skuId) {
-      var that = this
-      this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-        that.getGoodsListFuc('add')
+        that.getGoodsListFuc(obj)
         that.$store.state.addCartState = true
       })
+      // if (e >= max){
+      //   for (var i=0;i<that.goodsListOn.length;i++) {
+      //     if (that.goodsListOn[i].sku_id === skuId) {
+      //       that.goodsListOn[i].overTipShow = true
+      //     }
+      //   }
+      // }
+      console.log('kkkkkkk', that.goodsListOn)
     },
+    // getGoodsNum: function (skuId) {
+    //   var that = this
+    //   this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
+    //     that.getGoodsListFuc('add')
+    //     that.$store.state.addCartState = true
+    //   })
+    // },
     allChecked: function() {
       var that = this
       this.checkedItem = []
@@ -539,7 +563,7 @@ export default {
     width: 340px;
     position: relative;
   }
-  .goodsNum>div{
+  .goodsNum .addNum{
     height: 40px;
     width: 180px;
     position: absolute;
@@ -548,6 +572,24 @@ export default {
     right: 0;
     bottom: 0;
     margin: auto;
+    /*margin-top: 20px;*/
+  }
+  /*.addNumTip{*/
+    /*margin-top: 20px !important;*/
+  /*}*/
+  .tipOver{
+    color: #333;
+    padding: 4px 10px;
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    margin-left: -54px;
+    text-align: center;
+    font-size: 12px;
+    border: 1px solid #FFD8B1;
+    border-radius: 4px;
+    background-color: #FEF1E5;
+    font-family: Tahoma;
   }
   .total{
     width: 240px;
@@ -678,6 +720,7 @@ export default {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     cursor: pointer;
+    word-wrap: break-word;
   }
 .textBox:hover{
   color: #c51015;

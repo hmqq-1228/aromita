@@ -547,7 +547,7 @@ export default {
     },
     //加入购物车
     addToCart: function ($event) {
-      this._getGoodsQuantityInCart() 
+      this._getGoodsQuantityInCart()
     },
     //添加购物车数量显示
     handleChange(val){
@@ -569,19 +569,19 @@ export default {
     //   })
     // },
     _addcartList(){
-      this.addShow = true
-      setTimeout(() => {
-        this.addShow = false
-      }, 1000)
       var skuId = this.$route.params.skuId
       var obj = qs.stringify({
         product_id: skuId,
         count: this.numQuality
       })
       this.$axios.post('api/addcart', obj).then(res => {
-        console.log('sssssss', res.data)
         this.$store.state.addCartState = true
-        if (res.data === 2050) {
+        if (res === 2060) {
+          this.addShow = true
+          setTimeout(() => {
+            this.addShow = false
+          }, 1000)
+        } else if (res === 2050) {
           this.showModel = true
         }
       })

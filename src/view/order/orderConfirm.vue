@@ -376,6 +376,7 @@ export default {
       totalPay: 0,
       billTotal: 0,
       addressNum: 0,
+      addressLen: 0,
       billTotalSum: 0,
       goodsList: [],
       addressList: [],
@@ -456,7 +457,7 @@ export default {
         ],
         City: [
           {required: true, message: "Please enter the consignee's city.", trigger: 'blur'},
-          { min: 1, max: 35, message: 'You can write a maximum of 35 characters.', trigger: 'blur' }
+          { min: 1, max: 50, message: 'You can write a maximum of 50 characters.', trigger: 'blur' }
         ],
         Province: [
           {required: true, message: 'Please enter your province name.', trigger: 'blur'}
@@ -654,6 +655,7 @@ export default {
     async getOrderAddress (type, id) {
       var that = this
       let data = await orderAddress()
+      that.addressLen = data.data.length
       if (data.code === 200 || data.code === '200') {
         if(data.data) {
           that.addressNum = data.data.length
@@ -766,7 +768,12 @@ export default {
           }
         })
       } else if (!id) {
-        that.addressFormShow = true
+        console.log('kkkkkkk', that.addressLen)
+        if (that.addressLen >= 10) {
+          that.$message.warning('Sorry, you only can create 10 addresses at most.')
+        } else {
+          that.addressFormShow = true
+        }
       }
     },
     showMethod: function () {
@@ -938,6 +945,8 @@ export default {
                   that.$message.success('Added Successfully!')
                 }
                 that.addressFormShow = false
+              } else if (res.code === 10010) {
+                that.$message.warning('Sorry, you only can create 10 addresses at most.')
               } else {
                 var arr = []
                 for(var i in res.msg) {
