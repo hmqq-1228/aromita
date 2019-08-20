@@ -18,9 +18,9 @@
                                     <div class="list shipping_address" v-for="(item,index) in list" :key="index">
                                         <h5>{{item.entry_firstname}}{{item.entry_lastname}}</h5>
                                         <p>
-                                            {{item.entry_city}}<br/>
-                                            {{item.entry_street_address1}}<br/>
-                                            {{item.entry_street_address2}}<br/>
+                                            <span>{{item.entry_city}}</span><br/>
+                                            <span class="street_address">{{item.entry_street_address1}}</span><br/>
+                                            <span class="street_address">{{item.entry_street_address2}}</span><br/>
                                         </p>
                                         <p>{{item.entry_country}} {{item.entry_postcode}}，{{item.entry_state}}</p>
                                         <p class="cancat">{{item.telephone_number}}</p>
@@ -196,7 +196,7 @@ export default {
             }else{
                this.$message({
                     type:'info',
-                    message: '10 addresses max'
+                    message: 'Sorry, you only can create 10 addresses at most.'
                 }); 
             }   
         },
