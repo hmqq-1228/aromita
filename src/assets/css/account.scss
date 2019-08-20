@@ -766,6 +766,11 @@
             p{
                 color: #131313;
                 font-size: 14px;
+                .street_address{
+                    width: 100%;
+                    display: inline-block;
+                    word-wrap: break-word;
+                }
             }
             .cancat{
                 margin-top: 8px;
