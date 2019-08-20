@@ -575,14 +575,20 @@ export default {
         count: this.numQuality
       })
       this.$axios.post('api/addcart', obj).then(res => {
-        this.$store.state.addCartState = true
         if (res === 2060) {
+          this.$store.state.addCartState = true
           this.addShow = true
           setTimeout(() => {
             this.addShow = false
           }, 1000)
         } else if (res === 2050) {
           this.showModel = true
+        } else if (!res){
+          this.$store.state.addCartState = true
+          this.addShow = true
+          setTimeout(() => {
+            this.addShow = false
+          }, 1000)
         }
       })
     },
