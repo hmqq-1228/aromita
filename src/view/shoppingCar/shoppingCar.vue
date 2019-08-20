@@ -125,17 +125,17 @@
         <div class="payOrder">
           <div style="width: 220px;"></div>
           <div>
-            <!--<div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum">$ 66.66</div></div>-->
             <!--<div class="payItem"><div class="payTitle">Coupon:</div><div class="payNum">$ 3.33</div></div>-->
             <!--<div class="payItem"><div class="payTitle">Points:</div><div class="payNum">$ 53.33</div></div>-->
-            <div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum big">$ {{totalPayShow.toFixed(2)}}</div></div>
+            <div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum">$ {{totalPayShow.toFixed(2)}}</div></div>
+            <div class="payItem"><div class="payTitle">Grand Total:</div><div class="payNum big">$ {{totalPayShow.toFixed(2)}}</div></div>
             <div class="payItem"><div></div><div class="tip">Privacy Policy</div></div>
           </div>
         </div>
         <div>
-          <div class="payBtn">
+          <div class="payBtn" :title="btnCanSub===true?'Please choose at least one item':''">
             <div class="payPal"></div>
-            <el-button class="payTwo" :disabled="btnCanSub" :loading="btnLoading" @click="subTotalPay()">Proceed to checkout</el-button>
+            <el-button class="payTwo" :class="btnCanSub===true?'ban': ''" :disabled="btnCanSub" :loading="btnLoading" @click="subTotalPay()">Proceed to checkout</el-button>
           </div>
           <div class="payInfoTip">Not Including Taxes & Shopping Fee</div>
         </div>
@@ -189,6 +189,7 @@ export default {
     checkedItem: function() {
       console.log('22222', this.checkedItem)
       console.log('33333', this.idList)
+      // sessionStorage.setItem('checkedStr', JSON.stringify(this.checkedItem))
       if (this.checkedItem.length === 0) {
         this.checkArr = []
         this.btnCanSub = true
@@ -248,26 +249,26 @@ export default {
         let OnList = []
         let OffList = []
         console.log('ffffff', tr)
-        for (var i = 0;i<that.goodsList.length;i++){
-          if (that.goodsList[i].sku_status === 1) {
-            OnList.push(that.goodsList[i])
-            that.goodsListOn = OnList
-            that.idList.push(that.goodsList[i].sku_id)
-            for (var j = 0;j<that.goodsListOn.length;j++) {
-              var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
-              that.goodsListOn[j].totalPay = itemPay.toFixed(2)
-              that.goodsChecked(that.checkedItem)
-              // if (tr.num >= tr.max) {
-              //   if (that.goodsListOn[j].sku_id === tr.id) {
-              //     that.goodsListOn[j].overTipShow = true
-              //   }
-              // }
+          for (var i = 0;i<that.goodsList.length;i++){
+            if (that.goodsList[i].sku_status === 1) {
+              OnList.push(that.goodsList[i])
+              that.goodsListOn = OnList
+              that.idList.push(that.goodsList[i].sku_id)
+              for (var j = 0;j<that.goodsListOn.length;j++) {
+                var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+                that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+                that.goodsChecked(that.checkedItem)
+                if (tr.num >= tr.max) {
+                  if (that.goodsListOn[j].sku_id === tr.sid) {
+                    that.goodsListOn[j].overTipShow = true
+                  }
+                }
+              }
+            } else if (that.goodsList[i].sku_status === 0){
+              OffList.push(that.goodsList[i])
+              that.goodsListOff = OffList
             }
-          } else if (that.goodsList[i].sku_status === 0){
-            OffList.push(that.goodsList[i])
-            that.goodsListOff = OffList
           }
-        }
         that.$store.state.addCartState = false
         // that.gLoading = false
       } else {
@@ -280,11 +281,16 @@ export default {
           that.goodsListOn = []
         } else {
           that.noProduct = false
+          that.idList = []
           for (var i = 0;i<that.goodsList.length;i++){
             if (that.goodsList[i].sku_status === 1) {
               onList.push(that.goodsList[i])
               that.goodsListOn = onList
               that.idList.push(that.goodsList[i].sku_id)
+              that.checkedItem = that.idList
+              // sessionStorage.setItem('checkedStr', JSON.stringify(that.idList))
+              // var chList = sessionStorage.getItem('checkedStr')
+              // that.checkedItem = JSON.parse(chList)
               for (var j = 0;j<that.goodsListOn.length;j++) {
                 var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
@@ -578,7 +584,7 @@ export default {
     right: 0;
     bottom: 0;
     margin: auto;
-    /*margin-top: 20px;*/
+    margin-top: 20px;
   }
   /*.addNumTip{*/
     /*margin-top: 20px !important;*/
@@ -861,9 +867,13 @@ export default {
     color: #fff !important;
     background-color: #c51015 !important;
   }
-  .payTwo:hover{
-    background-color: #a20e12 !important;
-  }
+.payTwo.ban{
+  color: #fff !important;
+  background-color: #b0b0b0 !important;
+}
+  /*.payTwo:hover{*/
+    /*background-color: #a20e12 !important;*/
+  /*}*/
   .payInfoTip{
     font-size: 14px;
     color: #999;
