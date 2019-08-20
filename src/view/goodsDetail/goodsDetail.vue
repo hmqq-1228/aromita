@@ -186,13 +186,6 @@ export default {
     skuId(){
       this.getGoodsDetail()
     },
-    showModel: function(val, ov){
-      if (val) {
-        document.documentElement.style.overflowY = 'hidden';
-      } else {
-        document.documentElement.style.overflowY = 'scroll';
-      }
-    },
     getNewSkuId: function (val, old) {
       var that = this
       if (val) {

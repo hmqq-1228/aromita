@@ -353,6 +353,11 @@ export default {
       that.$axios.post('api/deltocart/' + skuId, {}).then(res => {
         that.getGoodsListFuc()
         that.$store.state.addCartState = true
+        for (var i=0;i<that.checkedItem.length;i++){
+          if (that.checkedItem[i] === skuId) {
+            that.checkedItem.splice(i,1)
+          }
+        }
       })
     },
     // 批量删除
@@ -363,6 +368,7 @@ export default {
       that.$axios.post('api/batchdeltocart/' + skuList, {}).then(res => {
         that.getGoodsListFuc()
         that.$store.state.addCartState = true
+        that.checkedItem = []
       })
     },
     addWish: function(e) {
