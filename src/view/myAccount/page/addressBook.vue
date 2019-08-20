@@ -60,7 +60,7 @@
             </div>
         </div>
         <!-- 新增地址弹框 -->
-        <el-dialog :visible.sync="addressFormVisible" width="800px">
+        <el-dialog :visible.sync="addressFormVisible" width="800px" :before-close="handleClose">
             <div class="addressBox payBox">
                 <el-form :model="addressForm" :rules="rules">
                     <el-form-item label="First name:" prop="entry_firstname" :label-width="formLabelWidth">
@@ -105,7 +105,7 @@
                     <div class="assressBtn">
                         <div class="com-sub-btn" @click="addSub()" v-if="type == ''">Save</div>
                         <div class="com-sub-btn" @click="editSub()" v-if="type == 'edit'">Save</div>
-                        <div class="com-Cancel-btn" @click="addressFormVisible = false">Cancel</div>
+                        <div class="com-Cancel-btn" @click="handleClose()">Cancel</div>
                     </div>
                 </div>
             </div>
@@ -182,9 +182,13 @@ export default {
         this.ProvinceList = addressList.addressList.List[0].countryList
     },
     methods:{
+        handleClose(){
+            this._address()
+        },
         //地址列表
         _address(){
             address().then((res)=>{
+                this.addressFormVisible = false;
                 this.list = res.data
             })
         },
@@ -192,6 +196,7 @@ export default {
         addNew(){
             if(this.list.length<10){
                 this.clearFrom()
+                this.type = ''
                 this.addressFormVisible = true;
             }else{
                this.$message({

@@ -98,7 +98,8 @@
             <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
           </div>
         </div>
-        <div>
+        <div style="position: relative;">
+          <!-- <div v-show="msgshow" style="position:absolute;top:-30px;color:red;">Exceeds maximun quantity available for this product.</div> -->
           <div class="subBtn shop_cart">
             <div class="add">
                 <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
@@ -132,6 +133,7 @@ import Swiper from 'swiper'
 import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart} from "../../api/register";
 import qs from 'qs'
 import { mapGetters } from 'vuex'
+import { setTimeout } from 'timers';
 export default {
   data(){
     return{
@@ -165,7 +167,7 @@ export default {
       skuId:'',
       spuId:'',
       goods_count:0,//购物车已加商品数
-
+      msgshow:false,//message提示
     }
   },
   watch:{
@@ -598,7 +600,14 @@ export default {
             this.goods_count = res.goods_count
             this.purchase = this.maxQuality - this.goods_count
             if(this.numQuality > this.purchase){
-              this.$message('Exceeds maximun quantity available for this product.')
+              this.$message({
+                message: 'Exceeds maximun quantity available for this product.',
+                type: 'warning'
+              });
+              // this.msgshow = true;
+              // setTimeout(()=>{
+              //   this.msgshow = false
+              // },3000)
               return false
             }else{
               this._addcartList()
