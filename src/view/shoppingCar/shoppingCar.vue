@@ -273,6 +273,7 @@ export default {
                   }
                 }
               }
+              console.log('ddddd', that.goodsListOn)
             } else if (that.goodsList[i].sku_status === 0){
               OffList.push(that.goodsList[i])
               that.goodsListOff = OffList
@@ -301,7 +302,15 @@ export default {
               // var chList = sessionStorage.getItem('checkedStr')
               // that.checkedItem = JSON.parse(chList)
               for (var j = 0;j<that.goodsListOn.length;j++) {
-                var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+                console.log('0000', that.goodsListOn)
+                console.log('11111', that.goodsListOn[j].sku_price)
+                console.log('222222', that.goodsListOn[j].goods_count)
+                console.log('33333', that.goodsListOn[j].inventory)
+                if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
+                  that.goodsListOn[j].goods_count = that.goodsListOn[j].inventory
+                }
+                console.log('44444444', that.goodsListOn[j].goods_count)
+                var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
               }
             } else if (that.goodsList[i].sku_status === 0){
@@ -311,6 +320,7 @@ export default {
           }
         }
         that.$store.state.addCartState = false
+        console.log('ddddd2222', that.goodsListOn)
       }
     },
     sumPay: function (arr) {
@@ -396,7 +406,7 @@ export default {
     },
     handleChange: function (e, skuId, max) {
       var that = this
-      // console.log('hhhhh',e, max)
+      console.log('hhhhh',e, max)
       var obj = {
         num: e,
         sid: skuId,
