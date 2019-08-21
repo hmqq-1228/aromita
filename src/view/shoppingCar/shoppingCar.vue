@@ -22,7 +22,7 @@
       </div>
       <div class="goodsNum">
         <div class="addNum"><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory"></el-input-number></div>
-        <div class="tipOver" v-if="carItem.overTipShow">Only {{carItem.inventory}} Available</div>
+        <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
       <div class="goodsTotal">$ {{carItem.totalPay}}</div>
       <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish($event)" :src="wishUrl" alt=""></span></div>
@@ -114,7 +114,7 @@
               </div>
             </div>
           </div>
-          <div class="more"><span class="el-icon-d-arrow-left"></span></div>
+          <div class="more" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
         </div>
         <div class="point">
           <div>Available Points: {{maxPoints}}</div>
@@ -156,6 +156,7 @@ export default {
   data () {
     return{
       wishUrl: '../../../static/img/loveOut.png',
+      pointMore: 'el-icon-d-arrow-right',
       isLogin: false,
       visible: true,
       checkedAll: false,
@@ -236,6 +237,14 @@ export default {
       var obj = e.currentTarget
       $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
       this.couponId = cpId
+    },
+    getMoreCoupon: function (type) {
+      var that = this
+      if (type === 'el-icon-d-arrow-right') {
+        that.pointMore = 'el-icon-d-arrow-left'
+      } else if (type === 'el-icon-d-arrow-left') {
+        that.pointMore = 'el-icon-d-arrow-right'
+      }
     },
     async getGoodsListFuc(tr){
       var that = this
@@ -584,7 +593,7 @@ export default {
     right: 0;
     bottom: 0;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 22px;
   }
   /*.addNumTip{*/
     /*margin-top: 20px !important;*/
@@ -602,6 +611,12 @@ export default {
     border-radius: 4px;
     background-color: #FEF1E5;
     font-family: Tahoma;
+  }
+  .sanjiao{
+    position: absolute;
+    top: -9px;
+    left: 46%;
+    color: #FFD8B1;
   }
   .total{
     width: 240px;
