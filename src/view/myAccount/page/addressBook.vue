@@ -203,7 +203,7 @@ export default {
                 this.type = ''
                 this.addressFormVisible = true;
             }else{
-               this.$message({
+                this.$message({
                     type:'info',
                     message: 'Sorry, you only can create 10 addresses at most.'
                 }); 
