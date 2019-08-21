@@ -189,7 +189,11 @@ export default {
         _address(){
             address().then((res)=>{
                 this.addressFormVisible = false;
-                this.list = res.data
+                if(res.data!=null){
+                    this.list = res.data
+                }else{
+                    this.list = []
+                }        
             })
         },
         //新增地址弹框
