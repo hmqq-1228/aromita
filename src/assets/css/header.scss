@@ -337,6 +337,18 @@
             .spec_color{
               font-size:14px;
               color: #333;
+              position: relative;
+              .size{
+                cursor: pointer;
+              }
+              .sizevisible{
+                position: absolute;
+                top: -24px;
+                background: bisque;
+                padding: 4px;
+                border-radius: 4px;
+                font-size: 12px;
+              }
               span{
                 color: #666;
               }
