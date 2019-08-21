@@ -149,7 +149,7 @@
               </div>
             </li>
           </ul> -->
-          <div v-if="goodsListOn.length == 0" class="empty_cart">
+          <div v-if="this.goodsList.length != 0 && goodsListOn.length == 0" class="empty_cart">
             <div class="noGoodsText">{{this.goodsNum}}items are unavailable, please check your shopping cart. </div>
             <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
           </div>
