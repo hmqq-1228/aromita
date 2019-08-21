@@ -110,7 +110,7 @@
     <div class="cart_list" v-on:mouseenter="visible" v-on:mouseleave="invisible" :style="{right:(show==true?'0':'-560px')}">
         <div class="cart_title">
           <i class="el-icon-close" @click="invisible"></i>
-          <p>{{this.goodsNum}} Items</p>
+          <p>Your Cart Has {{this.goodsNum}} Items</p>
         </div>
         <div class="cart_center">
           <ul v-if="goodsListOn.length!=0">
@@ -119,7 +119,11 @@
               <div class="list_detail">
                 <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
                 <div class="spec_color">
-                  <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
+                  <p class="size">
+                      <span v-for="(item1,index) in JSON.parse(item.sku_attrs)" v-if="index<2" :key="index">
+                        {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                      </span>
+                  </p>
                   <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
                 </div>
               </div>
@@ -145,6 +149,10 @@
               </div>
             </li>
           </ul> -->
+          <div v-if="goodsListOn.length == 0" class="empty_cart">
+            <div class="noGoodsText">{{this.goodsNum}}items are unavailable, please check your shopping cart. </div>
+            <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
+          </div>
           <div v-if="this.goodsList.length == 0" class="empty_cart">
             <div class="noGoodsText">The Shopping Cart is Empty!</div>
             <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
@@ -159,7 +167,6 @@
         </div>
     </div>
   </div>
-
 </template>
 <script>
 import {getcartgoodscount,getGoodsList,userLogout,checkLogin} from "../api/register";
