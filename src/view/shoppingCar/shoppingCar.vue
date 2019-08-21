@@ -24,7 +24,7 @@
         <div class="addNum"><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory"></el-input-number></div>
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
-      <div class="goodsTotal">$ {{carItem.totalPay}}</div>
+      <div class="goodsTotal">$ {{(carItem.goods_count*carItem.sku_price).toFixed(2)}}</div>
       <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish($event)" :src="wishUrl" alt=""></span></div>
     </div>
     <div class="noGoods" v-if="noProduct">
@@ -43,7 +43,7 @@
       <div class="remove" @click="batchDelete()">Remove Select</div>
       <div class="WishList">Move Selected to WishList</div>
     </div>
-    <div class="carItem" style="background-color: #fbfbfb" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
+    <div class="carItem" style="background-color: #fbfbfb;border-top: 1px solid #eee;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
       <div class="checkState item" style="width: 120px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
         <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)" style="margin-left: 20px;"><img :src="unGood.sku_image" alt=""></div>
@@ -188,8 +188,6 @@ export default {
         this.$store.state.delcartList = false
     },
     checkedItem: function() {
-      console.log('22222', this.checkedItem)
-      console.log('33333', this.idList)
       // sessionStorage.setItem('checkedStr', JSON.stringify(this.checkedItem))
       if (this.checkedItem.length === 0) {
         this.checkArr = []
@@ -250,42 +248,42 @@ export default {
       var that = this
       that.payList = []
       that.totalPay = 0
-      // that.gLoading = true
       if (tr) {
         let data = await getGoodsList();
         this.goodsList = data
         that.idList = []
         let OnList = []
         let OffList = []
-        console.log('ffffff', tr)
-          for (var i = 0;i<that.goodsList.length;i++){
-            if (that.goodsList[i].sku_status === 1) {
-              OnList.push(that.goodsList[i])
-              that.goodsListOn = OnList
-              that.idList.push(that.goodsList[i].sku_id)
-              for (var j = 0;j<that.goodsListOn.length;j++) {
-                var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
-                that.goodsListOn[j].totalPay = itemPay.toFixed(2)
-                that.goodsChecked(that.checkedItem)
-                if (tr.num >= tr.max) {
-                  if (that.goodsListOn[j].sku_id === tr.sid) {
-                    that.goodsListOn[j].overTipShow = true
-                  }
+        that.goodsListOn = []
+        that.goodsListOff = []
+        for (var i = 0;i<that.goodsList.length;i++){
+          if (that.goodsList[i].sku_status === 1) {
+            OnList.push(that.goodsList[i])
+            that.goodsListOn = OnList
+            that.idList.push(that.goodsList[i].sku_id)
+            for (var j = 0;j<that.goodsListOn.length;j++) {
+              var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+              that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+              that.goodsChecked(that.checkedItem)
+              if (tr.num >= tr.max) {
+                if (that.goodsListOn[j].sku_id === tr.sid) {
+                  that.goodsListOn[j].overTipShow = true
                 }
               }
-              console.log('ddddd', that.goodsListOn)
-            } else if (that.goodsList[i].sku_status === 0){
-              OffList.push(that.goodsList[i])
-              that.goodsListOff = OffList
             }
+          } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
+            OffList.push(that.goodsList[i])
+            that.goodsListOff = OffList
           }
+        }
         that.$store.state.addCartState = false
-        // that.gLoading = false
       } else {
-        var onList = []
-        var offList = []
         let data = await getGoodsList();
         this.goodsList = data
+        var onList = []
+        var offList = []
+        that.goodsListOn = []
+        that.goodsListOff = []
         if (this.goodsList.length === 0) {
           that.noProduct = true
           that.goodsListOn = []
@@ -298,29 +296,23 @@ export default {
               that.goodsListOn = onList
               that.idList.push(that.goodsList[i].sku_id)
               that.checkedItem = that.idList
-              // sessionStorage.setItem('checkedStr', JSON.stringify(that.idList))
-              // var chList = sessionStorage.getItem('checkedStr')
-              // that.checkedItem = JSON.parse(chList)
               for (var j = 0;j<that.goodsListOn.length;j++) {
-                console.log('0000', that.goodsListOn)
-                console.log('11111', that.goodsListOn[j].sku_price)
-                console.log('222222', that.goodsListOn[j].goods_count)
-                console.log('33333', that.goodsListOn[j].inventory)
                 if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
                   that.goodsListOn[j].goods_count = that.goodsListOn[j].inventory
                 }
-                console.log('44444444', that.goodsListOn[j].goods_count)
                 var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
               }
-            } else if (that.goodsList[i].sku_status === 0){
+            } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
               offList.push(that.goodsList[i])
               that.goodsListOff = offList
             }
           }
+          if (that.goodsListOn.length === 0) {
+            that.checkedAll = false
+          }
         }
         that.$store.state.addCartState = false
-        console.log('ddddd2222', that.goodsListOn)
       }
     },
     sumPay: function (arr) {
@@ -335,6 +327,7 @@ export default {
     },
     goodsChecked: function(e){
       var that = this
+      console.log('eeeee',e)
       that.payList = []
       if (e.length > 0) {
         for (var m=0;m<e.length; m++){
@@ -406,7 +399,6 @@ export default {
     },
     handleChange: function (e, skuId, max) {
       var that = this
-      console.log('hhhhh',e, max)
       var obj = {
         num: e,
         sid: skuId,
@@ -423,7 +415,6 @@ export default {
       //     }
       //   }
       // }
-      console.log('kkkkkkk', that.goodsListOn)
     },
     // getGoodsNum: function (skuId) {
     //   var that = this

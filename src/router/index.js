@@ -121,10 +121,7 @@ export default new Router({
     {
       path: '/unavailable',
       name: 'unavailable',
-      component: unavailable,
-      meta:{
-        keepAlive: true
-      }
+      component: unavailable
     },
     {
       path: '/myAccount',
