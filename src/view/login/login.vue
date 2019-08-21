@@ -81,7 +81,9 @@
         </div>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+     <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -265,6 +267,12 @@ export default {
 <style lang="scss" scoped>
 .wrapLogin {
   width: 100%;
+}
+.foot{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 .wrap_1 {
   width: 100%;

@@ -1,49 +1,33 @@
 <template>
   <div class="unavailable">
     <div class="header">
-      <header-com></header-com>
+      <aheader-com></aheader-com>
     </div>
     <div class="unavailableCont">
       <div class="content_4">
-        <div class="left">
-          {{theNum}}
-        </div>
         <div class="right">
-          Sorry，This product is no longer available.
+          This url is not available now, please try again.
         </div>
       </div>
     </div>
     <div class="foot">
-      <footer-com></footer-com>
+      <afooter-com></afooter-com>
     </div>
   </div>
 </template>
 
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
+  import aFooter from "@/components/afooter.vue";
+  import aheader from "@/components/aheader.vue";
 export default {
   components: {
-    "header-com": Header,
-    "footer-com": Footer
+    "aheader-com": aheader,
+    "afooter-com": aFooter
   },
   name: "unavailable",
   data(){
     return{
-      activeNav: '',
-      theNum: 5,
-      interval: null
     }
-  },
-  mounted() {
-    this.interval = setInterval(() => {
-      if (this.theNum === 1) {
-        clearInterval(this.interval)
-        this.$router.push({path: '/shoppingCar'})
-      } else {
-        this.theNum--
-      }
-    }, 1000)
   }
 }
 </script>
@@ -74,11 +58,10 @@ export default {
   font-size: 18px;
   font-family: Tahoma;
 }
-.left {
-  background: url('../../../static/img/time5.gif') no-repeat center ;
-  height: 60px;
-  width: 60px;
-  text-align: center;
-  line-height: 60px;
+.foot{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 </style>
