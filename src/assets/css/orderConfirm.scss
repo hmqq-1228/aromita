@@ -339,6 +339,10 @@
   width: 180px;
   line-height: 60px;
   padding-left: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
 }
 .itemAddress{
   width: 280px;

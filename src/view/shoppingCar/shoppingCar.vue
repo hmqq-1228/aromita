@@ -188,7 +188,6 @@ export default {
         this.$store.state.delcartList = false
     },
     checkedItem: function() {
-      // sessionStorage.setItem('checkedStr', JSON.stringify(this.checkedItem))
       if (this.checkedItem.length === 0) {
         this.checkArr = []
         this.btnCanSub = true
@@ -203,15 +202,6 @@ export default {
         this.checkedAll = false
       }
     }
-    // totalPayShow: function (val, ov) {
-    //   if (val > 0) {
-    //     console.log('提交')
-    //     this.btnCanSub = false
-    //   } else {
-    //     console.log('bu提交')
-    //     this.btnCanSub = true
-    //   }
-    // }
   },
   computed: {
     ...mapGetters([
@@ -280,6 +270,7 @@ export default {
       } else {
         let data = await getGoodsList();
         this.goodsList = data
+        console.log('55555', data)
         var onList = []
         var offList = []
         that.goodsListOn = []
@@ -298,7 +289,7 @@ export default {
               that.checkedItem = that.idList
               for (var j = 0;j<that.goodsListOn.length;j++) {
                 if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
-                  that.goodsListOn[j].goods_count = that.goodsListOn[j].inventory
+                  that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
                 }
                 var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
@@ -408,21 +399,7 @@ export default {
         that.getGoodsListFuc(obj)
         that.$store.state.addCartState = true
       })
-      // if (e >= max){
-      //   for (var i=0;i<that.goodsListOn.length;i++) {
-      //     if (that.goodsListOn[i].sku_id === skuId) {
-      //       that.goodsListOn[i].overTipShow = true
-      //     }
-      //   }
-      // }
     },
-    // getGoodsNum: function (skuId) {
-    //   var that = this
-    //   this.$axios.get('api/sku/getInStock/'+ skuId, {}).then(res => {
-    //     that.getGoodsListFuc('add')
-    //     that.$store.state.addCartState = true
-    //   })
-    // },
     allChecked: function() {
       var that = this
       this.checkedItem = []

@@ -439,11 +439,11 @@ export default {
       rules: {
         First: [
           {required: true, message: 'Please enter the first name.', trigger: 'blur'},
-          { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+          {required: true, min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
         ],
         Last: [
           {required: true, message: 'Please enter the last name.', trigger: 'blur'},
-          {min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+          {required: true, min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
         ],
         email: [
           {type: 'email', message: 'Please enter a valid email.', trigger: ['blur', 'change']}
@@ -453,11 +453,11 @@ export default {
         ],
         Address1: [
           {required: true, message: 'Please enter your first address.', trigger: 'blur'},
-          { min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur' }
+          {required: true, min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur' }
         ],
         City: [
           {required: true, message: "Please enter the consignee's city.", trigger: 'blur'},
-          { min: 1, max: 50, message: 'You can write a maximum of 50 characters.', trigger: 'blur' }
+          {required: true, min: 1, max: 50, message: 'You can write a maximum of 50 characters.', trigger: 'blur' }
         ],
         Province: [
           {required: true, message: 'Please enter your province name.', trigger: 'blur'}
@@ -980,14 +980,17 @@ export default {
           telephone_number: that.addNewForm.Phone,
           is_default: that.addNewForm.checked === true ? 1 : 0
         }
-        objList.push(obj)
-        sessionStorage.setItem('addressList', JSON.stringify(objList))
-        that.getOrderAddressOut()
-        this.addressFormShow = false
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            objList.push(obj)
+            sessionStorage.setItem('addressList', JSON.stringify(objList))
+            that.getOrderAddressOut()
+            this.addressFormShow = false
+          }
+        })
       }
     },
     resetForm(formName) {
-      console.log(55555)
       this.$refs[formName].resetFields();
       this.addressFormShow = false
     },
@@ -1016,13 +1019,10 @@ export default {
         order_ship_delivered: JSON.stringify(shipMethod),
         pay_method: JSON.stringify(payMethod)
       })
-      console.log('6666666', payLoad)
       that.$axios.post('api/order_pay', payLoad).then(res => {
         if (res.order_num && res.total_price) {
-          console.log('ididididid', res)
           that.payByPaypal(res.total_price, res.order_num)
         } else if (res.code === 110) {
-          console.log('ggggg', that.goodsList)
           var ids = JSON.parse(res.data)
           that.overQuanlity = true
           for (var i=0; i<that.goodsList.length; i++) {
@@ -1032,7 +1032,8 @@ export default {
               }
             }
           }
-          console.log('ggggg2222', that.goodsList)
+        } else if (res.code === 301) {
+          that.$message.warning('The order has expired, Please add it again.')
         }
       })
     },
