@@ -568,10 +568,14 @@ export default {
       var that = this
       that.addressList2 = []
       var address = sessionStorage.getItem('addressList')
-      that.addressList2 = JSON.parse(address)
+      var list = JSON.parse(address)
+      console.log('111111', list)
+      if (list[0].entry_country === 'US') {
+        list[0].entry_country = 'United States'
+      }
+      that.addressList2 = list
       if (that.addressList2) {
         that.order_Address = that.addressList2[0]
-        console.log('111111', that.order_Address)
         for (var i=0; i<this.addressList2.length; i++) {
           if (that.addressList2[i].is_default === 1) {
             that.radio = that.addressList2[i].id + '-'+that.addressList2[i].entry_country+'-'+that.addressList2[i].entry_state+'-'+that.addressList2[i].entry_city+'-'+that.addressList2[i].entry_postcode
@@ -825,12 +829,11 @@ export default {
     getShipMethod (aStr) {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
-      var idStr = ids.map(String)
       if (aStr.entry_country === 'United States'){
         aStr.entry_country = 'US'
       }
       let payLoad = qs.stringify({
-        ids: JSON.stringify(idStr),
+        ids: JSON.stringify(ids),
         address_info: JSON.stringify(aStr)
       })
       console.log('ids', aStr)
