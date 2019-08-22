@@ -119,8 +119,16 @@
               <div class="list_detail">
                 <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
                 <div class="spec_color">
-                  <p class="size">
-                      <span v-for="(item1,index) in JSON.parse(item.sku_attrs)" v-if="index<2" :key="index">
+                  <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
+                      <span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
+                        <span v-if="index1<2">
+                            {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>  ;
+                        </span>
+                        <span v-if="index1>=2">...</span>
+                      </span>
+                  </p>
+                  <p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
+                      <span v-for="(item1,index2) in JSON.parse(item.sku_attrs)" :key="index2">
                         {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
                       </span>
                   </p>
@@ -189,6 +197,7 @@ import { mapGetters } from 'vuex';
         goodsNum: 0,//购物车商品数量
         headerShow:false,//头部显示状态
         searchShow:false,//搜索框显示状态
+        attrShowindex:-1,//缩略版购物车属性值显示状态
       };
     },
     mounted() {
@@ -227,6 +236,12 @@ import { mapGetters } from 'vuex';
       ])
     },
     methods: {
+      attrshow(num){
+        this.attrShowindex = num
+      },
+      attrhidden(){
+        this.attrShowindex = -1
+      },
       //小头部搜索框显示
       searchIcon(){
         this.searchShow = !this.searchShow
