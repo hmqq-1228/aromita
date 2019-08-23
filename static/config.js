@@ -19,7 +19,7 @@ const addressList = {
         },
         {
             countryName:"Canada",
-            countryValue:"Canada",
+            countryValue:"CA",
             countryList:[
                 "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario",
                 "New Brunswick","Nova Scotia","Prince Edward Island","Newfoundland and Labrador",

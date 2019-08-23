@@ -16,13 +16,13 @@
                                         <div class="tip_max">(10 addresses max)</div>
                                     </div>
                                     <div class="list shipping_address" v-for="(item,index) in list" :key="index">
-                                        <h5>{{item.entry_firstname}}{{item.entry_lastname}}</h5>
+                                        <h5>{{item.entry_firstname}} {{item.entry_lastname}}</h5>
                                         <p>
                                             <span>{{item.entry_city}}</span><br/>
                                             <span class="street_address">{{item.entry_street_address1}}</span><br/>
                                             <span class="street_address">{{item.entry_street_address2}}</span><br/>
                                         </p>
-                                        <p>{{item.entry_country}} {{item.entry_postcode}}，{{item.entry_state}}</p>
+                                        <p>{{countryList1[item.entry_country]}} {{item.entry_postcode}}，{{item.entry_state}}</p>
                                         <p class="cancat">{{item.telephone_number}}</p>
                                         <p class="cancat">{{item.entry_email_address}}</p>
                                         <div class="edit_btn" v-if="item.is_default == 0">
@@ -71,6 +71,9 @@
                     </el-form-item>
                     <el-form-item label="Email Address:" prop="entry_email_address" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_email_address"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Company:" prop="entry_company" :label-width="formLabelWidth">
+                        <el-input v-model="addressForm.entry_company"></el-input>
                     </el-form-item>
                     <el-form-item label="Country：" :label-width="formLabelWidth" required>
                         <el-select v-model="addressForm.entry_country" @change="chooseCoutry()">
@@ -142,27 +145,34 @@ export default {
                 entry_company:'',
                 is_default:'0'//1为默认 0为非默认
             },
+            countryList1:{
+                US:"United States",
+                CA:"Canada"
+            },
             isdefault:false,
             addressId:'',//地址id
             type:'',
             rules: {
                 entry_firstname:[
                     {required: true, message: 'Please enter the first name.', trigger: 'blur'},
-                    { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+                    { min: 1, max: 25, message: 'You can write a maximum of 25 characters.', trigger: 'blur' }
                 ],
                 entry_lastname: [
                     {required: true, message: 'Please enter the last name.', trigger: 'blur'},
-                    { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+                    { min: 1, max: 25, message: 'You can write a maximum of 25 characters.', trigger: 'blur' }
+                ],
+                entry_company:[
+                    { min:0, max:150, message: 'You can write a maximum of 150 characters.', trigger: 'blur' }
                 ],
                 entry_email_address: [
-                    {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur', 'change']}
+                    {type: 'email', message: 'Please enter your correct email address.', trigger: ['blur']}
                 ],
                 entry_street_address1: [
                     {required: true, message: 'Please enter your full address.', trigger: 'blur'},
                     {min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur'}
                 ],
                 entry_street_address2: [
-                    {min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur'}
+                    {min:0, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur'}
                 ],
                 entry_city: [
                     {required: true, message:"Please enter the consignee's city.", trigger: 'blur'},
