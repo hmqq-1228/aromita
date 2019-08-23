@@ -228,7 +228,7 @@
               <div class="goodName">
                 <div class="goodImg">
                   <img :src="goods.sku_image" alt="">
-                  <div class="soldOut" v-if="goods.soldOut == 1">Sold out</div>
+                  <div class="soldOut" v-show="goods.soldOut === 1">Sold out</div>
                 </div>
                 <div class="goodsText">
                   <div class="nameInfo">{{goods.sku_name}}</div>
@@ -1047,7 +1047,7 @@ export default {
           }
         } else if (res.code === 111) {
           var ids = JSON.parse(res.data)
-          that.overQuanlity = false
+          // that.overQuanlity = true
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
               if (that.goodsList[i].sku_id === ids[j]) {
