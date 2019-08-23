@@ -224,10 +224,12 @@
             <div style="width: 200px">Total</div>
           </div>
           <div class="goodsList">
+            
             <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="index">
               <div class="goodName">
                 <div class="goodImg">
                   <img :src="goods.sku_image" alt="">
+                  
                   <div class="soldOut" v-if="goods.soldOut == 1">Sold out</div>
                 </div>
                 <div class="goodsText">
@@ -238,7 +240,7 @@
               </div>
               <div style="width: 200px;padding-top: 20px;font-size: 14px" :class="goods.realNum !== 0? 'realNum': ''">
                 <p>{{goods.goods_count}}</p>
-                <p style="color: #C51015;padding-top: 15px;" v-if="goods.realNum === 0">Only {{goods.inventory}} Available</p>
+                <p style="color: #C51015;padding-top: 15px;" v-if="goods.realNum === 1">Only {{goods.inventory}} Available</p>
               </div>
               <div class="totalPay">$ {{goods.sku_pay.toFixed(2)}}</div>
             </div>
@@ -881,6 +883,10 @@ export default {
           data[i].sku_pay = data[i].goods_count * data[i].sku_price
         }
         that.goodsList = data
+        for(var i= 0;i<this.goodsList.length;i++){
+          this.$set(this.goodsList[i],'soldOut',0)
+          this.$set(this.goodsList[i],'realNum',0)
+        }
         that.getBillingList()
         that.orderListInvalid = false
       } else {
@@ -1041,13 +1047,12 @@ export default {
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
               if (that.goodsList[i].sku_id === ids[j]) {
-                that.goodsList[i].realNum = 0
+                that.goodsList[i].realNum = 1
               }
             }
           }
         } else if (res.code === 111) {
           var ids = JSON.parse(res.data)
-          that.overQuanlity = false
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
               if (that.goodsList[i].sku_id === ids[j]) {
