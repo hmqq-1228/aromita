@@ -122,6 +122,7 @@ export default {
             trigger: "blur"
           },
           {
+            required: true,
             type: "email",
             message: "Please enter a valid email.",
             trigger: "blur"
@@ -134,6 +135,7 @@ export default {
             trigger: "blur"
           },
           {
+            required: true,
             pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g,
             message: "The password you entered is incorrect.",
             trigger: "blur"
