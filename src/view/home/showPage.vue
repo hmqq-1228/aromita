@@ -5,7 +5,7 @@
       <div class="home_banner">
           <el-carousel height="500px">
               <el-carousel-item v-for="(item,index) in dataBanner" :key="index">
-                <img :src="url+item.picture_src" alt>
+                <img :src="url+item.picture_src" alt @click="linkHref(item.picture_href)">
               </el-carousel-item>
           </el-carousel>
       </div>
@@ -14,7 +14,7 @@
       <div class="collections">
         <ul class="collections_thr1">
           <li class="thr2" v-for="(item,index) in dataCollections" :key="index">
-            <img :src="url+item.picture_src" alt>
+            <img :src="url+item.picture_src" alt @click="linkHref(item.picture_href)">
           </li>
         </ul>
       </div>
@@ -62,7 +62,6 @@ import {
   homeSeller,
   homeBanner,
   homeArrivai,
-  homeFoote,
   homeCollections,
   homeHotStyle
 } from "../../api/home";
@@ -94,6 +93,11 @@ export default {
     });
   },
   methods: {
+    //运营配置活动页
+    linkHref(link){
+      window.open(link)
+    },
+    //跳转到商品详情
     link(skuid,spuid){
       if(skuid && spuid){
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
@@ -104,12 +108,12 @@ export default {
       let data = await homeBanner();
       this.dataBanner = data.data;
     },
-    async homeFoote() {
-      let data = await homeFoote();
-      for (this.homeFoot in data.data) {
-        this.homeFoot = data.data;
-      }
-    },
+    // async homeFoote() {
+    //   let data = await homeFoote();
+    //   for (this.homeFoot in data.data) {
+    //     this.homeFoot = data.data;
+    //   }
+    // },
     // Best Seller商品信息
     async homeSeller() {
       let data = await homeSeller();
@@ -135,7 +139,7 @@ export default {
     this.homeBanner();
     this.homeSeller();
     this.homeArrivai();
-    this.homeFoote();
+    // this.homeFoote();
     this.homeHotStyle();
     this.homeCollections();
   }

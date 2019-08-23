@@ -82,6 +82,7 @@
                             <el-pagination
                                 background
                                 layout="prev, pager, next"
+                                :page-size="pageSize"
                                 @current-change="handleCurrentChange"
                                 :total="total">
                             </el-pagination>
@@ -119,6 +120,7 @@ export default {
         return{
             total:0,//总条目
             page:1,
+            pageSize:20,
             order_status:'10',//订单状态
             orderList:[],//订单列表
             order_statusList:{
@@ -179,8 +181,9 @@ export default {
         //切换订单状态
         changeOrderStatus(num){
             this.order_status = num
+            this.page = 1
             this.myOrderList()
-            this.countdown()
+            //this.countdown()
         },
         // 取消订单
         cancelOrder(num){

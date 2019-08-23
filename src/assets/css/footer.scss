@@ -121,6 +121,9 @@
     color: #030303;
     font-family: Tahoma;
   }
+  .left_one2 li{
+    cursor: pointer;
+  }
   .footer_right {
     width: 340px;
     margin-top: 30px;
@@ -174,3 +177,11 @@
     padding-top: 25px;
     margin-bottom: 20px;
   }
+.active{
+  line-height: 24px;
+  font-size: 14px;
+  color: #030303;
+  font-family: Tahoma;
+  font-weight: bolder;
+  
+}

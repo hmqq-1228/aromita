@@ -23,17 +23,17 @@
         </div>
         <div class="footBox">
           <div class="footer_left">
-            <div class="left_one">
-              <p class="left_one1">COMPANY INFO</p>
+            <div class="left_one" v-for="(item,index) in list" :key="index">
+              <!-- <p class="left_one1">COMPANY INFO</p> -->
               <ul class="left_one2">
-                <li>About Aromita</li>
-                <li>Download Catalog</li>
+                <li v-for="(item1,index1) in item" :key="index1" :class="[index1==0 ? 'active' : '']" @click="linkHref(item1.tool_href)">{{item1.tool_title}}</li>
+                <!-- <li>Download Catalog</li>
                 <li>Affiliate program</li>
                 <li>Reseller Inquiry</li>
-                <li>Tradeshow Plan</li>
+                <li>Tradeshow Plan</li> -->
               </ul>
             </div>
-            <div class="left_two">
+            <!-- <div class="left_two">
               <p class="left_two1">STORE POLICY</p>
               <ul class="left_two2">
                 <li>TERMS &</li>
@@ -51,9 +51,9 @@
                 <li>My Bouns Poins</li>
                 <li>Log In</li>
               </ul>
-            </div>
+            </div> -->
 
-            <div class="left_for">
+            <!-- <div class="left_for">
               <p class="left_for1">Contact Us</p>
               <ul class="left_for2">
                 <li>Mon.-Fri 9:00 AM - 6:00 PM,PST.</li>
@@ -61,7 +61,7 @@
                 <li>1001S Lawson ST,City of Industry,CA</li>
                 <li>91748</li>
               </ul>
-            </div>
+            </div> -->
           </div>
           <div class="footer_right">
             <p class="know">Stay In The Know</p>
@@ -82,21 +82,35 @@
       </div>
 </template>
 <script>
-import {homeIcon,homeFootTitle} from '../api/home'
+import {homeIcon,homeFootTitle,homeFoote} from '../api/home'
 export default {
    data() {
     return {
       url:'https://arapi.panduo.com.cn/uploads/',
       input10: "",
-       icon: [], //40
-       footTitle: [], //50
+      icon: [], //40
+      footTitle: [], //50
+      list:[],
     };
   },
   mounted(){
     this.homeIcon()
     this.homeFootTitle()
+    this.homeFoote()
   },
   methods: {
+    //运营配置活动页
+    linkHref(link){
+      window.open(link)
+    },
+    async homeFoote() {
+      let data = await homeFoote()
+      this.list = data.data
+      // for (let i in data.data){
+      //  this.list = data.data[i]
+      //  console.log(this.list)
+      // }
+    },
     // 40
     async homeIcon() {
       let data = await homeIcon()
@@ -107,6 +121,7 @@ export default {
     //  50
     async homeFootTitle() {
       let data = await homeFootTitle()
+      console.log(data)
       for (let footTitle of data.data){
        this.footTitle = data.data
       }
