@@ -17,12 +17,12 @@
                                     </div>
                                     <div class="list shipping_address" v-for="(item,index) in list" :key="index">
                                         <h5>{{item.entry_firstname}} {{item.entry_lastname}}</h5>
+                                        <p>{{item.entry_company}}</p>
                                         <p>
-                                            <span>{{item.entry_city}}</span><br/>
-                                            <span class="street_address">{{item.entry_street_address1}}</span><br/>
-                                            <span class="street_address">{{item.entry_street_address2}}</span><br/>
+                                            <span class="street_address">{{item.entry_street_address1}}</span>;
+                                            <span class="street_address">{{item.entry_street_address2}}</span>
                                         </p>
-                                        <p>{{countryList1[item.entry_country]}} {{item.entry_postcode}}，{{item.entry_state}}</p>
+                                        <p>{{item.entry_city}},{{countryList1[item.entry_country]}},{{item.entry_state}},{{item.entry_postcode}}</p>
                                         <p class="cancat">{{item.telephone_number}}</p>
                                         <p class="cancat">{{item.entry_email_address}}</p>
                                         <div class="edit_btn" v-if="item.is_default == 0">

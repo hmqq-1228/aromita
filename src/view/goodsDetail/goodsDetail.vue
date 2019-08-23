@@ -594,7 +594,14 @@ export default {
         }
         getGoodsQuantityInCart(pre).then((res)=>{
           if(res == '101'){
-            this._addcartList()
+            if (this.maxQuality > 0) {
+              this._addcartList()
+            } else {
+              this.$message({
+                message: 'Exceeds maximun quantity available for this product.',
+                type: 'warning'
+              });
+            }
           }else{
             this.maxQuality = res.inventory
             this.goods_count = res.goods_count
