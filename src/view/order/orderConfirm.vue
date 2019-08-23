@@ -93,8 +93,6 @@
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
                   <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
-                  <el-option label="France" value="France" disabled></el-option>
-                  <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Address Line1:" prop="Address1">
@@ -171,8 +169,6 @@
               <el-form-item label="Country:" prop="Country">
                 <el-select v-model="addNewForm.Country" placeholder="United Stats" @change="chooseCoutry()">
                   <el-option v-for="item in countryList" :label="item.countryName" :value="item.countryValue" :key="item.countryName"></el-option>
-                  <el-option label="France" value="France" disabled></el-option>
-                  <el-option label="Germany" value="Germany" disabled></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Address Line1:" prop="Address1">
@@ -382,7 +378,7 @@ export default {
       radio2: '',
       radio3: '1',
       billing: '',
-      errorInfo: '',
+      errorInfo: 'No mode of transportation, please choose a valid address.',
       shipFee: 0,
       totalPay: 0,
       billTotal: 0,
@@ -530,13 +526,17 @@ export default {
   watch: {
     radio: function (val, oV) {
       var that = this
+      console.log('mmmmmmmmgdgg', val)
       if (val) {
         var radioId = val.split('-')[0]
         that.checkedAdressId = radioId
         that.showMethod()
         // that.methodShow = true
       } else {
+        console.log('mmmmmm99999999', val)
         that.methodShow = false
+        that.shipMethodList = []
+        that.errorInfo = 'No mode of transportation, please choose a valid address.'
       }
     },
     addressFormShow: function (val, ov) {
@@ -674,12 +674,15 @@ export default {
     async getOrderAddress (type, id) {
       var that = this
       let data = await orderAddress()
-      that.addressLen = data.data.length
+      if (data.data){
+        that.addressLen = data.data.length
+      }
       if (data.code === 200 || data.code === '200') {
         if(data.data) {
           that.addressNum = data.data.length
           if (!type && !id) {
             that.addressList = data.data
+            console.log('gggggg', that.addressList)
             for (var i=0; i<data.data.length; i++) {
               if (data.data[i].is_default === 1) {
                 // let defultList = []
@@ -689,12 +692,10 @@ export default {
                 that.checkedAdressId = redioList[0]
                 // defultList.push(data.data[i])
                 // that.addressList = defultList
+              } else {
+                that.radio = ''
+                that.errorInfo = 'No mode of transportation, please choose a valid address.'
               }
-              // else {
-              //   let noList = []
-              //   noList.push(data.data[0])
-              //   that.addressList = noList
-              // }
             }
           }else if (type === 'defult' && !id){
             for (var i=0; i<data.data.length; i++) {
@@ -742,6 +743,10 @@ export default {
               }
             }
           }
+        }else {
+          that.addressList = []
+          that.shipMethodList = []
+          that.radio = ''
         }
       }
     },
