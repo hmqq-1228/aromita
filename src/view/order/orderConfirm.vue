@@ -998,7 +998,7 @@ export default {
       this.addressFormShow = false
     },
     toShopcar: function () {
-      this.$router.push('/shoppingCar')
+      this.$router.push('/')
     },
     confirmPay: function () {
       var that = this
