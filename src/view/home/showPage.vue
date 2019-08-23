@@ -44,7 +44,7 @@
       <div class="banner2 swiper-container" dir="rtl">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in hotStyle" :key="index">
-            <img :src="url+item.picture_src" class="small2" @click="link(item.products_id,item.spu_id)">
+            <img :src="url+item.picture_src" class="small2" @click="linkHref(item.picture_href)">
           </div>
         </div>
         <!-- 如果需要导航按钮 -->
