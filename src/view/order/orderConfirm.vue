@@ -56,16 +56,18 @@
         <div class="navTitle" @click="test()">Shipping Address</div>
         <div class="address" v-if="isLogin">
           <div v-if="addressList && addressList.length>0" class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
-            <div class="itemName">
+            <div class="itemName" :title="address.entry_firstname + ' ' + address.entry_lastname">
               <el-radio v-model="radio" :label="address.id+'-'+address.entry_country+'-'+address.entry_state+'-'+address.entry_city+'-'+address.entry_postcode">
                 <i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}
               </el-radio>
             </div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText">{{address.entry_country}} {{address.entry_state}} {{address.entry_city}} {{address.entry_street_address1}}{{address.entry_street_address2}}</div>
+              <div class="addressText" :title="address.entry_company+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
+                {{address.entry_company}}, {{address.entry_street_address1}}{{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
+              </div>
             </div>
-            <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
+            <div class="itemPone"><i class="el-icon-phone" v-if="address.telephone_number" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
             <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
             <div class="itemOption">
               <div @click="addNewAddress(address.id)">Edit</div>
@@ -129,17 +131,22 @@
         </div>
         <div class="address" v-if="!isLogin">
           <div v-if="addressList2 && addressList2.length>0" class="addressItem" v-for="(address, index) in addressList2" v-bind:key="index">
-            <div class="itemName">
+            <div class="itemName" :title="address.entry_firstname+' '+ address.entry_lastname">
               <el-radio v-model="radio" :label="address.id+'-'+address.entry_country+'-'+address.entry_state+'-'+address.entry_city+'-'+address.entry_postcode">
                 <i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}
               </el-radio>
             </div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText">{{address.entry_country}} {{address.entry_state}} {{address.entry_city}} {{address.entry_street_address1}}{{address.entry_street_address2}}</div>
+              <div class="addressText" :title="address.entry_company+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
+                {{address.entry_company}}, {{address.entry_street_address1}}{{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
+              </div>
             </div>
-            <div class="itemPone"><i class="el-icon-phone" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
-            <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
+            <div class="itemPone">
+              <i class="el-icon-phone" v-if="address.telephone_number" style="width: 14px;height: 14px;"></i>
+              <span>{{address.telephone_number}}</span>
+            </div>
+            <div class="itemDefault"><span v-if="false">Default</span></div>
             <div class="itemOption">
               <div @click="addNewAddressOut()">Edit</div>
               <div @click="deleteAddressOut()">Remove</div>
@@ -189,7 +196,7 @@
               <el-form-item label="Mobie No./Phone:" prop="Phone">
                 <el-input v-model="addNewForm.Phone"></el-input>
               </el-form-item>
-              <div class="payConfirm" style="margin-left: 125px;">
+              <div v-if="false" class="payConfirm" style="margin-left: 125px;">
                 <el-checkbox v-model="addNewForm.checked"></el-checkbox>
                 <span style="font-size: 14px;color: #333;">As Default</span>
               </div>
@@ -219,7 +226,10 @@
           <div class="goodsList">
             <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="index">
               <div class="goodName">
-                <div class="goodImg"><img :src="goods.sku_image" alt=""></div>
+                <div class="goodImg">
+                  <img :src="goods.sku_image" alt="">
+                  <div class="soldOut" v-if="goods.soldOut == 1">Sold out</div>
+                </div>
                 <div class="goodsText">
                   <div class="nameInfo">{{goods.sku_name}}</div>
                   <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
@@ -385,6 +395,10 @@ export default {
       order_Address: {},
       orderShipMethod: {},
       shipMethodList: [],
+      country:{
+        US:"United States",
+        CA:"Canada"
+      },
       checkedAdressId: '',
       mouthList: ['01','02','03','04','05','06','07','08','09','10','11','12'],
       countryList: addressList.addressList.List,
@@ -439,11 +453,14 @@ export default {
       rules: {
         First: [
           {required: true, message: 'Please enter the first name.', trigger: 'blur'},
-          {required: true, min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+          {required: true, min: 1, max: 25, message: 'You can write a maximum of 25 characters.', trigger: 'blur' }
         ],
         Last: [
           {required: true, message: 'Please enter the last name.', trigger: 'blur'},
           {required: true, min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+        ],
+        Company: [
+          {min: 1, max: 150, message: 'You can write a maximum of 150 characters.', trigger: 'blur' }
         ],
         email: [
           {type: 'email', message: 'Please enter a valid email.', trigger: ['blur', 'change']}
@@ -513,7 +530,8 @@ export default {
     radio: function (val, oV) {
       var that = this
       if (val) {
-        console.log('gggg', val)
+        var radioId = val.split('-')[0]
+        that.checkedAdressId = radioId
         that.showMethod()
         // that.methodShow = true
       } else {
@@ -569,10 +587,6 @@ export default {
       that.addressList2 = []
       var address = sessionStorage.getItem('addressList')
       var list = JSON.parse(address)
-      console.log('111111', list)
-      if (list[0].entry_country === 'US') {
-        list[0].entry_country = 'United States'
-      }
       that.addressList2 = list
       if (that.addressList2) {
         that.order_Address = that.addressList2[0]
@@ -704,7 +718,7 @@ export default {
               console.log('moire', that.addressList)
               let checkList = []
               for (var j=0; j<data.data.length; j++) {
-                if (data.data[j].id === id) {
+                if (data.data[j].id === parseInt(id)) {
                   checkList.unshift(data.data[j])
                 } else {
                   checkList.push(data.data[j])
@@ -728,14 +742,12 @@ export default {
             }
           }
         }
-        console.log('555555', that.addressList)
       }
     },
     // 删除
    deleteAddress: function (id) {
      var that = this
      that.$axios.delete('api/address/' + id, {}).then(res => {
-       console.log('ididididid', res)
        if (res.code === '200' || res.code === 200) {
          that.getOrderAddress()
        }
@@ -749,7 +761,6 @@ export default {
         that.addressFormShow = true
         that.$axios.get('api/address/' + id, {}).then(res => {
           if (res.code === '200' || res.code === 200) {
-            console.log('yyyyyyyyy', res)
             that.addNewForm.First = res.data.entry_firstname
             that.addNewForm.Last = res.data.entry_lastname
             that.addNewForm.Company = res.data.entry_company
@@ -772,7 +783,8 @@ export default {
           }
         })
       } else if (!id) {
-        console.log('kkkkkkk', that.addressLen)
+        that.editId = ''
+        that.clearForm()
         if (that.addressLen >= 10) {
           that.$message.warning('Sorry, you only can create 10 addresses at most.')
         } else {
@@ -781,7 +793,6 @@ export default {
       }
     },
     showMethod: function () {
-      console.log('kkkkk', this.radio)
       var that = this
       that.butLoading = true
       if (that.radio === ''){
@@ -793,9 +804,7 @@ export default {
     getPostMethod: function (valStr) {
       var strList = []
       var that = this
-      console.log('mmmmmmm', valStr)
       strList = valStr.split('-')
-      console.log('ppppppp', strList)
       var address_info = {
         address_id: strList[0],
         entry_country: strList[1],
@@ -804,27 +813,22 @@ export default {
         entry_postcode: strList[4]
       }
       that.getShipMethod(address_info)
-      console.log('xxxxxxx', address_info)
       for (var i=0;i<this.addressList.length;i++) {
         if (that.addressList[i].id === parseInt(strList[0])) {
-          console.log('zzzzzzz', this.addressList[i])
           that.order_Address = that.addressList[i]
         }
       }
     },
     shipChecked: function (e) {
-      console.log('eeeeeeee', e)
       var that = this
       that.radio2 = e
       for(var i=0;i<that.shipMethodList.length;i++) {
         if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
-          console.log('h1h1h1h', that.shipMethodList[i])
           that.orderShipMethod = that.shipMethodList[i]
         }
       }
       that.shipFee = that.radio2.split('-')[1]
       that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
-      console.log('wwwwww', that.billTotalSum)
     },
     getShipMethod (aStr) {
       var that = this
@@ -838,7 +842,6 @@ export default {
       })
       console.log('ids', aStr)
       that.$axios.post('api/ship', payLoad).then(res => {
-        console.log('hhhhh', res)
         if (res.code === '200' || res.code === 200) {
           that.shipMethodList = res.data
           that.methodShow = true
@@ -848,7 +851,6 @@ export default {
           that.butLoading = false
           for(var i=0;i<that.shipMethodList.length;i++) {
             if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
-              console.log('h1h1h1h', that.shipMethodList[i])
               that.orderShipMethod = that.shipMethodList[i]
             }
           }
@@ -873,7 +875,6 @@ export default {
       let idList = {
         ids: idStr
       }
-      console.log('66666', ids)
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
         for (var i=0;i<data.length;i++){
@@ -899,18 +900,15 @@ export default {
         coupon_id: coupon_id
       }
       let data = await billingList(idList)
-      console.log('hhhhhhhh', data)
       that.billing = data
       for (let k in data) {
         if (data[k] && data[k]>0) {
           billList.push(parseFloat(data[k].toFixed(2)))
         }
       }
-      console.log('88888', billList)
       for (var i=0;i<billList.length;i++) {
         sumBill = sumBill + billList[i]
       }
-      console.log('99999', sumBill)
       that.billTotal = sumBill
       that.billTotalSum = sumBill
     },
@@ -918,7 +916,6 @@ export default {
     submitForm(formName) {
       var that = this
       var objList = []
-      console.log('fffff', that.addNewForm.checked)
       if (that.isLogin){
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -968,27 +965,45 @@ export default {
           }
         })
       } else if (!that.isLogin) {
-        var obj = {
-          id: 0,
-          entry_firstname: that.addNewForm.First,
-          entry_lastname: that.addNewForm.Last,
-          entry_company: that.addNewForm.Company,
-          entry_email_address: that.addNewForm.email,
-          entry_country: that.addNewForm.Country,
-          entry_street_address1: that.addNewForm.Address1,
-          entry_street_address2: that.addNewForm.Address2,
-          entry_city: that.addNewForm.City,
-          entry_state: that.addNewForm.Province,
-          entry_postcode: that.addNewForm.Postcode,
-          telephone_number: that.addNewForm.Phone,
-          is_default: that.addNewForm.checked === true ? 1 : 0
-        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            objList.push(obj)
-            sessionStorage.setItem('addressList', JSON.stringify(objList))
-            that.getOrderAddressOut()
-            this.addressFormShow = false
+            var codeLoad = qs.stringify({
+              entry_country: that.addNewForm.Country,
+              entry_postcode: that.addNewForm.Postcode
+            })
+            that.$axios.post('api/customer_no_login', codeLoad).then(res => {
+              if (res.code === 200) {
+                var obj = {
+                  id: 0,
+                  entry_firstname: that.addNewForm.First,
+                  entry_lastname: that.addNewForm.Last,
+                  entry_company: that.addNewForm.Company,
+                  entry_email_address: that.addNewForm.email,
+                  entry_country: that.addNewForm.Country,
+                  entry_street_address1: that.addNewForm.Address1,
+                  entry_street_address2: that.addNewForm.Address2,
+                  entry_city: that.addNewForm.City,
+                  entry_state: that.addNewForm.Province,
+                  entry_postcode: that.addNewForm.Postcode,
+                  telephone_number: that.addNewForm.Phone,
+                  is_default: that.addNewForm.checked === true ? 1 : 0
+                }
+                objList.push(obj)
+                sessionStorage.setItem('addressList', JSON.stringify(objList))
+                that.getOrderAddressOut()
+                this.addressFormShow = false
+              } else {
+                var arr = []
+                for(var i in res.msg) {
+                  var obj = res.msg[i][0];
+                  arr.push(obj)
+                }
+                this.$message({
+                  message:arr[0],
+                  type: 'error'
+                });
+              }
+            })
           }
         })
       }
@@ -1010,11 +1025,6 @@ export default {
         payment_module_code: 1,
         payment_method: "paypal"
       }
-      console.log('111111', ids)
-      console.log('222222', coupon_id)
-      console.log('333333', orderAddress)
-      console.log('444444', shipMethod)
-      console.log('555555', payMethod)
       var payLoad = qs.stringify({
         ids: JSON.stringify(ids),
         coupon_id: coupon_id,
@@ -1035,6 +1045,17 @@ export default {
               }
             }
           }
+        } else if (res.code === 111) {
+          var ids = JSON.parse(res.data)
+          that.overQuanlity = false
+          for (var i=0; i<that.goodsList.length; i++) {
+            for (var j=0; j<ids.length; j++) {
+              if (that.goodsList[i].sku_id === ids[j]) {
+                that.goodsList[i].soldOut = 1
+              }
+            }
+          }
+          console.log('gggggg', that.goodsList)
         } else if (res.code === 301) {
           that.$message.warning('The order has expired, Please add it again.')
         }
