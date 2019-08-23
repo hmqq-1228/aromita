@@ -5,9 +5,9 @@
     </div>
     <div class="wrapLogin">
       <div class="content">
-        <div class="left">
-          <div class="left_img">
-            <img src="@/assets/注册页面.png" alt />
+        <div class="left" style="margin-top: 20px;">
+          <div class="left_img" @click="linkHref(loginHref)">
+            <img v-if="loginImg" :src="'https://arapi.panduo.com.cn/uploads/'+ loginImg" alt />
           </div>
         </div>
         <!-- 登陆 -->
@@ -90,6 +90,7 @@
 import aheader from "@/components/aheader.vue";
 import afooter from "@/components/afooter.vue"
 import { handleLogin, handleCatpchas} from "../../api/register";
+import {loginImage} from "../../api/home";
 import { async } from "q";
 import qs from 'qs'
 import identify from "../test/identify";
@@ -107,6 +108,8 @@ export default {
       login_num: 0,
       catpchas: '',
       code: '',
+      loginImg: '',
+      loginHref: '',
       firstCode: '',
       verifiCode: '',
       catpchashow:false,
@@ -167,17 +170,26 @@ export default {
     }
   },
   created(){
+    this.getLoginImage()
     this.getCookie('userInfo')
     this.num = localStorage.getItem('errNum')
   },
   methods: {
     refreshCode() {
       this.handleCatpchas()
-
+    },
+    linkHref(link){
+      window.open(link)
     },
     async handleCatpchas() {
       let data = await handleCatpchas();
       this.identifyCodeNew = data.data
+    },
+    async getLoginImage() {
+      let data = await loginImage();
+      console.log('888888', data)
+      this.loginImg = data.data[0].picture_src
+      this.loginHref = data.data[0].picture_href
     },
     _handleLogin: function (formName) {
       var that = this
@@ -287,6 +299,10 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+/*.left_img{*/
+  /*height: 530px;*/
+  /*width: 940px;*/
+/*}*/
 .left_img > img {
   width: 100%;
   height: 530px;

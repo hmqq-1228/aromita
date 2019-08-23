@@ -4,8 +4,8 @@
     <div class="wrap">
       <div class="content_5">
         <div class="left">
-          <div class="left_img">
-            <img src="@/assets/注册页面.png" alt>
+          <div class="left_img" @click="linkHref(loginHref)">
+            <img v-if="loginImg" :src="'https://arapi.panduo.com.cn/uploads/'+ loginImg" alt>
           </div>
           <!-- 注册 -->
         </div>
@@ -93,6 +93,7 @@
 import Footer from "@/components/afooter.vue";
 import aheader from "@/components/aheader.vue";
 import {handleRegist, Catpcha} from "../../api/register";
+import {loginImage} from "../../api/home";
 import identify from "../test/identify";
 import qs from 'qs'
 export default {
@@ -126,6 +127,8 @@ export default {
       policyChecked:false,//是否勾选policy协议
       servicechecked:false,//是否勾选服务协议
       disabled:true,
+      loginImg: '',
+      loginHref: '',
       ruleForm2: {
         email: '',
         password: '',
@@ -159,13 +162,22 @@ export default {
     };
   },
   created () {
-      this.handleCatpchas()
+    this.handleCatpchas()
+    this.getLoginImage()
   },
   methods: {
     HandleErqi(){
       this.$router.push({
         path: "/erqi"
       })
+    },
+    linkHref(link){
+      window.open(link)
+    },
+    async getLoginImage() {
+      let data = await loginImage();
+      this.loginImg = data.data[0].picture_src
+      this.loginHref = data.data[0].picture_href
     },
     //点击注册
     handleRegister(formName) {

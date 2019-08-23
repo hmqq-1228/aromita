@@ -14,6 +14,8 @@ export const homeHotStyle = params=>get("/api/homelayout/30",params);
 export const homeIcon = params=>get("/api/homelayout/40",params);
 //  50
 export const homeFootTitle = params=>get("/api/homelayout/50",params);
+// 60
+export const loginImage = params=>get("/api/homelayout/60",params);
 export const homeFoote = params=>get("/api/footertools",params);
 export const getGoodsList = params=>get("/api/product",params);
 
