@@ -122,7 +122,7 @@
                   <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
                       <span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
                         <span v-if="index1<2">
-                            {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>  ;
+                            {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
                         </span>
                         <span v-if="index1>=2">...</span>
                       </span>

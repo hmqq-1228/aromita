@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-            <div class="addWish"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+            <div class="addWish" @click="addwishList()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
         </div>
@@ -131,6 +131,7 @@
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
 import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart} from "../../api/register";
+import {addwishlist} from "@/api/account.js"
 import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
@@ -233,6 +234,16 @@ export default {
     this.getGoodsDetail()
   },
   methods:{
+    //添加到心愿单
+    addwishList(){
+      let pre={
+        wl_products_skus_id:'',
+        wl_customers_id:''
+      }
+      wishlist(pre).then((res)=>{
+
+      })
+    },
     tastModel: function(){
       this.showModel = true
     },
