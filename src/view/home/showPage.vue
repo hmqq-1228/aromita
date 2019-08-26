@@ -253,6 +253,9 @@ export default {
     text-align: center;
     margin-top: 30px;
   }
+  .sell_1 img:hover,.new_1 img:hover{
+    box-shadow: 1px 1px 2px 2px #f5f5f5;
+  }
   .sell_1>img,.new_1>img{
     width: 336px;
     height: 336px;

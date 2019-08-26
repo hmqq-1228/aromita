@@ -11,7 +11,9 @@
         <p class="word_thr">a confirmation email. This link is valid only once.</p>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+     <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -20,7 +22,7 @@ import Footer from "@/components/afooter.vue";
 export default {
   components:{
     "aheader-com": Aheader,
-    "aheader-com": Footer
+    "afooter-com": Footer
   },
   data(){
     return{
@@ -90,6 +92,11 @@ margin-top: 5px;
   }
   }
  }
-
+ .foot{
+   width: 100%;
+   position: fixed;
+   bottom: 0;
+   left: 0;
+ }
 // https://blog.csdn.net/github_37483541/article/details/54951174
 </style>

@@ -102,6 +102,12 @@ ul,li {
 .register .el-checkbox__inner:hover{
   border-color: #999 !important;
 }
+.register .policy.policyError .el-checkbox__inner{
+  border-color: #c51015 !important;
+}
+.register .policy.policyError .el-checkbox__label{
+  color: #c51015 !important;
+}
 .register .el-checkbox__input.is-checked .el-checkbox__inner,.register .el-checkbox__input.is-indeterminate .el-checkbox__inner{
   border-color: #999 !important;
   background-color: #fff !important;

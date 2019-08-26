@@ -63,6 +63,12 @@
     margin-left: 2px;
     cursor: pointer;
   }
+  .policy.policyError .word_p{
+    color: #c51015;
+  }
+  .policy.policyError .el-checkbox.is-checked .word_p{
+    color: #003764;
+  }
   .ivu-checkbox-wrapper {
     cursor: pointer;
     font-size: 14px;

@@ -10,11 +10,10 @@
           <!-- 注册 -->
         </div>
         <div class="right">
-            <div class="tip"><span>{{tipInfo}}</span></div>
+            <!--<div class="tip"><span>{{tipInfo}}</span></div>-->
             <p class="right_word1">Email Address:</p>
             <el-form
               :model="ruleForm2"
-              status-icon
               :rules="rules2"
               ref="ruleForm2"
               class="demo-ruleForm"
@@ -68,11 +67,11 @@
               </div>
             </el-form>
           <div class="words_r">
-            <div class="metalChecked">
+            <div class="metalChecked policy">
               <el-checkbox v-model="policyChecked">I have read and agreed to the <u @click="HandleErqi" class="word_p">Privacy Policy </u></el-checkbox>
             </div>
             <div class="metalChecked">
-              <el-checkbox v-model="servicechecked"><u @click="HandleErqi" class="word_p">“Subscription account service”</u></el-checkbox>
+              <el-checkbox v-model="servicechecked"><u @click="HandleErqi" class="word_p">Subscription account service</u></el-checkbox>
             </div>
           </div>
           <button class="btn1">
@@ -138,11 +137,11 @@ export default {
       rules2: {
         email: [
           { required: true, message: 'Please enter a valid email', trigger: 'blur' },
-          { type: 'email', message: 'Please enter a valid email', trigger: 'blur' }
+          { required: true, type: 'email', message: 'Please enter a valid email', trigger: 'blur' }
         ],
         password: [
             { required: true, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' },
-            { pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
+            { required: true, pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
         ],
         checkpass: [
           { validator: validatePass2, trigger: 'blur'}
@@ -181,20 +180,17 @@ export default {
     },
     //点击注册
     handleRegister(formName) {
-      if (!this.ruleForm2.email || !this.ruleForm2.password || !this.ruleForm2.checkpass || !this.ruleForm2.Verification) {
-        this.tipInfo = 'Please complete your information'
-        return false
-      }else if(this.policyChecked == false || this.servicechecked == false){
-        this.tipInfo = 'Please check the agreement.'
-        return false
-      }else{
-        this.tipInfo = ''
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (this.policyChecked === false) {
+            $('.policy').addClass('policyError')
+            return false
+          } else {
+            $('.policy').removeClass('policyError')
             this.registerFormSub()
           }
-        })
-      }
+        }
+      })
     },
     async registerFormSub () {
       var that = this

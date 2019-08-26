@@ -26,7 +26,9 @@
         </el-form>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+     <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -117,7 +119,6 @@ export default {
 <style lang="scss" scoped>
 .warp_1 {
   .warp {
-    min-height: 500px;
     .content_forgot {
       width: 400px;
       height: 308px;
@@ -178,5 +179,11 @@ export default {
       }
     }
   }
+}
+.foot{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 </style>
