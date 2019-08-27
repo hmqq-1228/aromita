@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <aheader-com></aheader-com>
-    <div class="content_2" style="min-height: 360px">
+    <div class="content_2">
       <div class="left">
         <img src="@/assets/pass.png" alt>
       </div>
@@ -10,7 +10,9 @@
         <p class="word_two">You will receive an email with a link to reset your password .It may take several minutes to show up in your inbox. If you don’t receive this email, please check your spam folder or contact <span class="help">Live Help</span> for further assistant.</p>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -27,7 +29,8 @@ export default {
 .content_2 {
   width: 780px;
   display: flex;
-  margin: 200px auto;
+  margin: 0 auto;
+  margin-top: 200px;
   justify-content: space-between;
 }
 .left {
@@ -60,4 +63,10 @@ export default {
     color: #003764;
     cursor: pointer;
   }
+.foot{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
 </style>

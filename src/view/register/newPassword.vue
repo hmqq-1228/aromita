@@ -29,7 +29,9 @@
         </el-form>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 
@@ -150,5 +152,11 @@ export default {
     font-size: 14px;
     font-family: Tahoma;
     margin-bottom: 2px;
+  }
+  .foot{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
 </style>

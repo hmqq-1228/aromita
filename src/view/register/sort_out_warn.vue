@@ -7,8 +7,6 @@
       </div>
       <div class="right">
         <p class="word_one">Sorry. This Category is no longer available</p>
-        
-        
       </div>
     </div>
     <footer-com></footer-com>

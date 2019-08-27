@@ -109,11 +109,7 @@
                 </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-<<<<<<< Updated upstream
-            <div class="addWish"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
-=======
             <div class="addWish" @click="_addwishList()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
->>>>>>> Stashed changes
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
         </div>
@@ -145,12 +141,8 @@
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
-<<<<<<< Updated upstream
-import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart} from "../../api/register";
-=======
 import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart,checkLogin} from "../../api/register";
 import {addwishlist} from "@/api/wish.js"
->>>>>>> Stashed changes
 import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
@@ -254,8 +246,6 @@ export default {
     this.getGoodsDetail()
   },
   methods:{
-<<<<<<< Updated upstream
-=======
     //添加到心愿单
     _addwishList(){
       checkLogin().then((res)=>{
@@ -273,7 +263,6 @@ export default {
         }
       })
     },
->>>>>>> Stashed changes
     tastModel: function(){
       this.showModel = true
     },

@@ -18,8 +18,9 @@ export const cancelOrder = params =>post("api/cancelOrder",params);
 export const addAddress = params =>post("api/addressbook",params);
 //地址列表
 export const address = params =>get("api/address",params);
-<<<<<<< Updated upstream
-=======
 //设为默认地址
 export const setdefault = params =>post("/api/setdefault",params);
->>>>>>> Stashed changes
+//心愿单列表
+export const wishlist = params =>get("api/wishlist",params);
+//添加心愿单
+export const addwishlist = params =>post("api/wishlist",params)

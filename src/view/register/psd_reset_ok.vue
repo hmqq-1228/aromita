@@ -15,7 +15,9 @@
         </div>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -40,7 +42,6 @@ export default {
 .content_3 {
   width: 1440px;
   margin: 0 auto;
-  height: 400px;
   .left {
     width: 60px;
     height: 60px;
@@ -67,5 +68,11 @@ export default {
       text-decoration: underline;
     }
   }
+}
+.foot{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 </style>

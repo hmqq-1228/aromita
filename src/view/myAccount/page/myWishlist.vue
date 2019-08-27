@@ -41,14 +41,14 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column
+                                    <!-- <el-table-column
                                         prop="name"
                                         label="Quantity"
                                         width="280">
                                         <template slot-scope="scope">
                                             <el-input-number v-model="scope.row.name" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
                                         </template>
-                                    </el-table-column>
+                                    </el-table-column> -->
                                     <el-table-column
                                         prop="address"
                                         label="Options"
@@ -81,10 +81,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-<<<<<<< Updated upstream
-=======
 import {wishlist} from "@/api/wish.js"
->>>>>>> Stashed changes
 export default {
     components: {
         "Left-Nav":Left
@@ -112,7 +109,16 @@ export default {
             }]
         }
     },
+    created(){
+        this.getList()
+    },
     methods:{
+        //心愿单列表
+        getList(){
+            wishlist().then((res)=>{
+
+            })
+        },
         handleChange(value) {
             console.log(value);
         }

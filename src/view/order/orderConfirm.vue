@@ -64,7 +64,7 @@
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
               <div class="addressText" :title="address.entry_company+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
-                {{address.entry_company}}, {{address.entry_street_address1}}{{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
+                <span v-if="address.entry_company">{{address.entry_company}},</span> {{address.entry_street_address1}} {{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
               </div>
             </div>
             <div class="itemPone"><i class="el-icon-phone" v-if="address.telephone_number" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
@@ -110,7 +110,7 @@
                   <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="Zip/Postcode:" prop="Postcode">
+              <el-form-item label="Zip/Postcode:" prop="Postcode" :error="errorMsg">
                 <el-input v-model="addNewForm.Postcode"></el-input>
               </el-form-item>
               <el-form-item label="Mobie No./Phone:" prop="Phone">
@@ -186,7 +186,7 @@
                   <el-option v-for="item in ProvinceList" :label="item" :value="item" :key="item"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="Zip/Postcode:" prop="Postcode">
+              <el-form-item label="Zip/Postcode:" prop="Postcode" :error="errorMsg">
                 <el-input v-model="addNewForm.Postcode"></el-input>
               </el-form-item>
               <el-form-item label="Mobie No./Phone:" prop="Phone">
@@ -378,6 +378,7 @@ export default {
       radio2: '',
       radio3: '1',
       billing: '',
+      errorMsg: '',
       errorInfo: 'No mode of transportation, please choose a valid address.',
       shipFee: 0,
       totalPay: 0,
@@ -454,7 +455,7 @@ export default {
         ],
         Last: [
           {required: true, message: 'Please enter the last name.', trigger: 'blur'},
-          {required: true, min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+          {required: true, min: 1, max: 25, message: 'You can write a maximum of 25 characters.', trigger: 'blur' }
         ],
         Company: [
           {min: 1, max: 150, message: 'You can write a maximum of 150 characters.', trigger: 'blur' }
@@ -651,10 +652,10 @@ export default {
     showMore: function (type) {
       var that = this
       if (type === 'el-icon-d-arrow-right') {
-        that.defultIcon = 'el-icon-d-arrow-left'
+        // that.defultIcon = 'el-icon-d-arrow-left'
         that.getOrderAddress('more', that.checkedAdressId)
       } else if (type === 'el-icon-d-arrow-left') {
-        that.defultIcon = 'el-icon-d-arrow-right'
+        // that.defultIcon = 'el-icon-d-arrow-right'
         that.getOrderAddress('less', that.checkedAdressId)
       }
     },
@@ -728,6 +729,7 @@ export default {
               }
               that.addressList = checkList
             }
+            that.defultIcon = 'el-icon-d-arrow-left'
           } else if (type === 'less') {
             if (!id) {
               var list = []
@@ -742,6 +744,7 @@ export default {
                 }
               }
             }
+            that.defultIcon = 'el-icon-d-arrow-right'
           }
         }else {
           that.addressList = []
@@ -926,6 +929,7 @@ export default {
     submitForm(formName) {
       var that = this
       var objList = []
+      that.errorMsg = null
       if (that.isLogin){
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -961,12 +965,16 @@ export default {
                 var arr = []
                 for(var i in res.msg) {
                   var obj = res.msg[i][0];
-                  arr.push(obj)
+                  if (i === 'entry_postcode') {
+                    that.errorMsg = obj
+                  } else {
+                    arr.push(obj)
+                    this.$message({
+                      message:arr[0],
+                      type: 'error'
+                    });
+                  }
                 }
-                this.$message({
-                  message:arr[0],
-                  type: 'error'
-                });
               }
             })
           } else {
@@ -1006,12 +1014,16 @@ export default {
                 var arr = []
                 for(var i in res.msg) {
                   var obj = res.msg[i][0];
-                  arr.push(obj)
+                  if (i === 'entry_postcode') {
+                    that.errorMsg = obj
+                  } else {
+                    arr.push(obj)
+                    this.$message({
+                      message:arr[0],
+                      type: 'error'
+                    });
+                  }
                 }
-                this.$message({
-                  message:arr[0],
-                  type: 'error'
-                });
               }
             })
           }
@@ -1064,7 +1076,6 @@ export default {
               }
             }
           }
-          console.log('gggggg', that.goodsList)
         } else if (res.code === 301) {
           that.$message.warning('The order has expired, Please add it again.')
         }

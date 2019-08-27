@@ -19,10 +19,10 @@
                                         <h5>{{item.entry_firstname}} {{item.entry_lastname}}</h5>
                                         <p>{{item.entry_company}}</p>
                                         <p>
-                                            <span class="street_address">{{item.entry_street_address1}}</span>;
+                                            <span class="street_address">{{item.entry_street_address1}}</span>
                                             <span class="street_address">{{item.entry_street_address2}}</span>
                                         </p>
-                                        <p>{{item.entry_city}},{{countryList1[item.entry_country]}},{{item.entry_state}},{{item.entry_postcode}}</p>
+                                        <p>{{item.entry_city}},{{item.entry_state}},{{item.entry_postcode}},{{countryList1[item.entry_country]}}</p>
                                         <p class="cancat">{{item.telephone_number}}</p>
                                         <p class="cancat">{{item.entry_email_address}}</p>
                                         <div class="edit_btn" v-if="item.is_default == 0">
@@ -62,7 +62,7 @@
         <!-- 新增地址弹框 -->
         <el-dialog :visible.sync="addressFormVisible" width="800px" :before-close="handleClose">
             <div class="addressBox payBox">
-                <el-form :model="addressForm" :rules="rules">
+                <el-form :model="addressForm" :rules="rules" ref="addressForm">
                     <el-form-item label="First name:" prop="entry_firstname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_firstname"></el-input>
                     </el-form-item>
@@ -72,7 +72,7 @@
                     <el-form-item label="Email Address:" prop="entry_email_address" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_email_address"></el-input>
                     </el-form-item>
-                    <el-form-item label="Company:" prop="entry_company" :label-width="formLabelWidth">
+                    <el-form-item label="Company Name:" prop="entry_company" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_company"></el-input>
                     </el-form-item>
                     <el-form-item label="Country：" :label-width="formLabelWidth" required>
@@ -106,8 +106,8 @@
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <div class="assressBtn">
-                        <div class="com-sub-btn" @click="addSub()" v-if="type == ''">Save</div>
-                        <div class="com-sub-btn" @click="editSub()" v-if="type == 'edit'">Save</div>
+                        <div class="com-sub-btn" @click="addSub('addressForm')" v-if="type == ''">Save</div>
+                        <div class="com-sub-btn" @click="editSub('addressForm')" v-if="type == 'edit'">Save</div>
                         <div class="com-Cancel-btn" @click="handleClose()">Cancel</div>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {addAddress,address} from "@/api/account.js"
+import {addAddress,address,setdefault} from "@/api/account.js"
 import addressList from "static/config.js"
 import qs from 'qs'
 export default {
@@ -228,34 +228,40 @@ export default {
             this.ProvinceList = Province
         },
         //提交地址
-        addSub(){
+        addSub(formName){
             if(this.isdefault == false){
                 this.addressForm.is_default = '0'
             }else{
                 this.addressForm.is_default = '1'
             }
-            console.log(this.addressForm)
-            addAddress(this.addressForm).then((res)=>{
-                if(res.code === '200' || res.code === 200){
-                    this.$message({
-                        message: 'Successful setup',
-                        type: 'success'
-                    });
-                    this.clearFrom()
-                    this.addressFormVisible = false;
-                    this._address()
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    addAddress(this.addressForm).then((res)=>{
+                        if(res.code === '200' || res.code === 200){
+                            this.$message({
+                                message: 'Successful setup',
+                                type: 'success'
+                            });
+                            this.clearFrom()
+                            this.addressFormVisible = false;
+                            this._address()
+                        }else{
+                            var arr = []
+                            for(var i in res.msg) {
+                                var obj = res.msg[i][0];
+                                arr.push(obj)
+                            }
+                            this.$message({
+                                message:arr[0],
+                                type: 'error'
+                            });
+                        }
+                    })
                 }else{
-                    var arr = []
-                    for(var i in res.msg) {
-                        var obj = res.msg[i][0];
-                        arr.push(obj)
-                    }
-                    this.$message({
-                        message:arr[0],
-                        type: 'error'
-                    });
+                    return false
                 }
-            })
+                
+            })  
         },
         //删除用户地址
         removeAddress(id){
@@ -282,12 +288,20 @@ export default {
         },
         //设置为默认地址
         setDefault(id){
-            let pre = qs.stringify({is_default:'1'})
-            this.$axios.post(`api/address/${id}`,pre).then(res => {
-                if(res.code === '200' || res.code === 200){
+            let pre={
+                id:id,
+                is_default:1
+            }
+            setdefault(pre).then((res)=>{
+                if(res.code == 200){
                     this.$message({
                         type: 'success',
-                        message: 'Successful deletion!'
+                        message: 'Successful'
+                    });
+                }else{
+                    this.$message({
+                        type: 'error',
+                        message:res.msg
                     });
                 }
                 this._address()
@@ -303,22 +317,28 @@ export default {
             this.type = str
         },
         //编辑地址提交
-        editSub(){
+        editSub(formName){
             if(this.isdefault == false){
                 this.addressForm.is_default = '0'
             }else{
                 this.addressForm.is_default = '1'
             }
-            let pre = qs.stringify(this.addressForm)
-            this.$axios.post(`api/address/${this.addressId}`,pre).then(res => {
-                if(res.code === '200' || res.code === 200){
-                    this.$message({
-                        type: 'success',
-                        message: 'Successful deletion!'
-                    });
-                    this.addressFormVisible = false;
-                    this.clearFrom()
-                    this._address()
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let pre = qs.stringify(this.addressForm)
+                    this.$axios.post(`api/address/${this.addressId}`,pre).then(res => {
+                        if(res.code === '200' || res.code === 200){
+                            this.$message({
+                                type: 'success',
+                                message: 'Successful deletion!'
+                            });
+                            this.addressFormVisible = false;
+                            this.clearFrom()
+                            this._address()
+                        }
+                    })
+                }else{
+                    return false;
                 }
             })
         },
