@@ -23,7 +23,7 @@
                   <div class="num num_list" v-if="orders[0]">
                       <div class="one">
                           <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
-                          <p><span>Status.：</span>{{orders[0].orders_status}}</p>
+                          <p><span>Status.：</span>{{order_statusList[orders[0].orders_status]}}</p>
                           <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
                       </div>
                       <div class="two">
@@ -133,23 +133,13 @@ export default {
         orders:{},//地址等
         orders_total:[],//金额小项
         orders_products:[],//订单商品
-        tableData: [{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            },{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            },{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            },{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-        }]
+        order_statusList:{
+            '10':"pending",
+            '20':"Processing",
+            '30':"Processing (Payment Review)",
+            '40':"Shipped",
+            '50':"Cancelled"
+        }
     }
   },
   watch:{
@@ -163,7 +153,7 @@ export default {
     orderDetail(){
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
-        this.orders_total = res.orders_total
+        this.orders_total = res.orders_total 
         this.orders_products = res.orders_products
       })
     },

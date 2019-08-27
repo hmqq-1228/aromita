@@ -128,11 +128,11 @@
   <!-- 添加心愿单弹框 -->
   <el-dialog
     :visible.sync="wishVisible"
-    width="30%">
-    <span>您还没有登陆，请登录后添加心愿单</span>
+    width="300px">
+    <span>您还没有登陆，请登录后再添加心愿单~</span>
     <span slot="footer" class="dialog-footer">
       <el-button @click="wishVisible = false">取 消</el-button>
-      <el-button type="primary">确 定</el-button>
+      <router-link to="/login"><el-button type="danger">确 定</el-button></router-link>
     </span>
   </el-dialog>
 </div>
