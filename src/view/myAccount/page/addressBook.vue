@@ -66,7 +66,7 @@
                     <el-form-item label="First name:" prop="entry_firstname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_firstname"></el-input>
                     </el-form-item>
-                    <el-form-item label="last name:" prop="entry_lastname" :label-width="formLabelWidth">
+                    <el-form-item label="Last name:" prop="entry_lastname" :label-width="formLabelWidth">
                         <el-input v-model="addressForm.entry_lastname"></el-input>
                     </el-form-item>
                     <el-form-item label="Email Address:" prop="entry_email_address" :label-width="formLabelWidth">

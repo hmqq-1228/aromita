@@ -2,16 +2,7 @@
   <div class="myAccount orderDetail">
     <div class="account">
       <div class="accountBox">
-        <div class="accountNav">
-          <router-link to="myAccount"><div class="navTitle">My Account</div></router-link>
-          <router-link to="myOrder"><div class="navItem">My Orders</div></router-link>
-          <router-link to="myWishlist"><div class="navItem">My Wishlist</div></router-link>
-          <router-link to="myCoupon"><div class="navItem">My Coupon</div></router-link>
-          <router-link to="myPoints"><div class="navItem">My Points</div></router-link>
-          <router-link to="mySubscription"><div class="navItem">My Subscription</div></router-link>
-          <router-link to="addressBook"><div class="navItem">Address Book</div></router-link>
-          <router-link to="accountSetting"><div class="navItem">Account Setting</div></router-link>
-        </div>
+        <Left-Nav></Left-Nav>
         <div class="navCount">
           <h3 class="my_title">Order Details</h3>
           <div style="display: flex;justify-content: start;border-bottom:1px dashed #e9e9e9;">
@@ -52,12 +43,14 @@
                     <div class="detail" v-if="orders[0]">
                         <h5>{{orders[0].delivery_name}}</h5>
                         <div class="discription">
-                            <p>
-                                {{orders[0].delivery_country}}{{orders[0].delivery_state}}{{orders[0].delivery_city}}
-                            </p>
                             <p>{{orders[0].delivery_company}}</p>
                             <p>{{orders[0].delivery_street_address}}</p>
-                            <p>{{orders[0].delivery_suburb}}{{orders[0].delivery_postcode}}</p>
+                            <p>
+                                {{orders[0].delivery_city}},{{orders[0].delivery_state}},{{orders[0].delivery_postcode}},{{orders[0].delivery_country}}
+                            </p>
+                            <!-- <p>{{orders[0].delivery_suburb}}</p> -->
+                            <p>{{orders[0].customers_phone}}</p>
+                            <p>{{orders[0].customers_email}}</p>
                         </div>
                     </div>
                 </div>
@@ -66,12 +59,14 @@
                     <div class="detail" v-if="orders[0]">
                         <h5>{{orders[0].billing_name}}</h5>
                         <div class="discription">
-                            <p>
-                                {{orders[0].billing_country}}{{orders[0].billing_state}}{{orders[0].billing_city}}
-                            </p>
                             <p>{{orders[0].billing_company}}</p>
                             <p>{{orders[0].billing_street_address}}</p>
-                            <p>{{orders[0].billing_suburb}}{{orders[0].billing_postcode}}</p>
+                            <p>
+                                {{orders[0].billing_city}},{{orders[0].billing_state}},{{orders[0].billing_postcode}},{{orders[0].billing_country}}
+                            </p>
+                            <!-- <p>{{orders[0].billing_suburb}}</p> -->
+                            <p>{{orders[0].customers_phone}}</p>
+                            <p>{{orders[0].customers_email}}</p>
                         </div>
                     </div>
                 </div>
@@ -125,7 +120,11 @@
 </template>
 
 <script>
+import Left from "../../element/leftNav"
 export default {
+  components: {
+      "Left-Nav":Left
+  },
   data(){
     return{
         url: "http://arapi.panduo.com.cn/uploads/",

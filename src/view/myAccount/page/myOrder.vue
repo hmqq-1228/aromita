@@ -51,7 +51,6 @@
                             <el-table-column
                                 prop="created_at"
                                 label="Order time"
-
                                 width="280">
                             </el-table-column>
                             <el-table-column
@@ -87,8 +86,8 @@
                                 :total="total">
                             </el-pagination>
                         </div>
-                        <div v-if="orderList.length ==0" class="No_order">
-                            <p>Sorry, you don’t have any orders yet. Shop Now.</p>
+                        <div class="No_order" v-if="orderList.length==0">
+                            <p><router-link to="/">Sorry, you don’t have any orders yet. Shop Now.</router-link></p>
                         </div>
                         <!-- 取消订单弹框 -->
                         <el-dialog
