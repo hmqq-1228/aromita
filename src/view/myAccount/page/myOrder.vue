@@ -215,12 +215,10 @@ export default {
         },
         //到支付页面
         pay(total, num){
+          sessionStorage.setItem('payTotal', total)
+          sessionStorage.setItem('orderNum', num)
           this.$router.push({
             path: '/payAgain',
-            query: {
-              totalPay: total,
-              orderNum: num
-            }
           })
         },
         _refund(){

@@ -202,17 +202,19 @@ export default {
         order_number: that.orderNum
       })
       // that.$store.state.addCartState = true
-      that.modelShow2 = true
-      that.$axios.post('api/paypal-pay', payLoad).then(res => {
-        if (res.code === 200) {
-          console.log('11111111', res.data)
-          payUrl = res.data
-          window.location.href = payUrl
-        } else {
-          that.modelShow2 = false
-          that.$message.warning(res.msg)
-        }
-      })
+      if (that.payTotal && that.orderNum) {
+        that.modelShow2 = true
+        that.$axios.post('api/paypal-pay', payLoad).then(res => {
+          if (res.code === 200) {
+            console.log('11111111', res.data)
+            payUrl = res.data
+            window.location.href = payUrl
+          } else {
+            that.modelShow2 = false
+            that.$message.warning(res.msg)
+          }
+        })
+      }
     },
     paySub: function (formName, formName1) {
       var that = this

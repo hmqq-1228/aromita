@@ -123,6 +123,9 @@
     border: 1px solid #c30808;
     box-shadow: 0 0 8px 5px #e7e7e7;
   }
+.goodInner:hover .goodsInfo{
+  color: #C51015;
+}
 .goodInner:hover .goodsPic{
   border-bottom: 1px solid #c30808;
 }
@@ -333,6 +336,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    word-break: break-all;
   }
   .goodsPrice{
     color: #c30808;
