@@ -441,7 +441,7 @@ export default {
         Address1: '',
         Address2: '',
         City: '',
-        Province: 'Alaska',
+        Province: 'Alabama',
         Postcode: '',
         Phone: '',
         checked: true
@@ -668,7 +668,7 @@ export default {
       this.addNewForm.Address1 = ''
       this.addNewForm.Address2 = ''
       this.addNewForm.City = ''
-      this.addNewForm.Province = 'Alaska'
+      this.addNewForm.Province = 'Alabama'
       this.addNewForm.Postcode = ''
       this.addNewForm.Phone = ''
     },
