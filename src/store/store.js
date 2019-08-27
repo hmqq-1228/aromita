@@ -5,6 +5,8 @@ const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
   cont: 0,
   contPrev: 0,
+  totalPay: 0,
+  orderNum: '',
   addCartState: false,//添加购物车商品
   delcartList:false,//删除购物车商品
   spuId: '',

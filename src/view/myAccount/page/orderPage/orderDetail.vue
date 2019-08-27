@@ -163,17 +163,21 @@ export default {
     orderDetail(){
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
-        this.orders_total = res.orders_total 
+        this.orders_total = res.orders_total
         this.orders_products = res.orders_products
       })
     },
     pay(total, num){
+      // this.$store.state.totalPay = total
+      // this.$store.state.orderNum = num
+      sessionStorage.setItem('payTotal', total)
+      sessionStorage.setItem('orderNum', num)
       this.$router.push({
         path: '/payAgain',
-        query: {
-          totalPay: total,
-          orderNum: num
-        }
+        // params: {
+        //   totalPay: total,
+        //   orderNum: num
+        // }
       })
     }
   }

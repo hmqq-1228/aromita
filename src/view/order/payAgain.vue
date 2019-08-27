@@ -3,7 +3,7 @@
     <aheader-com></aheader-com>
     <div class="payAgain">
         <div class="model2" v-if="modelShow2"></div>
-        <div class="GrandTotal">Grand Total：<span>$ 88.88</span></div>
+        <div class="GrandTotal">Grand Total：<span>$ {{payTotal}}</span></div>
         <div class="payBox">
           <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
           <div class="moreCard">
@@ -186,8 +186,10 @@ export default {
     }
   },
   created(){
-    this.payTotal = this.$route.query.totalPay
-    this.orderNum = this.$route.query.orderNum
+    // this.payTotal = this.$store.state.totalPay
+    // this.orderNum = this.$store.state.orderNum
+    this.payTotal = sessionStorage.getItem('payTotal')
+    this.orderNum = sessionStorage.getItem('orderNum')
     console.log('22222222', this.payTotal)
     console.log('33333333', this.orderNum)
   },
