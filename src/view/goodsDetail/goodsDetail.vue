@@ -109,7 +109,13 @@
                 </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-            <div class="addWish" @click="_addwishList()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+            <div class="addWish" @click="_addwishList()">
+              <span>
+                <img src="@/assets/wish.png" alt v-if="iswish==false">
+                <img src="@/assets/wishactive.png" alt v-if="iswish==true">
+              </span>
+              <span>Add to WishList</span>
+            </div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
         </div>
@@ -181,6 +187,7 @@ export default {
       goods_count:0,//购物车已加商品数
       msgshow:false,//message提示
       wishVisible:false,//添加心愿单弹框
+      iswish:false,//是否收藏
     }
   },
   watch:{
@@ -254,7 +261,13 @@ export default {
             wl_products_skus_id:this.$route.params.skuId,
           }
           addwishlist(pre).then((res)=>{
-
+            if(res.code == 200){
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                });
+            } 
+            this.iswish = true
           })
         }else{
           this.wishVisible = true

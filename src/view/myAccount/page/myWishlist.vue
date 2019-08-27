@@ -15,28 +15,23 @@
                             </div>
                             <div class="Products_Details">
                                 <el-table
-                                    :data="tableData"
+                                    :data="wish_List"
                                     style="width: 100%;border:1px solid #E9E9E9"
                                     size="medium"
+                                    height="540px"
                                     :header-cell-style="{
                                         'background-color': '#F5F5F5',
                                         'color': '#333'
                                     }">
-                                    <el-table-column
-                                        type="selection"
-                                        label="Sealect all"
-                                        width="55">
-                                    </el-table-column>
-                                    <el-table-column
-                                        prop="date"
-                                        label="Product">
+                                    <el-table-column type="selection" label="Sealect all" width="45"></el-table-column>
+                                    <el-table-column label="Product">
                                         <template slot-scope="scope">
                                             <div class="product">
-                                                <img src="@/assets/images/1.jpg" alt="">
+                                                <img :src="scope.row.sku_image" alt="">
                                                 <div class="detail">
-                                                    <h5>Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</h5>
+                                                    <h5>{{scope.row.sku_name}}</h5>
                                                     <p><span>Size:</span>3.0mm</p>
-                                                    <p>$ 1.99<span class="old_price">$ 4.99</span></p>
+                                                    <p>${{scope.row.sku_price}}<span class="old_price">$ 4.99</span></p>
                                                 </div>
                                             </div>
                                         </template>
@@ -49,14 +44,11 @@
                                             <el-input-number v-model="scope.row.name" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
                                         </template>
                                     </el-table-column> -->
-                                    <el-table-column
-                                        prop="address"
-                                        label="Options"
-                                        width="200">
+                                    <el-table-column label="Options" width="200">
                                         <template slot-scope="scope">
                                             <div class="wish_options">
                                                 <img src="@/assets/images/cart.png" alt="">
-                                                <i class="el-icon-error"></i>
+                                                <i class="el-icon-error" @click="deleteList(scope.row.wl_products_skus_id)"></i>
                                             </div>
                                         </template>
                                     </el-table-column>
@@ -81,7 +73,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {wishlist} from "@/api/wish.js"
+import {wishlist,delwishlist} from "@/api/wish.js"
 export default {
     components: {
         "Left-Nav":Left
@@ -90,23 +82,7 @@ export default {
         return{
             list:[1],
             num1:1,
-            tableData: [{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            },{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            },{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            },{
-                date: '2016-05-02',
-                name: '1',
-                address: '$ 64.00'
-            }]
+            wish_List:[]
         }
     },
     created(){
@@ -116,6 +92,12 @@ export default {
         //心愿单列表
         getList(){
             wishlist().then((res)=>{
+                this.wish_List = res.data.data
+            })
+        },
+        //删除心愿单
+        deleteList(id){
+            delwishlist({id:id}).then((res)=>{
 
             })
         },

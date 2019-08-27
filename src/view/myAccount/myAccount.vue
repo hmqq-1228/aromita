@@ -17,16 +17,16 @@
               <div class="processing_link">
                 <span><img src="@/assets/images/ProcessingOrders.png" alt=""></span>
                 <span class="text">{{num.order}}</span>
-                <router-link to="/addressBook"><span>Processing Orders</span></router-link>
+                <router-link to="/myOrder"><span>Processing Orders</span></router-link>
               </div>
               <div class="processing_link">
                 <span><img src="@/assets/images/Wishlist.png" alt=""></span>
                 <span class="text">{{num.wishlist}}</span>
-                <span>Wishlist</span>
+                <router-link to="/myWishlist"><span>Wishlist</span></router-link>
               </div>
               <div class="user_list">
                   <div class="list">
-                    <h5>Coupon （{{num.coupon}}）</h5>
+                    <router-link to="/myCoupon"><h5>Coupon （{{num.coupon}}）</h5></router-link>
                   </div>
                   <div class="list">
                     <!-- <p>{{userDetail.score}}</p> -->

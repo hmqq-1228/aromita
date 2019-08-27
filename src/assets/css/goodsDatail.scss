@@ -564,11 +564,18 @@
   font-family: Tahoma;
   color: #333;
   margin-left: 60px;
-}
-  .addWish span:nth-of-type(1){
+  cursor: pointer;
+  span{
+    img{
+      width:24px;
+      height:24px;
+    }
+  }
+  span:nth-of-type(1){
     margin-top: 4px;
     cursor: pointer;
   }
+}
   .kuCun{
     line-height: 40px;
     font-size: 14px;
