@@ -16,17 +16,17 @@
               </div>
               <div class="processing_link">
                 <span><img src="@/assets/images/ProcessingOrders.png" alt=""></span>
-                <span class="text">1</span>
-                <span>Processing Orders</span>
+                <span class="text">{{num.order}}</span>
+                <router-link to="/addressBook"><span>Processing Orders</span></router-link>
               </div>
               <div class="processing_link">
                 <span><img src="@/assets/images/Wishlist.png" alt=""></span>
-                <span class="text">1</span>
+                <span class="text">{{num.wishlist}}</span>
                 <span>Wishlist</span>
               </div>
               <div class="user_list">
                   <div class="list">
-                    <h5>Coupon （2）</h5>
+                    <h5>Coupon （{{num.coupon}}）</h5>
                   </div>
                   <div class="list">
                     <!-- <p>{{userDetail.score}}</p> -->
@@ -67,14 +67,15 @@
 
 <script>
 import Left from "./element/leftNav"
-import {myAccount} from "@/api/account.js"; 
+import {myAccount,couponcount} from "@/api/account.js"; 
 export default {
   components: {
     "Left-Nav":Left
   },
   data(){
     return{
-      userDetail:{}
+      userDetail:{},//用户信息
+      num:{},//优惠券等信息
     }
   },
   watch:{
@@ -86,6 +87,9 @@ export default {
     _myAccount(){
       myAccount().then((res)=>{
         this.userDetail = res.data
+      })
+      couponcount().then((res)=>{
+        this.num = res.data
       })
     }
   }

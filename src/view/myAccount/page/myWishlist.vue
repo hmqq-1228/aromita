@@ -81,6 +81,10 @@
 </template>
 <script>
 import Left from "../element/leftNav"
+<<<<<<< Updated upstream
+=======
+import {wishlist} from "@/api/wish.js"
+>>>>>>> Stashed changes
 export default {
     components: {
         "Left-Nav":Left

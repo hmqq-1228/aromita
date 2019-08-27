@@ -1,7 +1,9 @@
 import { get, post } from "../utils/http.js";
 
-//个人中心首页
+//个人中心首页用户信息
 export const myAccount = params =>get("api/myaccount",params);
+//个人中心优惠券积分等
+export const couponcount = params =>get("/api/couponcount",params);
 //个人中心详情
 export const myAccountSet = params =>get("api/accountset",params);
 //修改个人信息
@@ -16,3 +18,8 @@ export const cancelOrder = params =>post("api/cancelOrder",params);
 export const addAddress = params =>post("api/addressbook",params);
 //地址列表
 export const address = params =>get("api/address",params);
+<<<<<<< Updated upstream
+=======
+//设为默认地址
+export const setdefault = params =>post("/api/setdefault",params);
+>>>>>>> Stashed changes

@@ -109,7 +109,11 @@
                 </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
+<<<<<<< Updated upstream
             <div class="addWish"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+=======
+            <div class="addWish" @click="_addwishList()"><span><img src="@/assets/wish.png" alt></span><span>Add to WishList</span></div>
+>>>>>>> Stashed changes
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
         </div>
@@ -124,13 +128,29 @@
     <div class="productTitle">Product Details</div>
     <p v-html="pruductDetail.product_detail">{{pruductDetail.product_detail}}</p>
   </div>
+
+  <!-- 添加心愿单弹框 -->
+  <el-dialog
+    :visible.sync="wishVisible"
+    width="30%">
+    <span>您还没有登陆，请登录后添加心愿单</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="wishVisible = false">取 消</el-button>
+      <el-button type="primary">确 定</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
+<<<<<<< Updated upstream
 import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart} from "../../api/register";
+=======
+import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart,checkLogin} from "../../api/register";
+import {addwishlist} from "@/api/wish.js"
+>>>>>>> Stashed changes
 import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
@@ -168,6 +188,7 @@ export default {
       spuId:'',
       goods_count:0,//购物车已加商品数
       msgshow:false,//message提示
+      wishVisible:false,//添加心愿单弹框
     }
   },
   watch:{
@@ -233,6 +254,26 @@ export default {
     this.getGoodsDetail()
   },
   methods:{
+<<<<<<< Updated upstream
+=======
+    //添加到心愿单
+    _addwishList(){
+      checkLogin().then((res)=>{
+        if(res.code === '200' || res.code === 200){
+          let pre={
+            wl_products_skus_id:this.$route.params.skuId,
+          }
+          addwishlist(pre).then((res)=>{
+
+          })
+        }else{
+          this.wishVisible = true
+          localStorage.removeItem("userToken")
+          return false
+        }
+      })
+    },
+>>>>>>> Stashed changes
     tastModel: function(){
       this.showModel = true
     },
