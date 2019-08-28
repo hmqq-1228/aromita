@@ -112,7 +112,7 @@
             <div class="addWish" @click="_addwishList()">
               <span>
                 <img src="@/assets/wish.png" alt v-if="iswish==false">
-                <img src="@/assets/wishactive.png" alt v-if="iswish==true">
+                <img src="@/assets/Wishactive1.png" alt v-if="iswish==true">
               </span>
               <span>Add to WishList</span>
             </div>
