@@ -135,7 +135,7 @@ export default {
     },
     created(){
         this.myOrderList()
-        this.countdown()
+        
     },
     methods:{
         //分页
@@ -175,6 +175,9 @@ export default {
             myOrder({status:this.order_status,page:this.page}).then((res)=>{
                 this.orderList = res.data
                 this.total = res.total
+                if(this.orderList){
+                    this.countdown()
+                }
             })
         },
         //切换订单状态

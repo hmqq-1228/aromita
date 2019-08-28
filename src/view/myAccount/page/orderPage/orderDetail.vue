@@ -30,7 +30,7 @@
               </div>
             </div>
             <div class="payAgain">
-              <div style="margin-top: 15px;" v-if="orders[0] && orders[0].orders_status === 10">
+              <div style="margin-top: 15px;" v-if="orders[0] && orders[0].orders_status == 10 && orders[0].time>0">
                 <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
                   Pay now
                 </el-button>
@@ -86,9 +86,9 @@
                         label="Product">
                         <template slot-scope="scope">
                             <div class="product">
-                                <img :src="scope.row.products_pic" alt="">
+                                <img :src="scope.row.products_pic" alt="" @click="link(scope.row.product_id,scope.row.sku_no)">
                                 <div class="detail">
-                                    <h5>{{scope.row.products_name}}</h5>
+                                    <h5 @click="link(scope.row.product_id,scope.row.sku_no)">{{scope.row.products_name}}</h5>
                                     <p><span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
                                     <p>${{scope.row.final_price}}<span class="old_price">${{scope.row.products_price}}</span></p>
                                 </div>
@@ -149,6 +149,12 @@ export default {
       this.orderDetail()
   },
   methods:{
+    //跳转到商品详情
+    link(spuid,skuid){
+      if(skuid && spuid){
+        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+      }
+    },
     orderDetail(){
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
