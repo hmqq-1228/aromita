@@ -134,8 +134,7 @@ export default {
         }
     },
     created(){
-        this.myOrderList()
-        
+        this.myOrderList() 
     },
     methods:{
         //分页

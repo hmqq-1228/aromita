@@ -46,7 +46,7 @@
                             <p>{{orders[0].delivery_company}}</p>
                             <p>{{orders[0].delivery_street_address}}</p>
                             <p>
-                                {{orders[0].delivery_city}},{{orders[0].delivery_state}},{{orders[0].delivery_postcode}},{{orders[0].delivery_country}}
+                                {{orders[0].delivery_city}},{{orders[0].delivery_state}},{{orders[0].delivery_postcode}},{{countryList1[orders[0].delivery_country]}}
                             </p>
                             <!-- <p>{{orders[0].delivery_suburb}}</p> -->
                             <p>{{orders[0].customers_phone}}</p>
@@ -62,7 +62,7 @@
                             <p>{{orders[0].billing_company}}</p>
                             <p>{{orders[0].billing_street_address}}</p>
                             <p>
-                                {{orders[0].billing_city}},{{orders[0].billing_state}},{{orders[0].billing_postcode}},{{orders[0].billing_country}}
+                                {{orders[0].billing_city}},{{orders[0].billing_state}},{{orders[0].billing_postcode}},{{countryList1[orders[0].billing_country]}}
                             </p>
                             <!-- <p>{{orders[0].billing_suburb}}</p> -->
                             <p>{{orders[0].customers_phone}}</p>
@@ -138,7 +138,11 @@ export default {
             '30':"Processing (Payment Review)",
             '40':"Shipped",
             '50':"Cancelled"
-        }
+        },
+        countryList1:{
+            US:"United States",
+            CA:"Canada"
+        },
     }
   },
   watch:{
