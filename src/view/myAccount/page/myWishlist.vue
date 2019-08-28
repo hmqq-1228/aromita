@@ -18,7 +18,6 @@
                                     :data="wish_List"
                                     style="width: 100%;border:1px solid #E9E9E9"
                                     size="medium"
-                                    height="540px"
                                     :header-cell-style="{
                                         'background-color': '#F5F5F5',
                                         'color': '#333'
