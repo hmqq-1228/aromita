@@ -1,52 +1,99 @@
 <template>
   <div class="wrap">
-    <header-com></header-com>
-    <div class="content_warn">
+    <aheader-com></aheader-com>
+    <div class="content_4">
       <div class="left">
-        <img src="@/assets/pass.png" alt="">
+        {{theNum}}
       </div>
       <div class="right">
-        <p class="word_one">Sorry. This Category is no longer available</p>
+        <p class="word_one">Sorry,  This category is no longer available.</p>
       </div>
     </div>
-    <footer-com></footer-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
-import Header from "@/components/header.vue";
-import Footer from "@/components/footer.vue";
-export default {
-  components: {
-    "header-com": Header,
-    "footer-com": Footer
-  },
-}
+  import Aheader from "@/components/aheader.vue";
+  import Footer from "@/components/afooter.vue";
+  export default {
+    components:{
+      "aheader-com": Aheader,
+      "afooter-com": Footer
+    },
+    data(){
+      return{
+        activeNav: '',
+        theNum: 5,
+        interval: null
+      }
+    },
+    mounted() {
+      this.interval = setInterval(() => {
+        if (this.theNum === 1) {
+          clearInterval(this.interval)
+          this.$router.push({path: '/'})
+        } else {
+          this.theNum--
+        }
+      }, 1000)
+    },
+  }
 </script>
 <style lang="scss">
-   .content_warn{
-    width: 1440px;
-  .left{
-  width: 40px;
-  height: 40px;
-  margin-left: 514px;
-  margin-top: 155px;
-}
-.right{
-  width:542px;
-  height: 76px;
-  // background-color: aqua;
-  margin-left: 593px;
-   margin-top: -23px;
-   margin-bottom: 167px;
-.word_one{
-font-size:18px;
-font-family:Tahoma;
-font-weight:bold;
-color:rgba(51,51,51,1);
-}
+  .wrap{
+    width: 100%;
 
-}
+    .content_4{
+      width: 452px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 200px;
+      .left{
+        width: 40px;
+        height: 40px;
+      }
+      .right{
+        height: 60px;
+        line-height: 60px;
+        .word_one{
+          font-size:18px;
+          font-family:Tahoma;
+          font-weight:bold;
+          color:rgba(51,51,51,1);
+        }
+        .word_two{
+          font-size:14px;
+          font-family:Tahoma;
+          font-weight:400;
+          color:rgba(51,51,51,1);
+          margin-top: 11px;
+        }
+        .word_thr{
+          font-size:14px;
+          font-family:Tahoma;
+          font-weight:400;
+          line-height:18px;
+          color:rgba(102,102,102,1);
+          margin-top: 5px;
+        }
+      }
+      .left {
+        background: url('../../../static/img/time5.gif') no-repeat center ;
+        height: 60px;
+        width: 60px;
+        text-align: center;
+        line-height: 60px;
+      }
+    }
   }
-
-
+  .foot{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+  // https://blog.csdn.net/github_37483541/article/details/54951174
 </style>

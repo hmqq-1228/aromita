@@ -134,8 +134,11 @@ export default {
         }
     },
     created(){
-        this.myOrderList()
-        this.countdown()
+      this.myOrderList()
+      this.countdown()
+      if (this.$route.params.path) {
+        this.order_status = this.$route.params.path
+      }
     },
     methods:{
         //分页
