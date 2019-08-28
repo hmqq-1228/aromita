@@ -87,7 +87,9 @@
           </div>
         </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -262,7 +264,7 @@ export default {
     font-family:Tahoma;
     font-weight:bold;
     color: #333;
-    margin-top: 40px;
+    margin-top: 100px;
     margin-bottom: 6px;
   }
   .GrandTotal span{
@@ -315,5 +317,11 @@ export default {
     top: 0;
     left: 0;
     z-index: 1000;
+  }
+  .foot{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
 </style>

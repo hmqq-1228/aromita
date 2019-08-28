@@ -93,10 +93,10 @@ margin-top: 5px;
   }
  }
  .foot{
-   width: 100%;
-   position: fixed;
-   bottom: 0;
-   left: 0;
- }
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
 // https://blog.csdn.net/github_37483541/article/details/54951174
 </style>
