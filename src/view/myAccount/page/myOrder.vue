@@ -45,13 +45,16 @@
                                 <template slot-scope="scope">
                                     <p style="display:none">{{scope.row}}</p>
                                     <p>{{scope.row.orders_number}}</p>
-                                    <p style="color:#C51015;text-align:center;font-weight:bolder" v-if="scope.row.orders_status== 10 && order_status == '10'">Time Left:{{scope.row.remainTimeStr}}</p>
+                                    <p style="color:#C51015;text-align:center;font-weight:bolder" v-if="(scope.row.orders_status== 10 ||scope.row.orders_status== 60)&& order_status == '10'">Time Left:{{scope.row.remainTimeStr}}</p>
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                prop="created_at"
-                                label="Order time"
-                                width="280">
+                                prop="order_total"
+                                label="Order Time">
+                                <template slot-scope="scope">
+                                    <span v-if="scope.row.orders_status== 10 ||scope.row.orders_status== 60 || scope.row.orders_status== 50">{{scope.row.created_at}}</span>
+                                    <span v-else>{{scope.row.pay_success_time}}</span>
+                                </template>
                             </el-table-column>
                             <el-table-column
                                 prop="order_total"
@@ -69,9 +72,9 @@
                             </el-table-column>
                             <el-table-column label="Action" width="300">
                                 <template slot-scope="scope">
-                                    <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number)" v-if="scope.row.orders_status== 10 && scope.row.time>0">Pay</span>
+                                    <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 20" @click="cancelOrder(scope.row.orders_number)">Cancel</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                                 </template>
@@ -127,7 +130,8 @@ export default {
                 '20':"Processing",
                 '30':"Processing (Payment Review)",
                 '40':"Shipped",
-                '50':"Cancelled"
+                '50':"Cancelled",
+                '60':"pending"
             },
             cancelVisity:false,
             orderNum:'',//订单号
@@ -187,7 +191,9 @@ export default {
             this.order_status = num
             this.page = 1
             this.myOrderList()
-            //this.countdown()
+            if(num == 10){
+                this.$router.go(0)
+            }
         },
         // 取消订单
         cancelOrder(num){

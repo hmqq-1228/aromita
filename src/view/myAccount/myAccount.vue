@@ -8,7 +8,7 @@
             <div class="home_top">
               <div class="user_detail">
                 <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
-                <h4 v-else>{{userDetail.firstname}} {{userDetail.lastname}}</h4>
+                <h4 v-else>Hello {{userDetail.firstname}} {{userDetail.lastname}}</h4>
                 <div class="other_link">
                     <p style="margin-right:26px"><img src="@/assets/images/Address.png" alt=""><router-link to="/accountSetting">Account Setting</router-link></p>
                     <p><img src="@/assets/images/Settings.png" alt=""><router-link to="/addressBook">Address Book</router-link></p>
