@@ -43,24 +43,24 @@ export default {
     },
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
  .wrap{
    width: 100%;
 
   .content_4{
-    width: 80%;
+    width: 600px;
+    margin: 0 auto;
+    display: flex;
+    margin-top: 200px;
+    justify-content: center;
   .left{
   width: 40px;
   height: 40px;
-  margin-left: 514px;
-  margin-top: 155px;
 }
 .right{
   width:458px;
   height: 76px;
-  // background-color: aqua;
-  margin-left: 593px;
-   margin-top: -38px;
+  margin-left: 20px;
 .word_one{
 font-size:18px;
 font-family:Tahoma;
