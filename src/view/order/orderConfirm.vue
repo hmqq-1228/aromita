@@ -137,7 +137,7 @@
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
               <div class="addressText" :title="address.entry_company+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
-                {{address.entry_company}}, {{address.entry_street_address1}}{{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
+                <span v-if="address.entry_company">{{address.entry_company}},</span> {{address.entry_street_address1}} {{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
               </div>
             </div>
             <div class="itemPone">
@@ -470,6 +470,9 @@ export default {
           {required: true, message: 'Please enter your first address.', trigger: 'blur'},
           {required: true, min: 1, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur' }
         ],
+        Address2: [
+          { min: 0, max: 125, message: 'You can write a maximum of 125 characters.', trigger: 'blur' }
+        ],
         City: [
           {required: true, message: "Please enter the consignee's city.", trigger: 'blur'},
           {required: true, min: 1, max: 50, message: 'You can write a maximum of 50 characters.', trigger: 'blur' }
@@ -682,19 +685,20 @@ export default {
         if(data.data) {
           that.addressNum = data.data.length
           if (!type && !id) {
+            that.radio = ''
             that.addressList = data.data
+            that.defultIcon = 'el-icon-d-arrow-left'
             console.log('gggggg', that.addressList)
             for (var i=0; i<data.data.length; i++) {
               if (data.data[i].is_default === 1) {
                 // let defultList = []
                 that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
-                that.showMethod()
+                console.log('ffffff', that.radio)
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
                 // defultList.push(data.data[i])
                 // that.addressList = defultList
               } else {
-                that.radio = ''
                 that.errorInfo = 'No mode of transportation, please choose a valid address.'
               }
             }
@@ -703,6 +707,7 @@ export default {
               if (data.data[i].is_default === 1) {
                 let defultList = []
                 that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
+                // console.log('ffffff222', that.radio)
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
                 // that.showMethod()
@@ -722,6 +727,7 @@ export default {
               let checkList = []
               for (var j=0; j<data.data.length; j++) {
                 if (data.data[j].id === parseInt(id)) {
+                  that.radio = data.data[j].id + '-'+data.data[j].entry_country+'-'+data.data[j].entry_state+'-'+data.data[j].entry_city+'-'+data.data[j].entry_postcode
                   checkList.unshift(data.data[j])
                 } else {
                   checkList.push(data.data[j])
@@ -739,6 +745,7 @@ export default {
               for (var j=0; j<data.data.length; j++) {
                 if (data.data[j].id === parseInt(id)) {
                   let checkList = []
+                  that.radio = data.data[j].id + '-'+data.data[j].entry_country+'-'+data.data[j].entry_state+'-'+data.data[j].entry_city+'-'+data.data[j].entry_postcode
                   checkList.push(data.data[j])
                   that.addressList = checkList
                 }

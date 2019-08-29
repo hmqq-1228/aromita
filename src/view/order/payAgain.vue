@@ -3,7 +3,7 @@
     <aheader-com></aheader-com>
     <div class="payAgain">
         <div class="model2" v-if="modelShow2"></div>
-        <div class="GrandTotal">Grand Total：<span>$ {{payTotal}}</span></div>
+        <div class="GrandTotal">Grand Total：<span>$ {{payTotal?payTotal:'--'}}</span></div>
         <div class="payBox">
           <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
           <div class="moreCard">
@@ -87,7 +87,9 @@
           </div>
         </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 <script>
@@ -203,12 +205,14 @@ export default {
       })
       // that.$store.state.addCartState = true
       if (that.payTotal && that.orderNum) {
-        that.modelShow2 = true
         that.$axios.post('api/paypal-pay', payLoad).then(res => {
           if (res.code === 200) {
+            that.modelShow2 = true
             console.log('11111111', res.data)
             payUrl = res.data
             window.location.href = payUrl
+          } else if (res.code === 401 || res.code === '401') {
+            that.$router.push('/over_time_order')
           } else {
             that.modelShow2 = false
             that.$message.warning(res.msg)
@@ -262,7 +266,7 @@ export default {
     font-family:Tahoma;
     font-weight:bold;
     color: #333;
-    margin-top: 40px;
+    margin-top: 100px;
     margin-bottom: 6px;
   }
   .GrandTotal span{
@@ -315,5 +319,11 @@ export default {
     top: 0;
     left: 0;
     z-index: 1000;
+  }
+  .foot{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
 </style>

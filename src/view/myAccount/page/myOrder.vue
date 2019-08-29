@@ -135,7 +135,10 @@ export default {
         }
     },
     created(){
-        this.myOrderList() 
+      this.myOrderList()
+      if (this.$route.params.path) {
+        this.order_status = this.$route.params.path
+      }
     },
     methods:{
         //分页

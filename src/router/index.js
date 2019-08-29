@@ -16,6 +16,7 @@ const goodsDetail = () => import('@/view/goodsDetail/goodsDetail.vue')
 const shoppingCar = () => import('@/view/shoppingCar/shoppingCar.vue')
 const newPassword = () => import('@/view/register/newPassword.vue')
 const unavailable = () => import('@/view/Kongbai/unavailable.vue')
+const over_time_order = () => import('@/view/Kongbai/over_time_order.vue')
 const myAccount = () => import('@/view/myAccount/myAccount.vue')//个人中心首页
 const myOrder = () =>import('@/view/myAccount/page/myOrder.vue')//我的订单
 const orderDetail = () =>import('@/view/myAccount/page/orderPage/orderDetail.vue')
@@ -73,6 +74,11 @@ export default new Router({
       path: '/sort_out_warn',
       name: 'sort_out_warn',
       component: Sort_out_warn,
+    },
+    {
+      path: '/over_time_order',
+      name: 'over_time_order',
+      component: over_time_order,
     },
     {
       path: '/register',

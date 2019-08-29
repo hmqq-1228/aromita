@@ -6,7 +6,7 @@
         {{theNum}}
       </div>
       <div class="right">
-        <p class="word_one">Sorry,  This category is no longer available.</p>
+        <p class="word_one">Your order has expired (over 30 mins unpaid). Please check it in the CANCELLED ORDER.</p>
       </div>
     </div>
     <div class="foot">
@@ -35,7 +35,12 @@
         if (this.theNum === 1) {
           $('.left').css('background-image', "")
           clearInterval(this.interval)
-          this.$router.push({path: '/'})
+          this.$router.push({
+            name: 'myOrder',
+            params: {
+              path:'50'
+            }
+          })
         } else {
           this.theNum--
         }
@@ -48,18 +53,25 @@
     width: 100%;
 
     .content_4{
-      width: 470px;
+      width: 570px;
       margin: 0 auto;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       margin-top: 200px;
       .left{
         width: 40px;
         height: 40px;
       }
       .right{
+        width: 425px;
         height: 60px;
-        line-height: 60px;
+        padding: 6px 20px;
+        line-height: 25px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        word-break: break-all;
         .word_one{
           font-size:18px;
           font-family:Tahoma;
