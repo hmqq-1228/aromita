@@ -677,7 +677,6 @@ export default {
     },
     async getOrderAddress (type, id) {
       var that = this
-      that.radio = ''
       let data = await orderAddress()
       if (data.data){
         that.addressLen = data.data.length
@@ -686,7 +685,9 @@ export default {
         if(data.data) {
           that.addressNum = data.data.length
           if (!type && !id) {
+            that.radio = ''
             that.addressList = data.data
+            that.defultIcon = 'el-icon-d-arrow-left'
             console.log('gggggg', that.addressList)
             for (var i=0; i<data.data.length; i++) {
               if (data.data[i].is_default === 1) {
@@ -726,6 +727,7 @@ export default {
               let checkList = []
               for (var j=0; j<data.data.length; j++) {
                 if (data.data[j].id === parseInt(id)) {
+                  that.radio = data.data[j].id + '-'+data.data[j].entry_country+'-'+data.data[j].entry_state+'-'+data.data[j].entry_city+'-'+data.data[j].entry_postcode
                   checkList.unshift(data.data[j])
                 } else {
                   checkList.push(data.data[j])
@@ -743,6 +745,7 @@ export default {
               for (var j=0; j<data.data.length; j++) {
                 if (data.data[j].id === parseInt(id)) {
                   let checkList = []
+                  that.radio = data.data[j].id + '-'+data.data[j].entry_country+'-'+data.data[j].entry_state+'-'+data.data[j].entry_city+'-'+data.data[j].entry_postcode
                   checkList.push(data.data[j])
                   that.addressList = checkList
                 }

@@ -1,16 +1,9 @@
 <template>
   <div>
     <aheader-com></aheader-com>
-    <div class="model" v-if="infoShow">
-      <div class="modelCont alert">
-        <div class="modelClose" @click="closeInfoModel"><i class="el-icon-close"></i></div>
-        <div class="modelTitle tip">Your order has expired (over 30 mins unpaid). Please check it in the CANCELLED ORDER.</div>
-        <div class="payBtn info" @click="overDataOrder()">OK</div>
-      </div>
-    </div>
     <div class="payAgain">
         <div class="model2" v-if="modelShow2"></div>
-        <div class="GrandTotal">Grand Total：<span>$ {{payTotal}}</span></div>
+        <div class="GrandTotal">Grand Total：<span>$ {{payTotal?payTotal:'--'}}</span></div>
         <div class="payBox">
           <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
           <div class="moreCard">
@@ -115,7 +108,6 @@ export default {
       payTotal: '',
       orderNum: '',
       checked: true,
-      infoShow: false,
       modelShow2: false,
       checkedSub: false,
       showCreditForm: false,
@@ -204,17 +196,6 @@ export default {
     console.log('33333333', this.orderNum)
   },
   methods:{
-    closeInfoModel: function () {
-      this.infoShow = false
-    },
-    overDataOrder: function () {
-      this.$router.push({
-        name: 'myOrder',
-        params: {
-          path:'50'
-        }
-      })
-    },
     payByPaypal: function () {
       var that = this
       var payUrl = ''
@@ -231,7 +212,7 @@ export default {
             payUrl = res.data
             window.location.href = payUrl
           } else if (res.code === 401 || res.code === '401') {
-            that.infoShow = true
+            that.$router.push('/over_time_order')
           } else {
             that.modelShow2 = false
             that.$message.warning(res.msg)
@@ -344,75 +325,5 @@ export default {
     position: fixed;
     bottom: 0;
     left: 0;
-  }
-  .model{
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.2);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  .modelCont{
-    width: 380px;
-    height: 280px;
-    padding: 44px 30px;
-    text-align: center;
-    font-family: Tahoma;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 1px 1px 6px #666;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    box-sizing: border-box;
-  }
-  .modelCont.alert{
-    height: 190px;
-    line-height: 20px;
-  }
-  .modelClose{
-    width: 22px;
-    height: 22px;
-    font-size: 18px;
-    font-weight: bold;
-    position: absolute;
-    right: 4px;
-    top: 5px;
-    color: #0A0A0A;
-    cursor: pointer;
-  }
-  .modelClose:hover{
-    color: #333;
-  }
-  .modelTitle{
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 16px;
-    font-weight: bold;
-    text-align: center;
-  }
-  .modelTitle.tip{
-    height: 60px;
-    text-align: left;
-    margin-bottom: 0;
-  }
-  .payBtn{
-    color: #fff;
-    font-size:18px;
-    font-family:Tahoma;
-    width: 100px;
-    height: 32px;
-    line-height: 32px;
-    text-align: center;
-    margin: 0 auto;
-    border-radius:4px;
-    background-color: #C51015;
-    margin-top: 20px;
-    cursor: pointer;
   }
 </style>

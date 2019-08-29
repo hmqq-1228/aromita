@@ -30,7 +30,7 @@
               </div>
             </div>
             <div class="payAgain">
-              <div style="margin-top: 15px;" v-if="orders[0] && orders[0].orders_status == 10 && orders[0].time>0">
+              <div style="margin-top: 15px;">
                 <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
                   Pay now
                 </el-button>
@@ -162,7 +162,7 @@ export default {
     orderDetail(){
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
-        this.orders_total = res.orders_total 
+        this.orders_total = res.orders_total
         this.orders_products = res.orders_products
       })
     },

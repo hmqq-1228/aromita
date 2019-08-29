@@ -50,6 +50,13 @@ ul,li {
     border-color:#a81015 !important;
     background:#C51015 !important;
 }
+.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner{
+  border-color: #999 !important;
+  background-color: #fff !important;
+}
+.wrapLogin .el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #333 !important;
+}
 .account_set .el-radio__input.is-checked+.el-radio__label{
     color: #C51015 !important;
 }
@@ -228,7 +235,10 @@ ul,li {
     border-color: #E9E9E9 !important;
 }
 .payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover,.payConfirm .el-checkbox__input.is-focus .el-checkbox__inner,.payConfirm .el-checkbox__inner:hover{
-    border-color: #E9E9E9 !important;
+    border-color: #E5E5E5 !important;
+}
+.wrapLogin .el-checkbox__input.is-focus .el-checkbox__inner,.wrapLogin .el-checkbox__inner:hover{
+  border-color: #999 !important;
 }
 .payBox .el-form-item__content{
     height: 36px !important;
@@ -236,7 +246,7 @@ ul,li {
 .payBox .el-form-item__label{
     line-height: 36px !important;
 }
-.payBox .el-checkbox__inner::after,.payConfirm .el-checkbox__inner::after{
+.payBox .el-checkbox__inner::after,.payConfirm .el-checkbox__inner::after,.wrapLogin .el-checkbox__inner::after{
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     content: "";

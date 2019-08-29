@@ -93,8 +93,8 @@ import { handleLogin, handleCatpchas} from "../../api/register";
 import {loginImage} from "../../api/home";
 import { async } from "q";
 import qs from 'qs'
+import secret from '../../assets/js/secret.js';
 import identify from "../test/identify";
-import { constants } from 'fs';
 
 export default {
   name: "codetest",
@@ -187,7 +187,8 @@ export default {
     },
     async getLoginImage() {
       let data = await loginImage();
-      console.log('888888', data)
+      // var kk = this.$md5('uuuuuuuuu')
+      // console.log('888888', kk)
       this.loginImg = data.data[0].picture_src
       this.loginHref = data.data[0].picture_href
     },
@@ -196,9 +197,10 @@ export default {
       let params = {
         cont: that.num,
         checked: that.checked,
-        email: this.ruleForm.name,
-        password: this.ruleForm.password
+        email: secret.Encrypt(this.ruleForm.name),
+        password: secret.Encrypt(this.ruleForm.password)
       };
+      console.log('888888', params)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (that.checked) {
@@ -238,7 +240,7 @@ export default {
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();
       d.setDate(d.getDate()+cookieDates)
-      document.cookie = cookieName+"=" + JSON.stringify(cookieValue)  + ";path=/;expires=" + d.toGMTString()
+      document.cookie = cookieName+"$$" + JSON.stringify(cookieValue)  + ";path=/;expires=" + d.toGMTString()
     },
     removeCookie: function (cookieName) {
       document.cookie=encodeURIComponent(cookieName)+"=; expires=" + new Date();
@@ -249,14 +251,14 @@ export default {
       var arrcookie = strcookie.split("; ");//分割
       //遍历匹配
       for ( var i = 0; i < arrcookie.length; i++) {
-        var arr = arrcookie[i].split("=");
+        var arr = arrcookie[i].split('$$')
         if (arr[0] === cookieName){
           if (arr[1]) {
             var userInfo = JSON.parse(arr[1])
             if (userInfo.checked === true) {
               that.checkedState = true
-              that.ruleForm.name = userInfo.email
-              that.ruleForm.password = userInfo.password
+              that.ruleForm.name = secret.Decrypt(userInfo.email)
+              that.ruleForm.password = secret.Decrypt(userInfo.password)
               if (userInfo.num >= 3) {
                 that.catpchashow = true
               }
