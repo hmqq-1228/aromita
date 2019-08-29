@@ -137,7 +137,8 @@ export default {
             '20':"Processing",
             '30':"Processing (Payment Review)",
             '40':"Shipped",
-            '50':"Cancelled"
+            '50':"Cancelled",
+            '60':"pending"
         },
         countryList1:{
             US:"United States",
