@@ -19,7 +19,11 @@
                       </div>
                       <div class="two">
                           <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
-                          <p><span>Order Time：</span>{{orders[0].created_at}}</p>
+                          <p>
+                            <span>Order Time：</span>
+                            <span v-if="orders[0].orders_status == 10 || orders[0].orders_status == 50 || orders[0].orders_status == 60">{{orders[0].created_at}}</span>
+                            <span v-else>{{orders[0].pay_success_time}}</span>
+                          </p>
                       </div>
                   </div>
                   <div class="num num_right">
@@ -30,7 +34,7 @@
               </div>
             </div>
             <div class="payAgain">
-              <div style="margin-top: 15px;" v-if="orders[0] && orders[0].orders_status == 10 && orders[0].time>0">
+              <div style="margin-top: 15px;" v-if="orders[0]&& orders[0].time>0&&(orders[0].orders_status == 10 || orders[0].orders_status == 60)">
                 <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
                   Pay now
                 </el-button>
