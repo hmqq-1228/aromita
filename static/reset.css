@@ -60,11 +60,6 @@ ul,li {
 .account_set .el-radio__input.is-checked+.el-radio__label{
     color: #C51015 !important;
 }
-
-/* 复选框重置样式 */
-.el-checkbox__input.is-checked+.el-checkbox__label{
-    /* color: #c51015!important; */
-}
 .wrapLogin .el-input__inner,.register .right .el-input__inner{
     width: 400px !important;
     position: relative;
