@@ -108,26 +108,23 @@
   }
   .goodsItem{
     width: 300px;
-    height: 425px;
+    height: 440px;
     float: left;
   }
   .goodInner{
     width: 282px;
-    height: 407px;
+    height: 420px;
     margin: 0 auto;
     box-shadow: none;
     transition: all .5s;
-    border: 1px solid #e8e8e8;
+    border: 1px solid #fff;
   }
   .goodInner:hover{
-    border: 1px solid #c30808;
-    box-shadow: 0 0 8px 5px #e7e7e7;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 0 4px 4px #f5f5f5;
   }
 .goodInner:hover .goodsInfo{
   color: #C51015;
-}
-.goodInner:hover .goodsPic{
-  border-bottom: 1px solid #c30808;
 }
   .price{
     padding: 10px;
@@ -227,7 +224,6 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    border-bottom: 1px solid #e8e8e8;
   }
   .goodsPic img{
     width: 100%;
@@ -276,7 +272,7 @@
   .smallPic{
     width: 40px;
     height: 40px;
-    border: 1px solid #e7e7e7;
+    border: 1px solid #eee;
   }
   .smallPic.active{
     border: 1px solid #c30808;
@@ -343,6 +339,6 @@
     font-size: 16px;
     font-family: Tahoma;
     width: 280px;
-    margin-top: 6px;
+    margin-top: 8px;
     padding: 0 10px;
   }

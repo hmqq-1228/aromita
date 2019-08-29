@@ -61,7 +61,7 @@
               <div class="sliderBox">
                 <div class="sliderCont">
                   <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id)">
-                    <img :src="pic.sku_color_img" class="smallPic" :class="index2 === 0 ? 'active': ''">
+                    <img :src="pic.sku_color_img" class="smallPic">
                   </div>
                 </div>
               </div>
