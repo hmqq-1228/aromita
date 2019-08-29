@@ -35,12 +35,12 @@
         if (this.theNum === 1) {
           $('.left').css('background-image', "")
           clearInterval(this.interval)
-          this.$router.push({
-            name: 'myOrder',
-            params: {
-              path:'50'
-            }
-          })
+          // this.$router.push({
+          //   name: 'myOrder',
+          //   params: {
+          //     path:'50'
+          //   }
+          // })
         } else {
           this.theNum--
         }
