@@ -135,7 +135,8 @@ export default {
             },
             cancelVisity:false,
             orderNum:'',//订单号
-            orderId:''//订单id
+            orderId:'',//订单id
+            timer:null
         }
     },
     created(){
@@ -152,7 +153,7 @@ export default {
         },
         //倒计时
         countdown() {
-            let timer = setInterval(()=>{
+            this.timer = setInterval(()=>{
                 for (let i = 0; i < this.orderList.length; i++) {
                     this.orderList[i].time --
                     let t = this.orderList[i].time
@@ -170,12 +171,11 @@ export default {
                         this.orderList[i].remainTimeStr = format
                     } else {
                         let flag = this.orderList.every((val, ind) =>val.time <= 0)
-                        if (flag) clearInterval(timer)
+                        if (flag) clearInterval(this.timer)
                         this.orderList[i].remainTimeStr = `over` // 结束文案
                     }
                 }
             }, 1000)
-
         },
         //订单列表
         myOrderList(){
@@ -191,10 +191,11 @@ export default {
         changeOrderStatus(num){
             this.order_status = num
             this.page = 1
+            clearInterval(this.timer)
             this.myOrderList()
-            if(num == 10){
-                this.$router.go(0)
-            }
+            // if(num == 10){
+            //     this.$router.go(0)
+            // }
         },
         // 取消订单
         cancelOrder(num,id){
