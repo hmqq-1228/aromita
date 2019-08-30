@@ -35,7 +35,7 @@
             </div>
             <div class="payAgain">
               <div style="margin-top: 15px;" v-if="orders[0]&& orders[0].time>0&&(orders[0].orders_status == 10 || orders[0].orders_status == 60)">
-                <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
+                <el-button @click="pay(orders[0].order_total, orders[0].orders_number, orders[0].id)">
                   Pay now
                 </el-button>
               </div>
@@ -171,11 +171,12 @@ export default {
         this.orders_products = res.orders_products
       })
     },
-    pay(total, num){
+    pay(total, num, id){
       // this.$store.state.totalPay = total
       // this.$store.state.orderNum = num
       sessionStorage.setItem('payTotal', total)
       sessionStorage.setItem('orderNum', num)
+      sessionStorage.setItem('orderId', id)
       this.$router.push({
         path: '/payAgain',
         // params: {

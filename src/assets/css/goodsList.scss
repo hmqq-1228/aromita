@@ -35,7 +35,11 @@
     height: 42px;
     margin-right: 6px;
     display: inline-block;
+    cursor: pointer;
   }
+  //.sliderCont div:hover .smallPic{
+  //  border: 1px solid #c51015;
+  //}
   .prev{
     color: #999;
     position: absolute;

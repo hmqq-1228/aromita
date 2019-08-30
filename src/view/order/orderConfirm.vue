@@ -1062,8 +1062,9 @@ export default {
         pay_method: JSON.stringify(payMethod)
       })
       that.$axios.post('api/order_pay', payLoad).then(res => {
-        if (res.order_num && res.total_price) {
-          that.payByPaypal(res.total_price, res.order_num)
+        console.log('hhhhh', res)
+        if (res.order_num && res.total_price && res.order_id) {
+          that.payByPaypal(res.total_price, res.order_num, res.order_id)
         } else if (res.code === 110) {
           var ids = JSON.parse(res.data)
           that.overQuanlity = true
@@ -1088,12 +1089,13 @@ export default {
         }
       })
     },
-    payByPaypal: function (total, order) {
+    payByPaypal: function (total, order, id) {
       var that = this
       var payUrl = ''
       var payLoad = qs.stringify({
         amount: total,
-        order_number: order
+        order_number: order,
+        order_id: id
       })
       that.$store.state.addCartState = true
       that.modelShow2 = true

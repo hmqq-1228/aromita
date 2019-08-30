@@ -107,6 +107,7 @@ export default {
       radio3: '1',
       payTotal: '',
       orderNum: '',
+      orderId: '',
       checked: true,
       modelShow2: false,
       checkedSub: false,
@@ -192,6 +193,7 @@ export default {
     // this.orderNum = this.$store.state.orderNum
     this.payTotal = sessionStorage.getItem('payTotal')
     this.orderNum = sessionStorage.getItem('orderNum')
+    this.orderId = sessionStorage.getItem('orderId')
     console.log('22222222', this.payTotal)
     console.log('33333333', this.orderNum)
   },
@@ -201,10 +203,11 @@ export default {
       var payUrl = ''
       var payLoad = qs.stringify({
         amount: that.payTotal,
-        order_number: that.orderNum
+        order_number: that.orderNum,
+        order_id: that.orderId
       })
       // that.$store.state.addCartState = true
-      if (that.payTotal && that.orderNum) {
+      if (that.payTotal && that.orderNum && that.orderId) {
         that.$axios.post('api/paypal-pay', payLoad).then(res => {
           if (res.code === 200) {
             that.modelShow2 = true
