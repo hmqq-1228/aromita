@@ -7,8 +7,11 @@
           <div class="account_home">
             <div class="home_top">
               <div class="user_detail">
-                <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
-                <h4 v-else>Hello {{userDetail.firstname}} {{userDetail.lastname}}</h4>
+                <div class="name">
+                    <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
+                    <h4 v-else class="user_name" @mouseenter="nameShow()" @mouseleave="nameHidden()">Hello {{userDetail.firstname}} {{userDetail.lastname}}</h4>
+                    <p class="name_hidden" v-if="name_show == true">{{userDetail.firstname}} {{userDetail.lastname}}</p>
+                </div>
                 <div class="other_link">
                     <p style="margin-right:26px"><img src="@/assets/images/Address.png" alt=""><router-link to="/accountSetting">Account Setting</router-link></p>
                     <p><img src="@/assets/images/Settings.png" alt=""><router-link to="/addressBook">Address Book</router-link></p>
@@ -76,6 +79,7 @@ export default {
     return{
       userDetail:{},//用户信息
       num:{},//优惠券等信息
+      name_show:false,//用户名显示状态
     }
   },
   watch:{
@@ -84,6 +88,13 @@ export default {
     this._myAccount()
   },
   methods:{
+    //用户名显示隐藏
+    nameShow(){
+      this.name_show = true
+    },
+    nameHidden(){
+      this.name_show = false;
+    },
     _myAccount(){
       myAccount().then((res)=>{
         this.userDetail = res.data
