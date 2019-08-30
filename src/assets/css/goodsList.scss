@@ -123,9 +123,9 @@
     border: 1px solid #e5e5e5;
     box-shadow: 0 0 4px 4px #f5f5f5;
   }
-.goodInner:hover .goodsInfo{
-  color: #C51015;
-}
+  .goodInner .goodsInfo:hover{
+    color: #C51015;
+  }
   .price{
     padding: 10px;
   }
