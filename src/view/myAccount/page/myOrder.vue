@@ -72,7 +72,7 @@
                             </el-table-column>
                             <el-table-column label="Action" width="300">
                                 <template slot-scope="scope">
-                                    <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
+                                    <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number, scope.row.id)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number,scope.row.id)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
@@ -227,9 +227,10 @@ export default {
             })
         },
         //到支付页面
-        pay(total, num){
+        pay(total, num, id){
           sessionStorage.setItem('payTotal', total)
           sessionStorage.setItem('orderNum', num)
+          sessionStorage.setItem('orderId', id)
           this.$router.push({
             path: '/payAgain',
           })
