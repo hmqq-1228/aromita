@@ -73,7 +73,7 @@
                             <el-table-column label="Action" width="300">
                                 <template slot-scope="scope">
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
-                                    <span class="list_btn" @click="detail(scope.row.id)">View</span>
+                                    <span class="list_btn" @click="detail(scope.row.orders_number)">View</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
@@ -215,11 +215,11 @@ export default {
             })
         },
         //到订单详情页
-        detail(id){
+        detail(num){
             this.$router.push({
                 path: '/orderDetail',
                 query: {
-                    orderId:id
+                    ordersNumber:num
                 }
             })
         },
