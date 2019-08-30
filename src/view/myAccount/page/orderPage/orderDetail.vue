@@ -4,40 +4,41 @@
       <div class="accountBox">
         <Left-Nav></Left-Nav>
         <div class="navCount">
-          <h3 class="my_title">Order Details</h3>
-          <div style="display: flex;justify-content: start;border-bottom:1px dashed #e9e9e9;">
-            <div class="order_Detail">
-              <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;height: 32px;line-height: 32px;">
-                <span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}
-              </p>
-              <div class="order_num">
-                  <div class="num num_list" v-if="orders[0]">
-                      <div class="one">
-                          <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
-                          <p><span>Status.：</span>{{order_statusList[orders[0].orders_status]}}</p>
-                          <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
-                      </div>
-                      <div class="two">
-                          <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
-                          <p>
-                            <span>Order Time：</span>
-                            <span v-if="orders[0].orders_status == 10 || orders[0].orders_status == 50 || orders[0].orders_status == 60">{{orders[0].created_at}}</span>
-                            <span v-else>{{orders[0].pay_success_time}}</span>
-                          </p>
-                      </div>
-                  </div>
-                  <div class="num num_right">
-                      <div class="one">
-                          <p v-for="item in orders_total"><span>{{item.title}}：</span>${{item.value}}</p>
-                      </div>
-                  </div>
+            <h3 class="my_title">Order Details</h3>
+            <div style="display: flex;justify-content: start;border-bottom:1px dashed #e9e9e9;">
+              <div class="order_Detail">
+                <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;height: 32px;line-height: 32px;">
+                  <span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}
+                </p>
+                <div class="order_num">
+                    <div class="num num_list" v-if="orders[0]">
+                        <div class="one">
+                            <p><span>Order No.：</span>{{orders[0].orders_number}}</p>
+                            <p><span>Status.：</span>{{order_statusList[orders[0].orders_status]}}</p>
+                            <p><span>Payment Method：</span>{{orders[0].payment_method}}</p>
+                        </div>
+                        <div class="two">
+                            <p><span>Total Paid：</span><b>$ {{orders[0].order_total}}</b></p>
+                            <p>
+                              <span>Order Time：</span>
+                              <span v-if="orders[0].orders_status == 10 || orders[0].orders_status == 50 || orders[0].orders_status == 60">{{orders[0].created_at}}</span>
+                              <span v-else>{{orders[0].pay_success_time}}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="num num_right">
+                        <div class="one">
+                            <p v-for="item in orders_total"><span>{{item.title}}：</span>${{item.value}}</p>
+                        </div>
+                    </div>
+                </div>
               </div>
-            </div>
-            <div class="payAgain">
-              <div style="margin-top: 15px;" v-if="orders[0]&& orders[0].time>0&&(orders[0].orders_status == 10 || orders[0].orders_status == 60)">
-                <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
-                  Pay now
-                </el-button>
+              <div class="payAgain">
+                  <div style="margin-top: 15px;" v-if="orders[0]&& orders[0].time>0&&(orders[0].orders_status == 10 || orders[0].orders_status == 60)">
+                    <el-button @click="pay(orders[0].order_total, orders[0].orders_number)">
+                      Pay now
+                    </el-button>
+                  </div>
               </div>
             </div>
           </div>

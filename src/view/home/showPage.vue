@@ -95,7 +95,8 @@ export default {
   methods: {
     //运营配置活动页
     linkHref(link){
-      window.open(link)
+      //window.open(link)
+      window.location.href = link
     },
     //跳转到商品详情
     link(skuid,spuid){
