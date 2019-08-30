@@ -74,7 +74,7 @@
                                 <template slot-scope="scope">
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number)">Cancel</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number,scope.row.id)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                                 </template>
@@ -135,6 +135,7 @@ export default {
             },
             cancelVisity:false,
             orderNum:'',//订单号
+            orderId:''//订单id
         }
     },
     created(){
@@ -196,14 +197,16 @@ export default {
             }
         },
         // 取消订单
-        cancelOrder(num){
+        cancelOrder(num,id){
             this.cancelVisity = true;
             this.orderNum = num
+            this.orderId = id
         },
         //取消订单提交
         cancelSub(){
             let pre ={
-                order_id:this.orderNum
+                order_id:this.orderNum,
+                ins_order:this.orderId
             }
             cancelOrder(pre).then((res)=>{
                 if(res == 201){
