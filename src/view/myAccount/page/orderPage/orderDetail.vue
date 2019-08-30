@@ -132,7 +132,7 @@ export default {
   data(){
     return{
         url: "http://arapi.panduo.com.cn/uploads/",
-        ordersNumber:'',//订单id
+        orderId:'',//订单id
         orders:{},//地址等
         orders_total:[],//金额小项
         orders_products:[],//订单商品
@@ -154,7 +154,7 @@ export default {
 
   },
   created(){
-      this.ordersNumber = this.$route.query.ordersNumber
+      this.orderId = this.$route.query.orderId
       this.orderDetail()
   },
   methods:{
@@ -165,7 +165,7 @@ export default {
       }
     },
     orderDetail(){
-      this.$axios.get('api/myorder/'+ this.ordersNumber, {}).then(res => {
+      this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
         this.orders_total = res.orders_total
         this.orders_products = res.orders_products
