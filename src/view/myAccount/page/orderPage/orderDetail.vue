@@ -28,7 +28,7 @@
                   </div>
                   <div class="num num_right">
                       <div class="one">
-                          <p v-for="item in orders_total"><span>{{item.title}}：</span>${{item.value}}</p>
+                          <p v-for="(value, key) in orders_total[0]" :key="key"><span>{{ key }}:</span> {{ value }}</p>
                       </div>
                   </div>
               </div>
@@ -41,82 +41,82 @@
               </div>
             </div>
           </div>
-            <div class="order_address">
-                <div class="list">
-                    <h4>Shipping Address</h4>
-                    <div class="detail" v-if="orders[0]">
-                        <h5>{{orders[0].delivery_name}}</h5>
-                        <div class="discription">
-                            <p>{{orders[0].delivery_company}}</p>
-                            <p>{{orders[0].delivery_street_address}}</p>
-                            <p>
-                                {{orders[0].delivery_city}},{{orders[0].delivery_state}},{{orders[0].delivery_postcode}},{{countryList1[orders[0].delivery_country]}}
-                            </p>
-                            <!-- <p>{{orders[0].delivery_suburb}}</p> -->
-                            <p>{{orders[0].customers_phone}}</p>
-                            <p>{{orders[0].customers_email}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <h4>Billing Address</h4>
-                    <div class="detail" v-if="orders[0]">
-                        <h5>{{orders[0].billing_name}}</h5>
-                        <div class="discription">
-                            <p>{{orders[0].billing_company}}</p>
-                            <p>{{orders[0].billing_street_address}}</p>
-                            <p>
-                                {{orders[0].billing_city}},{{orders[0].billing_state}},{{orders[0].billing_postcode}},{{countryList1[orders[0].billing_country]}}
-                            </p>
-                            <!-- <p>{{orders[0].billing_suburb}}</p> -->
-                            <p>{{orders[0].customers_phone}}</p>
-                            <p>{{orders[0].customers_email}}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="Products_Details">
-                <h4>Products Details</h4>
-                <el-table
-                    :data="orders_products"
-                    style="width: 100%;border:1px solid #E9E9E9"
-                    size="medium"
-                    :header-cell-style="{
-                        'background-color': '#F5F5F5',
-                        'color': '#333'
-                    }">
-                    <el-table-column
-                        prop="date"
-                        label="Product">
-                        <template slot-scope="scope">
-                            <div class="product">
-                                <img :src="scope.row.products_pic" alt="" @click="link(scope.row.product_id,scope.row.sku_no)">
-                                <div class="detail">
-                                    <h5 @click="link(scope.row.product_id,scope.row.sku_no)">{{scope.row.products_name}}</h5>
-                                    <p><span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
-                                    <p>${{scope.row.final_price}}<span class="old_price">${{scope.row.products_price}}</span></p>
-                                </div>
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="name"
-                        label="Quantity"
-                        width="220">
-                        <template slot-scope="scope">
-                            <h4>{{scope.row.products_quantity}}</h4>
-                        </template>
-                    </el-table-column>
-                    <el-table-column
-                        prop="address"
-                        label="Total"
-                        width="260">
-                        <template slot-scope="scope">
-                            <h4>{{(scope.row.final_price*scope.row.products_quantity).toFixed(2)}}</h4>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </div>
+          <div class="order_address">
+              <div class="list">
+                  <h4>Shipping Address</h4>
+                  <div class="detail" v-if="orders[0]">
+                      <h5>{{orders[0].delivery_name}}</h5>
+                      <div class="discription">
+                          <p>{{orders[0].delivery_company}}</p>
+                          <p>{{orders[0].delivery_street_address}}</p>
+                          <p>
+                              {{orders[0].delivery_city}},{{orders[0].delivery_state}},{{orders[0].delivery_postcode}},{{countryList1[orders[0].delivery_country]}}
+                          </p>
+                          <!-- <p>{{orders[0].delivery_suburb}}</p> -->
+                          <p>{{orders[0].customers_phone}}</p>
+                          <p>{{orders[0].customers_email}}</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="list">
+                  <h4>Billing Address</h4>
+                  <div class="detail" v-if="orders[0]">
+                      <h5>{{orders[0].billing_name}}</h5>
+                      <div class="discription">
+                          <p>{{orders[0].billing_company}}</p>
+                          <p>{{orders[0].billing_street_address}}</p>
+                          <p>
+                              {{orders[0].billing_city}},{{orders[0].billing_state}},{{orders[0].billing_postcode}},{{countryList1[orders[0].billing_country]}}
+                          </p>
+                          <!-- <p>{{orders[0].billing_suburb}}</p> -->
+                          <p>{{orders[0].customers_phone}}</p>
+                          <p>{{orders[0].customers_email}}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="Products_Details">
+              <h4>Products Details</h4>
+              <el-table
+                  :data="orders_products"
+                  style="width: 100%;border:1px solid #E9E9E9"
+                  size="medium"
+                  :header-cell-style="{
+                      'background-color': '#F5F5F5',
+                      'color': '#333'
+                  }">
+                  <el-table-column
+                      prop="date"
+                      label="Product">
+                      <template slot-scope="scope">
+                          <div class="product">
+                              <img :src="scope.row.products_pic" alt="" @click="link(scope.row.product_id,scope.row.sku_no)">
+                              <div class="detail">
+                                  <h5 @click="link(scope.row.product_id,scope.row.sku_no)">{{scope.row.products_name}}</h5>
+                                  <p><span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
+                                  <p>${{scope.row.final_price}}<span class="old_price">${{scope.row.products_price}}</span></p>
+                              </div>
+                          </div>
+                      </template>
+                  </el-table-column>
+                  <el-table-column
+                      prop="name"
+                      label="Quantity"
+                      width="220">
+                      <template slot-scope="scope">
+                          <h4>{{scope.row.products_quantity}}</h4>
+                      </template>
+                  </el-table-column>
+                  <el-table-column
+                      prop="address"
+                      label="Total"
+                      width="260">
+                      <template slot-scope="scope">
+                          <h4>{{(scope.row.final_price*scope.row.products_quantity).toFixed(2)}}</h4>
+                      </template>
+                  </el-table-column>
+              </el-table>
+          </div>
         </div>
       </div>
     </div>
