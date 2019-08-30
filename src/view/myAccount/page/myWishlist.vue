@@ -7,7 +7,7 @@
                     <div class="my_order">
                         <h3 class="my_title">My Wishlist</h3>
                         <div class="wishlist">
-                            <div v-if="list.length == 0" class="no_list">
+                            <div v-if="wish_List.length == 0" class="no_list">
                                 <div>
                                     <p>抱歉，暂无任何订单，</p>
                                     <div class="wish_btn">Go Shopping></div>
@@ -18,6 +18,7 @@
                                     :data="wish_List"
                                     style="width: 100%;border:1px solid #E9E9E9"
                                     size="medium"
+                                    @selection-change="handleSelectionChange"
                                     :header-cell-style="{
                                         'background-color': '#F5F5F5',
                                         'color': '#333'
@@ -47,19 +48,20 @@
                                         <template slot-scope="scope">
                                             <div class="wish_options">
                                                 <img src="@/assets/images/cart.png" alt="">
-                                                <i class="el-icon-error" @click="deleteList(scope.row.wl_products_skus_id)"></i>
+                                                <i class="el-icon-error" @click="deleteList(scope.row.wl_id)"></i>
                                             </div>
                                         </template>
                                     </el-table-column>
                                 </el-table>
                                 <div class="select">
-                                    <p><span>Remove Selected</span><span style="color:#003764">Move select to cart</span></p>
+                                    <p><span @click="deleteSelect()">Remove Selected</span><span style="color:#003764">Move select to cart</span></p>
                                 </div>
                                 <div class="page_list">
                                     <el-pagination
                                         background
                                         layout="prev, pager, next"
-                                        :total="1000">
+                                        :page-size = "pagesize"
+                                        :total="total">
                                     </el-pagination>
                                 </div>
                             </div>
@@ -79,7 +81,10 @@ export default {
     },
     data(){
         return{
-            list:[1],
+            total:0,
+            pagesize:50,
+            page:1,
+            listId:[],
             num1:1,
             wish_List:[]
         }
@@ -92,16 +97,41 @@ export default {
         getList(){
             wishlist().then((res)=>{
                 this.wish_List = res.data.data
+                this.total = res.data.total;
             })
         },
-        //删除心愿单
+        //单个删除心愿单
         deleteList(id){
             delwishlist({id:id}).then((res)=>{
-
+                if(res.code == 200){
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                }
+                this.getList()
             })
         },
-        handleChange(value) {
-            console.log(value);
+        //删除选择心愿单
+        deleteSelect(){
+            var str = this.listId.join(",");
+            delwishlist({id:str}).then((res)=>{
+                if(res.code == 200){
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                }
+                this.getList()
+            })
+        },
+        handleSelectionChange(val) {
+            var arr = []
+            for(var i =0;i<val.length;i++){
+                var id = val[i].wl_id
+                arr.push(id)
+            }
+            this.listId = arr
         }
     }
 }
