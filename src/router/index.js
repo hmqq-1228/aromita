@@ -134,7 +134,8 @@ export default new Router({
       name: 'myAccount',
       component: myAccount,
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -142,7 +143,8 @@ export default new Router({
       component:myOrder,
       name:'myOrder',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -150,7 +152,8 @@ export default new Router({
       component:myWishlist,
       name:'myWishlist',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -158,7 +161,8 @@ export default new Router({
       component:myCoupon,
       name:'myCoupon',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -166,7 +170,8 @@ export default new Router({
       component:myPoints,
       name:'myPoints',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -174,7 +179,8 @@ export default new Router({
       component:mySubscription,
       name:'mySubscription',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -182,7 +188,8 @@ export default new Router({
       component:addressBook,
       name:'addressBook',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {
@@ -190,7 +197,8 @@ export default new Router({
       component:accountSetting,
       name:'accountSetting',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        requireAuth:true
       }
     },
     {

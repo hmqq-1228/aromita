@@ -17,6 +17,20 @@ router.afterEach((to,from,next)=>{
   　window,scrollTo(0,0)
 })
 
+router.beforeEach((to,from,next)=>{
+  if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
+    if (localStorage.getItem('userToken')) { // 判断本地是否存在access_token
+      next()
+    } else {
+      // 未登录,跳转到登陆页面，并且带上 将要去的地址，方便登陆后跳转。
+      next({
+        path: '/login'
+      })
+    }
+  } else {
+    next()
+  }
+})
 new Vue({
   el: '#app',
   $,
