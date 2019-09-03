@@ -15,7 +15,7 @@
         <div class="swiper-father">
           <div class="banner2 swiper-container">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" :class="index === 0?'checkedStyle': ''" v-for="(detailImg, index) in imageListNew" v-bind:key="index" @click="chooseImg($event, detailImg)">
+              <div class="swiper-slide" :class="index === 0?'checkedStyle': ''" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)">
                 <img :src="detailImg" class="small">
               </div>
               <!--<div class="swiper-slide">-->
@@ -177,7 +177,6 @@ export default {
       getNewSkuId: 0,
       getSkuList: [],
       imageList: [],
-      imageListNew: [],
       skuSpuIdList: [],
       skuList: [],
       maxQuality:1,
@@ -266,7 +265,7 @@ export default {
                   message: '添加成功',
                   type: 'success'
                 });
-            } 
+            }
             this.iswish = true
           })
         }else{
@@ -318,7 +317,7 @@ export default {
           }
           that.goodDetail = res.data.sku
           that.pruductDetail = res.data.detail
-          that.imageList = res.data.sku.thumbnail_images
+          that.imageList = res.data.sku.small_thumbnail_images
           that.mainImgUrl = res.data.sku.sku_image
           that.maxQuality = res.data.sku.inventory
           that.priceOrder = res.data.sku.sku_price
@@ -338,18 +337,18 @@ export default {
             }
           }
           console.log('666666', that.mainImageList)
-          for(let key in that.imageList){
-            var str = that.imageList[key].split('.')
-            var strArr = []
-            for (var k = 0; k<str.length-1; k++) {
-              strArr.push(str[k])
-            }
-            var strArrJoin = strArr.join('.')
-            var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
-            console.log('777777777', imgStr)
-            imgList.push(imgStr)
-          }
-          that.imageListNew = imgList
+          // for(let key in that.imageList){
+          //   var str = that.imageList[key].split('.')
+          //   var strArr = []
+          //   for (var k = 0; k<str.length-1; k++) {
+          //     strArr.push(str[k])
+          //   }
+          //   var strArrJoin = strArr.join('.')
+          //   var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
+          //   console.log('777777777', imgStr)
+          //   imgList.push(imgStr)
+          // }
+          // that.imageListNew = imgList
           for (var i = 0; i < list.length; i++){
             var obj = {
               name: list[i].attr_name,
