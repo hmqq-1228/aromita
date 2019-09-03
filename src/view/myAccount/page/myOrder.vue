@@ -205,17 +205,18 @@ export default {
         },
         //取消订单提交
         cancelSub(){
-            let pre ={
+            let pre = {
                 order_id:this.orderNum,
                 ins_order:this.orderId
             }
             cancelOrder(pre).then((res)=>{
-                if(res == 201){
-                    this.myOrderList()
-                    this.cancelVisity = false
-                }else{
-                    this.cancelVisity = false
-                }
+                this.myOrderList()
+                this.cancelVisity = false
+                // if(res == 1){
+                    
+                // }else{
+                //     this.cancelVisity = false
+                // }
             })
         },
         //到订单详情页
