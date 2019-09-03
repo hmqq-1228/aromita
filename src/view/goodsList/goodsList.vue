@@ -47,33 +47,38 @@
           </el-collapse>
         </div>
       </div>
-      <div class="listGoods" v-if="goodsList && goodsList.length>0">
-        <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
-          <div class="goodInner">
-            <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
-              <div class="cheap">
-                <!--<div class="cheapLeft"></div>-->
-                <!--<div class="cheapRight">$2.99</div>-->
+      <div class="listGoods">
+        <div v-if="goodsList && goodsList.length>0">
+          <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
+            <div class="goodInner">
+              <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
+                <div class="cheap">
+                  <!--<div class="cheapLeft"></div>-->
+                  <!--<div class="cheapRight">$2.99</div>-->
+                </div>
+                <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
               </div>
-              <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
-            </div>
-            <div class="smallSlider2">
-              <div class="sliderBox">
-                <div class="sliderCont">
-                  <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id)">
-                    <img :src="pic.sku_color_img" class="smallPic">
+              <div class="smallSlider2">
+                <div class="sliderBox">
+                  <div class="sliderCont">
+                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id)">
+                      <img :src="pic.sku_color_img" class="smallPic">
+                    </div>
                   </div>
                 </div>
+                <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic($event)"></div>
+                <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic($event)"></div>
               </div>
-              <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic($event)"></div>
-              <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic($event)"></div>
+              <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
+                {{goods.defultTitle}}
+              </div>
+              <div class="goodsPrice">$ {{goods.defultPrice}}</div>
             </div>
-            <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
-              {{goods.defultTitle}}
-            </div>
-            <div class="goodsPrice">$ {{goods.defultPrice}}</div>
           </div>
         </div>
+        <div style="clear: both;"></div>
+        <div v-if="goodsList && goodsList.length < totalNum" @click="addMoreList()" class="loadMore">Load More</div>
+        <div class="toTop" @click="toTop()"></div>
       </div>
       <div class="listGoods noData" v-if="noDataShow">
         NO Exact matches found
@@ -91,8 +96,9 @@ export default {
     return {
       loading:true,
       page:1,
-      pageSize:20,
-      prodListLoadingOver:false,
+      pageSize:40,
+      totalNum: 0,
+      scrollTop: null,
       prodListLastPage: false,
       goodsList: [],
       noDataShow: false,
@@ -101,11 +107,7 @@ export default {
       activeNamesSize: '',
       picNum: 5,
       s_cate_id:'',//分类id
-      f_cate_id: '',
-      // navigation:{
-      //   nextEl: '.swiper-button-next',
-      //   prevEl: '.swiper-button-prev',
-      // }
+      f_cate_id: ''
     }
   },
   watch: {
@@ -114,17 +116,13 @@ export default {
         this.f_cate_id = this.$route.query.f_cate_id
       },
       s_cate_id() {
-        window,scrollTo(0,0)
+        // window,scrollTo(0,0)
         this.page = 1
-        this.prodListLastPage = false
-        this.prodListLoadingOver = false
         this.getList()
       },
       f_cate_id () {
-        window,scrollTo(0,0)
+        // window,scrollTo(0,0)
         this.page = 1
-        this.prodListLastPage = false
-        this.prodListLoadingOver = false
         this.getList()
       }
   },
@@ -170,6 +168,9 @@ export default {
     // this.getList()
   },
   methods: {
+    toTop: function () {
+      $('body,html').animate({scrollTop: 0}, 500)
+    },
     toGoodsDetail: function (spuid, skuid) {
       if (spuid && skuid) {
         this.$store.state.spuId = spuid
@@ -183,26 +184,24 @@ export default {
       if (that.s_cate_id){
         obj = {
           s_cate_id: that.s_cate_id,
-          page: that.page
+          page: that.page,
+          perPage: that.pageSize
         }
       } else if (that.f_cate_id) {
         obj = {
           f_cate_id: that.f_cate_id,
-          page: that.page
+          page: that.page,
+          perPage: that.pageSize
         }
       }
-      this.prodListLoadingOver = false;
       getGoodsList(obj).then((res)=>{
         if(res.code === '200' || res.code === 200){
-          this.prodListLoadingOver = true;
           if(this.page == 1){
             this.goodsList = res.data.data
           }else{
             this.goodsList = this.goodsList.concat(res.data.data);
           }
-          if(res.data.data.length < this.pageSize){
-              this.prodListLastPage = true;
-          }
+          that.totalNum = res.data.total
           for (var i = 0;i < this.goodsList.length; i++) {
             if (this.goodsList[i].skus.length > 0) {
               this.goodsList[i].firstLargePic = this.goodsList[i].skus[0].sku_image
@@ -216,30 +215,22 @@ export default {
           } else {
             this.noDataShow = false
           }
-          // for(var k=0;k<that.goodsList.length;k++){
-          //   for (var n=0;n<that.goodsList[k].skus.length;n++) {
-          //     var newImgList = []
-          //     that.goodsList[k].skus[n].imgList = that.goodsList[k].skus[n].sku_color_img.split('.')
-          //     for (var m=0; m<that.goodsList[k].skus[n].imgList.length-1;m++) {
-          //       newImgList.push(that.goodsList[k].skus[n].imgList[m])
-          //     }
-          //     that.goodsList[k].skus[n].newImgList = newImgList
-          //     that.goodsList[k].skus[n].strArrJoin = that.goodsList[k].skus[n].newImgList.join('.')
-          //     that.goodsList[k].skus[n].imgStr = that.goodsList[k].skus[n].strArrJoin + '_40_40.' + that.goodsList[k].skus[n].imgList[that.goodsList[k].skus[n].imgList.length-1]
-          //   }
-          // }
         }
       })
     },
-    //下拉加载列表
-    handleScroll(){
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //屏幕的高度
-        let prodListHeight = document.querySelector('.listGoods').offsetHeight-h-500;  //.myOrderListWrapper 商品列表容器
-        if(scrollTop>prodListHeight && this.prodListLoadingOver && !this.prodListLastPage){
-          this.page = this.page + 1;
-          this.getList();
-        }
+    // //下拉加载列表
+    // handleScroll(){
+    //     let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+    //     let h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight; //屏幕的高度
+    //     let prodListHeight = document.querySelector('.listGoods').offsetHeight-h-500;  //.myOrderListWrapper 商品列表容器
+    //     if(scrollTop>prodListHeight && this.prodListLoadingOver && !this.prodListLastPage){
+    //       this.page = this.page + 1;
+    //       this.getList();
+    //     }
+    // },
+    addMoreList: function () {
+      this.page = this.page + 1
+      this.getList()
     },
     getColorPicture: function (e, index1, url, title, price, id) {
       var obj = e.currentTarget

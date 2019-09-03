@@ -307,6 +307,7 @@ export default {
   .banner2 .swiper-slide{
     width: 336px !important;
     margin-right: 20px !important;
+    cursor: pointer !important;
   }
 .swiper-button-prev, .swiper-button-next{
   height: 30px !important;

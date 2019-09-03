@@ -96,6 +96,7 @@
   .listGoods{
     width: 1200px;
     min-height: 500px;
+    position: relative;
   }
   .goodsInfo{
     cursor: pointer;
@@ -345,4 +346,35 @@
     width: 280px;
     margin-top: 8px;
     padding: 0 10px;
+  }
+  .loadMore{
+    height: 40px;
+    width: 360px;
+    color: #333;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #666;
+    margin: 30px auto;
+    cursor: pointer;
+    font-family: Tahoma;
+  }
+  .loadMore:hover{
+    background-color: #121037;
+    color: #fff;
+  }
+  .toTop{
+    width: 40px;
+    height: 40px;
+    background: url("../../../static/img/top.jpg") no-repeat center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+  .toTop:hover{
+    width: 40px;
+    height: 40px;
+    background: url("../../../static/img/top1.jpg") no-repeat center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
   }
