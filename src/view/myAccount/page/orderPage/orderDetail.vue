@@ -49,10 +49,10 @@
                       <div class="discription">
                           <p>{{orders[0].delivery_company}}</p>
                           <p>{{orders[0].delivery_street_address}}</p>
+                          <p>{{orders[0].delivery_suburb}}</p>
                           <p>
                               {{orders[0].delivery_city}},{{orders[0].delivery_state}},{{orders[0].delivery_postcode}},{{countryList1[orders[0].delivery_country]}}
                           </p>
-                          <!-- <p>{{orders[0].delivery_suburb}}</p> -->
                           <p>{{orders[0].customers_phone}}</p>
                           <p>{{orders[0].customers_email}}</p>
                       </div>
@@ -65,10 +65,10 @@
                       <div class="discription">
                           <p>{{orders[0].billing_company}}</p>
                           <p>{{orders[0].billing_street_address}}</p>
+                          <p>{{orders[0].billing_suburb}}</p>
                           <p>
                               {{orders[0].billing_city}},{{orders[0].billing_state}},{{orders[0].billing_postcode}},{{countryList1[orders[0].billing_country]}}
                           </p>
-                          <!-- <p>{{orders[0].billing_suburb}}</p> -->
                           <p>{{orders[0].customers_phone}}</p>
                           <p>{{orders[0].customers_email}}</p>
                       </div>
