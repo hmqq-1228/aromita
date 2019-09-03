@@ -90,9 +90,9 @@
                       label="Product">
                       <template slot-scope="scope">
                           <div class="product">
-                              <img :src="scope.row.products_pic" alt="" @click="link(scope.row.product_id,scope.row.sku_no)">
+                              <img :src="scope.row.products_pic" alt="" @click="link(scope.row.product_id,scope.row.sku_id)">
                               <div class="detail">
-                                  <h5 @click="link(scope.row.product_id,scope.row.sku_no)">{{scope.row.products_name}}</h5>
+                                  <h5 @click="link(scope.row.product_id,scope.row.sku_id)">{{scope.row.products_name}}</h5>
                                   <p>
                                     <span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:
                                       <span style="color: #333;">{{item1.value.attr_value}}</span>; 
@@ -164,8 +164,10 @@ export default {
   methods:{
     //跳转到商品详情
     link(spuid,skuid){
-      if(skuid && spuid){
+      if(spuid!=='' && skuid!==''){
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+      }else{
+        console.log(skuid,spuid)
       }
     },
     orderDetail(){
