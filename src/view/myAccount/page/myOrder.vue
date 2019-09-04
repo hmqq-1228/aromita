@@ -74,7 +74,7 @@
                                 <template slot-scope="scope">
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number, scope.row.id)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number,scope.row.id)">Cancel</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number,scope.row.id,scope.row.orders_status)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                                 </template>
@@ -136,6 +136,7 @@ export default {
             cancelVisity:false,
             orderNum:'',//订单号
             orderId:'',//订单id
+            orderStatus:'',//单个订单状态
             timer:null
         }
     },
@@ -198,24 +199,27 @@ export default {
             // }
         },
         // 取消订单
-        cancelOrder(num,id){
+        cancelOrder(num,id,status){
             this.cancelVisity = true;
             this.orderNum = num
             this.orderId = id
+            this.orderStatus = status
         },
         //取消订单提交
         cancelSub(){
-            let pre ={
+            let pre = {
                 order_id:this.orderNum,
-                ins_order:this.orderId
+                ins_order:this.orderId,
+                order_current_status:this.orderStatus
             }
             cancelOrder(pre).then((res)=>{
-                if(res == 201){
-                    this.myOrderList()
-                    this.cancelVisity = false
-                }else{
-                    this.cancelVisity = false
-                }
+                this.myOrderList()
+                this.cancelVisity = false
+                // if(res == 1){
+                    
+                // }else{
+                //     this.cancelVisity = false
+                // }
             })
         },
         //到订单详情页
