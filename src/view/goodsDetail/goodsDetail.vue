@@ -53,8 +53,7 @@
         <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
-      <div class="soldOut" v-if="soldOut">Sold Out</div>
-      <div v-if="!soldOut">
+      <div>
         <div style="min-height:380px">
           <div class="mainImage" v-if="attrList.length === 0">
             <div class="goodsLabelSize isImgLabel"></div>
@@ -155,7 +154,6 @@ import { setTimeout } from 'timers';
 export default {
   data(){
     return{
-      soldOut: false,
       addShow:false,//加入购物车动画显示
       addButton: false,
       showModel: false,
@@ -275,9 +273,6 @@ export default {
         }
       })
     },
-    tastModel: function(){
-      this.showModel = true
-    },
     closeModel: function(){
       this.showModel = false
     },
@@ -310,11 +305,9 @@ export default {
         console.log(res)
         if (res.code === '200' || res.code === 200) {
           console.log('11111', res.data)
-          if (res.data.sku.sku_status === 0) {
-            that.soldOut = true
-          } else {
-            that.soldOut = false
-          }
+          // if (res.data.sku.sku_status === 0) {
+          //   console.log('hhhhhh')
+          // }
           that.goodDetail = res.data.sku
           that.pruductDetail = res.data.detail
           that.imageList = res.data.sku.small_thumbnail_images
@@ -336,19 +329,6 @@ export default {
               }
             }
           }
-          console.log('666666', that.mainImageList)
-          // for(let key in that.imageList){
-          //   var str = that.imageList[key].split('.')
-          //   var strArr = []
-          //   for (var k = 0; k<str.length-1; k++) {
-          //     strArr.push(str[k])
-          //   }
-          //   var strArrJoin = strArr.join('.')
-          //   var imgStr = strArrJoin + '_80_80.' + str[str.length-1]
-          //   console.log('777777777', imgStr)
-          //   imgList.push(imgStr)
-          // }
-          // that.imageListNew = imgList
           for (var i = 0; i < list.length; i++){
             var obj = {
               name: list[i].attr_name,
@@ -357,7 +337,6 @@ export default {
             }
             that.skuSpuIdList.push(obj)
           }
-          console.log('88888888', that.attrList)
           for(let key in that.attrList){
             that.attrNameList.push(key)
             for (var x=0; x<that.attrList[key].length; x++) {
@@ -380,9 +359,7 @@ export default {
               }
             }
           }
-          console.log('999999999', that.getSkuList)
         } else if (res.code === 410) {
-          console.log(222222)
           that.$router.push('/noprojuct')
         }
       })
@@ -508,6 +485,7 @@ export default {
     },
     arrChange: function (a, b){
       var that = this
+      console.log('aaaaaa8888', a)
       console.log('bbbbbb8888', b)
       a = a.filter(item => {
         let idList= b.map(v => v.name)
@@ -522,17 +500,34 @@ export default {
           }
         }
       }
-      console.log('aaaaaa8888', a)
-      for(let key in that.attrList){
-        for (var x=0; x<that.attrList[key].length; x++) {
-          for (var y=0; y< a.length; y++) {
-            if (parseInt(that.attrList[key][x].id) === parseInt(a[y].attr_id) && parseInt(that.attrList[key][x].val_id) === parseInt(a[y].val_id)){
-              that.attrList[key][x].disStyle = 2
+      if (b[0].type === 2) {
+        for(let key in that.attrList){
+          for (var x=0; x<that.attrList[key].length; x++) {
+            // that.attrList[key][x].disStyle = 0
+            // that.attrList[key][x].activeStyle = 0
+            for (var y=0; y< a.length; y++) {
+              if (parseInt(that.attrList[key][x].id) === parseInt(a[y].attr_id) && parseInt(that.attrList[key][x].val_id) === parseInt(a[y].val_id)){
+                that.attrList[key][x].disStyle = 2
+                console.log('krrrr', key)
+                console.log('xxxxxx', that.attrList[key][x])
+                // that.attrList[key][x].activeStyle = 1
+              }
+            }
+          }
+        }
+        console.log('kkkkkkkk555555', that.attrList)
+      } else {
+        for(let key in that.attrList){
+          for (var x=0; x<that.attrList[key].length; x++) {
+            for (var y=0; y< a.length; y++) {
+              if (parseInt(that.attrList[key][x].id) === parseInt(a[y].attr_id) && parseInt(that.attrList[key][x].val_id) === parseInt(a[y].val_id)){
+                that.attrList[key][x].disStyle = 2
+              }
             }
           }
         }
       }
-      console.log('samegggggggg', that.attrList)
+      // console.log('samegggggggg', that.attrList)
     },
     getSize: function (e, name, spid, skid) {
       var that = this
@@ -555,6 +550,12 @@ export default {
       $(obj).siblings().removeClass('active')
       that.goodsIds = that.skuSpuIdList
       if (that.attrNameList.length > 1) {
+        for(let key in that.attrList){
+          for (var x=0; x<that.attrList[key].length; x++) {
+            that.attrList[key][x].disStyle = 0
+            that.attrList[key][x].activeStyle = 0
+          }
+        }
         // that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
         that.deleteSameObj(that.skuList, getInfoList)
       } else {

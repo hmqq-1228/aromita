@@ -92,7 +92,7 @@
         let ctx = canvas.getContext('2d')
         ctx.textBaseline = 'bottom'
         // 绘制背景
-        console.log('99999999', this.firstCode)
+        // console.log('99999999', this.firstCode)
         // this.identifyCode = this.firstCode
         ctx.fillStyle = this.randomColor(this.backgroundColorMin, this.backgroundColorMax)
         ctx.fillRect(0, 0, this.contentWidth, this.contentHeight)

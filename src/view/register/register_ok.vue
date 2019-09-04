@@ -31,16 +31,18 @@ export default {
         interval: null
     }
   },
-   mounted() {
-      this.interval = setInterval(() => {
-        if (this.theNum === 1) {
-          clearInterval(this.interval)
-          this.$router.push({path: '/login'})
-        } else {
-          this.theNum--
-        }
-      }, 1000)
-    },
+  mounted() {
+    $('.left').css('background-image', "url(../../../static/img/time5.gif)")
+    this.interval = setInterval(() => {
+      if (this.theNum === 1) {
+        $('.left').css('background-image', "")
+        clearInterval(this.interval)
+        this.$router.push({path: '/login'})
+      } else {
+        this.theNum--
+      }
+    }, 1000)
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -84,11 +86,13 @@ margin-top: 5px;
 }
 }
  .left {
-    background: url('../../../static/img/time5.gif') no-repeat center ;
-    height: 60px;
-    width: 60px;
-    text-align: center;
-    line-height: 60px;
+    /*background: url('../../../static/img/time5.gif') no-repeat center ;*/
+   background-repeat: no-repeat;
+   background-position: center;
+   height: 60px;
+   width: 60px;
+   text-align: center;
+   line-height: 60px;
   }
   }
  }

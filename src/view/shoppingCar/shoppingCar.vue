@@ -46,10 +46,10 @@
     <div class="carItem" style="background-color: #fbfbfb;border-top: 1px solid #eee;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
       <div class="checkState item" style="width: 120px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
-        <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)" style="margin-left: 20px;"><img :src="unGood.sku_image" alt=""></div>
+        <div class="imgBox" @click="unavailableGoods()" style="margin-left: 20px;"><img :src="unGood.sku_image" alt=""></div>
       </div>
       <div class="productCont" style="width: 530px;">
-        <div class="textBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)">{{unGood.sku_name}}</div>
+        <div class="textBox" @click="unavailableGoods()">{{unGood.sku_name}}</div>
         <div class="goodsType" v-for="goodAttr in JSON.parse(unGood.sku_attrs)">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
         <div class="goodsPrice">$ {{unGood.sku_price}}</div>
       </div>
@@ -430,12 +430,8 @@ export default {
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
     },
-    unavailableGoods: function(spuid, skuid){
-      if (spuid && skuid) {
-        this.$store.state.spuId = spuid
-        this.$store.state.skuId = skuid
-        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
-      }
+    unavailableGoods: function(){
+        this.$router.push('/productUn')
     },
     goShopping: function () {
       this.$router.push('/')

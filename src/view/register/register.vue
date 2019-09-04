@@ -154,7 +154,7 @@ export default {
       },
         tipInfo: '',
         firstCode: '',
-        identifyCodeNew: '1234',
+        identifyCodeNew: '',
         compArr: {
         identify: "identify"
       },
@@ -207,6 +207,7 @@ export default {
         that.$router.push('/register_ok')
       } else if (data.code === 10006){
         that.$message.error(data.msg)
+        that.refreshCode()
       } else {
         that.$message.error(data.msg.email[0])
       }
@@ -218,6 +219,7 @@ export default {
     async handleCatpchas () {
       let data = await Catpcha()
       this.identifyCodeNew = data.data
+      console.log('999999999', this.identifyCodeNew)
     },
     toLogin: function () {
       this.$router.push('/login')

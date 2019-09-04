@@ -264,9 +264,12 @@ export default {
       var obj = e.target.offsetParent.firstChild.firstChild
       var objBtn = e.currentTarget
       var prev = e.target.offsetParent.children[1]
+      var n = 0
       if (picNum > 5) {
         var num = picNum - 5
-        if (this.$store.state.cont <= num) {
+        if (n <= num) {
+          n++
+          console.log('nnnnnn', n)
           $(obj).css('left', -47.8*num)
           $(obj).css('transition', '0.4s')
           $(prev).css('color', '#333')
