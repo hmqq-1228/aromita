@@ -205,7 +205,7 @@ export default {
       if (data.code === 200) {
         that.$message.success(data.msg)
         that.$router.push('/register_ok')
-      } else if (data.code === 1006){
+      } else if (data.code === 10006){
         that.$message.error(data.msg)
       } else {
         that.$message.error(data.msg.email[0])

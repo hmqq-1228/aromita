@@ -37,7 +37,9 @@
         </div>
       </div>
     </div>
-    <afooter-com></afooter-com>
+    <div class="foot">
+      <afooter-com></afooter-com>
+    </div>
   </div>
 </template>
 
@@ -81,6 +83,12 @@ export default {
     display: flex;
     margin-left: 60px;
     justify-content: start;
+  }
+  .foot{
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
   .itemName{
     color: #666;

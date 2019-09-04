@@ -357,10 +357,12 @@ export default {
             }
             that.skuSpuIdList.push(obj)
           }
-          console.log('88888888', that.attrList.length)
+          console.log('88888888', that.attrList)
           for(let key in that.attrList){
             that.attrNameList.push(key)
             for (var x=0; x<that.attrList[key].length; x++) {
+              this.$set(this.attrList[key][x],'activeStyle',0)
+              this.$set(this.attrList[key][x],'disStyle',0)
               for (var y=0; y< list.length; y++) {
                 if (that.attrList[key][x].id === list[y].id && parseInt(that.attrList[key][x].val_id) === parseInt(list[y].value.id)){
                   that.attrList[key][x].activeStyle = 1
@@ -368,7 +370,6 @@ export default {
               }
             }
           }
-          console.log('999999999', that.attrNameList)
           if (that.attrNameList.length > 1) {
             that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
             that.deleteSameObj(that.skuList, that.getSkuList)
@@ -379,6 +380,7 @@ export default {
               }
             }
           }
+          console.log('999999999', that.getSkuList)
         } else if (res.code === 410) {
           console.log(222222)
           that.$router.push('/noprojuct')
@@ -406,10 +408,11 @@ export default {
           objLista.push(obj)
         }
       }
+      console.log('aaaaaaa11', objLista)
       for(var i=0;i<objLista.length;i+=that.attrNameList.length){
         resulta.push(objLista.slice(i,i+that.attrNameList.length));
       }
-      console.log('aaaaaaa', resulta)
+      console.log('aaaaaaa22', resulta)
       for(let key in getSkuList){
         // that.arrChange(that.skuList[a], that.getSkuList[key])
         // var flag = that.isContained(that.skuList[a], that.getSkuList[key])
@@ -418,10 +421,11 @@ export default {
           objListb.push(obj)
         }
       }
+      console.log('kkkkkkkkk', objListb)
       for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
         resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
-      // console.log('bbbbbbbb', resultb)
+      console.log('bbbbbbbb', getSkuList)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -436,14 +440,26 @@ export default {
               }
               aList.push(Aobj)
             }
+            console.log('66666666', aList)
             for (let kb in resultb[bb]) {
-              let Bobj = {
-                attr_id: resultb[bb][kb].split('-')[0],
-                val_id: resultb[bb][kb].split('-')[1],
-                name: resultb[bb][kb]
+              let Bobj = {}
+              if (getSkuList[0][0].type === 2) {
+                Bobj = {
+                  attr_id: resultb[bb][kb].split('-')[0],
+                  val_id: resultb[bb][kb].split('-')[1],
+                  name: resultb[bb][kb],
+                  type: 2
+                }
+              } else {
+                Bobj = {
+                  attr_id: resultb[bb][kb].split('-')[0],
+                  val_id: resultb[bb][kb].split('-')[1],
+                  name: resultb[bb][kb]
+                }
               }
               bList.push(Bobj)
             }
+            console.log('777777', bList)
             // console.log('ccccccccc', bList)
             that.arrChange(aList, bList)
           }
@@ -492,6 +508,7 @@ export default {
     },
     arrChange: function (a, b){
       var that = this
+      console.log('bbbbbb8888', b)
       a = a.filter(item => {
         let idList= b.map(v => v.name)
         return !idList.includes(item.name)
@@ -505,6 +522,7 @@ export default {
           }
         }
       }
+      console.log('aaaaaa8888', a)
       for(let key in that.attrList){
         for (var x=0; x<that.attrList[key].length; x++) {
           for (var y=0; y< a.length; y++) {
@@ -523,17 +541,22 @@ export default {
       var flag = false
       var k = 0
       var FileIdStr = ''
+      var infoList = []
+      var getInfoList = []
       var info = {
         name: name,
         attr_id: spid,
-        val_id: skid
+        val_id: skid,
+        type: 2
       }
+      infoList.push(info)
+      getInfoList[0] = infoList
       $(obj).addClass('active')
       $(obj).siblings().removeClass('active')
       that.goodsIds = that.skuSpuIdList
       if (that.attrNameList.length > 1) {
-        that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
-        that.deleteSameObj(that.skuList, that.getSkuList)
+        // that.getNumbers(that.goodsIds, that.goodsIds.length-1, false)
+        that.deleteSameObj(that.skuList, getInfoList)
       } else {
         for(let key in that.attrList){
           for (var x=0; x<that.attrList[key].length; x++) {

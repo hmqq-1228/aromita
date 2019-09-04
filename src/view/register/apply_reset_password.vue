@@ -7,7 +7,7 @@
       </div>
       <div class="right">
         <p class="word_one">Password reset email has been sent.</p>
-        <p class="word_two">You will receive an email with a link to reset your password .It may take several minutes to show up in your inbox. If you don’t receive this email, please check your spam folder or contact <span class="help">Live Help</span> for further assistant.</p>
+        <p class="word_two">You will receive an email with a link to reset your password .It may take several minutes to show up in your inbox. If you don’t receive this email, please check your spam folder or contact live help for further assistant.</p>
       </div>
     </div>
     <div class="foot">

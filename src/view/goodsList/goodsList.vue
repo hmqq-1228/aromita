@@ -78,10 +78,10 @@
         </div>
         <div style="clear: both;"></div>
         <div v-if="goodsList && goodsList.length < totalNum" @click="addMoreList()" class="loadMore">Load More</div>
-        <div class="toTop" @click="toTop()"></div>
-      </div>
-      <div class="listGoods noData" v-if="noDataShow">
-        NO Exact matches found
+        <div v-if="!noDataShow" class="toTop" @click="toTop()"></div>
+        <div class="listGoods noData" v-if="noDataShow">
+          NO Exact matches found
+        </div>
       </div>
     </div>
   </div>
@@ -98,6 +98,7 @@ export default {
       page:1,
       pageSize:40,
       totalNum: 0,
+      scrollShowFlag: false,
       scrollTop: null,
       prodListLastPage: false,
       goodsList: [],
@@ -166,8 +167,18 @@ export default {
     this.s_cate_id = this.$route.query.s_cate_id
     this.f_cate_id = this.$route.query.f_cate_id
     // this.getList()
+    // this.scrollShow()
   },
   methods: {
+    // scrollShow: function () {
+    //   if(document.documentElement.clientHeight < document.documentElement.offsetHeight){
+    //     this.scrollShowFlag = true
+    //   }else{
+    //     this.scrollShowFlag = false
+    //   }
+    //   console.log('hhhhh', document.documentElement.clientHeight)
+    //   console.log('nnnnn', document.documentElement.offsetHeight)
+    // },
     toTop: function () {
       $('body,html').animate({scrollTop: 0}, 500)
     },
