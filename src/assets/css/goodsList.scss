@@ -60,6 +60,7 @@
     display: flex;
     margin-top: 20px;
     justify-content: space-between;
+    position: relative;
   }
   .listNav{
     width: 210px;
@@ -96,7 +97,7 @@
   .listGoods{
     width: 1200px;
     min-height: 500px;
-    position: relative;
+    margin-bottom: 70px;
   }
   .goodsInfo{
     cursor: pointer;

@@ -380,6 +380,7 @@ export default {
       var resultb = []
       var flag = false
       var FileIdStr = ''
+      var idStr = ''
       for (var a=0; a<skuList.length; a++){
         for (var b=0; b<skuList[a].length; b++) {
           let obj = skuList[a][b].attr_id + '-' + skuList[a][b].val_id
@@ -440,12 +441,20 @@ export default {
             // console.log('777777vvvv', aList)
             if (getSkuList[0][0].type === 2) {
               for (var t=0; t<aList.length; t++){
-                var splitIcon = ';'
+                let splitIcon = ';'
                 FileIdStr = FileIdStr + aList[t].name + splitIcon
               }
-              // console.log('777777777bbbbbb', FileIdStr)
               var fileList = FileIdStr.split(';')
-              var idStr = fileList[0]+ ';' + fileList[1] + ';' + fileList[2]
+              var fileListNow = fileList.slice(0, that.attrNameList.length)
+              // console.log('777777777bbbbbb', fileListNow)
+              for (var v=0; v<fileListNow.length; v++){
+                let splitStr = ';'
+                if (v === fileListNow.length - 1) {
+                  splitStr = ''
+                }
+                // console.log('777777777', fileListNow[v])
+                idStr = idStr + fileListNow[v] + splitStr
+              }
               // console.log('ccccccccc', idStr)
               for(let key in that.attrId){
                 if (that.attrId[key] === idStr) {
