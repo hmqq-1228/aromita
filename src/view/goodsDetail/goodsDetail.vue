@@ -55,7 +55,7 @@
       </div>
       <div>
         <div style="min-height:380px">
-          <div class="mainImage" v-if="attrList.length === 0">
+          <div class="mainImage" v-if="attrList.length === 0 && goodDetail.sku_status === 1">
             <div class="goodsLabelSize isImgLabel"></div>
             <div class="smallSlider2">
               <div class="sliderBox">
@@ -100,8 +100,8 @@
         <div style="position: relative;">
           <!-- <div v-show="msgshow" style="position:absolute;top:-30px;color:red;">Exceeds maximun quantity available for this product.</div> -->
           <div class="subBtn shop_cart">
-            <div class="add">
-                <div v-if="goodDetail.sku_status === 1" class="subType" @click="addToCart($event)">Add to Cart</div>
+            <div class="add" v-if="goodDetail.sku_status === 1">
+                <div class="subType" @click="addToCart($event)">Add to Cart</div>
                 <div style="position: relative;width: 45px;height: 45px;">
                   <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
                   <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
@@ -305,9 +305,9 @@ export default {
         console.log(res)
         if (res.code === '200' || res.code === 200) {
           console.log('11111', res.data)
-          // if (res.data.sku.sku_status === 0) {
-          //   console.log('hhhhhh')
-          // }
+          if (res.data.sku.sku_status === 0) {
+            that.$router.push('/productUn')
+          }
           that.goodDetail = res.data.sku
           that.pruductDetail = res.data.detail
           that.imageList = res.data.sku.small_thumbnail_images
@@ -379,17 +379,18 @@ export default {
       var resulta = []
       var resultb = []
       var flag = false
+      var FileIdStr = ''
       for (var a=0; a<skuList.length; a++){
         for (var b=0; b<skuList[a].length; b++) {
           let obj = skuList[a][b].attr_id + '-' + skuList[a][b].val_id
           objLista.push(obj)
         }
       }
-      console.log('aaaaaaa11', objLista)
+      // console.log('aaaaaaa11', objLista)
       for(var i=0;i<objLista.length;i+=that.attrNameList.length){
         resulta.push(objLista.slice(i,i+that.attrNameList.length));
       }
-      console.log('aaaaaaa22', resulta)
+      // console.log('aaaaaaa22', resulta)
       for(let key in getSkuList){
         // that.arrChange(that.skuList[a], that.getSkuList[key])
         // var flag = that.isContained(that.skuList[a], that.getSkuList[key])
@@ -398,11 +399,11 @@ export default {
           objListb.push(obj)
         }
       }
-      console.log('kkkkkkkkk', objListb)
+      // console.log('kkkkkkkkk', objListb)
       for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
         resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
-      console.log('bbbbbbbb', getSkuList)
+      // console.log('bbbbbbbb', getSkuList)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -417,7 +418,7 @@ export default {
               }
               aList.push(Aobj)
             }
-            console.log('66666666', aList)
+            // console.log('66666666', aList)
             for (let kb in resultb[bb]) {
               let Bobj = {}
               if (getSkuList[0][0].type === 2) {
@@ -436,8 +437,27 @@ export default {
               }
               bList.push(Bobj)
             }
-            console.log('777777', bList)
-            // console.log('ccccccccc', bList)
+            // console.log('777777vvvv', aList)
+            if (getSkuList[0][0].type === 2) {
+              for (var t=0; t<aList.length; t++){
+                var splitIcon = ';'
+                FileIdStr = FileIdStr + aList[t].name + splitIcon
+              }
+              // console.log('777777777bbbbbb', FileIdStr)
+              var fileList = FileIdStr.split(';')
+              var idStr = fileList[0]+ ';' + fileList[1] + ';' + fileList[2]
+              // console.log('ccccccccc', idStr)
+              for(let key in that.attrId){
+                if (that.attrId[key] === idStr) {
+                  if(key){
+                    $('.subType').removeClass('ban')
+                    that.getNewSkuId = key
+                  }
+                } else {
+                  $('.subType').addClass('ban')
+                }
+              }
+            }
             that.arrChange(aList, bList)
           }
         }
@@ -456,21 +476,21 @@ export default {
         //如果是排列的方式，在取count-1时，源数组中排除当前项
         let children = [];
         // isPermutation = true
-        console.log('cccc', current)
+        // console.log('cccc', current)
         if (isPermutation) {
           children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
         }
         //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
         else {
-          console.log('22222222222', source)
+          // console.log('22222222222', source)
           children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
-          console.log('33333333', children)
+          // console.log('33333333', children)
         }
         if (children && children.length>0) {
           for (let child of children) {
             that.getSkuList.push([...current, ...child]);
           }
-          console.log('4444444', that.getSkuList)
+          // console.log('4444444', that.getSkuList)
         }
       }
     },
@@ -485,8 +505,8 @@ export default {
     },
     arrChange: function (a, b){
       var that = this
-      console.log('aaaaaa8888', a)
-      console.log('bbbbbb8888', b)
+      // console.log('aaaaaa8888', a)
+      // console.log('bbbbbb8888', b)
       a = a.filter(item => {
         let idList= b.map(v => v.name)
         return !idList.includes(item.name)
@@ -508,14 +528,14 @@ export default {
             for (var y=0; y< a.length; y++) {
               if (parseInt(that.attrList[key][x].id) === parseInt(a[y].attr_id) && parseInt(that.attrList[key][x].val_id) === parseInt(a[y].val_id)){
                 that.attrList[key][x].disStyle = 2
-                console.log('krrrr', key)
-                console.log('xxxxxx', that.attrList[key][x])
+                // console.log('krrrr', key)
+                // console.log('xxxxxx', that.attrList[key][x])
                 // that.attrList[key][x].activeStyle = 1
               }
             }
           }
         }
-        console.log('kkkkkkkk555555', that.attrList)
+        // console.log('kkkkkkkk555555', that.attrList)
       } else {
         for(let key in that.attrList){
           for (var x=0; x<that.attrList[key].length; x++) {
@@ -584,9 +604,16 @@ export default {
       flag = false
       that.sumIds = that.goodsIds
       console.log('hhhhhhhh', that.goodsIds)
-      for (var n=0; n<that.sumIds.length; n++){
-        let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
-        sumList.push(sum)
+      if (that.sumIds.length === 6) {
+        for (var n=0; n<that.sumIds.length - 3; n++){
+          let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
+          sumList.push(sum)
+        }
+      } else {
+        for (var n=0; n<that.sumIds.length; n++){
+          let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
+          sumList.push(sum)
+        }
       }
       for (var t=0; t<sumList.length; t++){
         var splitIcon = ';'
@@ -595,6 +622,8 @@ export default {
         }
         FileIdStr = FileIdStr + sumList[t] + splitIcon
       }
+      // console.log('kkkkkkk', FileIdStr)
+      // var fileIdList = FileIdStr.split(';')
       for(let key in that.attrId){
         if (that.attrId[key] === FileIdStr) {
           if(key){
