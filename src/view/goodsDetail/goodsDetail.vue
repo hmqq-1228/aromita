@@ -1,5 +1,6 @@
 <template>
 <div class="detail">
+  <div v-if="detailShow">
   <div class="bgModel" v-if="showModel">
     <div class="modelCont">
       <div class="modelClose" @click="closeModel"><i class="el-icon-close"></i></div>
@@ -141,6 +142,7 @@
     </span>
   </el-dialog>
 </div>
+</div>
 </template>
 
 <script>
@@ -157,6 +159,7 @@ export default {
       addShow:false,//加入购物车动画显示
       addButton: false,
       showModel: false,
+      detailShow: false,
       skuDefult: '',
       numQuality: 1,
       goodDetail: '',
@@ -306,7 +309,10 @@ export default {
         if (res.code === '200' || res.code === 200) {
           console.log('11111', res.data)
           if (res.data.sku.sku_status === 0) {
+            that.detailShow = false
             that.$router.push('/productUn')
+          } else {
+            that.detailShow = true
           }
           that.goodDetail = res.data.sku
           that.pruductDetail = res.data.detail

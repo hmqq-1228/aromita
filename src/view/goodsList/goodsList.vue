@@ -51,7 +51,7 @@
         <div v-if="goodsList && goodsList.length>0">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
-              <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
+              <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId, goods.state)">
                 <div class="cheap">
                   <!--<div class="cheapLeft"></div>-->
                   <!--<div class="cheapRight">$2.99</div>-->
@@ -61,7 +61,7 @@
               <div class="smallSlider2">
                 <div class="sliderBox">
                   <div class="sliderCont">
-                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id)">
+                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status)">
                       <img :src="pic.sku_color_img" class="smallPic">
                     </div>
                   </div>
@@ -69,7 +69,7 @@
                 <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic($event)"></div>
                 <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic($event)"></div>
               </div>
-              <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
+              <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId, goods.state)">
                 {{goods.defultTitle}}
               </div>
               <div class="goodsPrice">$ {{goods.defultPrice}}</div>
@@ -182,11 +182,16 @@ export default {
     toTop: function () {
       $('body,html').animate({scrollTop: 0}, 500)
     },
-    toGoodsDetail: function (spuid, skuid) {
-      if (spuid && skuid) {
-        this.$store.state.spuId = spuid
-        this.$store.state.skuId = skuid
-        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+    toGoodsDetail: function (spuid, skuid, state) {
+      console.log('pppppp', state)
+      if (state === 1) {
+        if (spuid && skuid) {
+          this.$store.state.spuId = spuid
+          this.$store.state.skuId = skuid
+          this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+        }
+      } else if (state === 0) {
+        this.$router.push('/productUn')
       }
     },
     getList() {
@@ -219,6 +224,7 @@ export default {
               this.goodsList[i].defultTitle = this.goodsList[i].skus[0].sku_name
               this.goodsList[i].defultPrice = this.goodsList[i].skus[0].sku_price
               this.goodsList[i].skuId = this.goodsList[i].skus[0].id
+              this.goodsList[i].state = this.goodsList[i].skus[0].sku_status
             }
           }
           if (this.goodsList.length === 0) {
@@ -243,7 +249,7 @@ export default {
       this.page = this.page + 1
       this.getList()
     },
-    getColorPicture: function (e, index1, url, title, price, id) {
+    getColorPicture: function (e, index1, url, title, price, id, state) {
       var obj = e.currentTarget
       var that = this
       var newGoodList = []
@@ -253,6 +259,7 @@ export default {
       that.goodsList[index1].defultTitle = title
       that.goodsList[index1].defultPrice = price
       that.goodsList[index1].skuId = id
+      that.goodsList[index1].state = state
       for (var t = 0; t < that.goodsList.length; t++) {
         newGoodList.push(that.goodsList[t])
       }
