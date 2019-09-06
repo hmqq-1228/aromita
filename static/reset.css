@@ -89,6 +89,9 @@ ul,li {
 [class*=" el-icon-"], [class^=el-icon-]{
     font-weight: 600 !important;
 }
+.listGoods [class*=" el-icon-"], .listGoods [class^=el-icon-]{
+  font-weight: 500 !important;
+}
 .content_forgot .el-button,.newPassword .el-button{
     color: #ccc !important;
 }

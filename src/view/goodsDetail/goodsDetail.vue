@@ -24,8 +24,8 @@
               <!--</div>-->
             </div>
           </div>
-          <div class="swiper-button-prev swiper-button-black swiper-button-prev1"></div>
-          <div class="swiper-button-next swiper-button-black swiper-button-next1"></div>
+          <div v-if="imageList.length > 5" class="swiper-button-prev swiper-button-black swiper-button-prev1"></div>
+          <div v-if="imageList.length > 5" class="swiper-button-next swiper-button-black swiper-button-next1"></div>
         </div>
       </div>
       <div class="largerBox">
@@ -355,8 +355,11 @@ export default {
               }
             }
           }
-          if (that.attrNameList.length > 1) {
+          if (that.attrNameList.length > 2) {
             that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+            that.deleteSameObj(that.skuList, that.getSkuList)
+          } else if (that.attrNameList.length === 2) {
+            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length, false)
             that.deleteSameObj(that.skuList, that.getSkuList)
           } else {
             for(let key in that.attrList){
@@ -393,7 +396,7 @@ export default {
           objLista.push(obj)
         }
       }
-      // console.log('aaaaaaa11', objLista)
+      console.log('aaaaaaa11', objLista)
       for(var i=0;i<objLista.length;i+=that.attrNameList.length){
         resulta.push(objLista.slice(i,i+that.attrNameList.length));
       }
@@ -406,11 +409,11 @@ export default {
           objListb.push(obj)
         }
       }
-      // console.log('kkkkkkkkk', objListb)
+      console.log('kkkkkkkkk', objListb)
       for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
         resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
-      // console.log('bbbbbbbb', getSkuList)
+      console.log('bbbbbbbb', getSkuList)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -444,7 +447,7 @@ export default {
               }
               bList.push(Bobj)
             }
-            // console.log('777777vvvv', aList)
+            console.log('777777vvvv', aList)
             if (getSkuList[0][0].type === 2) {
               for (var t=0; t<aList.length; t++){
                 let splitIcon = ';'
@@ -461,12 +464,12 @@ export default {
                 // console.log('777777777', fileListNow[v])
                 idStr = idStr + fileListNow[v] + splitStr
               }
-              // console.log('ccccccccc', idStr)
               for(let key in that.attrId){
                 if (that.attrId[key] === idStr) {
                   if(key){
                     $('.subType').removeClass('ban')
                     that.getNewSkuId = key
+                    console.log('ccccccccc', key)
                   }
                 } else {
                   $('.subType').addClass('ban')
@@ -480,11 +483,16 @@ export default {
     },
     getNumbers: function (source, count, isPermutation = true) {
       var that = this
+      console.log('source', source)
+      console.log('count', count)
       //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
       let currentList = source.map((item) => [item]);
+      console.log('111111', currentList)
       if (count === 1) {
+        console.log('gggggg', currentList)
         return currentList;
       }
+      console.log('gggggg2222', currentList)
       //取出第一项后，再取出后面count - 1 项的排列组合，并把第一项的所有可能（currentList）和 后面count-1项所有可能交叉组合
       for (let i = 0; i < currentList.length; i++) {
         let current = currentList[i];
@@ -499,13 +507,15 @@ export default {
         else {
           // console.log('22222222222', source)
           children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
-          // console.log('33333333', children)
         }
+        console.log('33333333', children)
         if (children && children.length>0) {
           for (let child of children) {
             that.getSkuList.push([...current, ...child]);
           }
-          // console.log('4444444', that.getSkuList)
+          console.log('4444444', that.getSkuList)
+        } else {
+          console.log('555555555', source)
         }
       }
     },

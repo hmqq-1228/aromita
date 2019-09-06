@@ -47,8 +47,8 @@
           </el-collapse>
         </div>
       </div>
-      <div class="listGoods">
-        <div v-if="goodsList && goodsList.length>0">
+      <div class="listGoods" v-if="!noDataShow">
+        <div v-if="goodsList">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
               <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId, goods.state)">
@@ -78,10 +78,10 @@
         </div>
         <div style="clear: both;"></div>
         <div v-if="goodsList && goodsList.length < totalNum" @click="addMoreList()" class="loadMore">Load More</div>
-        <div v-if="!noDataShow" class="toTop" @click="toTop()"></div>
-        <div class="listGoods noData" v-if="noDataShow">
-          NO Exact matches found
-        </div>
+        <div v-if="topShow" class="toTop" @click="toTop()"></div>
+      </div>
+      <div class="listGoods noData" v-if="noDataShow">
+        NO Exact matches found
       </div>
     </div>
   </div>
@@ -94,6 +94,7 @@ import {getGoodsList} from "../../api/home";
 export default {
   data () {
     return {
+      topShow: false,
       loading:true,
       page:1,
       pageSize:40,
@@ -128,10 +129,6 @@ export default {
       }
   },
   computed: {
-    picUrl: function () {
-      var that = this
-      return that.$store.state.baseServiceUrl
-    }
   },
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
@@ -169,16 +166,17 @@ export default {
     // this.getList()
     // this.scrollShow()
   },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   methods: {
-    // scrollShow: function () {
-    //   if(document.documentElement.clientHeight < document.documentElement.offsetHeight){
-    //     this.scrollShowFlag = true
-    //   }else{
-    //     this.scrollShowFlag = false
-    //   }
-    //   console.log('hhhhh', document.documentElement.clientHeight)
-    //   console.log('nnnnn', document.documentElement.offsetHeight)
-    // },
+    handleScroll() {
+      if (document.documentElement.scrollTop>0) {
+        this.topShow = true
+      } else {
+        this.topShow = false
+      }
+    },
     toTop: function () {
       $('body,html').animate({scrollTop: 0}, 500)
     },
