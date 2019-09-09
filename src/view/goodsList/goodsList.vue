@@ -66,8 +66,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic($event)"></div>
-                <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic($event)"></div>
+                <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic(goods,$event,index)"></div>
+                <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic(goods,$event,index)"></div>
               </div>
               <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId, goods.state)">
                 {{goods.defultTitle}}
@@ -109,7 +109,9 @@ export default {
       activeNamesSize: '',
       picNum: 5,
       s_cate_id:'',//分类id
-      f_cate_id: ''
+      f_cate_id: '',
+      leftNum:[],
+      btnindex:-1,
     }
   },
   watch: {
@@ -216,7 +218,9 @@ export default {
             this.goodsList = this.goodsList.concat(res.data.data);
           }
           that.totalNum = res.data.total
+          
           for (var i = 0;i < this.goodsList.length; i++) {
+            this.$set(this.goodsList[i],'left',0)
             if (this.goodsList[i].skus.length > 0) {
               this.goodsList[i].firstLargePic = this.goodsList[i].skus[0].sku_image
               this.goodsList[i].defultTitle = this.goodsList[i].skus[0].sku_name
@@ -230,6 +234,7 @@ export default {
           } else {
             this.noDataShow = false
           }
+          console.log(this.goodsList,'this.goodsList')
         }
       })
     },
@@ -264,42 +269,41 @@ export default {
       that.goodsList = []
       that.goodsList = newGoodList
     },
-    nextPic:function (e) {
+    nextPic:function (obj,e,dex) {
       var picNum = e.target.offsetParent.firstChild.firstChild.getElementsByTagName("div").length
-      var obj = e.target.offsetParent.firstChild.firstChild
+      var divbox = document.getElementsByClassName("sliderCont")[dex]
+      // var nextBtn = document.getElementsByClassName("next")[dex]
+      // var prevBtn = document.getElementsByClassName("prev")[dex]
       var objBtn = e.currentTarget
-      var prev = e.target.offsetParent.children[1]
-      var n = 0
+      var prevBtn = e.target.offsetParent.children[1]
       if (picNum > 5) {
+        obj.left += -48
         var num = picNum - 5
-        if (n <= num) {
-          n++
-          console.log('nnnnnn', n)
-          $(obj).css('left', -47.8*num)
-          $(obj).css('transition', '0.4s')
-          $(prev).css('color', '#333')
-          $(objBtn).css('color', '#999')
-        } else {
-          $(objBtn).css('color', '#999')
+        var leftWidth1 = -48*num
+        if(obj.left >= leftWidth1){
+          var leftwidth = Number(obj.left)
+          $(divbox).css('left',leftwidth)
+          $(divbox).css('transition', '0.4s')
+          $(prevBtn).css('color','#333')
+        }else{
+          $(objBtn).css('color','#999')
         }
       }
     },
-    prevPic:function (e) {
+    prevPic:function (obj,e,dex) {
       var picNum = e.target.offsetParent.firstChild.firstChild.getElementsByTagName("div").length
-      var obj = e.target.offsetParent.firstChild.firstChild
-      var nextBtn = e.target.offsetParent.lastChild
-      var prevBtn = e.currentTarget
-      if (picNum > 5) {
-        var num = picNum - 5
-        if (parseInt(obj.style.left) != 0) {
-          var distent = parseInt(obj.style.left) + 47.8 * num
-          $(obj).css('left', distent)
-          $(obj).css('transition', '0.4s')
-          $(nextBtn).css('color', '#333')
-          $(prevBtn).css('color', '#999')
-        } else {
-          $(prevBtn).css('color', '#999')
-        }
+      var divbox = document.getElementsByClassName("sliderCont")[dex]
+      // var nextBtn = document.getElementsByClassName("next")[dex]
+      var objBtn = e.currentTarget
+      var nextBtn = e.target.offsetParent.children[1]
+      if(obj.left<0){
+        obj.left += 48
+        var leftwidth = Number(obj.left)
+        $(divbox).css('left',leftwidth)
+        $(divbox).css('transition', '0.4s')
+        $(objBtn).css('color','#333')
+      }else{
+        $(nextBtn).css('color','#999')
       }
     },
     imgPreve:function (e) {
