@@ -182,14 +182,10 @@ export default {
     },
     toGoodsDetail: function (spuid, skuid, state) {
       console.log('pppppp', state)
-      if (state === 1) {
-        if (spuid && skuid) {
-          this.$store.state.spuId = spuid
-          this.$store.state.skuId = skuid
-          this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
-        }
-      } else if (state === 0) {
-        this.$router.push('/productUn')
+      if (spuid && skuid) {
+        this.$store.state.spuId = spuid
+        this.$store.state.skuId = skuid
+        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
     },
     getList() {
@@ -270,11 +266,10 @@ export default {
       var objBtn = e.currentTarget
       var prev = e.target.offsetParent.children[1]
       var n = 0
+      console.log('nnnnnn', e)
       if (picNum > 5) {
         var num = picNum - 5
         if (n <= num) {
-          n++
-          console.log('nnnnnn', n)
           $(obj).css('left', -47.8*num)
           $(obj).css('transition', '0.4s')
           $(prev).css('color', '#333')
