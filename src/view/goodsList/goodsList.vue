@@ -51,7 +51,7 @@
         <div v-if="goodsList">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
-              <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId, goods.state)">
+              <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
                 <div class="cheap">
                   <!--<div class="cheapLeft"></div>-->
                   <!--<div class="cheapRight">$2.99</div>-->
@@ -69,7 +69,7 @@
                 <div class="el-icon-arrow-left prev" v-if="goods.skus.length > 5" @click="prevPic(goods,$event,index)"></div>
                 <div class="el-icon-arrow-right next" v-if="goods.skus.length > 5" @click="nextPic(goods,$event,index)"></div>
               </div>
-              <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId, goods.state)">
+              <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
                 {{goods.defultTitle}}
               </div>
               <div class="goodsPrice">$ {{goods.defultPrice}}</div>
@@ -182,16 +182,11 @@ export default {
     toTop: function () {
       $('body,html').animate({scrollTop: 0}, 500)
     },
-    toGoodsDetail: function (spuid, skuid, state) {
-      console.log('pppppp', state)
-      if (state === 1) {
-        if (spuid && skuid) {
-          this.$store.state.spuId = spuid
-          this.$store.state.skuId = skuid
-          this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
-        }
-      } else if (state === 0) {
-        this.$router.push('/productUn')
+    toGoodsDetail: function (spuid, skuid) {
+      if (spuid && skuid) {
+        this.$store.state.spuId = spuid
+        this.$store.state.skuId = skuid
+        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
     },
     getList() {
@@ -218,7 +213,7 @@ export default {
             this.goodsList = this.goodsList.concat(res.data.data);
           }
           that.totalNum = res.data.total
-          
+
           for (var i = 0;i < this.goodsList.length; i++) {
             this.$set(this.goodsList[i],'left',0)
             if (this.goodsList[i].skus.length > 0) {
