@@ -271,17 +271,19 @@ export default {
       // var prevBtn = document.getElementsByClassName("prev")[dex]
       var objBtn = e.currentTarget
       var prevBtn = e.target.offsetParent.children[1]
+      console.log(picNum)
       if (picNum > 5) {
-        obj.left += -48
         var num = picNum - 5
         var leftWidth1 = -48*num
-        if(obj.left >= leftWidth1){
+        if(obj.left == leftWidth1){
+          $(objBtn).css('color','#999')
+          return false
+        }else{
+          obj.left += -48
           var leftwidth = Number(obj.left)
           $(divbox).css('left',leftwidth)
           $(divbox).css('transition', '0.4s')
           $(prevBtn).css('color','#333')
-        }else{
-          $(objBtn).css('color','#999')
         }
       }
     },
