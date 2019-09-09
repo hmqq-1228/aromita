@@ -35,12 +35,7 @@
         <div class="shareList">
           <div class="shareBox">
             <div class="shareText">Share:</div>
-            <div class="shareTo">
-              <div><img src="@/assets/g.png" alt=""></div>
-              <div><img src="@/assets/pinterest1.png" alt=""></div>
-              <div><img src="@/assets/twitter1.png" alt=""></div>
-              <div><img src="@/assets/facebook-01.png" alt=""></div>
-            </div>
+            <div class="addthis_inline_share_toolbox"></div>
           </div>
         </div>
       </div>
