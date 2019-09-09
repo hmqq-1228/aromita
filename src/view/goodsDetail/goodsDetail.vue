@@ -210,8 +210,6 @@ export default {
         that.$router.push('/goodsDetail/'+ spuId + '/'+ val)
         console.log('我已经跳转了', spuId)
         // that.goodDetail = ''
-        // that.attrList = []
-        // that.colorList = []
         that.getGoodsDetail(spuId, val)
         document.location.reload()
         // window.location.href='http://localhost:8080/goodsDetail/'+ spuId + '/'+ val
