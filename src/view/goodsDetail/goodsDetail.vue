@@ -56,7 +56,7 @@
       </div>
       <div>
         <div style="min-height:380px">
-          <div class="mainImage" v-if="attrList.length === 0 && goodDetail.sku_status === 1">
+          <div class="mainImage" v-if="attrList.length === 0">
             <div class="goodsLabelSize isImgLabel"></div>
             <div class="smallSlider2">
               <div class="sliderBox">
@@ -212,7 +212,6 @@ export default {
       var that = this
       if (val) {
         var spuId = that.$route.params.spuId
-        console.log('44444444', spuId, val)
         that.$router.push('/goodsDetail/'+ spuId + '/'+ val)
         console.log('我已经跳转了', spuId)
         // that.goodDetail = ''
@@ -326,6 +325,7 @@ export default {
           that.attrId = res.data.sku_ids
           that.skuList = res.data.sku_list
           var list = JSON.parse(res.data.sku.sku_attrs)
+          that.getSkuList = res.data.sku.attr_list
           // that.colorList = res.data.data.attrs.color
           var imgList = []
           if (that.mainImageList.length >0) {
@@ -356,10 +356,10 @@ export default {
             }
           }
           if (that.attrNameList.length > 2) {
-            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
+            // that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length-1, false)
             that.deleteSameObj(that.skuList, that.getSkuList)
           } else if (that.attrNameList.length === 2) {
-            that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length, false)
+            // that.getNumbers(that.skuSpuIdList, that.skuSpuIdList.length, false)
             that.deleteSameObj(that.skuList, that.getSkuList)
           } else {
             for(let key in that.attrList){
@@ -396,7 +396,7 @@ export default {
           objLista.push(obj)
         }
       }
-      console.log('aaaaaaa11', objLista)
+      // console.log('aaaaaaa11', objLista)
       for(var i=0;i<objLista.length;i+=that.attrNameList.length){
         resulta.push(objLista.slice(i,i+that.attrNameList.length));
       }
@@ -413,7 +413,7 @@ export default {
       for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
         resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
-      console.log('bbbbbbbb', getSkuList)
+      console.log('bbbbbbbb', resultb)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -447,7 +447,7 @@ export default {
               }
               bList.push(Bobj)
             }
-            console.log('777777vvvv', aList)
+            console.log('777777vvvv', bList)
             if (getSkuList[0][0].type === 2) {
               for (var t=0; t<aList.length; t++){
                 let splitIcon = ';'
@@ -483,16 +483,11 @@ export default {
     },
     getNumbers: function (source, count, isPermutation = true) {
       var that = this
-      console.log('source', source)
-      console.log('count', count)
       //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
       let currentList = source.map((item) => [item]);
-      console.log('111111', currentList)
       if (count === 1) {
-        console.log('gggggg', currentList)
         return currentList;
       }
-      console.log('gggggg2222', currentList)
       //取出第一项后，再取出后面count - 1 项的排列组合，并把第一项的所有可能（currentList）和 后面count-1项所有可能交叉组合
       for (let i = 0; i < currentList.length; i++) {
         let current = currentList[i];
@@ -508,14 +503,12 @@ export default {
           // console.log('22222222222', source)
           children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
         }
-        console.log('33333333', children)
         if (children && children.length>0) {
           for (let child of children) {
             that.getSkuList.push([...current, ...child]);
           }
-          console.log('4444444', that.getSkuList)
         } else {
-          console.log('555555555', source)
+          // console.log('555555555', source)
         }
       }
     },
@@ -530,12 +523,13 @@ export default {
     },
     arrChange: function (a, b){
       var that = this
-      // console.log('aaaaaa8888', a)
-      // console.log('bbbbbb8888', b)
+      console.log('aaaaaa8888', a)
+      console.log('bbbbbb8888', b)
       a = a.filter(item => {
         let idList= b.map(v => v.name)
         return !idList.includes(item.name)
       })
+      console.log('aaaaaa8888222222222', a)
       for(let key in that.skuList) {
         for (var n = 0; n < that.skuList[key].length; n++) {
           for (var m = 0; m < a.length; m++) {
@@ -628,18 +622,20 @@ export default {
       }
       flag = false
       that.sumIds = that.goodsIds
-      console.log('hhhhhhhh', that.goodsIds)
-      if (that.sumIds.length === 6) {
-        for (var n=0; n<that.sumIds.length - 3; n++){
-          let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
-          sumList.push(sum)
-        }
-      } else {
+      console.log('hhhhhhhh222', that.goodsIds)
+      // if (that.sumIds.length === 6) {
+      //   console.log('11111111')
+      //   for (var n=0; n<that.sumIds.length - 3; n++){
+      //     let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
+      //     sumList.push(sum)
+      //   }
+      // } else {
+      //   console.log('22222222')
         for (var n=0; n<that.sumIds.length; n++){
           let sum = that.sumIds[n].attr_id + '-' + that.sumIds[n].val_id
           sumList.push(sum)
         }
-      }
+      // }
       for (var t=0; t<sumList.length; t++){
         var splitIcon = ';'
         if (t === sumList.length - 1) {
@@ -652,6 +648,7 @@ export default {
       for(let key in that.attrId){
         if (that.attrId[key] === FileIdStr) {
           if(key){
+            console.log('kkkkkk999', key)
             $('.subType').removeClass('ban')
             that.getNewSkuId = key
           }

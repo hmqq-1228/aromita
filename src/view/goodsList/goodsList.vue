@@ -301,9 +301,9 @@ export default {
         var leftwidth = Number(obj.left)
         $(divbox).css('left',leftwidth)
         $(divbox).css('transition', '0.4s')
-        $(objBtn).css('color','#333')
+        $(objBtn).css('color','#999')
       }else{
-        $(nextBtn).css('color','#999')
+        $(nextBtn).css('color','#333')
       }
     },
     imgPreve:function (e) {
