@@ -61,8 +61,8 @@
                   </div>
                 </div>
               </div>
-              <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-              <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+              <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, 0)"></div>
+              <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, 0)"></div>
             </div>
           </div>
           <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
@@ -77,8 +77,8 @@
                   </div>
                 </div>
               </div>
-              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event)"></div>
-              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event)"></div>
+              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, index5)"></div>
+              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>
             </div>
           </div>
           <div style="display: flex;justify-content: start;margin-top: 20px;">
@@ -137,18 +137,34 @@
     </span>
   </el-dialog>
 </div>
+  <scriptLink></scriptLink>
 </div>
 </template>
 
 <script>
 import 'swiper/dist/css/swiper.css';
 import Swiper from 'swiper'
-import {addToShopCard, getSkuNum, getInStock,getGoodsQuantityInCart,checkLogin} from "../../api/register";
+import {getInStock,getGoodsQuantityInCart,checkLogin} from "../../api/register";
 import {addwishlist} from "@/api/wish.js"
 import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
 export default {
+  components: {
+    'scriptLink': {
+      render(createElement) {
+        return createElement(
+          'script',
+          {
+            attrs: {
+              type: 'text/javascript',
+              src: '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d6e36b2d704b326',
+            },
+          },
+        )
+      }
+    }
+  },
   data(){
     return{
       addShow:false,//加入购物车动画显示
@@ -732,52 +748,50 @@ export default {
           }
         })
     },
-    nextPic:function (e) {
-      console.log(e)
+    nextPic:function (e, dex) {
       var picNum = e.target.offsetParent.firstChild.firstChild.getElementsByTagName("div").length
       var obj = e.target.offsetParent.firstChild.firstChild
       var objBtn = e.currentTarget
       var prev = e.target.offsetParent.children[1]
       if (picNum > 5) {
         var num = picNum - 5
-        // this.$store.state.contPrev = this.$store.state.contPrev + 1
-        console.log('88888', this.$store.state.contPrev)
-        // if (this.$store.state.contPrev <= num) {
-          $(obj).css('left', -89.5 * num)
+        if (this.$store.state.contPrev[dex] < num) {
+          this.$store.state.contPrev[dex] = this.$store.state.contPrev[dex] + 1
+          $(obj).css('left', -89.5 * this.$store.state.contPrev[dex])
           $(obj).css('transition', '0.3s')
           $(prev).css('color', '#333')
-          // $(objBtn).css('pointer-events', 'auto')
-        // } else {
+        } else {
           $(objBtn).css('color', '#ccc')
-          // $(objBtn).css('pointer-events', 'none')
-          // this.$store.state.contPrev = 0
-        // }
+        }
       }
-      // console.log('n', n)
+      console.log('n', this.$store.state.contPrev[dex])
+      if (this.$store.state.contPrev[dex] === num) {
+        $(objBtn).css('color', '#ccc')
+        $(prev).css('color', '#333')
+      }
     },
-    prevPic:function (e) {
-      console.log(e)
-      console.log(e.target.offsetParent.firstChild.firstChild.getElementsByTagName("div").length)
-      var picNum = e.target.offsetParent.firstChild.firstChild.getElementsByTagName("div").length
+    prevPic:function (e, dex) {
       var obj = e.target.offsetParent.firstChild.firstChild
       var nextBtn = e.target.offsetParent.lastChild
       var prevBtn = e.currentTarget
-      if (picNum > 5) {
-        var num = picNum - 5
-        if (parseInt(obj.style.left) !== 0) {
-          var distent = parseInt(obj.style.left) + 89.5 * num
+      // if (picNum > 5) {
+      //   var num = picNum - 5
+        if (this.$store.state.contPrev[dex] > 0) {
+          this.$store.state.contPrev[dex] = this.$store.state.contPrev[dex] - 1
+          console.log('n2', this.$store.state.contPrev[dex])
+          var distent = -89.5 * this.$store.state.contPrev[dex]
           $(obj).css('left', distent)
           $(obj).css('transition', '0.3s')
-          // this.$store.state.contPrev = 0
           $(nextBtn).css('color', '#333')
-          $(prevBtn).css('color', '#ccc')
-          // $(nextBtn).css('pointer-events', 'auto')
         } else {
-          // $(prevBtn).css('color', '#999')
-          // $(prevBtn).css('pointer-events', 'none')
-          // this.$store.state.contPrev = 0
+          $(prevBtn).css('color', '#ccc')
+          this.$store.state.contPrev[dex] = 0
         }
+      if (this.$store.state.contPrev[dex] === 0) {
+        $(prevBtn).css('color', '#ccc')
+        $(nextBtn).css('color', '#333')
       }
+      // }
     }
   }
 }

@@ -276,14 +276,16 @@ export default {
         var num = picNum - 5
         var leftWidth1 = -48*num
         if(obj.left == leftWidth1){
-          $(objBtn).css('color','#999')
+          $(objBtn).css('color', '#999')
+          $(prevBtn).css('color', '#333')
           return false
         }else{
           obj.left += -48
           var leftwidth = Number(obj.left)
           $(divbox).css('left',leftwidth)
+          $(objBtn).css('color', '#333')
+          $(prevBtn).css('color', '#333')
           $(divbox).css('transition', '0.4s')
-          $(prevBtn).css('color','#333')
         }
       }
     },
@@ -292,15 +294,17 @@ export default {
       var divbox = document.getElementsByClassName("sliderCont")[dex]
       // var nextBtn = document.getElementsByClassName("next")[dex]
       var objBtn = e.currentTarget
-      var nextBtn = e.target.offsetParent.children[1]
+      var nextBtn = e.target.offsetParent.children[2]
       if(obj.left<0){
         obj.left += 48
         var leftwidth = Number(obj.left)
         $(divbox).css('left',leftwidth)
         $(divbox).css('transition', '0.4s')
-        $(objBtn).css('color','#999')
+        $(objBtn).css('color','#333')
+        $(nextBtn).css('color','#333')
       }else{
         $(nextBtn).css('color','#333')
+        $(objBtn).css('color','#999')
       }
     },
     imgPreve:function (e) {

@@ -4,7 +4,7 @@ Vue.use(Vuex)
 const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
   cont: 0,
-  contPrev: 0,
+  contPrev: [0,0,0,0,0,0,0,0,0,0,0,0],
   totalPay: 0,
   orderNum: '',
   addCartState: false,//添加购物车商品
