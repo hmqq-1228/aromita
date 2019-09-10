@@ -29,7 +29,7 @@
                     </div>
                     <el-dropdown v-if="login_status">
                       <div class="login_right" :title="userName">
-                        <router-link to="/myAccount"><span>Hello, {{userName}}</span></router-link>
+                        <router-link to="/myAccount"><span>Hello,{{userName.substring(0,7)}}</span><span v-if="userName.length>7">...</span></router-link>
                       </div>
                       <div class="dropdown">
                         <el-dropdown-menu slot="dropdown">

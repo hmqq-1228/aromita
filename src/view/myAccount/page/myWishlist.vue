@@ -10,10 +10,12 @@
                             <div v-if="wish_List.length == 0" class="no_list">
                                 <div>
                                     <p>抱歉，暂无任何订单，</p>
-                                    <div class="wish_btn">Go Shopping></div>
+                                    <router-link to="/">
+                                        <div class="wish_btn">Go Shopping></div>
+                                    </router-link>
                                 </div>
                             </div>
-                            <div class="Products_Details">
+                            <div class="Products_Details" v-else>
                                 <el-table
                                     :data="wish_List"
                                     style="width: 100%;border:1px solid #E9E9E9"

@@ -89,7 +89,6 @@
                         }
                         .login_right {
                             padding-left: 5px;
-                            width: 120px;
                             height: 18px;
                             font-size: 14px;
                             font-family: Tahoma;
@@ -97,9 +96,6 @@
                             line-height: 18px;
                             margin-top: 6px;
                             color: #666;
-                            overflow: hidden;
-                            text-overflow:ellipsis;
-                            white-space: nowrap;
                         }
                     }
                     .el-dropdown-menu{
