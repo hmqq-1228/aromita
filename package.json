@@ -22,6 +22,8 @@
     "vue": "^2.5.2",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.1",
+    "vue-simple-addthis-share": "^0.1.0",
+    "vue-social-sharing": "^2.4.6",
     "vuex": "^3.1.1"
   },
   "devDependencies": {

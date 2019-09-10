@@ -35,7 +35,7 @@
         <div class="shareList">
           <div class="shareBox">
             <div class="shareText">Share:</div>
-            <div class="addthis_inline_share_toolbox"></div>
+            <component v-bind:is="AddThis" :publicId="publicId"></component>
           </div>
         </div>
       </div>
@@ -66,9 +66,9 @@
             </div>
           </div>
           <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
-            <div class="goodsLabelSize" :class="index5 === 'color'? 'isImgLabel': 'isTextLabel'">{{index5}}:</div>
+            <div class="goodsLabelSize" :class="attr[0].attr_name === 'Color'? 'isImgLabel': 'isTextLabel'">{{attr[0].attr_name}}:</div>
             <div class="smallSlider2">
-              <div class="sliderBox" :class="index5 === 'color'? 'isImg': 'isText'">
+              <div class="sliderBox" :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'">
                 <div class="sliderCont">
                   <div class="sizeSize" :class="item.activeStyle === 1?'active': ''" v-for="(item, index6) in attr" v-bind:key="index6" @click="getSize($event, item.attr_name, item.id, item.val_id)">
                     <div :class="item.disStyle === 2?'disStyle':''" v-if="!item.image_url">{{item.attr_value}}</div>
@@ -77,8 +77,8 @@
                   </div>
                 </div>
               </div>
-              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, index5)"></div>
-              <div :class="index5 === 'color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>
+              <div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, index5)"></div>
+              <div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>
             </div>
           </div>
           <div style="display: flex;justify-content: start;margin-top: 20px;">
@@ -137,7 +137,6 @@
     </span>
   </el-dialog>
 </div>
-  <scriptLink></scriptLink>
 </div>
 </template>
 
@@ -149,24 +148,15 @@ import {addwishlist} from "@/api/wish.js"
 import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
+import AddThis from "../test/AddThis";
 export default {
   components: {
-    'scriptLink': {
-      render(createElement) {
-        return createElement(
-          'script',
-          {
-            attrs: {
-              type: 'text/javascript',
-              src: '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d6e36b2d704b326',
-            },
-          },
-        )
-      }
-    }
+    AddThis,
   },
   data(){
     return{
+      AddThis: "AddThis",
+      publicId: 'ra-5d6e36b2d704b326',
       addShow:false,//加入购物车动画显示
       addButton: false,
       showModel: false,
@@ -418,11 +408,11 @@ export default {
           objListb.push(obj)
         }
       }
-      console.log('kkkkkkkkk', objListb)
+      // console.log('kkkkkkkkk', objListb)
       for(var i=0;i<objListb.length;i+=that.attrNameList.length-1){
         resultb.push(objListb.slice(i,i+that.attrNameList.length-1));
       }
-      console.log('bbbbbbbb', resultb)
+      // console.log('bbbbbbbb', resultb)
       for (var aa=0; aa<resulta.length; aa++) {
         for (var bb=0; bb<resultb.length; bb++) {
           flag = that.isContained(resulta[aa], resultb[bb])
@@ -456,7 +446,7 @@ export default {
               }
               bList.push(Bobj)
             }
-            console.log('777777vvvv', bList)
+            // console.log('777777vvvv', bList)
             if (getSkuList[0][0].type === 2) {
               for (var t=0; t<aList.length; t++){
                 let splitIcon = ';'
@@ -532,13 +522,13 @@ export default {
     },
     arrChange: function (a, b){
       var that = this
-      console.log('aaaaaa8888', a)
-      console.log('bbbbbb8888', b)
+      // console.log('aaaaaa8888', a)
+      // console.log('bbbbbb8888', b)
       a = a.filter(item => {
         let idList= b.map(v => v.name)
         return !idList.includes(item.name)
       })
-      console.log('aaaaaa8888222222222', a)
+      // console.log('aaaaaa8888222222222', a)
       for(let key in that.skuList) {
         for (var n = 0; n < that.skuList[key].length; n++) {
           for (var m = 0; m < a.length; m++) {
@@ -631,7 +621,7 @@ export default {
       }
       flag = false
       that.sumIds = that.goodsIds
-      console.log('hhhhhhhh222', that.goodsIds)
+      // console.log('hhhhhhhh222', that.goodsIds)
       // if (that.sumIds.length === 6) {
       //   console.log('11111111')
       //   for (var n=0; n<that.sumIds.length - 3; n++){
@@ -657,7 +647,7 @@ export default {
       for(let key in that.attrId){
         if (that.attrId[key] === FileIdStr) {
           if(key){
-            console.log('kkkkkk999', key)
+            // console.log('kkkkkk999', key)
             $('.subType').removeClass('ban')
             that.getNewSkuId = key
           }
@@ -749,7 +739,7 @@ export default {
         })
     },
     nextPic:function (e, dex) {
-      var picNum = e.target.offsetParent.firstChild.firstChild.getElementsByTagName("div").length
+      var picNum = e.target.offsetParent.firstChild.firstChild.children.length
       var obj = e.target.offsetParent.firstChild.firstChild
       var objBtn = e.currentTarget
       var prev = e.target.offsetParent.children[1]

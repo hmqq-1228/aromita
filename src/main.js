@@ -12,6 +12,9 @@ import axios from 'axios';
 import qs from 'qs'
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios
+var SocialSharing = require('vue-social-sharing');
+
+Vue.use(SocialSharing);
 
 router.afterEach((to,from,next)=>{
   　window,scrollTo(0,0)
