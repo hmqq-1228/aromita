@@ -13,19 +13,30 @@
   <div class="goodsDetail">
     <div class="goodsImg">
       <div class="detailSwiper">
-        <div class="swiper-father">
-          <div class="banner2 swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide" :class="index === 0?'checkedStyle': ''" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)">
-                <img :src="detailImg" class="small">
-              </div>
-              <!--<div class="swiper-slide">-->
-                <!--<img src="@/assets/modelGoods.png" class="small">-->
+        <!--<div class="swiper-father">-->
+          <!--<div class="banner2 swiper-container">-->
+            <!--<div class="swiper-wrapper">-->
+              <!--<div class="swiper-slide" :class="index === 0?'checkedStyle': ''" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)">-->
+                <!--<img :src="detailImg" class="small">-->
               <!--</div>-->
+              <!--&lt;!&ndash;<div class="swiper-slide">&ndash;&gt;-->
+                <!--&lt;!&ndash;<img src="@/assets/modelGoods.png" class="small">&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div v-if="imageList.length > 5" class="swiper-button-prev swiper-button-black swiper-button-prev1"></div>-->
+          <!--<div v-if="imageList.length > 5" class="swiper-button-next swiper-button-black swiper-button-next1"></div>-->
+        <!--</div>-->
+        <div class="smallSlider3">
+          <div class="sliderBox2">
+            <div class="sliderCont2">
+              <div class="sizeSize" :class="index === 0?'checkedStyle': ''" v-for="(detailImg, index) in imageList" v-bind:key="index" @click="chooseImg($event, detailImg)">
+                <img :src="detailImg" class="small" alt="">
+              </div>
             </div>
           </div>
-          <div v-if="imageList.length > 5" class="swiper-button-prev swiper-button-black swiper-button-prev1"></div>
-          <div v-if="imageList.length > 5" class="swiper-button-next swiper-button-black swiper-button-next1"></div>
+          <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev2" @click="prevPicTop($event, 10)"></div>
+          <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next2" @click="nextPicBottom($event, 10)"></div>
         </div>
       </div>
       <div class="largerBox">
@@ -149,6 +160,7 @@ import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
 import AddThis from "../test/AddThis";
+// import AddThis from 'vue-simple-addthis-share'
 export default {
   components: {
     AddThis,
@@ -234,18 +246,21 @@ export default {
     ])
   },
   mounted() {
-    setTimeout(function () {
-      var swiper = new Swiper('.banner2',{
-        direction: 'vertical',
-        slidesPerView: 5,
-        slidesPerGroup: 1,
-        watchOverflow: true,
-        navigation:{
-          nextEl: '.swiper-button-next1',
-          prevEl: '.swiper-button-prev1',
-        }
-      })
-    }, 500)
+    // addthis.addEventListener('addthis.menu.share', function (res) {
+    //   console.log('hhhhhhhhh', res)
+    // });
+    // setTimeout(function () {
+    //   var swiper = new Swiper('.banner2',{
+    //     direction: 'vertical',
+    //     slidesPerView: 5,
+    //     slidesPerGroup: 1,
+    //     watchOverflow: true,
+    //     navigation:{
+    //       nextEl: '.swiper-button-next1',
+    //       prevEl: '.swiper-button-prev1',
+    //     }
+    //   })
+    // }, 500)
   },
   created(){
     this.getGoodsDetail()
@@ -760,6 +775,28 @@ export default {
         $(prev).css('color', '#333')
       }
     },
+    nextPicBottom: function (e, dex) {
+      var picNum = e.target.offsetParent.firstChild.firstChild.children.length
+      var obj = e.target.offsetParent.firstChild.firstChild
+      var objBtn = e.currentTarget
+      var prev = e.target.offsetParent.children[1]
+      if (picNum > 5) {
+        var num = picNum - 5
+        if (this.$store.state.contPrev[dex] < num) {
+          this.$store.state.contPrev[dex] = this.$store.state.contPrev[dex] + 1
+          $(obj).css('top', -93 * this.$store.state.contPrev[dex])
+          $(obj).css('transition', '0.3s')
+          $(prev).css('color', '#333')
+        } else {
+          $(objBtn).css('color', '#ccc')
+        }
+      }
+      console.log('n', this.$store.state.contPrev[dex])
+      if (this.$store.state.contPrev[dex] === num) {
+        $(objBtn).css('color', '#ccc')
+        $(prev).css('color', '#333')
+      }
+    },
     prevPic:function (e, dex) {
       var obj = e.target.offsetParent.firstChild.firstChild
       var nextBtn = e.target.offsetParent.lastChild
@@ -782,6 +819,28 @@ export default {
         $(nextBtn).css('color', '#333')
       }
       // }
+    },
+    prevPicTop: function (e, dex) {
+      var obj = e.target.offsetParent.firstChild.firstChild
+      var nextBtn = e.target.offsetParent.lastChild
+      var prevBtn = e.currentTarget
+      // if (picNum > 5) {
+      //   var num = picNum - 5
+      if (this.$store.state.contPrev[dex] > 0) {
+        this.$store.state.contPrev[dex] = this.$store.state.contPrev[dex] - 1
+        console.log('n2', this.$store.state.contPrev[dex])
+        var distent = -93 * this.$store.state.contPrev[dex]
+        $(obj).css('top', distent)
+        $(obj).css('transition', '0.3s')
+        $(nextBtn).css('color', '#333')
+      } else {
+        $(prevBtn).css('color', '#ccc')
+        this.$store.state.contPrev[dex] = 0
+      }
+      if (this.$store.state.contPrev[dex] === 0) {
+        $(prevBtn).css('color', '#ccc')
+        $(nextBtn).css('color', '#333')
+      }
     }
   }
 }
