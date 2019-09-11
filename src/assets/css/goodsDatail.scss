@@ -71,20 +71,20 @@
     font-size: 16px;
   }
   .mainImage{
-    height: 82px;
+    //height: 82px;
     margin-top: 20px;
-    margin-bottom: 30px;
+    //margin-bottom: 30px;
     display: flex;
   }
   .mainImage .sliderBox{
-    height: 82px;
+    //height: 82px;
   }
   .mainImage .sizeSize.activeType img{
     border: 1px solid #c51015;
   }
   .smallSlider2{
     /*height: 38px;*/
-    width: 508px;
+    //width: 508px;
     position: relative;
   }
 .smallSlider3{
@@ -125,11 +125,10 @@
   transform: rotate(90deg);
 }
   .sliderBox{
-    /*height: 38px;*/
-    width: 445px;
+    //width: 445px;
     margin: 0 auto;
     white-space: nowrap;
-    overflow: hidden;
+    //overflow: hidden;
     position: relative;
     left:0;
     top: 0;
@@ -158,17 +157,24 @@
     font-size: 24px;
   }
   .sliderBox.isImg{
-    height: 82px;
+    //height: 82px;
   }
-  .sliderBox.isText{
-    height: 38px;
+  .sliderBox.isText .sizeSize{
+    height: 40px;
   }
+.sliderBox.isImg .sizeSize{
+  height: 88px;
+}
   .sliderCont{
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 445px;
+    //position: absolute;
+    //left: 0;
+    //top: 0;
+    //width: 445px;
     margin: 0 auto;
+    width: 660px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
   }
   .sliderCont div{
     width: 82px;
@@ -302,7 +308,7 @@
 .sizeSize div{
   color: #999;
   border: 1px dashed #ccc;
-  background-color: #f5f5f5;
+  background-color: #f8f8f8;
 }
 .detailSwiper{
   width: 82px;
@@ -508,7 +514,7 @@
     width: 600px;
   }
   .goodsPrice{
-    margin-top: 20px;
+    margin: 20px 0;
     display: flex;
     justify-content: start;
   }

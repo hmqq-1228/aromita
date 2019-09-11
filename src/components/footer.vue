@@ -23,7 +23,7 @@
         </div>
         <div class="footBox">
           <div class="footer_left">
-            <div class="left_one" v-for="(item,index) in list" :key="index">
+            <div class="left_one" style="overflow: hidden;" v-for="(item,index) in list" :key="index">
               <!-- <p class="left_one1">COMPANY INFO</p> -->
               <ul class="left_one2">
                 <li v-for="(item1,index1) in item" :key="index1" :class="[index1==0 ? 'active' : '']" @click="linkHref(item1.tool_href)">{{item1.tool_title}}</li>
@@ -129,6 +129,6 @@ export default {
   }
 }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
   @import "@/assets/css/footer.scss"
 </style>
