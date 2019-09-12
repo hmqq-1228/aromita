@@ -35,8 +35,8 @@
               </div>
             </div>
           </div>
-          <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev2" @click="prevPicTop($event, 10)"></div>
-          <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next2" @click="nextPicBottom($event, 10)"></div>
+          <div v-if="imageList.length > 5" class="el-icon-arrow-left prev2" @click="prevPicTop($event, 10)"></div>
+          <div v-if="imageList.length > 5" class="el-icon-arrow-right next2" @click="nextPicBottom($event, 10)"></div>
         </div>
       </div>
       <div class="largerBox">
@@ -72,11 +72,11 @@
                   </div>
                 </div>
               </div>
-              <div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, 0)"></div>
-              <div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, 0)"></div>
+              <!--<div v-if="mainImageList.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, 0)"></div>-->
+              <!--<div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, 0)"></div>-->
             </div>
           </div>
-          <div style="display: flex;justify-content: start;margin-top: 20px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
+          <div style="display: flex;justify-content: start;margin-bottom: 10px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
             <div class="goodsLabelSize" :class="attr[0].attr_name === 'Color'? 'isImgLabel': 'isTextLabel'">{{attr[0].attr_name}}:</div>
             <div class="smallSlider2">
               <div class="sliderBox" :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'">
@@ -88,12 +88,12 @@
                   </div>
                 </div>
               </div>
-              <div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, index5)"></div>
-              <div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>
+              <!--<div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-left prev" @click="prevPic($event, index5)"></div>-->
+              <!--<div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>-->
             </div>
           </div>
           <div style="display: flex;justify-content: start;margin-top: 20px;">
-            <div class="goodsLabelSize" style="width: 130px;">quality:</div>
+            <div class="goodsLabelSize" style="width: 100px;">quality:</div>
             <div style="display: flex;">
               <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
               <div class="kuCun">{{maxQuality}} available</div>
@@ -160,7 +160,7 @@ import qs from 'qs'
 import { mapGetters } from 'vuex'
 import { setTimeout } from 'timers';
 import AddThis from "../test/AddThis";
-// import AddThis from 'vue-simple-addthis-share'
+// import addthis from 'vue-simple-addthis-share'
 export default {
   components: {
     AddThis,
@@ -246,9 +246,7 @@ export default {
     ])
   },
   mounted() {
-    // addthis.addEventListener('addthis.menu.share', function (res) {
-    //   console.log('hhhhhhhhh', res)
-    // });
+   // console.log('wwwwwwww', window)
     // setTimeout(function () {
     //   var swiper = new Swiper('.banner2',{
     //     direction: 'vertical',

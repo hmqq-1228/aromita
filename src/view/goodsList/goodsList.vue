@@ -271,21 +271,24 @@ export default {
       // var prevBtn = document.getElementsByClassName("prev")[dex]
       var objBtn = e.currentTarget
       var prevBtn = e.target.offsetParent.children[1]
-      console.log(picNum)
+      obj.left += -48
       if (picNum > 5) {
         var num = picNum - 5
         var leftWidth1 = -48*num
-        if(obj.left == leftWidth1){
-          $(objBtn).css('color', '#999')
-          $(prevBtn).css('color', '#333')
-          return false
-        }else{
-          obj.left += -48
+        if(obj.left >= leftWidth1){
           var leftwidth = Number(obj.left)
           $(divbox).css('left',leftwidth)
           $(objBtn).css('color', '#333')
           $(prevBtn).css('color', '#333')
           $(divbox).css('transition', '0.4s')
+        } else if (obj.left < leftWidth1) {
+          obj.left = leftWidth1
+          return false
+        }
+        if(obj.left === leftWidth1){
+          $(objBtn).css('color', '#999')
+          $(prevBtn).css('color', '#333')
+          return false
         }
       }
     },
@@ -295,8 +298,8 @@ export default {
       // var nextBtn = document.getElementsByClassName("next")[dex]
       var objBtn = e.currentTarget
       var nextBtn = e.target.offsetParent.children[2]
-      if(obj.left<0){
-        obj.left += 48
+      obj.left += 48
+      if(obj.left<=0){
         var leftwidth = Number(obj.left)
         $(divbox).css('left',leftwidth)
         $(divbox).css('transition', '0.4s')
@@ -305,6 +308,14 @@ export default {
       }else{
         $(nextBtn).css('color','#333')
         $(objBtn).css('color','#999')
+        obj.left = 0
+        return false
+      }
+      if (obj.left === 0) {
+        obj.left = 0
+        $(nextBtn).css('color','#333')
+        $(objBtn).css('color','#999')
+        return false
       }
     },
     imgPreve:function (e) {
