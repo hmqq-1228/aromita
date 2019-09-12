@@ -46,7 +46,7 @@
             <img src="@/assets/pay-02.png" alt="">
           </div>
     </div>
-    <div class="afooter">copyring @2019 Aromita all rights reserved</div>
+    <div class="afooter">{{aromite}}</div>
   </div>
 </template>
 <script>
@@ -59,14 +59,22 @@ export default {
       icon: [], //40
       footTitle: [], //50
       list:[],
+      aromite: ''
     };
   },
   mounted(){
     this.homeIcon()
     this.homeFootTitle()
     this.homeFoote()
+    this.aromiteInfo()
   },
   methods: {
+    aromiteInfo: function () {
+      this.$axios.get('api/homelayout/80', {}).then(res => {
+        console.log('kkkkkk', res)
+        this.aromite = res.data[0].picture_title
+      })
+    },
     //运营配置活动页
     linkHref(link){
       window.location.href = link
@@ -92,7 +100,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
   .afooter{
       width: 100%;
       height: 32px;

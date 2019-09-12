@@ -1,6 +1,25 @@
 <template>
-    <div class="afooter">copyring @2019 Aromita all rights reserved</div>
+    <div class="afooter">{{info}}</div>
 </template>
+<script>
+  export default {
+    data() {
+      return {
+        info: ''
+      };
+    },
+    mounted () {
+      this.aromiteInfo()
+    },
+    methods: {
+      aromiteInfo: function () {
+        this.$axios.get('api/homelayout/80', {}).then(res => {
+          this.info = res.data[0].picture_title
+        })
+      }
+    }
+  }
+</script>
 <style lang="scss" scoped>
 .afooter{
     width: 100%;
