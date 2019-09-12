@@ -100,6 +100,8 @@ export default {
     },
     //跳转到商品详情
     link(skuid,spuid){
+      console.log('111111', skuid)
+      console.log('22222', spuid)
       if(skuid && spuid){
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
@@ -218,6 +220,9 @@ export default {
     height: 300px;
     margin-top: 30px;
     cursor: pointer;
+  }
+  .thr2:hover{
+    box-shadow: 1px 1px 2px 2px #f3f3f3;
   }
   .word2_,.word3_{
     width: 1440px;

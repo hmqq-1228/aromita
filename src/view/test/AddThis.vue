@@ -28,6 +28,9 @@
         el.setAttribute('src', `${this.cdn}#pubid=${this.publicId}`)
         document.body.appendChild(el);
       }
+    },
+    methods: {
+
     }
   }
 </script>

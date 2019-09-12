@@ -163,7 +163,7 @@
     height: 40px;
   }
 .sliderBox.isImg .sizeSize{
-  height: 88px;
+  height: 68px;
 }
   .sliderCont{
     //position: absolute;
@@ -177,7 +177,7 @@
     justify-content: start;
   }
   .sliderCont div{
-    width: 82px;
+    width: 62px;
     /*height: 32px;*/
     margin-right: 8px;
     display: inline-block;
@@ -293,9 +293,16 @@
   border: 1px dashed #ccc;
 }
 .mainImage .sizeSize img{
-  height: 80px;
-  width: 80px;
+  height: 60px;
+  width: 60px;
   border: 1px solid #ccc;
+}
+.sliderBox.isImg .sizeSize img{
+  height: 60px;
+  width: 60px;
+}
+.sliderBox.isText .sliderCont div{
+  width: 82px;
 }
 .sizeSize img{
   height: 80px;
@@ -535,10 +542,10 @@
 }
   .goodsLabelSize.isImgLabel{
     width: 100px;
-    height: 80px;
+    height: 60px;
     font-size: 16px;
     color: #333;
-    line-height: 80px;
+    line-height: 60px;
     font-family: Tahoma;
   }
   .priceCon{

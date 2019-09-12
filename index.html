@@ -11,14 +11,53 @@
   <body>
     <!--<script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5d6e36b2d704b326"></script>-->
     <div id="app"></div>
-    <!--<div class="addthis_inline_share_toolbox"></div>-->
+    <!--<div class="addthis_inline_share_toolbox" id="showAromite"></div>-->
     <!-- built files will be auto injected -->
     <!--<script type="text/javascript">var addthis_config = {"data_track_addressbar":false};</script>-->
     <!--<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55754f584f46a708" async="async"></script>-->
   </body>
+  <!--<script>-->
+    <!--var router =  window.location.hash-->
+    <!--var list = router.split('/')-->
+    <!--var info = list[1]-->
+    <!--console.log('222', info)-->
+    <!--// if (info == 'goodsDetail'){-->
+    <!--//   document.getElementById('showAromite').style.display = 'block'-->
+    <!--// }-->
+    <!--function eventHandler(evt) {-->
+      <!--switch (evt.type) {-->
+        <!--case "addthis.menu.open":-->
+          <!--console.log('menu opened; surface=' + evt.data.pane);-->
+          <!--break;-->
+        <!--case "addthis.menu.close":-->
+          <!--console.log('menu closed; surface=' + evt.data.pane);-->
+          <!--break;-->
+        <!--case "addthis.menu.share":-->
+          <!--console.log('user shared to ' + evt.data.service);-->
+          <!--break;-->
+        <!--default:-->
+          <!--console.log('received an unexpected event', evt);-->
+      <!--}-->
+
+      <!--if (evt.type === 'addthis.menu.share') {-->
+        <!--alert(typeof(evt.data)); // evt.data is an object hash containing all event data-->
+        <!--alert(evt.data.service); // evt.data.service is specific to the "addthis.menu.share" event-->
+      <!--}-->
+    <!--}-->
+
+    <!--// Listen to various events-->
+    <!--addthis.addEventListener('addthis.menu.open', eventHandler);-->
+    <!--addthis.addEventListener('addthis.menu.close', eventHandler);-->
+    <!--addthis.addEventListener('addthis.menu.share', eventHandler);-->
+  <!--</script>-->
 </html>
 <style>
   #app{
     width: 100%;
   }
+  /*#showAromite{*/
+    /*position: fixed;*/
+    /*right: 0;*/
+    /*top: 40%;*/
+  /*}*/
 </style>
