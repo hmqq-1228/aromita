@@ -34,10 +34,10 @@
               <p class="know">Stay In The Know</p>
               <span class="deals">Be the first to see our new arrivals & exclusive deals</span>
               <div class="footInput">
-                <el-input placeholder="Enter your email" v-model="input10" clearable></el-input>
+                <el-input placeholder="Enter your email" v-model="subscribeKey" clearable></el-input>
               </div>
               <button class="btn">
-                <p class="btn_word">SUBSCRIBE</p>
+                <p class="btn_word" @click="subscribeSub()">SUBSCRIBE</p>
               </button>
             </div>
           </div>
@@ -51,11 +51,12 @@
 </template>
 <script>
 import {homeIcon,homeFootTitle,homeFoote} from '../api/home'
+import {Nosubscribe} from '../api/subscription'
 export default {
    data() {
     return {
       url:'https://arapi.panduo.com.cn/uploads/',
-      input10: "",
+      subscribeKey:'',
       icon: [], //40
       footTitle: [], //50
       list:[],
@@ -97,6 +98,12 @@ export default {
        this.footTitle = data.data
       }
     },
+    //未登录用户订阅
+    subscribeSub(){
+      Nosubscribe({customer_email_address:this.subscribeKey}).then((res)=>{
+        
+      })
+    }
   }
 }
 </script>
