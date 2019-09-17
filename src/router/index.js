@@ -12,6 +12,7 @@ const Forgot_password = () => import('@/view/register/forgot_password.vue')
 const Erqi = () => import('@/view/Kongbai/erqi.vue')
 // hm api newPassword
 const goodsList = () => import('@/view/goodsList/goodsList.vue')
+const searchList = () => import('@/view/goodsList/searchList.vue')
 const goodsDetail = () => import('@/view/goodsDetail/goodsDetail.vue')
 const shoppingCar = () => import('@/view/shoppingCar/shoppingCar.vue')
 const newPassword = () => import('@/view/register/newPassword.vue')
@@ -113,6 +114,14 @@ export default new Router({
       path: '/goodsList',
       name: 'goodsList',
       component: goodsList,
+      meta:{
+        keepAlive: true
+      }
+    },
+    {
+      path: '/searchList',
+      name: 'searchList',
+      component: searchList,
       meta:{
         keepAlive: true
       }
