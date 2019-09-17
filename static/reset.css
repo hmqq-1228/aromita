@@ -50,17 +50,24 @@ ul,li {
     border-color:#a81015 !important;
     background:#C51015 !important;
 }
-.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner{
+.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner{
   border-color: #999 !important;
   background-color: #fff !important;
 }
-.wrapLogin .el-checkbox__input.is-checked+.el-checkbox__label{
+.Scription .el-checkbox__input.is-checked .el-checkbox__inner, .Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  border-color: #999 !important;
+  background-color: #fff !important;
+}
+.Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
+  background-color: #333 !important;
+}
+.wrapLogin .el-checkbox__input.is-checked+.el-checkbox__label,.Scription .el-checkbox__input.is-checked+.el-checkbox__label{
   color: #333 !important;
 }
 .account_set .el-radio__input.is-checked+.el-radio__label{
     color: #C51015 !important;
 }
-.wrapLogin .el-input__inner,.register .right .el-input__inner{
+.wrapLogin .el-input__inner,.register .right .el-input__inner,.Scription .el-input__inner{
     width: 400px !important;
     position: relative;
     border: 1px solid #121037 !important;
@@ -241,13 +248,16 @@ ul,li {
 .wrapLogin .el-checkbox__input.is-focus .el-checkbox__inner,.wrapLogin .el-checkbox__inner:hover{
   border-color: #999 !important;
 }
+.Scription .el-checkbox__input.is-focus .el-checkbox__inner,.Scription .el-checkbox__inner:hover{
+  border-color: #999 !important;
+}
 .payBox .el-form-item__content{
     height: 36px !important;
 }
 .payBox .el-form-item__label{
     line-height: 36px !important;
 }
-.payBox .el-checkbox__inner::after,.payConfirm .el-checkbox__inner::after,.wrapLogin .el-checkbox__inner::after{
+.payBox .el-checkbox__inner::after,.payConfirm .el-checkbox__inner::after,.wrapLogin .el-checkbox__inner::after,.Scription .el-checkbox__inner::after{
     -webkit-box-sizing: content-box;
     box-sizing: content-box;
     content: "";
