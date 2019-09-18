@@ -218,6 +218,7 @@ export default {
         email: this.ruleForm.name,
         password: this.ruleForm.password
       }
+      var routerStr = this.$store.state.fromUrl
       handleLogin(pre).then((res)=>{
         if (res.code === 200) {
           this.loginData = res.data
@@ -225,8 +226,12 @@ export default {
             message: " success",
             type: "success"
           });
+          if (routerStr) {
+            this.$router.push(routerStr)
+          } else {
+            this.$router.push('/')
+          }
           // this.mergeGoodsFuc()
-          this.$router.push('/')
           localStorage.setItem('userToken', this.loginData.token)
         }else {
           this.$message.error('ERROR Incorrect username or password!')

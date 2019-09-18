@@ -17,8 +17,9 @@
               <div class="searchBox">
                 <!-- 搜索框 -->
                 <div class="search">
-                  <el-input></el-input>
-                  <p class="search_word">Search</p>
+                  <el-input :placeholder="searchInput" v-model="searchVal"></el-input>
+                  <!--<el-input v-if="searchInput" v-model="searchVal"></el-input>-->
+                  <p class="search_word" @click="search">Search</p>
                 </div>
                 <div class="optionList">
                   <!-- 登录 -->
@@ -187,6 +188,8 @@ import { mapGetters } from 'vuex';
     data() {
       return {
         keyword:'',//搜索关键字
+        searchVal: '',
+        searchInput: '国庆十周年',
         login_status:true,//用户登录状态
         userName: 'Welcome',
         TotalPrice:0,//购物车总价
@@ -210,6 +213,12 @@ import { mapGetters } from 'vuex';
         }
         this.$store.state.addCartState = false
       },
+      // searchVal: function (val, oV) {
+      //   console.log(val, oV)
+      //   // if (val) {
+      //   //   this.searchInput = true
+      //   // }
+      // },
       changeusername(user){
         if(user == true){
           this._checkLogin()
@@ -236,6 +245,16 @@ import { mapGetters } from 'vuex';
       ])
     },
     methods: {
+      search: function () {
+        if (this.searchVal) {
+          console.log('ssss', this.searchVal)
+          this.$store.state.searchVal = this.searchVal
+          this.$store.state.searchFlag = true
+        } else {
+          // alert('gogogogogoog')
+          this.$router.push('/')
+        }
+      },
       attrshow(num){
         this.attrShowindex = num
       },

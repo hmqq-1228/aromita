@@ -1,51 +1,37 @@
 <template>
   <div class="goodsList">
+    <div>{{nodeDragRefresh?'':''}}</div>
     <div class="listBox">
       <div class="listNav">
         <div class="navTitle">Sort By</div>
-        <div class="navItem">Most Recent</div>
-        <div class="navItem">Best Selling</div>
-        <div class="navItem">Highest Price</div>
-        <div class="navItem">Lowest Price</div>
+        <div class="navItem" @click="checkSortType($event, 1)">Most Recent</div>
+        <div class="navItem" @click="checkSortType($event, 2)">Best Selling</div>
+        <div class="navItem" @click="checkSortType($event, 3)">Lowest Price</div>
         <div class="navTitle">Price</div>
         <div class="price">
           <div class="priceRange">
-            <input type="number">
+            <input type="number" placeholder="$" v-model="startPrice">
             <div>	&#8764;</div>
-            <input type="number">
+            <input type="number" placeholder="$" v-model="endPrice">
           </div>
-          <button>APPLY</button>
+          <button @click="subPrice()">APPLY</button>
         </div>
         <div class="navTitleTwo">
           <div>Filter</div>
-          <div style="color: #999;">Clear</div>
+          <div class="clear" @click="clearAttrChecked()">Clear</div>
         </div>
-        <div class="fliterList">
-          <el-collapse v-model="activeNamesMetal">
-            <el-collapse-item title="Metal" name="Metal">
-              <div class="metalChecked"><input type="radio" id="metal1" name="metal" checked><label for="metal1"></label><span>Stainless Steel</span></div>
-              <div class="metalChecked"><input type="radio" id="metal2" name="metal"><label for="metal2"></label><span>Silver</span></div>
+        <div class="fliterList" v-for="(attr, index) in attrList">
+          <el-collapse>
+            <el-collapse-item :title="attr.attr_name" :name="index">
+              <el-radio-group v-model="attr.nameStr">
+                <div class="MetalItem" v-for="(attrVal, index2) in attr.values"><el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio></div>
+                <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
+                <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
+              </el-radio-group>
             </el-collapse-item>
           </el-collapse>
         </div>
-        <div class="fliterList">
-          <el-collapse v-model="activeNamesColor">
-            <el-collapse-item title="Color" name="Color">
-              <div class="metalChecked"><input type="radio" id="Color1" name="metal"><label for="Color1"></label><span>Silver</span></div>
-              <div class="metalChecked"><input type="radio" id="Color2" name="metal"><label for="Color2"></label><span>Gold</span></div>
-              <div class="metalChecked"><input type="radio" id="Color3" name="metal"><label for="Color3"></label><span>Black</span></div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-        <div class="fliterList">
-          <el-collapse v-model="activeNamesSize">
-            <el-collapse-item title="Size" name="Size">
-              <div class="metalChecked"><input type="radio" id="Size1" name="metal"><label for="Size1"></label><span>Small</span></div>
-              <div class="metalChecked"><input type="radio" id="Size2" name="metal"><label for="Size2"></label><span>Model</span></div>
-              <div class="metalChecked"><input type="radio" id="Size3" name="metal"><label for="Size3"></label><span>Large</span></div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
+        <div class="viewMore" @click="showMoreAttr(moreIcon)">view more <i :class="moreIcon"></i></div>
       </div>
       <div class="listGoods" v-if="!noDataShow">
         <div v-if="goodsList">
@@ -97,12 +83,20 @@
         topShow: false,
         loading:true,
         page:1,
+        Metal: '',
+        Color: '',
         pageSize:40,
         totalNum: 0,
+        endPrice: '',
+        startPrice: '',
+        moreIcon: 'el-icon-d-arrow-right',
         scrollShowFlag: false,
         scrollTop: null,
         prodListLastPage: false,
         goodsList: [],
+        attrList: [],
+        checkAttrList: [],
+        checkAttrStr: '',
         noDataShow: false,
         activeNamesMetal: '',
         activeNamesColor: '',
@@ -112,16 +106,26 @@
         f_cate_id: '',
         keyword: '',
         sort: '',
+        attrStr: '',
         leftNum:[],
         btnindex:-1,
       }
     },
     watch: {
+      checkAttrStr: function (val, oV) {
+        if (val) {
+          this.attrStr = val
+          this.getList()
+        }
+      },
       $route(){
         this.s_cate_id = this.$route.query.s_cate_id
         this.f_cate_id = this.$route.query.f_cate_id
         this.keyword = this.$route.query.keyword
         this.sort = this.$route.query.sort
+        this.startPrice = this.$route.query.price_start
+        this.endPrice = this.$route.query.price_end
+        this.attrStr = this.$route.query.attr
       },
       s_cate_id() {
         // window,scrollTo(0,0)
@@ -135,6 +139,15 @@
       }
     },
     computed: {
+      nodeDragRefresh: function () {
+        var that = this
+        if (that.$store.state.searchFlag) {
+          that.keyword = that.$store.state.searchVal
+          this.getList()
+          that.$store.state.searchFlag = false
+        }
+        return this.$store.state.searchFlag
+      }
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
@@ -144,13 +157,116 @@
       this.f_cate_id = this.$route.query.f_cate_id
       this.keyword = this.$route.query.keyword
       this.sort = this.$route.query.sort
-      // this.getList()
+      this.startPrice = this.$route.query.price_start
+      this.endPrice = this.$route.query.price_end
+      this.attrStr = this.$route.query.attr
+      this.getAttrList()
       // this.scrollShow()
     },
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+      showMoreAttr (icon) {
+        if (icon === 'el-icon-d-arrow-right') {
+          // this.moreIcon = 'el-icon-d-arrow-left'
+          this.getAttrList('more')
+        } else {
+          this.getAttrList('less')
+          // this.moreIcon = 'el-icon-d-arrow-right'
+        }
+      },
+      clearAttrChecked () {
+        this.checkAttrList = []
+        this.attrStr = null
+        this.getAttrList()
+        this.getList()
+      },
+      getAttrValue (key, val) {
+        console.log('ffffff', key, val)
+        var flag = false
+        var k = 0
+        var FileIdStr = ''
+        var obj = {
+          name: key,
+          val: val
+        }
+        if (this.checkAttrList.length > 0) {
+          for(var i=0;i< this.checkAttrList.length; i++) {
+            if(this.checkAttrList[i].name === obj.name){
+              flag = true
+              k = i
+              break
+            }
+          }
+          if (flag) {
+            this.checkAttrList.splice(k, 1, obj)
+          } else {
+            this.checkAttrList.push(obj)
+          }
+        } else {
+          this.checkAttrList.push(obj)
+        }
+        flag = false
+        console.log('list', this.checkAttrList)
+        for (var t=0; t<this.checkAttrList.length; t++){
+          var splitIcon = ','
+          if (t === this.checkAttrList.length - 1) {
+            splitIcon = ''
+          }
+          FileIdStr = FileIdStr + this.checkAttrList[t].val + splitIcon
+        }
+        console.log('kkkkkkk', FileIdStr)
+        this.checkAttrStr = FileIdStr
+      },
+      // 查属性
+      getAttrList (type) {
+        var that = this
+        that.$axios.get('api/attribute', {}).then(res => {
+          if (res.code === 200) {
+            that.attrList = res.data
+            for (var i=0;i<that.attrList.length; i++) {
+              this.$set(this.attrList[i],'nameStr','')
+              that.attrList[i].nameStr =  that.attrList[i].attr_name
+            }
+            if (!type) {
+              that.attrList = that.attrList.slice(0,3)
+              this.moreIcon = 'el-icon-d-arrow-right'
+            } else if (type) {
+              if (type === 'more') {
+                that.attrList = that.attrList.slice()
+                this.moreIcon = 'el-icon-d-arrow-left'
+              } else if (type === 'less') {
+                that.attrList = that.attrList.slice(0,3)
+                this.moreIcon = 'el-icon-d-arrow-right'
+              }
+            }
+            console.log('ddddd', that.attrList)
+          }
+        })
+      },
+      // 价格区间
+      subPrice () {
+        var tamp = this.startPrice
+        if (this.startPrice > this.endPrice) {
+          this.startPrice = this.endPrice
+          this.endPrice = tamp
+        }
+        if (this.endPrice || this.startPrice){
+          this.getList()
+        } else if (!this.endPrice && !this.startPrice) {
+          this.startPrice = null
+          this.endPrice = null
+          this.getList()
+        }
+      },
+      // 排序
+      checkSortType (e, type) {
+        var obj = e.currentTarget
+        $(obj).addClass('activeSort').siblings().removeClass('activeSort')
+        this.sort = type
+        this.getList()
+      },
       handleScroll() {
         if (document.documentElement.scrollTop>0) {
           this.topShow = true
@@ -175,9 +291,12 @@
           s_cate_id: that.s_cate_id,
           f_cate_id: that.f_cate_id,
           page: that.page,
+          price_end: that.endPrice,
+          price_start: that.startPrice,
           perPage: that.pageSize,
           keyword: that.keyword,
-          sort: that.sort
+          sort: that.sort,
+          attr: that.attrStr
         }
         // if (that.s_cate_id){
         //   obj = {
@@ -219,7 +338,6 @@
             } else {
               this.noDataShow = false
             }
-            console.log(this.goodsList,'this.goodsList')
           }
         })
       },

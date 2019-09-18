@@ -59,67 +59,67 @@
       <div class="optionType"><span @click="deleteItemCart(unGood.sku_id)"><i class="el-icon-circle-close"></i></span></div>
     </div>
   </div>
-  <div class="overTime" style="margin-bottom: 30px;">
-    <div class="overHd Points">
-      Choose Coupon & Points
-    </div>
+  <div class="overTime" style="margin-bottom: 30px;margin-top: 30px;">
+    <!--<div class="overHd Points">-->
+      <!--Choose Coupon & Points-->
+    <!--</div>-->
     <div class="pointCoupon">
       <div class="leftCont">
-        <div class="coupon">
-          <div class="couponItem" @click="useCoupon($event, 1)">
-            <div class="couponInfo">
-              <div class="info">
-                <div>优惠:</div>
-                <div>满100减20</div>
-              </div>
-              <div class="info" style="margin-top: 4px">
-                <div>Expired Data:</div>
-                <div>July 23,2019</div>
-              </div>
-            </div>
-          </div>
-          <div class="couponItem" @click="useCoupon($event, 2)">
-            <div class="couponInfo">
-              <div class="info">
-                <div>优惠:</div>
-                <div>满100减20</div>
-              </div>
-              <div class="info" style="margin-top: 4px">
-                <div>Expired Data:</div>
-                <div>July 23,2019</div>
-              </div>
-            </div>
-          </div>
-          <div class="couponItem" @click="useCoupon($event, 3)">
-            <div class="couponInfo">
-              <div class="info">
-                <div>优惠:</div>
-                <div>满100减20</div>
-              </div>
-              <div class="info" style="margin-top: 4px">
-                <div>Expired Data:</div>
-                <div>July 23,2019</div>
-              </div>
-            </div>
-          </div>
-          <div class="couponItem" @click="useCoupon($event, 4)">
-            <div class="couponInfo">
-              <div class="info">
-                <div>优惠:</div>
-                <div>满100减20</div>
-              </div>
-              <div class="info" style="margin-top: 4px">
-                <div>Expired Data:</div>
-                <div>July 23,2019</div>
-              </div>
-            </div>
-          </div>
-          <div class="more" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
-        </div>
-        <div class="point">
-          <div>Available Points: {{maxPoints}}</div>
-          <div style="width: 180px;display: flex;justify-content: space-between;"><div>使用积分: </div><input type="number" class="inputVal" min="0" :max="maxPoints"></div>
-        </div>
+        <!--<div class="coupon">-->
+          <!--<div class="couponItem" @click="useCoupon($event, 1)">-->
+            <!--<div class="couponInfo">-->
+              <!--<div class="info">-->
+                <!--<div>优惠:</div>-->
+                <!--<div>满100减20</div>-->
+              <!--</div>-->
+              <!--<div class="info" style="margin-top: 4px">-->
+                <!--<div>Expired Data:</div>-->
+                <!--<div>July 23,2019</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="couponItem" @click="useCoupon($event, 2)">-->
+            <!--<div class="couponInfo">-->
+              <!--<div class="info">-->
+                <!--<div>优惠:</div>-->
+                <!--<div>满100减20</div>-->
+              <!--</div>-->
+              <!--<div class="info" style="margin-top: 4px">-->
+                <!--<div>Expired Data:</div>-->
+                <!--<div>July 23,2019</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="couponItem" @click="useCoupon($event, 3)">-->
+            <!--<div class="couponInfo">-->
+              <!--<div class="info">-->
+                <!--<div>优惠:</div>-->
+                <!--<div>满100减20</div>-->
+              <!--</div>-->
+              <!--<div class="info" style="margin-top: 4px">-->
+                <!--<div>Expired Data:</div>-->
+                <!--<div>July 23,2019</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="couponItem" @click="useCoupon($event, 4)">-->
+            <!--<div class="couponInfo">-->
+              <!--<div class="info">-->
+                <!--<div>优惠:</div>-->
+                <!--<div>满100减20</div>-->
+              <!--</div>-->
+              <!--<div class="info" style="margin-top: 4px">-->
+                <!--<div>Expired Data:</div>-->
+                <!--<div>July 23,2019</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="more" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>-->
+        <!--</div>-->
+        <!--<div class="point">-->
+          <!--<div>Available Points: {{maxPoints}}</div>-->
+          <!--<div style="width: 180px;display: flex;justify-content: space-between;"><div>使用积分: </div><input type="number" class="inputVal" min="0" :max="maxPoints"></div>-->
+        <!--</div>-->
       </div>
       <div class="orderInfo">
         <div class="payOrder">
@@ -127,8 +127,8 @@
           <div>
             <!--<div class="payItem"><div class="payTitle">Coupon:</div><div class="payNum">$ 3.33</div></div>-->
             <!--<div class="payItem"><div class="payTitle">Points:</div><div class="payNum">$ 53.33</div></div>-->
-            <div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum">$ {{totalPayShow.toFixed(2)}}</div></div>
-            <div class="payItem"><div class="payTitle">Grand Total:</div><div class="payNum big">$ {{totalPayShow.toFixed(2)}}</div></div>
+            <!--<div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum">$ {{totalPayShow.toFixed(2)}}</div></div>-->
+            <div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum big">$ {{totalPayShow.toFixed(2)}}</div></div>
             <div class="payItem"><div></div><div class="tip">Privacy Policy</div></div>
           </div>
         </div>
@@ -156,6 +156,7 @@ export default {
   data () {
     return{
       wishUrl: '../../../static/img/loveOut.png',
+      maxPoints: 300,
       pointMore: 'el-icon-d-arrow-right',
       isLogin: false,
       visible: true,
@@ -166,7 +167,6 @@ export default {
       payList: [],
       totalPay: 0,
       checkArr: [],
-      maxPoints: 300,
       totalPayShow: 0,
       goodsList: [],
       couponId: '',
@@ -221,19 +221,19 @@ export default {
         this.isLogin = false
       }
     },
-    useCoupon: function (e, cpId) {
-      var obj = e.currentTarget
-      $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
-      this.couponId = cpId
-    },
-    getMoreCoupon: function (type) {
-      var that = this
-      if (type === 'el-icon-d-arrow-right') {
-        that.pointMore = 'el-icon-d-arrow-left'
-      } else if (type === 'el-icon-d-arrow-left') {
-        that.pointMore = 'el-icon-d-arrow-right'
-      }
-    },
+    // useCoupon: function (e, cpId) {
+    //   var obj = e.currentTarget
+    //   $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
+    //   this.couponId = cpId
+    // },
+    // getMoreCoupon: function (type) {
+    //   var that = this
+    //   if (type === 'el-icon-d-arrow-right') {
+    //     that.pointMore = 'el-icon-d-arrow-left'
+    //   } else if (type === 'el-icon-d-arrow-left') {
+    //     that.pointMore = 'el-icon-d-arrow-right'
+    //   }
+    // },
     async getGoodsListFuc(tr){
       var that = this
       that.payList = []
@@ -420,7 +420,7 @@ export default {
     subTotalPay: function() {
       var that = this
       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
-      sessionStorage.setItem('couponId', that.couponId)
+      // sessionStorage.setItem('couponId', that.couponId)
       that.$router.push('/orderConfirm')
     },
     toGoodDetail: function(spuid, skuid){

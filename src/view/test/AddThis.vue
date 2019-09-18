@@ -1,14 +1,12 @@
 <template>
   <div>
-    <div
-      v-bind="$attrs"
-      class="addthis_inline_share_toolbox"
-    ></div>
+    <div class="addthis_inline_share_toolbox" @click="toShow($event)"></div>
     <!--<div @click="text()">11111</div>-->
   </div>
 </template>
 
 <script>
+  import qs from 'qs'
   export default {
     name: "AddThis",
     props: {
@@ -23,6 +21,7 @@
     },
     mounted() {
       if (process.browser) {
+        console.log('77777', window.addthis)
         if (document.getElementById('addthis-share') !== null) {
           return window.addthis.layers.refresh();
         }
@@ -31,13 +30,34 @@
         el.setAttribute('src', `${this.cdn}#pubid=${this.publicId}`)
         document.body.appendChild(el);
       }
-      // console.log('7777777', window.addEventListener)
+      // window.addEventListener('click', this.eventHandler)
+      // window.addEventListener("scroll", this.showIcon);
     },
+    // mounted() {
+    //   window.addEventListener("scroll", this.showIcon);
+    // },
     created(){
-      // console.log('6666666', this.$attrs)
+      console.log('6666666',  window.location.hash)
       // window.addEventListener('text', this.eventHandler);
     },
     methods: {
+      toShow: function (e) {
+        var that = this
+        var route = window.location.hash
+        var routeList = route.split('#')
+        console.log('uuuuu', routeList[1])
+        var obj = qs.stringify({
+          score: 5,
+          source: '分享得积分'
+        })
+        that.$axios.post('api/updatescore', obj).then(res => {
+          console.log('ddddd', res)
+          if (res.code === 2001) {
+            // that.$store.state.fromUrl = routeList[1]
+            // that.$router.push('/login')
+          }
+        })
+      },
       eventHandler: function (evt) {
         console.log('hhhhh', evt)
         switch (evt.type) {

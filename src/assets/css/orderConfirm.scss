@@ -330,7 +330,7 @@
   width: 1020px;
 }
 .navTitle{
-  width:145px;
+  width:210px;
   height:22px;
   font-size:18px;
   font-family:Tahoma;
@@ -518,4 +518,56 @@
   cursor: pointer;
   color: #003764;
   text-decoration: underline;
+}
+.coupon{
+  width: 720px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #eee;
+  padding: 0 0 20px 20px;
+}
+.more{
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  color: #888;
+  transform: rotate(-90deg);
+}
+.couponItem{
+  width: 240px;
+  height: 80px;
+  margin-top: 20px;
+}
+.couponItem.couponChecked .couponInfo{
+  border: 1px solid #C51015;
+}
+.couponInfo{
+  width: 213px;
+  height: 80px;
+  font-size: 14px;
+  border: 1px solid #eee;
+  padding: 16px 10px;
+  box-sizing: border-box;
+}
+.info{
+  width: 203px;
+  display: flex;
+  justify-content: space-between;
+}
+.info>div{
+  width: 50%;
+}
+.info>div:nth-of-type(1){
+  color: #888;
+}
+.point{
+  height: 40px;
+  width: 540px;
+  display: flex;
+  line-height: 40px;
+  margin-top: 20px;
+  justify-content: space-between;
 }

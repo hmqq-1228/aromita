@@ -33,12 +33,14 @@
             <div class="footer_right">
               <p class="know">Stay In The Know</p>
               <span class="deals">Be the first to see our new arrivals & exclusive deals</span>
-              <div class="footInput">
-                <el-input placeholder="Enter your email" v-model="subscribeKey" clearable></el-input>
-              </div>
-              <button class="btn">
-                <p class="btn_word" @click="subscribeSub()">SUBSCRIBE</p>
-              </button>
+              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                <el-form-item class="search isfooter" prop="subscribeKey" style="width: 336px">
+                  <el-input placeholder="Enter your email" v-model="ruleForm.subscribeKey" clearable></el-input>
+                </el-form-item>
+                <button class="btn">
+                  <p class="btn_word" @click="subscribeSub('ruleForm')">SUBSCRIBE</p>
+                </button>
+              </el-form>
             </div>
           </div>
           <div class="xian2"></div>
@@ -56,7 +58,15 @@ export default {
    data() {
     return {
       url:'https://arapi.panduo.com.cn/uploads/',
-      subscribeKey:'',
+      ruleForm:{
+        subscribeKey:'',
+      },
+      rules:{
+        subscribeKey:[
+          { required: true, message: 'Please enter your email address', trigger: 'blur' },
+          { type: 'email', message: 'Please enter the correct email address', trigger: 'blur'}
+        ]
+      },
       icon: [], //40
       footTitle: [], //50
       list:[],
@@ -99,10 +109,17 @@ export default {
       }
     },
     //未登录用户订阅
-    subscribeSub(){
-      Nosubscribe({customer_email_address:this.subscribeKey}).then((res)=>{
-        
-      })
+    subscribeSub(formName){
+      var that = this
+      that.$refs[formName].validate((valid) => {
+        if (valid) {
+          Nosubscribe({customer_email_address:that.ruleForm.subscribeKey}).then((res)=>{
+
+          })
+        } else {
+          return false;
+        }
+      });
     }
   }
 }
@@ -110,7 +127,7 @@ export default {
 <style lang="scss" scoped>
   .afooter{
       width: 100%;
-      height: 32px;
+      height: 40px;
       line-height: 32px;
       text-align: center;
       background: #FBFBFB;

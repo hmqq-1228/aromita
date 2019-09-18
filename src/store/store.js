@@ -4,6 +4,9 @@ Vue.use(Vuex)
 const state = {
   fileFormat: ['jpg', 'jpeg', 'png', 'gif'],
   cont: 0,
+  fromUrl: '',
+  searchVal: '',
+  searchFlag: false,
   contPrev: [0,0,0,0,0,0,0,0,0,0,0,0],
   totalPay: 0,
   orderNum: '',

@@ -1,3 +1,27 @@
+.MetalItem{
+  padding: 4px 20px;
+}
+.clear{
+  color: #999;
+  cursor: pointer;
+}
+.clear:hover{
+  color: #666;
+}
+.viewMore{
+  text-align: center;
+  color: #777;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Tahoma;
+  padding: 6px 10px;
+}
+.viewMore i{
+  transform: rotate(90deg);
+}
+.navItem.activeSort{
+  color: #c51015;
+}
 .biggerView{
     transform: scale(1.05);
     transition: all .8s;
@@ -143,7 +167,8 @@
   }
   .priceRange input{
     width: 60px;
-    height: 28px;
+    height: 24px;
+    text-align: center;
   }
   .priceRange>div{
     width: 25px;
@@ -152,7 +177,7 @@
     line-height: 28px;
   }
   .price>button{
-    width: 145px;
+    width: 152px;
     height: 28px;
     color: #fff;
     border: none;

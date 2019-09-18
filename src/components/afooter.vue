@@ -22,13 +22,14 @@
 </script>
 <style lang="scss" scoped>
 .afooter{
-    width: 100%;
+    width: 1440px;
     height: 91px;
     line-height: 91px;
     text-align: center;
     background: #FBFBFB;
     color: #999;
     font-size: 14px;
+    margin: 0 auto;
     // position: absolute;
     // bottom: 0;
 }

@@ -244,6 +244,67 @@
             </div>
           </div>
         </div>
+        <div class="navTitle" v-if="isLogin"> Choose Coupon & Points</div>
+        <div class="leftCont" v-if="isLogin">
+          <div class="coupon">
+            <div class="couponItem" @click="useCoupon($event, 1)">
+              <div class="couponInfo">
+                <div class="info">
+                  <div>优惠:</div>
+                  <div>满100减20</div>
+                </div>
+                <div class="info" style="margin-top: 4px">
+                  <div>Expired Data:</div>
+                  <div>July 23,2019</div>
+                </div>
+              </div>
+            </div>
+            <div class="couponItem" @click="useCoupon($event, 2)">
+              <div class="couponInfo">
+                <div class="info">
+                  <div>优惠:</div>
+                  <div>满100减20</div>
+                </div>
+                <div class="info" style="margin-top: 4px">
+                  <div>Expired Data:</div>
+                  <div>July 23,2019</div>
+                </div>
+              </div>
+            </div>
+            <div class="couponItem" @click="useCoupon($event, 3)">
+              <div class="couponInfo">
+                <div class="info">
+                  <div>优惠:</div>
+                  <div>满100减20</div>
+                </div>
+                <div class="info" style="margin-top: 4px">
+                  <div>Expired Data:</div>
+                  <div>July 23,2019</div>
+                </div>
+              </div>
+            </div>
+            <div class="couponItem" @click="useCoupon($event, 4)">
+              <div class="couponInfo">
+                <div class="info">
+                  <div>优惠:</div>
+                  <div>满100减20</div>
+                </div>
+                <div class="info" style="margin-top: 4px">
+                  <div>Expired Data:</div>
+                  <div>July 23,2019</div>
+                </div>
+              </div>
+            </div>
+            <div class="more" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
+          </div>
+          <div class="point">
+            <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
+            <div style="width: 180px;display: flex;justify-content: space-between;">
+              <div>使用积分: </div><el-input-number v-model="inputPoint" :controls="false" style="width: 100px;" :min="0" :max="maxPoints" @blur="getInputPoint(inputPoint)"></el-input-number>
+            </div>
+            <div>可抵扣: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
+          </div>
+        </div>
         <div class="navTitle">Payment Method</div>
         <div class="payBox">
           <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
@@ -320,7 +381,7 @@
           </div>
         </div>
       </div>
-      <div class="payDiv">
+      <div class="payDiv" :style="{right:(rightDis==true?'0':'12%')}">
         <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
           <div class="payName">Subtotal:</div>
           <div class="payValue">$ {{billing.subtotal.toFixed(2)}}</div>
@@ -329,9 +390,9 @@
           <div class="payName">Coupon:</div>
           <div class="payValue">$ {{billing.cc_amount.toFixed(2)}}</div>
         </div>
-        <div class="payItem" v-if="billing.point && billing.point>0">
+        <div class="payItem" v-if="billing.pointToMoney">
           <div class="payName">Points:</div>
-          <div class="payValue">$ {{billing.point.toFixed(2)}}</div>
+          <div class="payValue">$ {{billing.pointToMoney.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="billing.taxfee && billing.taxfee>0">
           <div class="payName">Tax:</div>
@@ -379,6 +440,11 @@ export default {
       radio3: '1',
       billing: '',
       errorMsg: '',
+      couponId: '',
+      myPoints: 0,
+      maxPoints: 0,
+      inputPoint: '',
+      pointMore: 'el-icon-d-arrow-right',
       errorInfo: 'No mode of transportation, please choose a valid address.',
       shipFee: 0,
       totalPay: 0,
@@ -402,10 +468,12 @@ export default {
       countryList: addressList.addressList.List,
       isLogin: false,
       infoShow: false,
+      rightDis: false,
       modelShow: false,
       modelShow2: false,
       methodShow: false,
       butLoading: false,
+      login_status: false,
       overQuanlity: false,
       payDisabled: false,
       dialogVisible: true,
@@ -571,16 +639,55 @@ export default {
     // }
   },
   created(){
+    console.log('wwwww', document.body.clientWidth)
+    if (document.body.clientWidth < 1460){
+      this.rightDis = true
+    }
     this.ProvinceList = addressList.addressList.List[0].countryList
-    this.getGoodsOrder()
     this.checkLoginInfo()
+    this.getPoints()
   },
   methods: {
+    getInputPoint (num) {
+      console.log('ppppppp', num)
+      this.inputPoint = num
+      this.getBillingList()
+    },
+    // 可用积分
+    getPoints () {
+      var that = this
+      that.$axios.post('api/customercanusepoint', {}).then(res => {
+        that.myPoints = res.point
+        if (that.myPoints < 10000) {
+          that.maxPoints = that.myPoints
+          that.inputPoint = that.myPoints
+        } else {
+          that.maxPoints = 10000
+          that.inputPoint = 10000
+        }
+        this.getGoodsOrder()
+        // if (res.code === '200' || res.code === 200) {
+        //
+        // }
+      })
+    },
+    useCoupon: function (e, cpId) {
+      var obj = e.currentTarget
+      $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
+      this.couponId = cpId
+    },
+    getMoreCoupon: function (type) {
+      var that = this
+      if (type === 'el-icon-d-arrow-right') {
+        that.pointMore = 'el-icon-d-arrow-left'
+      } else if (type === 'el-icon-d-arrow-left') {
+        that.pointMore = 'el-icon-d-arrow-right'
+      }
+    },
     async checkLoginInfo () {
       let data = await checkLogin()
       if(data.code === '200' || data.code === 200) {
         this.isLogin = true
-        console.log('000000', data)
         this.getOrderAddress('defult', '')
       } else {
         this.isLogin = false
@@ -912,25 +1019,33 @@ export default {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
-      var coupon_id = sessionStorage.getItem('couponId')
+      var coupon_id = 2
       var billList = []
       var sumBill = 0
       let idList = {
         ids: idStr,
+        score: that.inputPoint,
         coupon_id: coupon_id
       }
       let data = await billingList(idList)
-      that.billing = data
-      for (let k in data) {
-        if (data[k] && data[k]>0) {
-          billList.push(parseFloat(data[k].toFixed(2)))
+      if (data.subtotal) {
+        that.billing = data
+        for (let k in data) {
+          if (data[k]) {
+            billList.push(data[k])
+          }
         }
+        console.log('mmmmmm', billList)
+        for (var i=0;i<billList.length;i++) {
+          sumBill = sumBill + billList[i]
+        }
+        that.billTotal = sumBill
+        that.billTotalSum = sumBill
+      } else if (data === 102) {
+        that.$message.info('积分使用过多')
+      } else if (data === 103) {
+        that.$message.info('积分使用过多')
       }
-      for (var i=0;i<billList.length;i++) {
-        sumBill = sumBill + billList[i]
-      }
-      that.billTotal = sumBill
-      that.billTotalSum = sumBill
     },
     // 修改
     submitForm(formName) {
@@ -1047,7 +1162,7 @@ export default {
     confirmPay: function () {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
-      var coupon_id = sessionStorage.getItem('couponId')
+      var coupon_id = 2
       var orderAddress = that.order_Address
       var shipMethod = that.orderShipMethod
       var payMethod = {
@@ -1086,6 +1201,8 @@ export default {
           }
         } else if (res.code === 301) {
           that.$message.warning('The order has expired, Please add it again.')
+        } else if (res.code === 112) {
+          that.$message.warning('积分使用过多')
         }
       })
     },

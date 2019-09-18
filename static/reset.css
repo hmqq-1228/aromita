@@ -50,7 +50,7 @@ ul,li {
     border-color:#a81015 !important;
     background:#C51015 !important;
 }
-.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner{
+.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner,.fliterList .el-radio__input.is-checked .el-radio__inner{
   border-color: #999 !important;
   background-color: #fff !important;
 }
@@ -61,7 +61,7 @@ ul,li {
 .Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
   background-color: #333 !important;
 }
-.wrapLogin .el-checkbox__input.is-checked+.el-checkbox__label,.Scription .el-checkbox__input.is-checked+.el-checkbox__label{
+.wrapLogin .el-checkbox__input.is-checked+.el-checkbox__label,.Scription .el-checkbox__input.is-checked+.el-checkbox__label,.fliterList .el-radio__input.is-checked+.el-radio__label{
   color: #333 !important;
 }
 .account_set .el-radio__input.is-checked+.el-radio__label{
@@ -251,6 +251,20 @@ ul,li {
 .Scription .el-checkbox__input.is-focus .el-checkbox__inner,.Scription .el-checkbox__inner:hover{
   border-color: #999 !important;
 }
+.fliterList .el-checkbox__input.is-focus .el-checkbox__inner,.fliterList .el-checkbox__inner:hover{
+  border-color: #999 !important;
+}
+.fliterList .el-radio__inner:hover{
+  border-color: #666 !important;
+}
+.fliterList .el-radio__inner::after{
+  width: 6px !important;
+  height: 6px !important;
+  background-color: #666 !important;
+}
+.fliterList .el-radio__label{
+  font-size: 12px !important;
+}
 .payBox .el-form-item__content{
     height: 36px !important;
 }
@@ -343,4 +357,9 @@ ul,li {
 }
 .shoppingCar .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),.shoppingCar .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){
   border-color: #888 !important;
+}
+.isfooter .el-input{
+  height: 32px !important;
+  line-height: 32px !important;
+  border: 1px solid #121037 !important;
 }
