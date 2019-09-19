@@ -380,7 +380,7 @@ import { mapGetters } from 'vuex';
 </script>
 <style scoped>
 .search .el-input{
-    width: 220px;
+    width: 280px;
     border:none;
 }
 .qty{

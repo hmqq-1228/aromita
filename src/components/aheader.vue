@@ -25,13 +25,15 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .wrap {
-  width: 1440px;
+  width: 100%;
+  min-width: 1440px;
   margin: 0 auto;
 }
 .title {
-  width: 1440px;
+  width: 100%;
+  min-width: 1440px;
   height: 40px;
   margin: 0 auto;
   background: rgba(18, 16, 55, 1);
@@ -57,7 +59,8 @@ export default {
   cursor: pointer;
 }
 .xian_a {
-  width: 1440px;
+  width: 100%;
+  min-width: 1440px;
   height: 65px;
   margin: 0 auto;
   padding: 12px 0;

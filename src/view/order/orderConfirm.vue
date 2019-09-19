@@ -1040,7 +1040,7 @@ export default {
           sumBill = sumBill + billList[i]
         }
         that.billTotal = sumBill
-        that.billTotalSum = sumBill
+        that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
       } else if (data === 102) {
         that.$message.info('积分使用过多')
       } else if (data === 103) {

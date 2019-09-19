@@ -114,7 +114,22 @@ export default {
       that.$refs[formName].validate((valid) => {
         if (valid) {
           Nosubscribe({customer_email_address:that.ruleForm.subscribeKey}).then((res)=>{
-
+            console.log('666666', res)
+            if (res.code === 200) {
+              this.$notify({
+                title: '订阅',
+                message: '订阅成功',
+                offset: 400,
+                type: 'success'
+              });
+            } else {
+              this.$notify({
+                title: '订阅',
+                message: res.msg,
+                offset: 400,
+                type: 'warning'
+              });
+            }
           })
         } else {
           return false;

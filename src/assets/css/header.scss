@@ -42,7 +42,7 @@
                 margin-top: 20px;
                 justify-content: space-between;
                 .search {
-                    width: 300px;
+                    width: 360px;
                     height: 32px;
                     display: inline-block;
                     border: 1px solid rgba(18, 16, 55, 1);
@@ -61,11 +61,11 @@
                     }
                 }
                 .optionList{
-                    width: 340px;
+                    width: 270px;
                     display: flex;
                     padding-top: 6px;
                     .login {
-                        width: 110px;
+                        width: 100px;
                         height: 40px;
                         display: flex;
                         cursor: pointer;
@@ -107,11 +107,12 @@
                         }
                     }
                     .wish {
-                        width: 110px;
+                        width: 100px;
                         height: 40px;
                         display: flex;
                         cursor: pointer;
                         padding-left: 20px;
+                        box-sizing: border-box;
                         .wish_left > img {
                             display: inline-block;
                             width: 24px;
@@ -130,11 +131,10 @@
                         }
                     }
                     .cart {
-                        width: 110px;
+                        width: 100px;
                         height: 40px;
                         display: flex;
                         cursor: pointer;
-                        padding-left: 20px;
                         .cart_left{
                             display: flex;
                             img {
@@ -150,11 +150,10 @@
         }
         .nav{
           width: 1440px;
-          margin-top: 30px;
           margin: 0 auto;
           position: relative;
           .content_box{
-            margin-top: 30px;
+            margin-top: 3px;
           }
           .content_box1{
             top: 30px;
@@ -214,7 +213,7 @@
     .search{
       border-bottom:1px solid #aca9a9;
       .el-input{
-        width: 1040px!important;
+        width: 280px !important;
       }
     }
   }

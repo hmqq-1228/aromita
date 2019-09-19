@@ -363,3 +363,6 @@ ul,li {
   line-height: 32px !important;
   border: 1px solid #121037 !important;
 }
+.checkStyle .el-form-item__content{
+  line-height: 30px !important;
+}
