@@ -299,10 +299,10 @@
           </div>
           <div class="point">
             <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
-            <div style="width: 180px;display: flex;justify-content: space-between;">
-              <div>使用积分: </div><el-input v-model="inputPoint" :placeholder="myPoints" style="width: 100px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
+            <div style="width: 260px;display: flex;justify-content: space-between;">
+              <div>使用积分: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
             </div>
-            <div>可抵扣: <span style="color: #C51015;">$ {{(myPoints*0.01).toFixed(2)}}</span></div>
+            <div>可抵扣: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
           </div>
         </div>
         <div class="navTitle">Payment Method</div>
@@ -442,7 +442,7 @@ export default {
       errorMsg: '',
       couponId: '',
       myPoints: 0,
-      maxPoints: 0,
+      maxPoints: '',
       inputPoint: '',
       pointMore: 'el-icon-d-arrow-right',
       errorInfo: 'No mode of transportation, please choose a valid address.',
@@ -672,6 +672,11 @@ export default {
       var that = this
       that.$axios.post('api/customercanusepoint', {}).then(res => {
         that.myPoints = res.point
+        if (that.myPoints > 10000) {
+          that.maxPoints = 'Available Points 10000'
+        } else {
+          that.maxPoints = 'Available Points' + that.myPoints
+        }
         this.getGoodsOrder()
         // if (res.code === '200' || res.code === 200) {
         //
@@ -1053,6 +1058,7 @@ export default {
       } else if (data.code === 102) {
         that.payDisabled = true
         that.billing = {}
+        that.billTotalSum = 0
         this.$alert('积分抵扣金额不能大于Subtotal金额', '订单生成失败', {
           confirmButtonText: '确定',
           type: 'warning'
@@ -1061,6 +1067,7 @@ export default {
       } else if (data.code === 103) {
         that.payDisabled = true
         that.billing = {}
+        that.billTotalSum = 0
         this.$alert('积分使用过多', '订单生成失败', {
           confirmButtonText: '确定',
           type: 'warning'
