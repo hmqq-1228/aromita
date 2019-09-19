@@ -29,4 +29,8 @@ export default {
   opacity:1;
   margin: 0 auto;
 }
+.el-button--primary{
+  background-color: #C51015 !important;
+  border-color: #C51015 !important;
+}
 </style>

@@ -300,9 +300,9 @@
           <div class="point">
             <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
             <div style="width: 180px;display: flex;justify-content: space-between;">
-              <div>使用积分: </div><el-input-number v-model="inputPoint" :controls="false" style="width: 100px;" :min="0" :max="maxPoints" @blur="getInputPoint(inputPoint)"></el-input-number>
+              <div>使用积分: </div><el-input v-model="inputPoint" :placeholder="myPoints" style="width: 100px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
             </div>
-            <div>可抵扣: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
+            <div>可抵扣: <span style="color: #C51015;">$ {{(myPoints*0.01).toFixed(2)}}</span></div>
           </div>
         </div>
         <div class="navTitle">Payment Method</div>
@@ -650,7 +650,21 @@ export default {
   methods: {
     getInputPoint (num) {
       console.log('ppppppp', num)
-      this.inputPoint = num
+      if (this.inputPoint > this.myPoints) {
+        this.inputPoint = this.myPoints
+      } else if (this.inputPoint < this.myPoints) {
+        if (this.myPoints > 10000) {
+          if (this.inputPoint > 10000) {
+            this.inputPoint = 10000
+          } else {
+            this.inputPoint = num
+          }
+        } else {
+          this.inputPoint = num
+        }
+      } else {
+        this.inputPoint = num
+      }
       this.getBillingList()
     },
     // 可用积分
@@ -658,13 +672,6 @@ export default {
       var that = this
       that.$axios.post('api/customercanusepoint', {}).then(res => {
         that.myPoints = res.point
-        if (that.myPoints < 10000) {
-          that.maxPoints = that.myPoints
-          that.inputPoint = that.myPoints
-        } else {
-          that.maxPoints = 10000
-          that.inputPoint = 10000
-        }
         this.getGoodsOrder()
         // if (res.code === '200' || res.code === 200) {
         //
@@ -1022,6 +1029,7 @@ export default {
       var coupon_id = 2
       var billList = []
       var sumBill = 0
+      that.payDisabled = true
       let idList = {
         ids: idStr,
         score: that.inputPoint,
@@ -1041,10 +1049,22 @@ export default {
         }
         that.billTotal = sumBill
         that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
-      } else if (data === 102) {
-        that.$message.info('积分使用过多')
-      } else if (data === 103) {
-        that.$message.info('积分使用过多')
+        that.payDisabled = false
+      } else if (data.code === 102) {
+        that.payDisabled = true
+        that.billing = {}
+        this.$alert('积分抵扣金额不能大于Subtotal金额', '订单生成失败', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        })
+        // that.$message.info('积分使用过多')
+      } else if (data.code === 103) {
+        that.payDisabled = true
+        that.billing = {}
+        this.$alert('积分使用过多', '订单生成失败', {
+          confirmButtonText: '确定',
+          type: 'warning'
+        })
       }
     },
     // 修改
