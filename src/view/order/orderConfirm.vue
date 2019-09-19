@@ -1174,8 +1174,10 @@ export default {
         coupon_id: coupon_id,
         order_address_info: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),
-        pay_method: JSON.stringify(payMethod)
+        pay_method: JSON.stringify(payMethod),
+        score: that.inputPoint
       })
+      console.log('hhhhh', payLoad)
       that.$axios.post('api/order_pay', payLoad).then(res => {
         console.log('hhhhh', res)
         if (res.order_num && res.total_price && res.order_id) {

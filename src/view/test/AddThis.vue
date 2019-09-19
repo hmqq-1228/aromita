@@ -19,7 +19,7 @@
         default: '//s7.addthis.com/js/300/addthis_widget.js'
       },
     },
-    mounted() {
+    mounted(){
       if (process.browser) {
         console.log('77777', window.addthis)
         if (document.getElementById('addthis-share') !== null) {

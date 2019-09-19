@@ -92,6 +92,7 @@
 import Footer from "@/components/afooter.vue";
 import aheader from "@/components/aheader.vue";
 import {handleRegist, Catpcha} from "../../api/register";
+import {registeSubscribe} from '../../api/subscription'
 import {loginImage} from "../../api/home";
 import identify from "../test/identify";
 import qs from 'qs'
@@ -192,6 +193,11 @@ export default {
         }
       })
     },
+    subMyScription () {
+      registeSubscribe({email_address:this.ruleForm2.email,subscribe_status: 10}).then((res)=>{
+        console.log('666666', res)
+      })
+    },
     async registerFormSub () {
       var that = this
       var params
@@ -204,6 +210,9 @@ export default {
       let data = await handleRegist(params)
       if (data.code === 200) {
         that.$message.success(data.msg)
+        if (this.servicechecked) {
+          this.subMyScription()
+        }
         that.$router.push('/register_ok')
       } else if (data.code === 10006){
         that.$message.error(data.msg)

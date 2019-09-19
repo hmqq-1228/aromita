@@ -9,7 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'swiper/dist/css/swiper.css';
 import $ from 'jquery'
 import axios from 'axios';
+var SocialSharing = require('vue-social-sharing');
 
+Vue.use(SocialSharing);
 import qs from 'qs'
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios
