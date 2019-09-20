@@ -309,7 +309,7 @@ export default {
         },
         //编辑地址
         editAddress(item,id,str){
-            this.addressForm = item
+            this.addressForm = JSON.parse(JSON.stringify(item))
             this.addressForm.entry_state = item.entry_state
             this.addressFormVisible = true;
             item.is_default =='1'? this.isdefault=true : this.isdefault=false
