@@ -189,7 +189,7 @@ import { mapGetters } from 'vuex';
       return {
         keyword:'',//搜索关键字
         searchVal: '',
-        searchInput: '国庆十周年',
+        searchInput: '国庆七十周年',
         login_status:true,//用户登录状态
         userName: 'Welcome',
         TotalPrice:0,//购物车总价
