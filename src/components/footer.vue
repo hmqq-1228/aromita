@@ -116,19 +116,15 @@ export default {
           Nosubscribe({customer_email_address:that.ruleForm.subscribeKey}).then((res)=>{
             console.log('666666', res)
             if (res.code === 200) {
-              this.$notify({
-                title: '订阅',
-                message: '订阅成功',
-                offset: 400,
-                type: 'success'
-              });
+              this.$alert('Edit Successfully', '', {
+                center: true,
+                confirmButtonText: 'OK',
+              })
             } else {
-              this.$notify({
-                title: '订阅',
-                message: res.msg,
-                offset: 400,
-                type: 'warning'
-              });
+              this.$alert('Edit Error', '', {
+                center: true,
+                confirmButtonText: 'OK',
+              })
             }
           })
         } else {

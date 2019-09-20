@@ -100,17 +100,15 @@ export default {
             yesSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: 10}).then((res)=>{
               console.log('666666', res)
               if (res.code === 200) {
-                this.$notify({
-                  title: '成功',
-                  message: '订阅成功',
-                  type: 'success'
-                });
+                this.$alert('Edit Successfully', '', {
+                  center: true,
+                  confirmButtonText: 'OK',
+                })
               } else {
-                this.$notify({
-                  title: '失败',
-                  message: res.msg,
-                  type: 'warning'
-                });
+                this.$alert('Edit Error', '', {
+                  center: true,
+                  confirmButtonText: 'OK',
+                })
               }
             })
           } else {
