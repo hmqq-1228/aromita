@@ -95,7 +95,7 @@
                                   <h5 @click="link(scope.row.product_id,scope.row.sku_id)">{{scope.row.products_name}}</h5>
                                   <p>
                                     <span v-for="(item1,index) in JSON.parse(scope.row.sku_attrs)" :key="index">{{item1.attr_name}}:
-                                      <span style="color: #333;">{{item1.value.attr_value}}</span>; 
+                                      <span style="color: #333;">{{item1.value.attr_value}}</span>;
                                     </span>
                                   </p>
                                   <p>${{scope.row.final_price}}<span class="old_price">${{scope.row.products_price}}</span></p>
@@ -167,7 +167,7 @@ export default {
       if(spuid!=='' && skuid!==''){
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }else{
-        console.log(skuid,spuid)
+        // console.log(skuid,spuid)
       }
     },
     orderDetail(){

@@ -159,13 +159,13 @@ export default {
     }
   },
   watch:{
-    
+
   },
   created(){
   },
   methods:{
       handleRemove(file, fileList) {
-        console.log(file, fileList);
+        // console.log(file, fileList);
       },
       handlePictureCardPreview(file) {
         this.dialogImageUrl = file.url;

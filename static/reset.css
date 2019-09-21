@@ -214,6 +214,9 @@ ul,li {
 .payBox .el-select .el-input__inner:focus{
     border-color: #E9E9E9 !important;
 }
+.myAccount .payBox .el-input__inner{
+  width: 300px !important;
+}
 .payBox .el-input__inner{
     width: 400px !important;
     height: 32px !important;

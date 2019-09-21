@@ -246,63 +246,35 @@
         </div>
         <div class="navTitle" v-if="isLogin"> Choose Coupon & Points</div>
         <div class="leftCont" v-if="isLogin">
-          <div class="coupon">
-            <div class="couponItem" @click="useCoupon($event, 1)">
-              <div class="couponInfo">
-                <div class="info">
-                  <div>优惠:</div>
-                  <div>满100减20</div>
-                </div>
-                <div class="info" style="margin-top: 4px">
-                  <div>Expired Data:</div>
-                  <div>July 23,2019</div>
-                </div>
-              </div>
-            </div>
-            <div class="couponItem" @click="useCoupon($event, 2)">
-              <div class="couponInfo">
-                <div class="info">
-                  <div>优惠:</div>
-                  <div>满100减20</div>
-                </div>
-                <div class="info" style="margin-top: 4px">
-                  <div>Expired Data:</div>
-                  <div>July 23,2019</div>
+          <div class="pointBox">
+            <div class="coupon">
+              <div class="couponItem" v-if="couponList.length > 0" :class="coupon.active === true? 'couponChecked':''" v-for="(coupon, index) in couponList" @click="useCoupon($event, coupon.cc_id)">
+                <div class="couponInfo">
+                  <div class="info">
+                    <div class="infoFee"><span id="tag">$</span> <span id="num">{{coupon.cc_amount}}</span></div>
+                    <div class="couponUse">Full {{coupon.coupon_minimum_order}}$ usable</div>
+                  </div>
+                  <div class="couponTime">
+                    <div style="line-height: 40px;width: 120px;">Expired Date:</div>
+                    <div class="timeRange">
+                      <div>{{coupon.cc_coupon_start_time}}</div>
+                      <div>{{coupon.cc_coupon_end_time}}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div v-if="couponList.length === 0" style="text-align: center;line-height: 60px;color: #666;">No coupons are available</div>
             </div>
-            <div class="couponItem" @click="useCoupon($event, 3)">
-              <div class="couponInfo">
-                <div class="info">
-                  <div>优惠:</div>
-                  <div>满100减20</div>
+            <div class="more" v-if="moreFlagShow" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
+            <div class="availablePoint">
+              <div class="point">
+                <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
+                <div style="width: 260px;display: flex;justify-content: space-between;">
+                  <div>使用积分: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
                 </div>
-                <div class="info" style="margin-top: 4px">
-                  <div>Expired Data:</div>
-                  <div>July 23,2019</div>
-                </div>
+                <div>可抵扣: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
               </div>
             </div>
-            <div class="couponItem" @click="useCoupon($event, 4)">
-              <div class="couponInfo">
-                <div class="info">
-                  <div>优惠:</div>
-                  <div>满100减20</div>
-                </div>
-                <div class="info" style="margin-top: 4px">
-                  <div>Expired Data:</div>
-                  <div>July 23,2019</div>
-                </div>
-              </div>
-            </div>
-            <div class="more" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
-          </div>
-          <div class="point">
-            <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
-            <div style="width: 260px;display: flex;justify-content: space-between;">
-              <div>使用积分: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
-            </div>
-            <div>可抵扣: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
           </div>
         </div>
         <div class="navTitle">Payment Method</div>
@@ -386,7 +358,7 @@
           <div class="payName">Subtotal:</div>
           <div class="payValue">$ {{billing.subtotal.toFixed(2)}}</div>
         </div>
-        <div class="payItem" v-if="billing.cc_amount && billing.cc_amount>0">
+        <div class="payItem" v-if="billing.cc_amount">
           <div class="payName">Coupon:</div>
           <div class="payValue">$ {{billing.cc_amount.toFixed(2)}}</div>
         </div>
@@ -441,6 +413,7 @@ export default {
       billing: '',
       errorMsg: '',
       couponId: '',
+      getCouId: '',
       myPoints: 0,
       maxPoints: '',
       inputPoint: '',
@@ -452,7 +425,9 @@ export default {
       addressNum: 0,
       addressLen: 0,
       billTotalSum: 0,
+      subTotalCoupon: 0,
       goodsList: [],
+      couponList: [],
       addressList: [],
       addressList2: [],
       ProvinceList: [],
@@ -473,6 +448,7 @@ export default {
       modelShow2: false,
       methodShow: false,
       butLoading: false,
+      moreFlagShow: false,
       login_status: false,
       overQuanlity: false,
       payDisabled: false,
@@ -598,14 +574,14 @@ export default {
   watch: {
     radio: function (val, oV) {
       var that = this
-      console.log('mmmmmmmmgdgg', val)
+      // console.log('mmmmmmmmgdgg', val)
       if (val) {
         var radioId = val.split('-')[0]
         that.checkedAdressId = radioId
         that.showMethod()
         // that.methodShow = true
       } else {
-        console.log('mmmmmm99999999', val)
+        // console.log('mmmmmm99999999', val)
         that.methodShow = false
         that.shipMethodList = []
         that.errorInfo = 'No mode of transportation, please choose a valid address.'
@@ -618,7 +594,7 @@ export default {
     },
     radio3: function (val, Ov) {
       var that = this
-      console.log('vvvvvv', val)
+      // console.log('vvvvvv', val)
       if (val === '2') {
         that.showCreditForm = true
       } else if (val === '1') {
@@ -639,17 +615,16 @@ export default {
     // }
   },
   created(){
-    console.log('wwwww', document.body.clientWidth)
+    // console.log('wwwww', document.body.clientWidth)
     if (document.body.clientWidth < 1460){
       this.rightDis = true
     }
     this.ProvinceList = addressList.addressList.List[0].countryList
     this.checkLoginInfo()
-    this.getPoints()
   },
   methods: {
     getInputPoint (num) {
-      console.log('ppppppp', num)
+      // console.log('ppppppp', num)
       if (this.inputPoint > this.myPoints) {
         this.inputPoint = this.myPoints
       } else if (this.inputPoint < this.myPoints) {
@@ -685,15 +660,24 @@ export default {
     },
     useCoupon: function (e, cpId) {
       var obj = e.currentTarget
-      $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
-      this.couponId = cpId
+      if ($(obj).hasClass('couponChecked')) {
+        $(obj).removeClass('couponChecked')
+        this.couponId = ''
+      } else {
+        $(obj).addClass('couponChecked').siblings().removeClass('couponChecked')
+        this.couponId = cpId
+        this.getCouId = cpId
+      }
+      this.getBillingList()
     },
     getMoreCoupon: function (type) {
       var that = this
-      if (type === 'el-icon-d-arrow-right') {
-        that.pointMore = 'el-icon-d-arrow-left'
-      } else if (type === 'el-icon-d-arrow-left') {
-        that.pointMore = 'el-icon-d-arrow-right'
+      if (type === 'el-icon-d-arrow-left') {
+        // that.pointMore = 'el-icon-d-arrow-left'
+        that.getCouponList('more')
+      } else if (type === 'el-icon-d-arrow-right') {
+        that.getCouponList('less')
+        // that.pointMore = 'el-icon-d-arrow-right'
       }
     },
     async checkLoginInfo () {
@@ -701,6 +685,7 @@ export default {
       if(data.code === '200' || data.code === 200) {
         this.isLogin = true
         this.getOrderAddress('defult', '')
+        this.getPoints()
       } else {
         this.isLogin = false
         this.getOrderAddressOut()
@@ -717,7 +702,7 @@ export default {
         for (var i=0; i<this.addressList2.length; i++) {
           if (that.addressList2[i].is_default === 1) {
             that.radio = that.addressList2[i].id + '-'+that.addressList2[i].entry_country+'-'+that.addressList2[i].entry_state+'-'+that.addressList2[i].entry_city+'-'+that.addressList2[i].entry_postcode
-            console.log('22222', that.radio)
+            // console.log('22222', that.radio)
             that.showMethod()
           } else {
             that.radio = ''
@@ -807,12 +792,12 @@ export default {
             that.radio = ''
             that.addressList = data.data
             that.defultIcon = 'el-icon-d-arrow-left'
-            console.log('gggggg', that.addressList)
+            // console.log('gggggg', that.addressList)
             for (var i=0; i<data.data.length; i++) {
               if (data.data[i].is_default === 1) {
                 // let defultList = []
                 that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
-                console.log('ffffff', that.radio)
+                // console.log('ffffff', that.radio)
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
                 // defultList.push(data.data[i])
@@ -842,7 +827,7 @@ export default {
             if (!id) {
               that.addressList = data.data
             } else if (id) {
-              console.log('moire', that.addressList)
+              // console.log('moire', that.addressList)
               let checkList = []
               for (var j=0; j<data.data.length; j++) {
                 if (data.data[j].id === parseInt(id)) {
@@ -975,7 +960,7 @@ export default {
         ids: JSON.stringify(ids),
         address_info: JSON.stringify(aStr)
       })
-      console.log('ids', aStr)
+      // console.log('ids', aStr)
       that.$axios.post('api/ship', payLoad).then(res => {
         if (res.code === '200' || res.code === 200) {
           that.shipMethodList = res.data
@@ -1007,6 +992,8 @@ export default {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
+      var payList = []
+      var subTotal = 0
       let idList = {
         ids: idStr
       }
@@ -1019,11 +1006,19 @@ export default {
         for(var i= 0;i<this.goodsList.length;i++){
           this.$set(this.goodsList[i],'soldOut',0)
           this.$set(this.goodsList[i],'realNum',0)
+          payList.push(this.goodsList[i].sku_pay.toFixed(2))
         }
-        that.getBillingList()
+        for (var n=0;n<payList.length;n++) {
+          subTotal = subTotal + parseFloat(payList[n])
+        }
+        console.log('kkkkk', subTotal)
+        that.subTotalCoupon = subTotal
+        if (that.isLogin){
+          that.getCouponList()
+        }
         that.orderListInvalid = false
       } else {
-        console.log('订单失效')
+        // console.log('订单失效')
         that.orderListInvalid = true
       }
     },
@@ -1031,14 +1026,14 @@ export default {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
-      var coupon_id = 2
+      var coupon_id = that.couponId
       var billList = []
       var sumBill = 0
       that.payDisabled = true
       let idList = {
         ids: idStr,
         score: that.inputPoint,
-        coupon_id: coupon_id
+        cc_id: coupon_id
       }
       let data = await billingList(idList)
       if (data.subtotal) {
@@ -1048,7 +1043,7 @@ export default {
             billList.push(data[k])
           }
         }
-        console.log('mmmmmm', billList)
+        // console.log('mmmmmm', billList)
         for (var i=0;i<billList.length;i++) {
           sumBill = sumBill + billList[i]
         }
@@ -1074,6 +1069,56 @@ export default {
         })
       }
     },
+    getCouponList: function (type) {
+      var that = this
+      var payMon = qs.stringify({
+        subtotal: that.subTotalCoupon
+      })
+      that.$axios.post('api/getCustomerCoupon', payMon).then(res => {
+       // console.log('hhhhh666',res)
+        if (res.code === 200) {
+          that.couponList = res.data
+          for (var i=0;i<that.couponList.length;i++){
+            that.$set(that.couponList[i],'active', false)
+          }
+          if (that.couponList.length > 3) {
+            that.moreFlagShow = true
+          }
+          if (!type) {
+            that.couponList = that.couponList.slice(0,3)
+            this.pointMore = 'el-icon-d-arrow-left'
+            that.couponId = res.data[0].cc_id
+            that.getCouId = res.data[0].cc_id
+            for (var k=0;k<that.couponList.length;k++) {
+              if (that.couponList[k].cc_id === that.getCouId){
+                that.couponList[k].active = true
+              }
+            }
+          } else if (type) {
+            if (type === 'more') {
+              that.couponList = that.couponList.slice()
+              this.pointMore = 'el-icon-d-arrow-right'
+              that.couponId = that.getCouId
+              for (var k=0;k<that.couponList.length;k++) {
+                if (that.couponList[k].cc_id === that.getCouId){
+                  that.couponList[k].active = true
+                }
+              }
+            } else if (type === 'less') {
+              that.couponList = that.couponList.slice(0,3)
+              that.couponId = that.getCouId
+              this.pointMore = 'el-icon-d-arrow-left'
+              for (var k=0;k<that.couponList.length;k++) {
+                if (that.couponList[k].cc_id === that.getCouId){
+                  that.couponList[k].active = true
+                }
+              }
+            }
+          }
+          that.getBillingList()
+        }
+      })
+    },
     // 修改
     submitForm(formName) {
       var that = this
@@ -1096,9 +1141,9 @@ export default {
               telephone_number: that.addNewForm.Phone,
               is_default: that.addNewForm.checked === true ? 1 : 0
             })
-            console.log('editObj', editObj)
+            // console.log('editObj', editObj)
             that.$axios.post('api/address/' + that.editId, editObj).then(res => {
-              console.log('sssssss', res)
+              // console.log('sssssss', res)
               if (res.code === 200 || res.code === '200'){
                 that.getOrderAddress()
                 if (that.editId) {
@@ -1127,7 +1172,7 @@ export default {
               }
             })
           } else {
-            console.log('error submit!!');
+            // console.log('error submit!!');
             return false;
           }
         })
@@ -1189,7 +1234,7 @@ export default {
     confirmPay: function () {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
-      var coupon_id = 2
+      var coupon_id = that.couponId
       var orderAddress = that.order_Address
       var shipMethod = that.orderShipMethod
       var payMethod = {
@@ -1198,15 +1243,15 @@ export default {
       }
       var payLoad = qs.stringify({
         ids: JSON.stringify(ids),
-        coupon_id: coupon_id,
+        cc_id: coupon_id,
         order_address_info: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),
         pay_method: JSON.stringify(payMethod),
         score: that.inputPoint
       })
-      console.log('hhhhh', payLoad)
+      // console.log('hhhhh', payLoad)
       that.$axios.post('api/order_pay', payLoad).then(res => {
-        console.log('hhhhh', res)
+        // console.log('hhhhh', res)
         if (res.order_num && res.total_price && res.order_id) {
           that.payByPaypal(res.total_price, res.order_num, res.order_id)
         } else if (res.code === 110) {
@@ -1247,7 +1292,7 @@ export default {
       that.modelShow2 = true
       that.$axios.post('api/paypal-pay', payLoad).then(res => {
         if (res.code === '200' || res.code === 200) {
-          console.log('11111111', res.data)
+          // console.log('11111111', res.data)
           payUrl = res.data
           window.location.href = payUrl
           // var iWidth=500; // 弹出窗口的宽度;
@@ -1275,21 +1320,21 @@ export default {
           $('.payConfirm').removeClass('error')
           if (formName) {
             if (that.radio3 === '1') {
-              console.log('你选择了第一种支付方式')
+              // console.log('你选择了第一种支付方式')
               that.confirmPay()
             }else if (that.radio3 === '2') {
               if (that.checked) {
                 that.$refs[formName].validate((valid) => {
                   if (valid) {
-                    console.log('tttttt')
+                    // console.log('tttttt')
                   }
                 })
               } else {
-                console.log('666666666')
+                // console.log('666666666')
                 that.$refs[formName].validate((valid) => {
                   that.$refs[formName1].validate((valid1) => {
                     if (valid && valid1) {
-                      console.log('tttttt')
+                      // console.log('tttttt')
                     }
                   })
                 })

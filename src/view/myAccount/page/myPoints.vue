@@ -2,7 +2,7 @@
     <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>  
+                <Left-Nav></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
                         <h3 class="my_title">My Coupon <span class="points_rule">What's Points? How to get more Points?</span></h3>
@@ -35,7 +35,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {myAccount} from "@/api/account.js"; 
+import {myAccount} from "@/api/account.js";
 export default {
     components: {
         "Left-Nav":Left

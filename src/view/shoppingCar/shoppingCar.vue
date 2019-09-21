@@ -25,7 +25,7 @@
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
       <div class="goodsTotal">$ {{(carItem.goods_count*carItem.sku_price).toFixed(2)}}</div>
-      <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish($event)" :src="wishUrl" alt=""></span></div>
+      <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img v-if="false" @click="addWish($event)" :src="wishUrl" alt=""></span></div>
     </div>
     <div class="noGoods" v-if="noProduct">
       <div class="noGoodsCont">
@@ -41,7 +41,7 @@
         <input type="checkbox" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>
       </div>
       <div class="remove" @click="batchDelete()">Remove Select</div>
-      <div class="WishList">Move Selected to WishList</div>
+      <div class="WishList" v-if="false">Move Selected to WishList</div>
     </div>
     <div class="carItem" style="background-color: #fbfbfb;border-top: 1px solid #eee;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
       <div class="checkState item" style="width: 120px; box-sizing: border-box;">
@@ -270,7 +270,7 @@ export default {
       } else {
         let data = await getGoodsList();
         this.goodsList = data
-        console.log('55555', data)
+        // console.log('55555', data)
         var onList = []
         var offList = []
         that.goodsListOn = []
@@ -318,7 +318,7 @@ export default {
     },
     goodsChecked: function(e){
       var that = this
-      console.log('eeeee',e)
+      // console.log('eeeee',e)
       that.payList = []
       if (e.length > 0) {
         for (var m=0;m<e.length; m++){
@@ -407,7 +407,7 @@ export default {
         this.checkedItem = this.idList
         for (var i = 0;i<that.goodsListOn.length;i++){
           that.payList.push(parseFloat(that.goodsListOn[i].totalPay))
-          console.log('kkkk', that.goodsListOn[i].totalPay)
+          // console.log('kkkk', that.goodsListOn[i].totalPay)
         }
         that.sumPay(that.payList)
       } else {
@@ -431,7 +431,7 @@ export default {
       }
     },
     unavailableGoods: function(spuid, skuid){
-      console.log('hhhhhh', spuid, skuid)
+      // console.log('hhhhhh', spuid, skuid)
       if (spuid && skuid) {
         this.$store.state.spuId = spuid
         this.$store.state.skuId = skuid

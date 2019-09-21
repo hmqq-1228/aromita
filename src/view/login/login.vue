@@ -51,7 +51,7 @@
               <el-checkbox v-model="checked" :checked="checkedState">Remenber Me</el-checkbox>
               <div class="Forgot" @click="handleGo">Forgot password?</div>
             </div>
-            <div style="height: 40px;margin-top: 10px;">
+            <div v-if="false" style="height: 40px;margin-top: 10px;">
               <p class="Login">Login with:</p>
               <div class="Login_img">
                 <ul class="Login_img1">
@@ -200,7 +200,7 @@ export default {
         email: secret.Encrypt(this.ruleForm.name),
         password: secret.Encrypt(this.ruleForm.password)
       };
-      console.log('888888', params)
+      // console.log('888888', params)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (that.checked) {

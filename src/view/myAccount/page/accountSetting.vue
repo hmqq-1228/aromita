@@ -19,7 +19,7 @@
                                             <el-radio v-model="settingFrom.gender" label="0">Female</el-radio>
                                         </el-form-item>
                                         <el-form-item label="First Name：" prop="firstname">
-                                            <el-input v-model="settingFrom.firstname"></el-input>
+                                            <el-input v-model="settingFrom.firstname" style="width: 300px"></el-input>
                                         </el-form-item>
                                         <el-form-item label="Last Name：" prop="lastname">
                                             <el-input v-model="settingFrom.lastname"></el-input>
@@ -49,7 +49,7 @@
                                             <el-input type="password" v-model="passwordForm.newpassword_confirmation"></el-input>
                                         </el-form-item>
                                     </el-form>
-                                    <div class="com-sub-btn" @click="editPassword()">Save</div>
+                                    <div style="margin: 0 auto" class="com-sub-btn" @click="editPassword()">Save</div>
                                 </div>
                                 <el-dialog
                                     :visible.sync="editPasswordVisible"
@@ -149,7 +149,7 @@ export default {
                     //     type: 'success'
                     // });
                     this._myAccountSet()
-                    
+
                     this.editPasswordVisible = true
                 }
             })

@@ -100,8 +100,8 @@ export default {
     },
     //跳转到商品详情
     link(skuid,spuid){
-      console.log('111111', skuid)
-      console.log('22222', spuid)
+      // console.log('111111', skuid)
+      // console.log('22222', spuid)
       if(skuid && spuid){
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }

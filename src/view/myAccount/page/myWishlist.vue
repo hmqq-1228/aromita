@@ -2,7 +2,7 @@
     <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>  
+                <Left-Nav></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
                         <h3 class="my_title">My Wishlist</h3>
@@ -49,14 +49,14 @@
                                     <el-table-column label="Options" width="200">
                                         <template slot-scope="scope">
                                             <div class="wish_options">
-                                                <img src="@/assets/images/cart.png" alt="">
+                                                <img v-if="false" src="@/assets/images/cart.png" alt="">
                                                 <i class="el-icon-error" @click="deleteList(scope.row.wl_id)"></i>
                                             </div>
                                         </template>
                                     </el-table-column>
                                 </el-table>
                                 <div class="select">
-                                    <p><span @click="deleteSelect()">Remove Selected</span><span style="color:#003764">Move select to cart</span></p>
+                                    <p><span @click="deleteSelect()">Remove Selected</span><span v-if="false" style="color:#003764">Move select to cart</span></p>
                                 </div>
                                 <div class="page_list">
                                     <el-pagination

@@ -175,7 +175,7 @@ export default {
   watch:{
     radio3: function (val, Ov) {
       var that = this
-      console.log('vvvvvv', val)
+      // console.log('vvvvvv', val)
       if (val === '2') {
         that.showCreditForm = true
       } else if (val === '1') {
@@ -194,8 +194,8 @@ export default {
     this.payTotal = sessionStorage.getItem('payTotal')
     this.orderNum = sessionStorage.getItem('orderNum')
     this.orderId = sessionStorage.getItem('orderId')
-    console.log('22222222', this.payTotal)
-    console.log('33333333', this.orderNum)
+    // console.log('22222222', this.payTotal)
+    // console.log('33333333', this.orderNum)
   },
   methods:{
     payByPaypal: function () {
@@ -235,15 +235,15 @@ export default {
             if (that.checked) {
               that.$refs[formName].validate((valid) => {
                 if (valid) {
-                  console.log('tttttt')
+                  // console.log('tttttt')
                 }
               })
             } else {
-              console.log('666666666')
+              // console.log('666666666')
               that.$refs[formName].validate((valid) => {
                 that.$refs[formName1].validate((valid1) => {
                   if (valid && valid1) {
-                    console.log('tttttt')
+                    // console.log('tttttt')
                   }
                 })
               })

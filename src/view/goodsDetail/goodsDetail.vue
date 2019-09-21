@@ -226,7 +226,7 @@ export default {
       if (val) {
         var spuId = that.$route.params.spuId
         that.$router.push('/goodsDetail/'+ spuId + '/'+ val)
-        console.log('我已经跳转了', spuId)
+        // console.log('我已经跳转了', spuId)
         // that.goodDetail = ''
         that.getGoodsDetail(spuId, val)
         document.location.reload()
@@ -236,7 +236,7 @@ export default {
     skuDefult: function (val, oV) {
       var that = this
       if (val) {
-        console.log('我已经更新了', val)
+        // console.log('我已经更新了', val)
       }
     }
   },
@@ -316,9 +316,9 @@ export default {
         spuId = that.$route.params.spuId
       }
       that.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.code === '200' || res.code === 200) {
-          console.log('11111', res.data)
+          // console.log('11111', res.data)
           if (res.data.sku.sku_status === 0) {
             that.detailShow = false
             that.$router.push('/productUn')
@@ -481,7 +481,7 @@ export default {
                   if(key){
                     $('.subType').removeClass('ban')
                     that.getNewSkuId = key
-                    console.log('ccccccccc', key)
+                    // console.log('ccccccccc', key)
                   }
                 } else {
                   $('.subType').addClass('ban')
@@ -767,7 +767,7 @@ export default {
           $(objBtn).css('color', '#ccc')
         }
       }
-      console.log('n', this.$store.state.contPrev[dex])
+      // console.log('n', this.$store.state.contPrev[dex])
       if (this.$store.state.contPrev[dex] === num) {
         $(objBtn).css('color', '#ccc')
         $(prev).css('color', '#333')
@@ -789,7 +789,7 @@ export default {
           $(objBtn).css('color', '#ccc')
         }
       }
-      console.log('n', this.$store.state.contPrev[dex])
+      // console.log('n', this.$store.state.contPrev[dex])
       if (this.$store.state.contPrev[dex] === num) {
         $(objBtn).css('color', '#ccc')
         $(prev).css('color', '#333')
@@ -803,7 +803,7 @@ export default {
       //   var num = picNum - 5
         if (this.$store.state.contPrev[dex] > 0) {
           this.$store.state.contPrev[dex] = this.$store.state.contPrev[dex] - 1
-          console.log('n2', this.$store.state.contPrev[dex])
+          // console.log('n2', this.$store.state.contPrev[dex])
           var distent = -89.5 * this.$store.state.contPrev[dex]
           $(obj).css('left', distent)
           $(obj).css('transition', '0.3s')
@@ -826,7 +826,7 @@ export default {
       //   var num = picNum - 5
       if (this.$store.state.contPrev[dex] > 0) {
         this.$store.state.contPrev[dex] = this.$store.state.contPrev[dex] - 1
-        console.log('n2', this.$store.state.contPrev[dex])
+        // console.log('n2', this.$store.state.contPrev[dex])
         var distent = -93 * this.$store.state.contPrev[dex]
         $(obj).css('top', distent)
         $(obj).css('transition', '0.3s')

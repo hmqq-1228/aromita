@@ -1,52 +1,52 @@
 <template>
   <div class="goodsList">
     <div class="listBox">
-      <div class="listNav">
-        <div class="navTitle">Sort By</div>
-        <div class="navItem">Most Recent</div>
-        <div class="navItem">Best Selling</div>
-        <div class="navItem">Highest Price</div>
-        <div class="navItem">Lowest Price</div>
-        <div class="navTitle">Price</div>
-        <div class="price">
-          <div class="priceRange">
-            <input type="number">
-            <div>	&#8764;</div>
-            <input type="number">
-          </div>
-          <button>APPLY</button>
-        </div>
-        <div class="navTitleTwo">
-          <div>Filter</div>
-          <div style="color: #999;">Clear</div>
-        </div>
-        <div class="fliterList">
-          <el-collapse v-model="activeNamesMetal">
-            <el-collapse-item title="Metal" name="Metal">
-              <div class="metalChecked"><input type="radio" id="metal1" name="metal" checked><label for="metal1"></label><span>Stainless Steel</span></div>
-              <div class="metalChecked"><input type="radio" id="metal2" name="metal"><label for="metal2"></label><span>Silver</span></div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-        <div class="fliterList">
-          <el-collapse v-model="activeNamesColor">
-            <el-collapse-item title="Color" name="Color">
-              <div class="metalChecked"><input type="radio" id="Color1" name="metal"><label for="Color1"></label><span>Silver</span></div>
-              <div class="metalChecked"><input type="radio" id="Color2" name="metal"><label for="Color2"></label><span>Gold</span></div>
-              <div class="metalChecked"><input type="radio" id="Color3" name="metal"><label for="Color3"></label><span>Black</span></div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-        <div class="fliterList">
-          <el-collapse v-model="activeNamesSize">
-            <el-collapse-item title="Size" name="Size">
-              <div class="metalChecked"><input type="radio" id="Size1" name="metal"><label for="Size1"></label><span>Small</span></div>
-              <div class="metalChecked"><input type="radio" id="Size2" name="metal"><label for="Size2"></label><span>Model</span></div>
-              <div class="metalChecked"><input type="radio" id="Size3" name="metal"><label for="Size3"></label><span>Large</span></div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-      </div>
+      <!--<div class="listNav">-->
+        <!--<div class="navTitle">Sort By</div>-->
+        <!--<div class="navItem">Most Recent</div>-->
+        <!--<div class="navItem">Best Selling</div>-->
+        <!--<div class="navItem">Highest Price</div>-->
+        <!--<div class="navItem">Lowest Price</div>-->
+        <!--<div class="navTitle">Price</div>-->
+        <!--<div class="price">-->
+          <!--<div class="priceRange">-->
+            <!--<input type="number">-->
+            <!--<div>	&#8764;</div>-->
+            <!--<input type="number">-->
+          <!--</div>-->
+          <!--<button>APPLY</button>-->
+        <!--</div>-->
+        <!--<div class="navTitleTwo">-->
+          <!--<div>Filter</div>-->
+          <!--<div style="color: #999;">Clear</div>-->
+        <!--</div>-->
+        <!--<div class="fliterList">-->
+          <!--<el-collapse v-model="activeNamesMetal">-->
+            <!--<el-collapse-item title="Metal" name="Metal">-->
+              <!--<div class="metalChecked"><input type="radio" id="metal1" name="metal" checked><label for="metal1"></label><span>Stainless Steel</span></div>-->
+              <!--<div class="metalChecked"><input type="radio" id="metal2" name="metal"><label for="metal2"></label><span>Silver</span></div>-->
+            <!--</el-collapse-item>-->
+          <!--</el-collapse>-->
+        <!--</div>-->
+        <!--<div class="fliterList">-->
+          <!--<el-collapse v-model="activeNamesColor">-->
+            <!--<el-collapse-item title="Color" name="Color">-->
+              <!--<div class="metalChecked"><input type="radio" id="Color1" name="metal"><label for="Color1"></label><span>Silver</span></div>-->
+              <!--<div class="metalChecked"><input type="radio" id="Color2" name="metal"><label for="Color2"></label><span>Gold</span></div>-->
+              <!--<div class="metalChecked"><input type="radio" id="Color3" name="metal"><label for="Color3"></label><span>Black</span></div>-->
+            <!--</el-collapse-item>-->
+          <!--</el-collapse>-->
+        <!--</div>-->
+        <!--<div class="fliterList">-->
+          <!--<el-collapse v-model="activeNamesSize">-->
+            <!--<el-collapse-item title="Size" name="Size">-->
+              <!--<div class="metalChecked"><input type="radio" id="Size1" name="metal"><label for="Size1"></label><span>Small</span></div>-->
+              <!--<div class="metalChecked"><input type="radio" id="Size2" name="metal"><label for="Size2"></label><span>Model</span></div>-->
+              <!--<div class="metalChecked"><input type="radio" id="Size3" name="metal"><label for="Size3"></label><span>Large</span></div>-->
+            <!--</el-collapse-item>-->
+          <!--</el-collapse>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="listGoods" v-if="!noDataShow">
         <div v-if="goodsList">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
@@ -229,7 +229,7 @@ export default {
           } else {
             this.noDataShow = false
           }
-          console.log(this.goodsList,'this.goodsList')
+          // console.log(this.goodsList,'this.goodsList')
         }
       })
     },

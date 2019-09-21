@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     refreshCode() {
-      console.log(123)
+      // console.log(123)
       // this.identifyCodeNew = "";
       this.getVerificationCode()
 
@@ -105,7 +105,7 @@ export default {
         email: that.form.inputEmail,
         catpcha: that.form.inputCode
       }
-      console.log('77777', parems)
+      // console.log('77777', parems)
       let data = await forgetPassword(parems)
       if (data.code === 200) {
         that.$router.push('/apply_reset_password')

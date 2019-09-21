@@ -21,7 +21,7 @@
     },
     mounted(){
       if (process.browser) {
-        console.log('77777', window.addthis)
+        // console.log('77777', window.addthis)
         if (document.getElementById('addthis-share') !== null) {
           return window.addthis.layers.refresh();
         }
@@ -37,21 +37,21 @@
     //   window.addEventListener("scroll", this.showIcon);
     // },
     created(){
-      console.log('6666666',  window.location.hash)
+      // console.log('6666666',  window.location.hash)
       // window.addEventListener('text', this.eventHandler);
     },
     methods: {
       toShow: function (e) {
         var that = this
-        var route = window.location.hash
-        var routeList = route.split('#')
-        console.log('uuuuu', routeList[1])
+        // var route = window.location.hash
+        // var routeList = route.split('#')
+        // console.log('uuuuu', routeList[1])
         var obj = qs.stringify({
           score: 5,
           source: '分享得积分'
         })
         that.$axios.post('api/updatescore', obj).then(res => {
-          console.log('ddddd', res)
+          // console.log('ddddd', res)
           if (res.code === 2001) {
             // that.$store.state.fromUrl = routeList[1]
             // that.$router.push('/login')
@@ -59,7 +59,7 @@
         })
       },
       eventHandler: function (evt) {
-        console.log('hhhhh', evt)
+        // console.log('hhhhh', evt)
         switch (evt.type) {
           case "addthis.menu.open":
             console.log('menu opened; surface=' + evt.data.pane);

@@ -195,7 +195,7 @@ export default {
     },
     subMyScription () {
       registeSubscribe({email_address:this.ruleForm2.email,subscribe_status: 10}).then((res)=>{
-        console.log('666666', res)
+        // console.log('666666', res)
       })
     },
     async registerFormSub () {
@@ -228,7 +228,7 @@ export default {
     async handleCatpchas () {
       let data = await Catpcha()
       this.identifyCodeNew = data.data
-      console.log('999999999', this.identifyCodeNew)
+      // console.log('999999999', this.identifyCodeNew)
     },
     toLogin: function () {
       this.$router.push('/login')
