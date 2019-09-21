@@ -13,18 +13,18 @@
                                 <span>{{userDetail.score}}</span>
                             </div>
                             <div class="Points_list">
-                                <div class="list">
-                                    <p>50</p>
-                                    <h5>Wishlist</h5>
-                                </div>
-                                <div class="list">
-                                    <p>60</p>
-                                    <h5>Coupon</h5>
-                                </div>
-                                <div class="list">
-                                    <p>10</p>
-                                    <h5>Points</h5>
-                                </div>
+                                <!--<div class="list">-->
+                                    <!--<p>50</p>-->
+                                    <!--<h5>Wishlist</h5>-->
+                                <!--</div>-->
+                                <!--<div class="list">-->
+                                    <!--<p>60</p>-->
+                                    <!--<h5>Coupon</h5>-->
+                                <!--</div>-->
+                                <!--<div class="list">-->
+                                    <!--<p>10</p>-->
+                                    <!--<h5>Points</h5>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </div>
@@ -52,6 +52,7 @@ export default {
         _myAccount(){
             myAccount().then((res)=>{
                 this.userDetail = res.data
+              console.log('pppp', res)
             })
         }
     }

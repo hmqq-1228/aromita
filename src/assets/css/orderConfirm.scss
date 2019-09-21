@@ -552,6 +552,7 @@
   width: 289px;
   height: 110px;
   font-size: 14px;
+  position: relative;
   border: 1px solid #FFEAD5;
   background-color: #FFFDFB;
 }
@@ -563,7 +564,8 @@
   padding-bottom: 20px;
 }
 .info{
-  height: 60px;
+  //height: 79px;
+  height: 59px;
   display: flex;
   padding: 10px;
   box-sizing: border-box;
@@ -571,21 +573,28 @@
   justify-content: space-between;
 }
 .infoFee{
-  height: 40px;
+  //height: 40px;
   font-size: 18px;
   font-weight: bold;
   color: #C51015;
   padding: 0 10px;
-  text-align: center;
-  line-height: 40px;
+  //line-height: 40px;
+}
+.infoFee .price2{
+  display: flex;
+  justify-content: center;
 }
 .infoFee #num{
   font-size: 30px;
 }
 .infoFee #tag{
-  float: left;
-  width: 20px;
+  width: 14px;
   line-height: 36px;
+}
+.infoFee .feeName{
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
 }
 .availablePoint{
   height: 60px;
@@ -603,20 +612,55 @@
   justify-content: space-between;
 }
 .couponTime{
+  //height: 30px;
   height: 50px;
   padding: 4px 20px;
   box-sizing: border-box;
   display: flex;
+  padding-right: 10px;
   justify-content: space-between;
 }
 .timeRange{
-  width: 160px;
+  //width: 190px;
+  width: 170px;
   color: #666;
+  font-size: 13px;
+  line-height: 22px;
 }
 .couponUse{
-  width: 160px;
+  //width: 140px;
+  width: 170px;
   height: 40px;
   line-height: 40px;
   color: #333;
   font-size: 16px;
+}
+.yuan{
+  width: 10px;
+  height: 20px;
+  border: 1px solid #FFEFE1;
+  border-radius:0 20px 20px 0;
+  border-left: none;
+  position: absolute;
+  left: -2px;
+  //top: 67px;
+  top: 47px;
+  background-color: #fff;
+  z-index: 66;
+}
+.yuanRt{
+  width: 10px;
+  height: 20px;
+  border: 1px solid #FFEFE1;
+  border-right: none;
+  border-radius: 20px 0 0 20px;
+  position: absolute;
+  right: -2px;
+  //top: 67px;
+  top: 47px;
+  background-color: #fff;
+  z-index: 66;
+}
+.couponItem.couponChecked .yuan,.couponItem.couponChecked .yuanRt{
+  border-color: #C51015;
 }

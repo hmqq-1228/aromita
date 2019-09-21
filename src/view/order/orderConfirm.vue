@@ -251,16 +251,22 @@
               <div class="couponItem" v-if="couponList.length > 0" :class="coupon.active === true? 'couponChecked':''" v-for="(coupon, index) in couponList" @click="useCoupon($event, coupon.cc_id)">
                 <div class="couponInfo">
                   <div class="info">
-                    <div class="infoFee"><span id="tag">$</span> <span id="num">{{coupon.cc_amount}}</span></div>
+                    <div class="infoFee">
+                      <div class="price2"><span id="tag">$</span> <span id="num">{{coupon.cc_amount}}</span></div>
+                      <!--<div class="feeName">Full {{coupon.coupon_minimum_order}}$ usable</div>-->
+                    </div>
                     <div class="couponUse">Full {{coupon.coupon_minimum_order}}$ usable</div>
                   </div>
                   <div class="couponTime">
-                    <div style="line-height: 40px;width: 120px;">Expired Date:</div>
+                    <div style="width: 115px;font-size: 14px;line-height: 40px;">Expired Date:</div>
                     <div class="timeRange">
                       <div>{{coupon.cc_coupon_start_time}}</div>
                       <div>{{coupon.cc_coupon_end_time}}</div>
+                      <!--<div>2019/09/21 至 2019/10/01</div>-->
                     </div>
                   </div>
+                  <div class="yuan"></div>
+                  <div class="yuanRt"></div>
                 </div>
               </div>
               <div v-if="couponList.length === 0" style="text-align: center;line-height: 60px;color: #666;">No coupons are available</div>
@@ -269,10 +275,10 @@
             <div class="availablePoint">
               <div class="point">
                 <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
-                <div style="width: 260px;display: flex;justify-content: space-between;">
-                  <div>使用积分: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
+                <div style="width: 295px;display: flex;justify-content: space-between;">
+                  <div>Using points: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
                 </div>
-                <div>可抵扣: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
+                <div>Deductible: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
               </div>
             </div>
           </div>
@@ -1054,7 +1060,7 @@ export default {
         that.payDisabled = true
         that.billing = {}
         that.billTotalSum = 0
-        this.$alert('积分抵扣金额不能大于Subtotal金额', '订单生成失败', {
+        this.$alert('抵扣总金额不能大于Subtotal金额', '订单生成失败', {
           confirmButtonText: '确定',
           type: 'warning'
         })
@@ -1072,7 +1078,8 @@ export default {
     getCouponList: function (type) {
       var that = this
       var payMon = qs.stringify({
-        subtotal: that.subTotalCoupon
+        subtotal: that.subTotalCoupon,
+        coupon_status: 10
       })
       that.$axios.post('api/getCustomerCoupon', payMon).then(res => {
        // console.log('hhhhh666',res)
