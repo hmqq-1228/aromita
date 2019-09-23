@@ -9,7 +9,7 @@
                         <div class="wishlist">
                             <div v-if="wish_List.length == 0" class="no_list">
                                 <div>
-                                    <p>抱歉，暂无任何订单，</p>
+                                    <p>抱歉，暂无任何商品，</p>
                                     <router-link to="/">
                                         <div class="wish_btn">Go Shopping></div>
                                     </router-link>
@@ -29,11 +29,13 @@
                                     <el-table-column label="Product">
                                         <template slot-scope="scope">
                                             <div class="product">
-                                                <img :src="scope.row.sku_image" alt="">
+                                                <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
                                                 <div class="detail">
-                                                    <h5>{{scope.row.sku_name}}</h5>
-                                                    <p><span>Size:</span>3.0mm</p>
-                                                    <p>${{scope.row.sku_price}}<span class="old_price">$ 4.99</span></p>
+                                                    <h5 @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
+                                                    <div style="margin-top: 10px">
+                                                      <span v-for="attr in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
+                                                    </div>
+                                                    <p>${{scope.row.sku_price}}<span class="old_price">$ {{scope.row.sku_price}}</span></p>
                                                 </div>
                                             </div>
                                         </template>
@@ -102,6 +104,13 @@ export default {
                 this.total = res.data.total;
             })
         },
+      toGoodsDetail: function (spuid, skuid) {
+        if (spuid && skuid) {
+          this.$store.state.spuId = spuid
+          this.$store.state.skuId = skuid
+          this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
+        }
+      },
         //单个删除心愿单
         deleteList(id){
             delwishlist({id:id}).then((res)=>{
