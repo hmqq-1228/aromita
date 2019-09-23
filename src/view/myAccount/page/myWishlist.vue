@@ -119,7 +119,17 @@ export default {
             wishlist({
               page: this.pageNow
             }).then((res)=>{
-                this.wish_List = res.data.data
+                var list = []
+                var list2 = []
+                var dataList = res.data.data
+                for (var i=0;i < dataList.length;i++) {
+                  if (dataList[i].sku_status === 1) {
+                    list.push(dataList[i])
+                  } else if (dataList[i].sku_status === 2) {
+                    list2.push(dataList[i])
+                  }
+                }
+                this.wish_List = list.concat(list2)
                 if (this.wish_List.length >0){
                   this.noWish = false
                 } else {
