@@ -31,11 +31,14 @@
                                             <div class="product">
                                                 <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
                                                 <div class="detail">
-                                                    <h5 @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
-                                                    <div style="margin-top: 10px">
+                                                    <h5 :title="scope.row.sku_name " @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
+                                                    <div style="margin-top: 10px;display: inline-block;">
                                                       <span v-for="attr in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
                                                     </div>
-                                                    <p>${{scope.row.sku_price}}<span class="old_price">$ {{scope.row.sku_price}}</span></p>
+                                                    <p>
+                                                      ${{scope.row.sku_price}}
+                                                      <!--<span class="old_price">$ {{scope.row.sku_price}}</span>-->
+                                                    </p>
                                                 </div>
                                             </div>
                                         </template>
