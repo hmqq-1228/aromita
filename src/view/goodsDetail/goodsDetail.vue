@@ -274,12 +274,8 @@ export default {
           addwishlist(pre).then((res)=>{
             if(res.code == 200){
               this.iswish = true
-                this.$message({
-                  message: 'Add success!',
-                  type: 'success'
-                });
             } else {
-              this.$alert('No more than 100 items!', 'Add failure', {
+              this.$alert('No more than 100 items in wish list!', 'Add failure', {
                 confirmButtonText: 'My WishList',
                 type: 'warning',
                 callback: action => {
@@ -736,7 +732,6 @@ export default {
             } else {
               this.$alert('Sorry, The goods are out of stock for the time being.', 'Failed to add to cart', {
                 confirmButtonText: 'Cancel',
-                type: 'warning',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }
@@ -749,7 +744,6 @@ export default {
             if(this.numQuality > this.purchase){
               this.$alert('Exceeds maximun quantity available for this product!', 'Failed to add to cart', {
                 confirmButtonText: 'Cancel',
-                type: 'warning',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }

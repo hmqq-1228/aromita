@@ -404,9 +404,8 @@ export default {
               type: 'success'
             });
           } else {
-            this.$alert('No more than 100 items!', 'Add failure', {
+            this.$alert('No more than 100 items in wish list!', 'Add failure', {
               confirmButtonText: 'OK',
-              type: 'warning',
               callback: action => {
                 this.$router.push('/myWishlist')
               }

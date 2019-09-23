@@ -1063,7 +1063,6 @@ export default {
         that.inputPoint = ''
         this.$alert('The total amount deducted cannot be greater than the subtotal amount.', 'Order generation failure', {
           confirmButtonText: 'OK',
-          type: 'warning',
           callback: action => {
             that.getBillingList()
           }
@@ -1074,7 +1073,6 @@ export default {
         that.inputPoint = ''
         this.$alert('Use of points should not be greater than 10000', 'Order generation failure', {
           confirmButtonText: 'OK',
-          type: 'warning',
           callback: action => {
             that.getBillingList()
           }
@@ -1290,7 +1288,6 @@ export default {
           that.payDisabled = true
           this.$alert('The order has expired, Please add it again.', 'The order has expired', {
             confirmButtonText: 'OK',
-            type: 'warning'
           })
           // that.$message.warning('The order has expired, Please add it again.')
         } else if (res.code === 112) {
@@ -1298,7 +1295,6 @@ export default {
           that.inputPoint = ''
           this.$alert('Overuse of integrals', 'Order generation failure', {
             confirmButtonText: 'OK',
-            type: 'warning',
             callback: action => {
               that.confirmPay()
             }

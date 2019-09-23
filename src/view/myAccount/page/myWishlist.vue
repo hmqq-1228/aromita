@@ -202,7 +202,6 @@ export default {
             } else {
               this.$alert('Sorry, The goods are out of stock for the time being.', 'Failed to add to cart', {
                 confirmButtonText: 'Cancel',
-                type: 'warning',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }
@@ -213,7 +212,6 @@ export default {
             if(1 > this.purchase){
               this.$alert('Exceeds maximun quantity available for this product!', 'Failed to add to cart', {
                 confirmButtonText: 'Cancel',
-                type: 'warning',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }
@@ -241,7 +239,6 @@ export default {
           } else if (res === 2050) {
             this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', 'Failed to add to cart', {
               confirmButtonText: 'Go to Cart',
-              type: 'warning',
               callback: action => {
                 this.$router.push('/shoppingCar')
               }

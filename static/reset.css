@@ -397,6 +397,18 @@ ul,li {
 .errorStyle .el-table-column--selection .cell{
   display: none !important;
 }
+.el-message-box__header{
+  text-align: center !important;
+}
+.el-message-box__btns{
+  text-align: center !important;
+}
+.el-message-box{
+  padding-bottom: 25px !important;
+}
+.el-message-box__message{
+  text-align: center !important;
+}
 /*.el-table__header .el-table-column--selection .cell .el-checkbox::after {*/
   /*content: "Select All" !important;*/
 /*}*/
