@@ -141,10 +141,10 @@
   <el-dialog
     :visible.sync="wishVisible"
     width="300px">
-    <span>您还没有登陆，请登录后再添加心愿单~</span>
+    <span>You haven't logged in yet. Please login and add a wish list.</span>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="wishVisible = false">取 消</el-button>
-      <router-link to="/login"><el-button type="danger">确 定</el-button></router-link>
+      <el-button @click="wishVisible = false">Cancel</el-button>
+      <router-link to="/login"><el-button type="danger">Login</el-button></router-link>
     </span>
   </el-dialog>
 </div>
@@ -274,7 +274,7 @@ export default {
           addwishlist(pre).then((res)=>{
             if(res.code == 200){
                 this.$message({
-                  message: '添加成功',
+                  message: 'Add success!',
                   type: 'success'
                 });
             }

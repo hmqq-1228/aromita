@@ -25,7 +25,7 @@
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
       <div class="goodsTotal">$ {{(carItem.goods_count*carItem.sku_price).toFixed(2)}}</div>
-      <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img v-if="false" @click="addWish($event)" :src="wishUrl" alt=""></span></div>
+      <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish(carItem.sku_id)" :src="wishUrl" alt=""></span></div>
     </div>
     <div class="noGoods" v-if="noProduct">
       <div class="noGoodsCont">
@@ -142,6 +142,16 @@
       </div>
     </div>
   </div>
+  <!-- 添加心愿单弹框 -->
+  <el-dialog
+    :visible.sync="wishVisible"
+    width="300px">
+    <span>You haven't logged in yet. Please login and add a wish list.</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="wishVisible = false">Cancel</el-button>
+      <router-link to="/login"><el-button type="danger">Login</el-button></router-link>
+    </span>
+  </el-dialog>
   <!--<div class="foot">-->
     <!--<footer-com></footer-com>-->
   <!--</div>-->
@@ -150,6 +160,7 @@
 
 <script>
 import {getGoodsList,checkLogin} from "../../api/register";
+import {addwishlist} from "@/api/wish.js"
 import { mapGetters } from 'vuex'
 import qs from 'qs'
 export default {
@@ -162,6 +173,7 @@ export default {
       visible: true,
       checkedAll: false,
       tipOverShow: false,
+      wishVisible: false,
       checkedItem: [],
       idList: [],
       payList: [],
@@ -380,13 +392,28 @@ export default {
         that.checkedItem = []
       })
     },
-    addWish: function(e) {
-      var imgName = e.target.currentSrc.split('img/')[1]
-      if (imgName === 'loveOut.png') {
-        this.wishUrl = '../../../static/img/love.png'
-      } else if (imgName === 'love.png') {
-        this.wishUrl = '../../../static/img/loveOut.png'
+    addWish: function(id) {
+      if (this.isLogin){
+        let pre={
+          wl_products_skus_id: id
+        }
+        addwishlist(pre).then((res)=>{
+          if(res.code == 200){
+            this.$message({
+              message: 'Add success!',
+              type: 'success'
+            });
+          }
+        })
+      } else {
+        this.wishVisible = true
       }
+      // var imgName = e.target.currentSrc.split('img/')[1]
+      // if (imgName === 'loveOut.png') {
+      //   this.wishUrl = '../../../static/img/love.png'
+      // } else if (imgName === 'love.png') {
+      //   this.wishUrl = '../../../static/img/loveOut.png'
+      // }
     },
     handleChange: function (e, skuId, max) {
       var that = this

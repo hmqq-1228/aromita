@@ -1058,20 +1058,24 @@ export default {
         that.payDisabled = false
       } else if (data.code === 102) {
         that.payDisabled = true
-        that.billing = {}
-        that.billTotalSum = 0
-        this.$alert('抵扣总金额不能大于Subtotal金额', '订单生成失败', {
-          confirmButtonText: '确定',
-          type: 'warning'
+        that.inputPoint = ''
+        this.$alert('The total amount deducted cannot be greater than the subtotal amount.', 'Order generation failure', {
+          confirmButtonText: 'OK',
+          type: 'warning',
+          callback: action => {
+            that.getBillingList()
+          }
         })
         // that.$message.info('积分使用过多')
       } else if (data.code === 103) {
         that.payDisabled = true
-        that.billing = {}
-        that.billTotalSum = 0
-        this.$alert('积分使用过多', '订单生成失败', {
-          confirmButtonText: '确定',
-          type: 'warning'
+        that.inputPoint = ''
+        this.$alert('Use of points should not be greater than 10000', 'Order generation failure', {
+          confirmButtonText: 'OK',
+          type: 'warning',
+          callback: action => {
+            that.getBillingList()
+          }
         })
       }
     },
@@ -1281,9 +1285,22 @@ export default {
             }
           }
         } else if (res.code === 301) {
-          that.$message.warning('The order has expired, Please add it again.')
+          that.payDisabled = true
+          this.$alert('The order has expired, Please add it again.', 'The order has expired', {
+            confirmButtonText: 'OK',
+            type: 'warning'
+          })
+          // that.$message.warning('The order has expired, Please add it again.')
         } else if (res.code === 112) {
-          that.$message.warning('积分使用过多')
+          that.payDisabled = true
+          that.inputPoint = ''
+          this.$alert('Overuse of integrals', 'Order generation failure', {
+            confirmButtonText: 'OK',
+            type: 'warning',
+            callback: action => {
+              that.confirmPay()
+            }
+          })
         }
       })
     },
