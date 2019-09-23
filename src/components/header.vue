@@ -43,7 +43,7 @@
                     </el-dropdown>
                   </div>
                   <!-- 心愿单 -->
-                  <router-link to="myWishlist">
+                  <router-link to="/myWishlist">
                     <div class="wish">
                       <div class="wish_left">
                         <img src="@/assets/wish.png" alt>

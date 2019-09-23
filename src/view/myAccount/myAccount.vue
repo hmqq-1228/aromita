@@ -2,7 +2,7 @@
   <div class="myAccount">
     <div class="account">
       <div class="accountBox">
-        <Left-Nav></Left-Nav>  
+        <Left-Nav></Left-Nav>
         <div class="navCount">
           <div class="account_home">
             <div class="home_top">
@@ -70,7 +70,7 @@
 
 <script>
 import Left from "./element/leftNav"
-import {myAccount,couponcount} from "@/api/account.js"; 
+import {myAccount,couponcount} from "@/api/account.js";
 export default {
   components: {
     "Left-Nav":Left
