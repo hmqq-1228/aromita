@@ -7,9 +7,9 @@
                     <div class="my_order">
                         <h3 class="my_title">My Wishlist</h3>
                         <div class="wishlist">
-                            <div v-if="wish_List.length == 0" class="no_list">
+                            <div v-if="noWish" class="no_list">
                                 <div>
-                                    <p>抱歉，暂无任何商品，</p>
+                                    <p>Sorry, there is no merchandise at present.</p>
                                     <router-link to="/">
                                         <div class="wish_btn">Go Shopping></div>
                                     </router-link>
@@ -20,22 +20,23 @@
                                     :data="wish_List"
                                     style="width: 100%;border:1px solid #E9E9E9"
                                     size="medium"
+                                    :row-class-name="tableRowClassName"
                                     @selection-change="handleSelectionChange"
                                     :header-cell-style="{
                                         'background-color': '#F5F5F5',
                                         'color': '#333'
                                     }">
-                                    <el-table-column type="selection" label="Sealect all" width="45"></el-table-column>
+                                    <el-table-column type="selection" label="Select all" width="45"></el-table-column>
                                     <el-table-column label="Product">
                                         <template slot-scope="scope">
-                                            <div class="product">
+                                            <div class="product" style="display: inline-block">
                                                 <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
-                                                <div class="detail">
-                                                    <h5 :title="scope.row.sku_name " @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
+                                                <div class="detail" style="display: inline-block">
+                                                    <h5 :class="scope.row.sku_status === 1? '': 'errorType'" :title="scope.row.sku_name " @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
                                                     <div style="margin-top: 10px;display: inline-block;">
-                                                      <span v-for="attr in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
+                                                      <span :class="scope.row.sku_status === 1? '': 'errorAttrType'" v-for="attr in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
                                                     </div>
-                                                    <p>
+                                                    <p :class="scope.row.sku_status === 1? '': 'errorPriceType'">
                                                       ${{scope.row.sku_price}}
                                                       <!--<span class="old_price">$ {{scope.row.sku_price}}</span>-->
                                                     </p>
@@ -43,30 +44,28 @@
                                             </div>
                                         </template>
                                     </el-table-column>
-                                    <!-- <el-table-column
-                                        prop="name"
-                                        label="Quantity"
-                                        width="280">
-                                        <template slot-scope="scope">
-                                            <el-input-number v-model="scope.row.name" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
-                                        </template>
-                                    </el-table-column> -->
+                                    <el-table-column width="200px">
+                                      <div style="font-size: 16px;" slot-scope="scope" v-if="scope.row.sku_status !== 1">Invalid</div>
+                                    </el-table-column>
                                     <el-table-column label="Options" width="200">
                                         <template slot-scope="scope">
                                             <div class="wish_options">
-                                                <img v-if="false" src="@/assets/images/cart.png" alt="">
+                                                <img v-if="scope.row.sku_status === 1" @click="addToCart(scope.row.wl_products_skus_id,scope.row.inventory)" src="@/assets/images/cart.png" alt="">
                                                 <i class="el-icon-error" @click="deleteList(scope.row.wl_id)"></i>
                                             </div>
                                         </template>
                                     </el-table-column>
                                 </el-table>
                                 <div class="select">
-                                    <p><span @click="deleteSelect()">Remove Selected</span><span v-if="false" style="color:#003764">Move select to cart</span></p>
+                                  <div><span @click="deleteSelect()">Remove Selected</span></div>
+                                  <div v-if="false" style="color:#003764">Move select to cart</div>
+                                  <div @click="emptyOut()">Empty out invalid goods</div>
                                 </div>
                                 <div class="page_list">
                                     <el-pagination
                                         background
-                                        layout="prev, pager, next"
+                                        @current-change="currentPage($event)"
+                                        layout="total, prev, pager, next"
                                         :page-size = "pagesize"
                                         :total="total">
                                     </el-pagination>
@@ -81,7 +80,9 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {wishlist,delwishlist} from "@/api/wish.js"
+import {wishlist,delwishlist,removewishlist} from "@/api/wish.js"
+import {getGoodsQuantityInCart} from "../../../api/register";
+import qs from 'qs'
 export default {
     components: {
         "Left-Nav":Left
@@ -90,9 +91,10 @@ export default {
         return{
             total:0,
             pagesize:50,
-            page:1,
+            pageNow:1,
             listId:[],
             num1:1,
+            noWish: false,
             wish_List:[]
         }
     },
@@ -100,10 +102,29 @@ export default {
         this.getList()
     },
     methods:{
+      tableRowClassName({row, rowIndex}) {
+        if (row.sku_status === 1) {
+          return 'normalStyle';
+        } else {
+          return 'errorStyle';
+        }
+        return '';
+      },
+      currentPage (num) {
+        this.pageNow = num
+        this.getList()
+      },
         //心愿单列表
         getList(){
-            wishlist().then((res)=>{
+            wishlist({
+              page: this.pageNow
+            }).then((res)=>{
                 this.wish_List = res.data.data
+                if (this.wish_List.length >0){
+                  this.noWish = false
+                } else {
+                  this.noWish = true
+                }
                 this.total = res.data.total;
             })
         },
@@ -119,7 +140,7 @@ export default {
             delwishlist({id:id}).then((res)=>{
                 if(res.code == 200){
                     this.$message({
-                        message: '删除成功',
+                        message: 'Delete successful',
                         type: 'success'
                     });
                 }
@@ -130,23 +151,96 @@ export default {
         deleteSelect(){
             var str = this.listId.join(",");
             delwishlist({id:str}).then((res)=>{
-                if(res.code == 200){
+                if(res.code === 200){
                     this.$message({
-                        message: '删除成功',
+                        message: 'Delete successful',
                         type: 'success'
                     });
                 }
                 this.getList()
             })
         },
+      emptyOut () {
+        removewishlist().then((res)=>{
+          if(res.code === 200) {
+            this.getList()
+          }
+        })
+      },
         handleSelectionChange(val) {
             var arr = []
             for(var i =0;i<val.length;i++){
+              if (val[i].sku_status === 1) {
                 var id = val[i].wl_id
                 arr.push(id)
+              }
             }
             this.listId = arr
+        },
+      addToCart: function (sku, num) {
+        this._getGoodsQuantityInCart(sku, num)
+      },
+      _getGoodsQuantityInCart(sku, num){
+        //已加购商品数量
+        let pre ={
+          sku_id:sku
         }
+        getGoodsQuantityInCart(pre).then((res)=>{
+          if(res === '101' || res === 101){
+            if (num > 0) {
+              this._addcartList(sku)
+            } else {
+              this.$alert('Sorry, The goods are out of stock for the time being.', 'Failed to add to cart', {
+                confirmButtonText: 'Cancel',
+                type: 'warning',
+                // callback: action => {
+                //   this.$router.push('/shoppingCar')
+                // }
+              })
+            }
+          }else{
+            this.purchase = res.inventory - res.goods_count
+            if(1 > this.purchase){
+              this.$alert('Exceeds maximun quantity available for this product!', 'Failed to add to cart', {
+                confirmButtonText: 'Cancel',
+                type: 'warning',
+                // callback: action => {
+                //   this.$router.push('/shoppingCar')
+                // }
+              })
+              // this.$message({
+              //   message: 'Exceeds maximun quantity available for this product.',
+              //   type: 'warning'
+              // });
+              return false
+            }else{
+              this._addcartList(sku)
+            }
+          }
+        })
+      },
+      _addcartList(sku){
+        var skuId = sku
+        var obj = qs.stringify({
+          product_id: skuId,
+          count: 1
+        })
+        this.$axios.post('api/addcart', obj).then(res => {
+          if (res === 2060) {
+            this.$store.state.addCartState = true
+          } else if (res === 2050) {
+            this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', 'Failed to add to cart', {
+              confirmButtonText: 'Go to Cart',
+              type: 'warning',
+              callback: action => {
+                this.$router.push('/shoppingCar')
+              }
+            })
+          } else if (!res){
+            this.$store.state.addCartState = true
+          }
+        })
+      }
     }
 }
 </script>

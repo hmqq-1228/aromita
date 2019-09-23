@@ -30,7 +30,7 @@ ul,li {
     color: #C51015 !important;
 }
 .el-pagination.is-background .el-pager li:not(.disabled).active{
-    background: #C51015 !important;
+    color: #fff !important;
 }
 /* tabs重置样式 */
 .el-tabs__nav-scroll .el-tabs__item{
@@ -373,4 +373,30 @@ ul,li {
   font-size: 16px !important;
   color: #333 !important;
 }
-
+.normalStyle{
+  background-color: #fff !important;
+}
+.errorStyle{
+  background-color: #f5f5f5 !important;
+}
+/*.el-table--enable-row-hover .el-table__body tr:hover>td{*/
+  /*background-color: #fff !important;*/
+/*}*/
+.errorType{
+  color: #999 !important;
+}
+.errorType:hover{
+  color: #C51015 !important;
+}
+.errorAttrType{
+  color: #999 !important;
+}
+.errorPriceType{
+  color: #999 !important;
+}
+.errorStyle .el-table-column--selection .cell{
+  display: none !important;
+}
+/*.el-table__header .el-table-column--selection .cell .el-checkbox::after {*/
+  /*content: "Select All" !important;*/
+/*}*/

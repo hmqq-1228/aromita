@@ -273,12 +273,20 @@ export default {
           }
           addwishlist(pre).then((res)=>{
             if(res.code == 200){
+              this.iswish = true
                 this.$message({
                   message: 'Add success!',
                   type: 'success'
                 });
+            } else {
+              this.$alert('No more than 100 items!', 'Add failure', {
+                confirmButtonText: 'My WishList',
+                type: 'warning',
+                callback: action => {
+                  this.$router.push('/myWishlist')
+                }
+              })
             }
-            this.iswish = true
           })
         }else{
           this.wishVisible = true
@@ -670,7 +678,7 @@ export default {
       }
     },
     //加入购物车
-    addToCart: function ($event) {
+    addToCart: function () {
       this._getGoodsQuantityInCart()
     },
     //添加购物车数量显示
@@ -722,24 +730,30 @@ export default {
             sku_id:this.$route.params.skuId
         }
         getGoodsQuantityInCart(pre).then((res)=>{
-          if(res == '101'){
+          if(res === '101' || res === 101){
             if (this.maxQuality > 0) {
               this._addcartList()
             } else {
-              this.$message({
-                message: 'Exceeds maximun quantity available for this product.',
-                type: 'warning'
-              });
+              this.$alert('Sorry, The goods are out of stock for the time being.', 'Failed to add to cart', {
+                confirmButtonText: 'Cancel',
+                type: 'warning',
+                // callback: action => {
+                //   this.$router.push('/shoppingCar')
+                // }
+              })
             }
           }else{
             this.maxQuality = res.inventory
             this.goods_count = res.goods_count
             this.purchase = this.maxQuality - this.goods_count
             if(this.numQuality > this.purchase){
-              this.$message({
-                message: 'Exceeds maximun quantity available for this product.',
-                type: 'warning'
-              });
+              this.$alert('Exceeds maximun quantity available for this product!', 'Failed to add to cart', {
+                confirmButtonText: 'Cancel',
+                type: 'warning',
+                // callback: action => {
+                //   this.$router.push('/shoppingCar')
+                // }
+              })
               // this.msgshow = true;
               // setTimeout(()=>{
               //   this.msgshow = false

@@ -230,7 +230,9 @@
                 <div class="goodsText">
                   <div class="nameInfo">{{goods.sku_name}}</div>
                   <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
-                  <div class="price">$ {{goods.sku_price}} <span>$ {{goods.sku_price}}</span></div>
+                  <div class="price">$ {{goods.sku_price}}
+                    <!--<span>$ {{goods.sku_price}}</span>-->
+                  </div>
                 </div>
               </div>
               <div style="width: 200px;padding-top: 20px;font-size: 14px" :class="goods.realNum !== 1? 'realNum': ''">

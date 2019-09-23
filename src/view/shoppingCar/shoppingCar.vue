@@ -403,6 +403,14 @@ export default {
               message: 'Add success!',
               type: 'success'
             });
+          } else {
+            this.$alert('No more than 100 items!', 'Add failure', {
+              confirmButtonText: 'OK',
+              type: 'warning',
+              callback: action => {
+                this.$router.push('/myWishlist')
+              }
+            })
           }
         })
       } else {

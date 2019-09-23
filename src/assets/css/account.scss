@@ -77,7 +77,7 @@
         }
         .detail{
             h5{
-                width: 560px;
+                width: 500px;
                 @extend .com_font;
                 font-weight: normal;
                 text-overflow: -o-ellipsis-lastline;
@@ -412,10 +412,14 @@
         }
     }
     .select{
-        p{
+      display: flex;
+      justify-content: start;
+      font-family: Tahoma;
+        div{
             font-size: 16px;
             color: #333;
             margin-top: 11px;
+          cursor: pointer;
             span{
                 margin-right: 39px;
                 cursor: pointer;
