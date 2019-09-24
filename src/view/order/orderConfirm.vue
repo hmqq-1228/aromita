@@ -280,7 +280,7 @@
                 <div style="width: 295px;display: flex;justify-content: space-between;">
                   <div>Using points: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
                 </div>
-                <div>Deductible: <span style="color: #C51015;">$ {{(inputPoint*0.01).toFixed(2)}}</span></div>
+                <div>Deductible: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):0}}</span></div>
               </div>
             </div>
           </div>
@@ -1038,6 +1038,9 @@ export default {
       var billList = []
       var sumBill = 0
       that.payDisabled = true
+      if (that.inputPoint < 0){
+        that.inputPoint = 0
+      }
       let idList = {
         ids: idStr,
         score: that.inputPoint,
