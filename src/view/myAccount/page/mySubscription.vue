@@ -37,14 +37,15 @@
                           <!--&lt;!&ndash;</network>&ndash;&gt;-->
                         <!--</div>-->
                       <!--</social-sharing>-->
-                        <p class="Scription_tip">By Subscribing our Service,you can get first-hand information of New Arrivals, Special offers,order service and Hot Sale!</p>
+                        <p class="Scription_tip">After subscribing from us, you can receive our promotional messages, more product information and special offers.</p>
                       <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
                         <el-form-item prop="email">
                           <el-input placeholder="Enter your email" v-model="ruleForm.email"></el-input>
                         </el-form-item>
+                        <div style="color: #888;font-size: 14px;">Subscribe Type</div>
                         <el-form-item prop="type" class="checkStyle">
                           <el-checkbox-group v-model="ruleForm.type">
-                            <el-checkbox label="营销订阅" name="type"></el-checkbox>
+                            <el-checkbox label="The marking email" name="type"></el-checkbox>
                           </el-checkbox-group>
                         </el-form-item>
                         <div class="subScription_btn">
@@ -59,7 +60,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {yesSubscribe} from '../../../api/subscription'
+import {yesSubscribe, mysubscribe} from '../../../api/subscription'
 export default {
     components: {
         "Left-Nav":Left
@@ -70,7 +71,7 @@ export default {
           checked: true,
           ruleForm:{
             email: '',
-            type: ['营销订阅']
+            type: ['The marking email']
           },
           rules:{
             email: [
@@ -86,9 +87,20 @@ export default {
     mounted() {
       // console.log('fffff', window)
     },
+   created (){
+      this.getScription()
+   },
     methods:{
       testShow (e) {
         // console.log('88888888', e)
+      },
+      getScription(){
+        mysubscribe().then((res)=>{
+          console.log('666666', res)
+          if (res.code === 200) {
+            this.ruleForm.email = res.data.customers_for_mailchimp_email
+          }
+        })
       },
       closeShow () {
         // console.log('99999999')
@@ -100,12 +112,12 @@ export default {
             yesSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: 10}).then((res)=>{
               // console.log('666666', res)
               if (res.code === 200) {
-                this.$alert('Edit Successfully', '', {
+                this.$alert('Modified Successfully', '', {
                   center: true,
                   confirmButtonText: 'OK',
                 })
               } else {
-                this.$alert('Edit Error', '', {
+                this.$alert('Modified Error', '', {
                   center: true,
                   confirmButtonText: 'OK',
                 })

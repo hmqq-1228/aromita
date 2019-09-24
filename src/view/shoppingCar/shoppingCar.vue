@@ -404,9 +404,9 @@ export default {
               type: 'success'
             });
           } else {
-            this.$confirm('No more than 100 items in wish list!', 'Add failure', {
-              cancelButtonText: 'Continue shopping',
-              confirmButtonText: 'Go to Wishlist',
+            this.$confirm('Your wishlist goes over the 100-item limit. Please go to wishlist.', '', {
+              cancelButtonText: 'Go shopping',
+              confirmButtonText: 'Go to wishlist',
             }).then(() => {
               this.$router.push('/myWishlist')
             }).catch(() => {

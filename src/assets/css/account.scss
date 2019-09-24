@@ -104,6 +104,13 @@
     }
 }
 // 个人中心主页
+.out .account{
+  background-color: #fff;
+}
+.out .account .accountBox .navCount{
+  width: 700px;
+  margin: 100px auto;
+}
 .account{
     min-height: 300px;
     width: 100%;

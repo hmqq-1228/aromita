@@ -28,6 +28,7 @@ const myWishlist = () =>import('@/view/myAccount/page/myWishlist.vue')
 const myCoupon = () =>import('@/view/myAccount/page/myCoupon.vue')
 const myPoints = () =>import('@/view/myAccount/page/myPoints.vue')
 const mySubscription = () =>import('@/view/myAccount/page/mySubscription.vue')
+const outSubscription = () =>import('@/view/order/outSubscription.vue')
 const addressBook = () =>import('@/view/myAccount/page/addressBook.vue')
 const accountSetting = () =>import('@/view/myAccount/page/accountSetting.vue')
 const orderConfirm = () => import('@/view/order/orderConfirm.vue')
@@ -259,6 +260,11 @@ export default new Router({
       path: '/payAgain',
       name: 'payAgain',
       component: payAgain
+    },
+    {
+      path:'/outSubscription',
+      component:outSubscription,
+      name:'outSubscription',
     },
     {
       path: '/noprojuct',

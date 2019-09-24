@@ -275,9 +275,9 @@ export default {
             if(res.code == 200){
               this.iswish = true
             } else {
-              this.$confirm('No more than 100 items in wish list!', 'Add failure', {
-                cancelButtonText: 'Continue shopping',
-                confirmButtonText: 'Go to Wishlist',
+              this.$confirm('Your wishlist goes over the 100-item limit. Please go to wishlist.', '', {
+                cancelButtonText: 'Go shopping',
+                confirmButtonText: 'Go to wishlist',
               }).then(() => {
                 this.$router.push('/myWishlist')
               }).catch(() => {
@@ -698,6 +698,9 @@ export default {
     // },
     _addcartList(){
       var skuId = this.$route.params.skuId
+      if (!this.numQuality) {
+        this.numQuality = 1
+      }
       var obj = qs.stringify({
         product_id: skuId,
         count: this.numQuality

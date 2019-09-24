@@ -276,11 +276,11 @@
             <div class="more" v-if="moreFlagShow" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
             <div class="availablePoint">
               <div class="point">
-                <div>Available Points: <span style="color: chocolate">{{myPoints}}</span></div>
-                <div style="width: 295px;display: flex;justify-content: space-between;">
-                  <div>Using points: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
+                <div>Your points: <span style="color: chocolate">{{myPoints}}</span></div>
+                <div style="width: 400px;display: flex;justify-content: space-between;">
+                  <div>Maximum points available: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
                 </div>
-                <div>Deductible: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):0}}</span></div>
+                <div>Point discount: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):0}}</span></div>
               </div>
             </div>
           </div>
@@ -658,7 +658,7 @@ export default {
         if (that.myPoints > 10000) {
           that.maxPoints = 'Available Points 10000'
         } else {
-          that.maxPoints = 'Available Points' + that.myPoints
+          that.maxPoints = 'Available Points ' + that.myPoints
         }
         this.getGoodsOrder()
         // if (res.code === '200' || res.code === 200) {
@@ -1101,8 +1101,10 @@ export default {
           if (!type) {
             that.couponList = that.couponList.slice(0,3)
             this.pointMore = 'el-icon-d-arrow-left'
-            that.couponId = res.data[0].cc_id
-            that.getCouId = res.data[0].cc_id
+            if (res.data.length > 0) {
+              that.couponId = res.data[0].cc_id
+              that.getCouId = res.data[0].cc_id
+            }
             for (var k=0;k<that.couponList.length;k++) {
               if (that.couponList[k].cc_id === that.getCouId){
                 that.couponList[k].active = true

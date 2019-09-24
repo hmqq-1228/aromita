@@ -9,7 +9,7 @@
                         <div class="wishlist">
                             <div v-if="noWish" class="no_list">
                                 <div>
-                                    <p>Sorry, there is no merchandise at present.</p>
+                                    <p>Sorry, there is no item.</p>
                                     <router-link to="/">
                                         <div class="wish_btn">Go Shopping></div>
                                     </router-link>
@@ -58,9 +58,9 @@
                                     </el-table-column>
                                 </el-table>
                                 <div class="select">
-                                  <div><span @click="deleteSelect()">Remove Selected</span></div>
+                                  <div><span @click="deleteSelect()">Delete selected items</span></div>
                                   <div v-if="false" style="color:#003764">Move select to cart</div>
-                                  <div @click="emptyOut()">Empty out invalid goods</div>
+                                  <div @click="emptyOut()">Delete invalid items</div>
                                 </div>
                                 <div class="page_list">
                                     <el-pagination
@@ -239,7 +239,7 @@ export default {
             this.$store.state.addCartState = true
           } else if (res === 2050) {
             this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', 'Failed to add to cart', {
-              confirmButtonText: 'Go to Cart',
+              confirmButtonText: 'Go to shopping cart',
               callback: action => {
                 this.$router.push('/shoppingCar')
               }
