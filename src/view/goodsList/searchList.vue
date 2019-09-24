@@ -31,7 +31,7 @@
             </el-collapse-item>
           </el-collapse>
         </div>
-        <div class="viewMore" @click="showMoreAttr(moreIcon)">view more <i :class="moreIcon"></i></div>
+        <div class="viewMore" v-if="attrListLen > 3" @click="showMoreAttr(moreIcon)">view more <i :class="moreIcon"></i></div>
       </div>
       <div class="listGoods" v-if="!noDataShow">
         <div v-if="goodsList">
@@ -95,6 +95,7 @@
         prodListLastPage: false,
         goodsList: [],
         attrList: [],
+        attrListLen: 0,
         checkAttrList: [],
         checkAttrStr: '',
         noDataShow: false,
@@ -225,6 +226,7 @@
         that.$axios.get('api/attribute', {}).then(res => {
           if (res.code === 200) {
             that.attrList = res.data
+            that.attrListLen = res.data.length
             for (var i=0;i<that.attrList.length; i++) {
               this.$set(this.attrList[i],'nameStr','')
               that.attrList[i].nameStr =  that.attrList[i].attr_name
