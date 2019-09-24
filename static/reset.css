@@ -412,3 +412,6 @@ ul,li {
 /*.el-table__header .el-table-column--selection .cell .el-checkbox::after {*/
   /*content: "Select All" !important;*/
 /*}*/
+.myAccount .el-pagination.is-background .el-pager li:not(.disabled).active{
+  background-color: #C51015 !important;
+}

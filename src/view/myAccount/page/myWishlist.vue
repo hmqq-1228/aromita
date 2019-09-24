@@ -26,7 +26,8 @@
                                         'background-color': '#F5F5F5',
                                         'color': '#333'
                                     }">
-                                    <el-table-column type="selection" label="Select all" width="45"></el-table-column>
+                                    <el-table-column type="selection" label="Select all" width="40"></el-table-column>
+                                    <!--<el-table-column label="Select all" width="90"></el-table-column>-->
                                     <el-table-column label="Product">
                                         <template slot-scope="scope">
                                             <div class="product" style="display: inline-block">
@@ -50,7 +51,7 @@
                                     <el-table-column label="Options" width="200">
                                         <template slot-scope="scope">
                                             <div class="wish_options">
-                                                <img v-if="scope.row.sku_status === 1" @click="addToCart(scope.row.wl_products_skus_id,scope.row.inventory)" src="@/assets/images/cart.png" alt="">
+                                              <div v-if="scope.row.sku_status === 1" @click="addToCart(scope.row.wl_products_skus_id,scope.row.inventory)"></div>
                                                 <i class="el-icon-error" @click="deleteList(scope.row.wl_id)"></i>
                                             </div>
                                         </template>
@@ -258,5 +259,15 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+  .wish_options div{
+    width:24px;
+    height: 24px;
+    cursor: pointer;
+    margin-bottom: 6px;
+    background-image: url("../../../assets/cart.png");
+  }
+  .wish_options div:hover{
+    background-image: url("../../../assets/cart-1.png");
+  }
     @import "@/assets/css/account.scss"
 </style>

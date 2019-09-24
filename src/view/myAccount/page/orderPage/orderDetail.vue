@@ -98,7 +98,9 @@
                                       <span style="color: #333;">{{item1.value.attr_value}}</span>;
                                     </span>
                                   </p>
-                                  <p>${{scope.row.final_price}}<span class="old_price">${{scope.row.products_price}}</span></p>
+                                  <p>${{scope.row.final_price}}
+                                    <!--<span class="old_price">${{scope.row.products_price}}</span>-->
+                                  </p>
                               </div>
                           </div>
                       </template>

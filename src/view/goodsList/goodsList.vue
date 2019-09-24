@@ -182,13 +182,7 @@ export default {
     toTop: function () {
       $('body,html').animate({scrollTop: 0}, 500)
     },
-    toGoodsDetail: function (spuid, skuid) {
-      if (spuid && skuid) {
-        this.$store.state.spuId = spuid
-        this.$store.state.skuId = skuid
-        this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
-      }
-    },
+
     getList() {
       var that = this
       var obj

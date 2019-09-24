@@ -52,7 +52,7 @@
                                 prop="order_total"
                                 label="Order Time">
                                 <template slot-scope="scope">
-                                    <span v-if="scope.row.orders_status== 10 ||scope.row.orders_status== 60 || scope.row.orders_status== 50">{{scope.row.created_at}}</span>
+                                    <span v-if="scope.row.orders_status== 10 ||scope.row.orders_status== 20 ||scope.row.orders_status== 60 || scope.row.orders_status== 50">{{scope.row.created_at}}</span>
                                     <span v-else>{{scope.row.pay_success_time}}</span>
                                 </template>
                             </el-table-column>
@@ -216,7 +216,7 @@ export default {
                 this.myOrderList()
                 this.cancelVisity = false
                 // if(res == 1){
-                    
+
                 // }else{
                 //     this.cancelVisity = false
                 // }

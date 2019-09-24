@@ -49,7 +49,7 @@ export default {
         },
         toGoodsList:function (id) {
           this.$router.push({
-            path: '/goodsList',
+            path: '/searchList',
             query: {
               f_cate_id: id
             }
@@ -58,9 +58,9 @@ export default {
         checkGoodsType: function(id, parentId){
             this.nav_show = false;
             this.$router.push({
-                path: '/goodsList',
+                path: '/searchList',
                 query: {
-                    s_cate_id: id
+                  s_cate_id: id
                 }
             })
         },

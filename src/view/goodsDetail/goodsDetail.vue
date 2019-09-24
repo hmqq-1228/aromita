@@ -275,12 +275,12 @@ export default {
             if(res.code == 200){
               this.iswish = true
             } else {
-              this.$alert('No more than 100 items in wish list!', 'Add failure', {
-                confirmButtonText: 'My WishList',
-                type: 'warning',
-                callback: action => {
-                  this.$router.push('/myWishlist')
-                }
+              this.$confirm('No more than 100 items in wish list!', 'Add failure', {
+                cancelButtonText: 'Continue shopping',
+                confirmButtonText: 'Go to Wishlist',
+              }).then(() => {
+                this.$router.push('/myWishlist')
+              }).catch(() => {
               })
             }
           })
