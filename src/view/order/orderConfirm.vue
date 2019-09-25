@@ -278,7 +278,8 @@
               <div class="point">
                 <div>Your points: <span style="color: chocolate">{{myPoints}}</span></div>
                 <div style="width: 400px;display: flex;justify-content: space-between;">
-                  <div>Maximum points available: </div><el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" @blur="getInputPoint(inputPoint)"></el-input>
+                  <div>Maximum points available: </div>
+                  <el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" maxlength="5" @blur="getInputPoint(inputPoint)" @keyup.native="proving1"></el-input>
                 </div>
                 <div>Point discount: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):0}}</span></div>
               </div>
@@ -631,6 +632,11 @@ export default {
     this.checkLoginInfo()
   },
   methods: {
+    proving1(){
+      this.inputPoint = this.inputPoint.replace(/[^\.\d]/g,'');
+      this.inputPoint = this.inputPoint.replace('.','');
+      // this.inputPoint = this.inputPoint.replace(/[\d]/);
+    },
     getInputPoint (num) {
       // console.log('ppppppp', num)
       if (this.inputPoint > this.myPoints) {
@@ -1065,7 +1071,7 @@ export default {
       } else if (data.code === 102) {
         that.payDisabled = true
         that.inputPoint = ''
-        this.$alert('The total amount deducted cannot be greater than the subtotal amount.', 'Order generation failure', {
+        this.$alert('The total amount deducted cannot be greater than the subtotal amount.', '', {
           confirmButtonText: 'OK',
           callback: action => {
             that.getBillingList()
@@ -1075,7 +1081,7 @@ export default {
       } else if (data.code === 103) {
         that.payDisabled = true
         that.inputPoint = ''
-        this.$alert('Use of points should not be greater than 10000', 'Order generation failure', {
+        this.$alert('Use of points should not be greater than 10000', '', {
           confirmButtonText: 'OK',
           callback: action => {
             that.getBillingList()

@@ -5,7 +5,7 @@
                 <Left-Nav></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
-                        <h3 class="my_title">My Coupon <span class="points_rule">What's Points? How to get more Points?</span></h3>
+                        <h3 class="my_title">My Points <span class="points_rule">What's Points? How to get more Points?</span></h3>
                         <div class="points">
                             <div class="available">
                                 <h4>Available Points</h4>
