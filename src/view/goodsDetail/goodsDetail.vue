@@ -46,7 +46,20 @@
         <div class="shareList">
           <div class="shareBox">
             <div class="shareText">Share:</div>
-            <component v-bind:is="AddThis" :publicId="publicId"></component>
+            <social-sharing :url="currentPageUrl" inline-template @open="testShow($event)" @close="closeShow()">
+              <div class="showBox">
+                <network network="facebook">
+                  <div style="width: 40px;height: 40px;cursor: pointer;"><img src="../../assets/facebook-01.png" alt=""></div>
+                </network>
+                <network network="pinterest">
+                  <div style="width: 40px;height: 40px;cursor: pointer;"><img src="../../assets/pinterest1.png" alt=""></div>
+                </network>
+                <network network="twitter">
+                  <div style="width: 40px;height: 40px;cursor: pointer;"><img src="../../assets/twitter1.png" alt=""></div>
+                </network>
+              </div>
+            </social-sharing>
+            <!--<component v-bind:is="AddThis" :publicId="publicId"></component>-->
           </div>
         </div>
       </div>
@@ -169,6 +182,7 @@ export default {
     return{
       AddThis: "AddThis",
       publicId: 'ra-5d6e36b2d704b326',
+      currentPageUrl: 'https://aromita.panduo.com.cn/#/',
       addShow:false,//加入购物车动画显示
       addButton: false,
       showModel: false,
@@ -246,24 +260,28 @@ export default {
     ])
   },
   mounted() {
-   // console.log('wwwwwwww', window)
-    // setTimeout(function () {
-    //   var swiper = new Swiper('.banner2',{
-    //     direction: 'vertical',
-    //     slidesPerView: 5,
-    //     slidesPerGroup: 1,
-    //     watchOverflow: true,
-    //     navigation:{
-    //       nextEl: '.swiper-button-next1',
-    //       prevEl: '.swiper-button-prev1',
-    //     }
-    //   })
-    // }, 500)
   },
   created(){
+    this.currentPageUrl = window.location.href
     this.getGoodsDetail()
   },
   methods:{
+    testShow (e) {
+      console.log('88888888', e)
+    },
+    closeShow () {
+      var that = this
+      var obj = qs.stringify({
+        score: 5,
+        source: '分享得积分'
+      })
+      that.$axios.post('api/updatescore', obj).then(res => {
+        if (res.code === 2001) {
+          // that.$store.state.fromUrl = routeList[1]
+          // that.$router.push('/login')
+        }
+      })
+    },
     //添加到心愿单
     _addwishList(){
       checkLogin().then((res)=>{

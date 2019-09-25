@@ -9,32 +9,14 @@
                       <!--<social-sharing url="https://vuejs.org/" inline-template @open="testShow($event)" @close="closeShow()">-->
                         <!--<div>-->
                           <!--<network network="facebook">-->
-                            <!--<i class="fa fa-facebook"></i> Facebook-->
+                            <!--<div><img src="../../../assets/twitter1.png" alt=""></div>-->
                           <!--</network>-->
-                          <!--&lt;!&ndash;<network network="googleplus">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-google-plus"></i> Google +&ndash;&gt;-->
-                          <!--&lt;!&ndash;</network>&ndash;&gt;-->
-                          <!--&lt;!&ndash;<network network="linkedin">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-linkedin"></i> LinkedIn&ndash;&gt;-->
-                          <!--&lt;!&ndash;</network>&ndash;&gt;-->
                           <!--<network network="pinterest">-->
                             <!--<i class="fa fa-pinterest"></i> Pinterest-->
                           <!--</network>-->
-                          <!--&lt;!&ndash;<network network="reddit">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-reddit"></i> Reddit&ndash;&gt;-->
-                          <!--&lt;!&ndash;</network>&ndash;&gt;-->
                           <!--<network network="twitter">-->
-                            <!--<i class="fa fa-twitter"></i> Twitter-->
+                            <!--<i class="entypo-twitter icon-sn-twitter share-3"></i> Twitter-->
                           <!--</network>-->
-                          <!--&lt;!&ndash;<network network="vk">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-vk"></i> VKontakte&ndash;&gt;-->
-                          <!--&lt;!&ndash;</network>&ndash;&gt;-->
-                          <!--&lt;!&ndash;<network network="weibo">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-weibo"></i> Weibo&ndash;&gt;-->
-                          <!--&lt;!&ndash;</network>&ndash;&gt;-->
-                          <!--&lt;!&ndash;<network network="whatsapp">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-whatsapp"></i> Whatsapp&ndash;&gt;-->
-                          <!--&lt;!&ndash;</network>&ndash;&gt;-->
                         <!--</div>-->
                       <!--</social-sharing>-->
                         <p class="Scription_tip">After subscribing from us, you can receive our promotional messages, more product information and special offers.</p>
@@ -91,9 +73,9 @@ export default {
       this.getScription()
    },
     methods:{
-      testShow (e) {
-        // console.log('88888888', e)
-      },
+      // testShow (e) {
+      //   // console.log('88888888', e)
+      // },
       getScription(){
         mysubscribe().then((res)=>{
           console.log('666666', res)
@@ -102,9 +84,9 @@ export default {
           }
         })
       },
-      closeShow () {
-        // console.log('99999999')
-      },
+      // closeShow () {
+      //   // console.log('99999999')
+      // },
       subMyScription (formName) {
         var that = this
         that.$refs[formName].validate((valid) => {
