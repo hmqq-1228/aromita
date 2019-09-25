@@ -681,11 +681,9 @@ export default {
     getMoreCoupon: function (type) {
       var that = this
       if (type === 'el-icon-d-arrow-left') {
-        // that.pointMore = 'el-icon-d-arrow-left'
         that.getCouponList('more')
       } else if (type === 'el-icon-d-arrow-right') {
         that.getCouponList('less')
-        // that.pointMore = 'el-icon-d-arrow-right'
       }
     },
     async checkLoginInfo () {
@@ -696,6 +694,7 @@ export default {
         this.getPoints()
       } else {
         this.isLogin = false
+        this.getGoodsOrder()
         this.getOrderAddressOut()
       }
     },
@@ -1023,6 +1022,8 @@ export default {
         that.subTotalCoupon = subTotal
         if (that.isLogin){
           that.getCouponList()
+        }else {
+          that.getBillingList()
         }
         that.orderListInvalid = false
       } else {
