@@ -5,7 +5,7 @@
       <div class="content_5">
         <div class="left">
           <div class="left_img" @click="linkHref(loginHref)">
-            <img v-if="loginImg" :src="'https://arapi.panduo.com.cn/uploads/'+ loginImg" alt>
+            <img v-if="loginImg" :src="loginImg" alt>
           </div>
           <!-- 注册 -->
         </div>

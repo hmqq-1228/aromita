@@ -5,7 +5,7 @@
       <div class="home_banner">
           <el-carousel height="500px">
               <el-carousel-item v-for="(item,index) in dataBanner" :key="index">
-                <img :src="url+item.picture_src" alt @click="linkHref(item.picture_href)">
+                <img :src="item.picture_src" alt @click="linkHref(item.picture_href)">
               </el-carousel-item>
           </el-carousel>
       </div>
@@ -14,17 +14,17 @@
       <div class="collections">
         <ul class="collections_thr1">
           <li class="thr2" v-for="(item,index) in dataCollections" :key="index">
-            <img :src="url+item.picture_src" alt @click="linkHref(item.picture_href)">
+            <img :src="item.picture_src" alt @click="linkHref(item.picture_href)">
           </li>
         </ul>
       </div>
       <!-- 热销 -->
       <div class="word2_">
-        <div class="word2">Best SELLER</div>
+        <div class="word2">BEST SELLER</div>
       </div>
       <div class="sell">
         <div class="sell_1" v-for="(item,index) in homeData" :key="index" @click="link(item.products_id,item.spu_id)">
-          <img :src="url+item.products_src" alt>
+          <img :src="item.products_src" alt>
           <p class="sell_word">{{ item.products_name }}</p>
           <p class="sell_word1">$ {{ item.products_price }}</p>
         </div>
@@ -34,7 +34,7 @@
       </div>
       <div class="new">
         <div class="new_1" v-for="(item,index) in homeArr" :key="index" @click="link(item.products_id,item.spu_id)">
-          <img :src="url+item.products_src" alt>
+          <img :src="item.products_src" alt>
           <p class="new_word">{{item.products_name}}</p>
           <p class="new_word1">$ {{ item.products_price }}</p>
         </div>
@@ -44,7 +44,7 @@
       <div class="banner2 swiper-container" dir="rtl">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in hotStyle" :key="index">
-            <img :src="url+item.picture_src" class="small2" @click="linkHref(item.picture_href)">
+            <img :src="item.picture_src" class="small2" @click="linkHref(item.picture_href)">
           </div>
         </div>
         <!-- 如果需要导航按钮 -->

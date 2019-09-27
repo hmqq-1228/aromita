@@ -1071,7 +1071,7 @@ export default {
       } else if (data.code === 102) {
         that.payDisabled = true
         that.inputPoint = ''
-        this.$alert('The total amount deducted cannot be greater than the subtotal amount.', '', {
+        this.$alert("Point discount must not exceed the order's current total amount(not including shipping fee and taxes).", '', {
           confirmButtonText: 'OK',
           callback: action => {
             that.getBillingList()
@@ -1305,7 +1305,7 @@ export default {
         } else if (res.code === 112) {
           that.payDisabled = true
           that.inputPoint = ''
-          this.$alert('Overuse of integrals', 'Order generation failure', {
+          this.$alert("Point discount must not exceed the order's current total amount(not including shipping fee and taxes).", '', {
             confirmButtonText: 'OK',
             callback: action => {
               that.confirmPay()

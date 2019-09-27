@@ -28,7 +28,12 @@
                   </div>
                   <div class="num num_right">
                       <div class="one">
-                          <p v-for="(value, key) in orders_total[0]" :key="key"><span>{{ key }}:</span> {{ value }}</p>
+                        <p><span>Subtotal:</span> {{orders_total.Subtotal}}</p>
+                        <p><span>Coupon:</span> {{orders_total.Coupon}}</p>
+                        <p><span>Points:</span> {{orders_total.PointsToMoney}}</p>
+                        <p><span>Tax:</span> {{ orders_total.Taxes_Fee }}</p>
+                        <p><span>Shipping:</span> {{ orders_total.Shipping_Fee }}</p>
+                        <p><span>Grand Total:</span> {{ orders_total.Grand_Total }}</p>
                       </div>
                   </div>
               </div>
@@ -140,7 +145,7 @@ export default {
         url: "http://arapi.panduo.com.cn/uploads/",
         orderId:'',//订单id
         orders:{},//地址等
-        orders_total:[],//金额小项
+        orders_total:{},//金额小项
         orders_products:[],//订单商品
         order_statusList:{
             '10':"pending",
@@ -175,7 +180,7 @@ export default {
     orderDetail(){
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
-        this.orders_total = res.orders_total
+        this.orders_total = res.orders_total[0]
         this.orders_products = res.orders_products
       })
     },

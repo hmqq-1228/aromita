@@ -34,7 +34,7 @@
                                                 <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
                                                 <div class="detail" style="display: inline-block">
                                                     <h5 :class="scope.row.sku_status === 1? '': 'errorType'" :title="scope.row.sku_name " @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
-                                                    <div style="margin-top: 10px;display: inline-block;">
+                                                    <div style="margin-top: 10px;display: inline-block;font-size: 13px;">
                                                       <span :class="scope.row.sku_status === 1? '': 'errorAttrType'" v-for="attr in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
                                                     </div>
                                                     <p :class="scope.row.sku_status === 1? '': 'errorPriceType'">
@@ -238,12 +238,18 @@ export default {
           if (res === 2060) {
             this.$store.state.addCartState = true
           } else if (res === 2050) {
-            this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', 'Failed to add to cart', {
+            this.$confirm('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly', '', {
               confirmButtonText: 'Go to shopping cart',
-              callback: action => {
-                this.$router.push('/shoppingCar')
-              }
+            }).then(() => {
+              this.$router.push('/shoppingCar')
+            }).catch(() => {
             })
+            // this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', 'Failed to add to cart', {
+            //   confirmButtonText: 'Go to shopping cart',
+            //   callback: action => {
+            //     this.$router.push('/shoppingCar')
+            //   }
+            // })
           } else if (!res){
             this.$store.state.addCartState = true
           }

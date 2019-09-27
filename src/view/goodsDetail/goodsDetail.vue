@@ -145,7 +145,7 @@
     <div class="mainFeatureTitle">Main Feature</div>
     <p v-if="goodDetail.main_feature">- {{goodDetail.main_feature}}</p>
   </div>
-  <div class="product">
+  <div class="product" v-if="pruductDetail">
     <div class="productTitle">Product Details</div>
     <p v-html="pruductDetail.product_detail">{{pruductDetail.product_detail}}</p>
   </div>

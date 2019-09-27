@@ -5,7 +5,7 @@
           <div class="img">
             <div  v-for="(item,index) in icon" :key="index">
               <a :href="item.picture_href">
-                <img :src="url+item.picture_src" alt>
+                <img :src="item.picture_src" alt>
               </a>
             </div>
           </div>
@@ -15,7 +15,7 @@
               <div class="sixty" v-for="(item,index) in footTitle" :key="index">
                 <div>
                   <a :href="item.picture_href">
-                      <img :src="url+item.picture_src" alt>
+                      <img :src="item.picture_src" alt>
                   </a>
                 </div>
               </div>
