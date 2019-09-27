@@ -31,7 +31,7 @@
             </div>
             <div class="payItem">
               <div class="itemName">Award Point:</div>
-              <div class="itemCont">200</div>
+              <div class="itemCont">{{getScore}}</div>
             </div>
           </div>
         </div>
@@ -55,23 +55,23 @@ export default {
   name: "paySucceed",
   data(){
     return{
-      orderNumber: ''
+      orderNumber: '',
+      getScore: 0
     }
   },
   created(){
     this.getSucceedState()
   },
   methods:{
-    // getSucceedState: function () {
-    //   var that = this
-    //   that.$axios.get('api/paypal-pay',{}).then(res => {
-    //
-    //   })
-    // }
-    async getSucceedState () {
-      let data = await succeedState()
-      this.orderNumber = data.data
+    getSucceedState: function () {
+    // console.log('kkkk', this.$route.query.order_number)
+      this.orderNumber = this.$route.query.order_number
+      this.getScore = this.$route.query.score
     }
+    // async getSucceedState () {
+    //   let data = await succeedState()
+    //   this.orderNumber = data.data
+    // }
   }
 }
 </script>

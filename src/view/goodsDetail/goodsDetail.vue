@@ -272,7 +272,7 @@ export default {
     closeShow () {
       var that = this
       var obj = qs.stringify({
-        score: 5,
+        score: 10,
         source: '分享得积分'
       })
       that.$axios.post('api/updatescore', obj).then(res => {

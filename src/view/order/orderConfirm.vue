@@ -28,13 +28,13 @@
       <div class="payBtn info" @click="closeInfoModel">OK</div>
     </div>
   </div>
-  <div class="model" v-if="overQuanlity">
-    <div class="modelCont alert">
-      <div class="modelClose" @click="closeOverModel"><i class="el-icon-close"></i></div>
-      <div class="modelTitle tip" style="height: 90px;">Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.</div>
-      <div class="payBtn info" @click="closeOverModel">OK</div>
-    </div>
-  </div>
+  <!--<div class="model" v-if="overQuanlity">-->
+    <!--<div class="modelCont alert">-->
+      <!--<div class="modelClose" @click="closeOverModel"><i class="el-icon-close"></i></div>-->
+      <!--<div class="modelTitle tip" style="height: 90px;">Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.</div>-->
+      <!--<div class="payBtn info" @click="closeOverModel">OK</div>-->
+    <!--</div>-->
+  <!--</div>-->
   <div class="orderBox">
     <div class="orderCont">
       <div class="orderInfo">
@@ -459,7 +459,7 @@ export default {
       butLoading: false,
       moreFlagShow: false,
       login_status: false,
-      overQuanlity: false,
+      // overQuanlity: false,
       payDisabled: false,
       dialogVisible: true,
       showCreditForm: false,
@@ -763,9 +763,9 @@ export default {
     closeInfoModel: function(){
       this.infoShow = false
     },
-    closeOverModel: function () {
-      this.overQuanlity = false
-    },
+    // closeOverModel: function () {
+    //   this.overQuanlity = false
+    // },
     closeModel: function(){
       this.modelShow = false
     },
@@ -1279,7 +1279,6 @@ export default {
           that.payByPaypal(res.total_price, res.order_num, res.order_id)
         } else if (res.code === 110) {
           var ids = JSON.parse(res.data)
-          that.overQuanlity = true
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
               if (that.goodsList[i].sku_id === ids[j]) {
@@ -1287,6 +1286,9 @@ export default {
               }
             }
           }
+          this.$alert('Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.', '', {
+            confirmButtonText: 'OK',
+          })
         } else if (res.code === 111) {
           var ids = JSON.parse(res.data)
           for (var i=0; i<that.goodsList.length; i++) {
@@ -1308,7 +1310,17 @@ export default {
           this.$alert("Point discount must not exceed the order's current total amount(not including shipping fee and taxes).", '', {
             confirmButtonText: 'OK',
             callback: action => {
-              that.confirmPay()
+              that.getBillingList()
+            }
+          })
+        } else if (res.code === 113) {
+          that.payDisabled = true
+          that.inputPoint = ''
+          this.$alert("Your score is insufficient. Please fill it in again.", '', {
+            confirmButtonText: 'OK',
+            callback: action => {
+              that.getBillingList()
+              that.getPoints()
             }
           })
         }
