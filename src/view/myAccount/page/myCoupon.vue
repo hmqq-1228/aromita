@@ -15,10 +15,11 @@
                                         <div class="couponInfo">
                                           <div class="info">
                                             <div class="infoFee"><span class="tag">$</span> <span class="num">{{coupon.cc_amount}}</span></div>
-                                            <div class="couponUse">Full {{coupon.coupon_minimum_order}}$ usable</div>
+                                            <div class="couponUse">For order ${{coupon.coupon_minimum_order}}+</div>
                                           </div>
                                           <div class="couponTime">
-                                            <div style="line-height: 40px;width: 120px;">Expired Date:</div>
+                                            <div class="stateFlag">soon to expired</div>
+                                            <div style="line-height: 34px;width: 120px;">Expired Date:</div>
                                             <div class="timeRange">
                                               <div>{{coupon.cc_coupon_start_time}}</div>
                                               <div>{{coupon.cc_coupon_end_time}}</div>
@@ -39,7 +40,7 @@
                                         <div class="couponInfo overdata">
                                           <div class="info">
                                             <div class="infoFee unUse"><span class="tag">$</span> <span class="num">{{coupon.cc_amount}}</span></div>
-                                            <div class="couponUse" style="color: #a7a7a7;">Full {{coupon.coupon_minimum_order}}$ usable</div>
+                                            <div class="couponUse" style="color: #a7a7a7;">For order ${{coupon.coupon_minimum_order}}+</div>
                                           </div>
                                           <div class="couponTime">
                                             <div style="line-height: 40px;width: 120px;color: #a7a7a7">Expired Date:</div>

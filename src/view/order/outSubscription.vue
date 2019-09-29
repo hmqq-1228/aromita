@@ -13,6 +13,7 @@
                         <el-form-item prop="email">
                           <el-input placeholder="Enter your email" v-model="ruleForm.email"></el-input>
                         </el-form-item>
+                        <div style="color: #888;font-size: 14px;">Subscribe Type</div>
                         <el-form-item prop="type" class="checkStyle">
                           <el-checkbox-group v-model="ruleForm.type">
                             <el-checkbox label="The marking email" name="type"></el-checkbox>
@@ -32,7 +33,7 @@
     </div>
 </template>
 <script>
-import {yesSubscribe, delSubscribe} from '../../api/subscription'
+import {yesSubscribe, delSubscribe, outSubscribe} from '../../api/subscription'
 import aheader from "@/components/aheader.vue";
 import afooter from "@/components/afooter.vue"
 export default {
@@ -54,7 +55,7 @@ export default {
               { type: 'email', message: 'Please enter the correct email address', trigger: 'blur'}
             ],
             type: [
-              { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+              { type: 'array', required: true, message: 'Please choose the subscribe type.', trigger: 'change' }
             ]
           }
         }
@@ -71,9 +72,12 @@ export default {
       },
       getScription(){
         delSubscribe().then((res)=>{
-          console.log('666666', res)
           if (res.code === 200) {
-            // this.ruleForm.email = res.data.customers_for_mailchimp_email
+            if (res.data.subscribe_status === 10) {
+              this.ruleForm.email = res.data.customers_for_mailchimp_email
+            } else {
+              this.ruleForm.email = ''
+            }
           }
         })
       },
@@ -84,15 +88,16 @@ export default {
         var that = this
         that.$refs[formName].validate((valid) => {
           if (valid) {
-            yesSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: 10}).then((res)=>{
+            outSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: 20}).then((res)=>{
               // console.log('666666', res)
               if (res.code === 200) {
-                this.$alert('Modified Successfully', '', {
+                this.$alert('Unsubscribe successfully', '', {
                   center: true,
                   confirmButtonText: 'OK',
                 })
+                that.getScription()
               } else {
-                this.$alert('Modified Error', '', {
+                this.$alert('Unsubscribe failed, please try again', '', {
                   center: true,
                   confirmButtonText: 'OK',
                 })

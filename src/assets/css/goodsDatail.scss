@@ -637,11 +637,11 @@
   color: #333;
   margin-left: 60px;
   cursor: pointer;
-  span{
-    img{
-      width:24px;
-      height:24px;
-    }
+  img{
+    width:24px;
+    height:24px;
+    float: left;
+    margin-top: 14px;
   }
   span:nth-of-type(1){
     margin-top: 4px;

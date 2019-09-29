@@ -8,24 +8,24 @@
                         <h3 class="my_title">My Points <span class="points_rule">What's Points? How to get more Points?</span></h3>
                         <div class="points">
                             <div class="available">
-                                <h4>Available Points</h4>
                                 <img src="@/assets/images/Points.png" alt="">
+                                <h4>Available Points:</h4>
                                 <span>{{userDetail.score}}</span>
                             </div>
-                            <div class="Points_list">
-                                <!--<div class="list">-->
-                                    <!--<p>50</p>-->
-                                    <!--<h5>Wishlist</h5>-->
-                                <!--</div>-->
-                                <!--<div class="list">-->
-                                    <!--<p>60</p>-->
-                                    <!--<h5>Coupon</h5>-->
-                                <!--</div>-->
-                                <!--<div class="list">-->
-                                    <!--<p>10</p>-->
-                                    <!--<h5>Points</h5>-->
-                                <!--</div>-->
-                            </div>
+                            <!--<div class="Points_list">-->
+                                <!--&lt;!&ndash;<div class="list">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<p>50</p>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<h5>Wishlist</h5>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<div class="list">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<p>60</p>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<h5>Coupon</h5>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<div class="list">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<p>10</p>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<h5>Points</h5>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>

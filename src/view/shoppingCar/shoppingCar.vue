@@ -25,7 +25,11 @@
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
       <div class="goodsTotal">$ {{(carItem.goods_count*carItem.sku_price).toFixed(2)}}</div>
-      <div class="optionType"><span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span><span class="wishAdd"><img @click="addWish(carItem.sku_id)" :src="wishUrl" alt=""></span></div>
+      <div class="optionType">
+        <span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span>
+        <span class="wishAdd" v-if="carItem.in_wishlist === 10"><img @click="addWish(carItem.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
+        <span class="wishAdd" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
+      </div>
     </div>
     <div class="noGoods" v-if="noProduct">
       <div class="noGoodsCont">
@@ -166,7 +170,7 @@ import qs from 'qs'
 export default {
   data () {
     return{
-      wishUrl: '../../../static/img/loveOut.png',
+      // wishUrl: '../../../static/img/loveOut.png',
       maxPoints: 300,
       pointMore: 'el-icon-d-arrow-right',
       isLogin: false,
@@ -399,10 +403,7 @@ export default {
         }
         addwishlist(pre).then((res)=>{
           if(res.code == 200){
-            this.$message({
-              message: 'Add success!',
-              type: 'success'
-            });
+           this.getGoodsListFuc()
           } else {
             this.$confirm('Your wishlist goes over the 100-item limit. Please go to wishlist.', '', {
               cancelButtonText: 'Go shopping',
@@ -671,6 +672,10 @@ export default {
   }
   .wishAdd{
     margin-left: 10px;
+  }
+  .wishAdd img{
+    width: 16px;
+    height: 16px;
   }
 .checkState {
   position: relative;

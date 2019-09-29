@@ -61,7 +61,7 @@ export default {
               { type: 'email', message: 'Please enter the correct email address', trigger: 'blur'}
             ],
             type: [
-              { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+              { type: 'array', required: true, message: 'Please choose the subscribe type.', trigger: 'change' }
             ]
           }
         }
@@ -80,7 +80,11 @@ export default {
         mysubscribe().then((res)=>{
           console.log('666666', res)
           if (res.code === 200) {
-            this.ruleForm.email = res.data.customers_for_mailchimp_email
+            if (res.data.subscribe_status === 10) {
+              this.ruleForm.email = res.data.customers_for_mailchimp_email
+            } else {
+              this.ruleForm.email = ''
+            }
           }
         })
       },
@@ -99,7 +103,7 @@ export default {
                   confirmButtonText: 'OK',
                 })
               } else {
-                this.$alert('Modified Error', '', {
+                this.$alert('Unsubscribe failed, please try again', '', {
                   center: true,
                   confirmButtonText: 'OK',
                 })

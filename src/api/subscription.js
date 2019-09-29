@@ -14,3 +14,6 @@ export const yesSubscribe = params =>post("/api/subscribe",params)
 
 //退订界面显示
 export const delSubscribe = params =>post("/api/unsubscribe_index",params)
+
+// 退订
+export const outSubscribe = params =>post("/api/unsubscribe",params)

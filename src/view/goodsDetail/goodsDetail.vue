@@ -128,13 +128,8 @@
                 </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
-            <div class="addWish" @click="_addwishList()">
-              <span>
-                <img src="@/assets/wish.png" alt v-if="iswish==false">
-                <img src="@/assets/Wishactive1.png" alt v-if="iswish==true">
-              </span>
-              <span>Add to WishList</span>
-            </div>
+            <div v-if="inWishList === false" class="addWish" @click="_addwishList()"><img src="@/assets/wish.png" alt><span>Add to WishList</span></div>
+            <div class="addWish" v-if="inWishList === true"><img src="@/assets/Wishactive1.png" alt><span>Add to WishList</span></div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
         </div>
@@ -187,6 +182,8 @@ export default {
       addButton: false,
       showModel: false,
       detailShow: false,
+      isLoginFlag: false,
+      inWishList: false,
       skuDefult: '',
       numQuality: 1,
       goodDetail: '',
@@ -264,6 +261,7 @@ export default {
   created(){
     this.currentPageUrl = window.location.href
     this.getGoodsDetail()
+    this.isLogin()
   },
   methods:{
     testShow (e) {
@@ -282,32 +280,50 @@ export default {
         }
       })
     },
-    //添加到心愿单
-    _addwishList(){
+    isLogin () {
       checkLogin().then((res)=>{
         if(res.code === '200' || res.code === 200){
-          let pre={
-            wl_products_skus_id:this.$route.params.skuId,
-          }
-          addwishlist(pre).then((res)=>{
-            if(res.code == 200){
-              this.iswish = true
-            } else {
-              this.$confirm('Your wishlist goes over the 100-item limit. Please go to wishlist.', '', {
-                cancelButtonText: 'Go shopping',
-                confirmButtonText: 'Go to wishlist',
-              }).then(() => {
-                this.$router.push('/myWishlist')
-              }).catch(() => {
-              })
-            }
-          })
-        }else{
-          this.wishVisible = true
-          localStorage.removeItem("userToken")
-          return false
+          this.isLoginFlag = true
+          this.checkIsWishlist()
+        } else {
+          this.isLoginFlag = false
         }
       })
+    },
+    checkIsWishlist () {
+      var that = this
+      that.$axios.post('api/checkwishlist', qs.stringify({sku_id: this.$route.params.skuId})).then(res => {
+        if (res.code === 200) {
+          that.inWishList = true
+        } else {
+          that.inWishList = false
+        }
+      })
+    },
+    //添加到心愿单
+    _addwishList(){
+    if(this.isLoginFlag){
+      let pre={
+        wl_products_skus_id:this.$route.params.skuId,
+      }
+      addwishlist(pre).then((res)=>{
+        if(res.code == 200){
+          this.checkIsWishlist()
+        } else {
+          this.$confirm('Your wishlist goes over the 100-item limit. Please go to wishlist.', '', {
+            cancelButtonText: 'Go shopping',
+            confirmButtonText: 'Go to wishlist',
+          }).then(() => {
+            this.$router.push('/myWishlist')
+          }).catch(() => {
+          })
+        }
+      })
+    }else{
+      this.wishVisible = true
+      localStorage.removeItem("userToken")
+      return false
+    }
     },
     closeModel: function(){
       this.showModel = false

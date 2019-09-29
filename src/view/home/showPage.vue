@@ -314,7 +314,7 @@ export default {
   }
   .banner2 .swiper-slide{
     width: 336px !important;
-    margin-right: 20px !important;
+    margin-right: 22px !important;
     cursor: pointer !important;
   }
 .swiper-button-prev, .swiper-button-next{
@@ -323,10 +323,10 @@ export default {
   background-size: 20px !important;
   color: #666 !important;
 }
-.swiper-button-prev{
-  right: 0 !important;
-}
-  .swiper-button-next{
-    left: 0 !important;
-  }
+/*.swiper-button-prev{*/
+  /*right: 0 !important;*/
+/*}*/
+  /*.swiper-button-next{*/
+    /*left: 0 !important;*/
+  /*}*/
 </style>

@@ -116,12 +116,17 @@ export default {
           Nosubscribe({customer_email_address:that.ruleForm.subscribeKey}).then((res)=>{
             // console.log('666666', res)
             if (res.code === 200) {
-              this.$alert('Edit Successfully', '', {
+              this.$alert('Modified Successfully', '', {
                 center: true,
                 confirmButtonText: 'OK',
               })
-            } else {
-              this.$alert('Edit Error', '', {
+            }else if (res.code === 10001){
+              this.$alert('Unsubscribe failed, please try again', '', {
+                center: true,
+                confirmButtonText: 'OK',
+              })
+            }else {
+              this.$alert('Unsubscribe failed, The mailbox has been subscribed.', '', {
                 center: true,
                 confirmButtonText: 'OK',
               })

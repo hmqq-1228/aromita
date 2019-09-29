@@ -257,7 +257,7 @@
                       <div class="price2"><span id="tag">$</span> <span id="num">{{coupon.cc_amount}}</span></div>
                       <!--<div class="feeName">Full {{coupon.coupon_minimum_order}}$ usable</div>-->
                     </div>
-                    <div class="couponUse">Full {{coupon.coupon_minimum_order}}$ usable</div>
+                    <div class="couponUse">For order ${{coupon.coupon_minimum_order}}+</div>
                   </div>
                   <div class="couponTime">
                     <div style="width: 115px;font-size: 14px;line-height: 40px;">Expired Date:</div>
@@ -1316,7 +1316,7 @@ export default {
         } else if (res.code === 113) {
           that.payDisabled = true
           that.inputPoint = ''
-          this.$alert("Your score is insufficient. Please fill it in again.", '', {
+          this.$alert("Your points are not enough. Please fill it in again.", '', {
             confirmButtonText: 'OK',
             callback: action => {
               that.getBillingList()

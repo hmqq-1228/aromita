@@ -12,8 +12,8 @@
     text-align: center;
     margin: 30px auto;
     display: flex;
-    width: 280px;
-    justify-content: space-between;
+    width: 370px;
+    justify-content: center;
   }
   .footer > .img > div {
     display: inline-block;
@@ -21,6 +21,7 @@
     height: 40px;
     border-radius: 20px;
     overflow: hidden;
+    margin: 0 8px;
   }
   .xian {
     border-bottom: 1px solid gainsboro;

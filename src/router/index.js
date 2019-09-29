@@ -26,6 +26,7 @@ const orderRefund = () =>import('@/view/myAccount/page/orderPage/refund.vue')
 const orderRefundApply = () =>import('@/view/myAccount/page/orderPage/refundApplication.vue')
 const myWishlist = () =>import('@/view/myAccount/page/myWishlist.vue')
 const myCoupon = () =>import('@/view/myAccount/page/myCoupon.vue')
+const couponCenter = () =>import('@/view/myAccount/page/couponCenter.vue')
 const myPoints = () =>import('@/view/myAccount/page/myPoints.vue')
 const mySubscription = () =>import('@/view/myAccount/page/mySubscription.vue')
 const outSubscription = () =>import('@/view/order/outSubscription.vue')
@@ -179,6 +180,15 @@ export default new Router({
       path:'/myCoupon',
       component:myCoupon,
       name:'myCoupon',
+      meta:{
+        keepAlive: true,
+        requireAuth:true
+      }
+    },
+    {
+      path:'/couponCenter',
+      component:couponCenter,
+      name:'couponCenter',
       meta:{
         keepAlive: true,
         requireAuth:true
