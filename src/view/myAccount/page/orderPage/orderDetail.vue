@@ -7,8 +7,9 @@
           <h3 class="my_title">Order Details</h3>
           <div style="display: flex;justify-content: start;border-bottom:1px dashed #e9e9e9;">
             <div class="order_Detail">
-              <p v-if="orders[0]" style="font-size:14px;color:#333;padding-left:30px;height: 32px;line-height: 32px;">
-                <span style="color:#999">Shipping Method.：</span>{{orders[0].shipping_method}}
+              <p v-if="orders[0]" id="shipMethod">
+                <span style="color:#999">Shipping Method.：</span>
+                <span :title="orders[0].shipping_method">{{orders[0].shipping_method}}</span>
               </p>
               <div class="order_num">
                   <div class="num num_list" v-if="orders[0]">
@@ -28,12 +29,12 @@
                   </div>
                   <div class="num num_right">
                       <div class="one">
-                        <p><span>Subtotal:</span> {{orders_total.Subtotal}}</p>
-                        <p><span>Coupon:</span> {{orders_total.Coupon}}</p>
-                        <p><span>Points:</span> {{orders_total.PointsToMoney}}</p>
-                        <p><span>Tax:</span> {{ orders_total.Taxes_Fee }}</p>
-                        <p><span>Shipping:</span> {{ orders_total.Shipping_Fee }}</p>
-                        <p><span>Grand Total:</span> {{ orders_total.Grand_Total }}</p>
+                        <p><span>Subtotal:</span> ${{orders_total.Subtotal}}</p>
+                        <p><span>Coupon:</span> -${{Math.abs(orders_total.Coupon)}}</p>
+                        <p><span>Points:</span> ${{orders_total.PointsToMoney?orders_total.PointsToMoney:0.00}}</p>
+                        <p><span>Tax:</span> ${{ orders_total.Taxes_Fee }}</p>
+                        <p><span>Shipping:</span> ${{ orders_total.Shipping_Fee }}</p>
+                        <p><span>Grand Total:</span> ${{ orders_total.Grand_Total }}</p>
                       </div>
                   </div>
               </div>
@@ -63,7 +64,7 @@
                       </div>
                   </div>
               </div>
-              <div class="list">
+              <div class="list" v-if="orders[0] && orders[0].payment_method !== 'paypal'">
                   <h4>Billing Address</h4>
                   <div class="detail" v-if="orders[0]">
                       <h5>{{orders[0].billing_name}}</h5>
@@ -203,5 +204,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  #shipMethod{
+    font-size:14px;
+    color:#333;
+    padding-left:30px;
+    height: 32px;
+    line-height: 32px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    width: 600px;
+  }
 @import "@/assets/css/account.scss"
 </style>

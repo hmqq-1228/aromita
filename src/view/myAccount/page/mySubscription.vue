@@ -101,7 +101,12 @@ export default {
                   center: true,
                   confirmButtonText: 'OK',
                 })
-              } else {
+              } else if (res.code === 10001){
+                this.$alert('This email address is already subscribed.', '', {
+                  center: true,
+                  confirmButtonText: 'OK',
+                })
+              }else {
                 this.$alert('Unsubscribe failed, please try again', '', {
                   center: true,
                   confirmButtonText: 'OK',

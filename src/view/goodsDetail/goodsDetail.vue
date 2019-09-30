@@ -749,6 +749,27 @@ export default {
           }, 1000)
         } else if (res === 2050) {
           this.showModel = true
+        } else if (res.code == '101') {
+          this.$alert('Sorry, The goods have been off the shelf', '', {
+            confirmButtonText: 'OK',
+            // callback: action => {
+            //   this.$router.push('/shoppingCar')
+            // }
+          })
+        } else if (res.code == '102') {
+          this.$alert('Sorry, The goods is in replenishment', '', {
+            confirmButtonText: 'OK',
+            // callback: action => {
+            //   this.$router.push('/shoppingCar')
+            // }
+          })
+        } else if (res.code == '103') {
+          this.$alert('Sorry, The goods insufficient inventory', '', {
+            confirmButtonText: 'OK',
+            // callback: action => {
+            //   this.$router.push('/shoppingCar')
+            // }
+          })
         } else if (!res){
           this.$store.state.addCartState = true
           this.addShow = true

@@ -20,9 +20,9 @@
                                           <div class="couponTime">
                                             <div class="stateFlag" v-if="coupon.is_expire === 1">soon to expired</div>
                                             <div style="line-height: 34px;width: 120px;">Expired Date:</div>
-                                            <div class="timeRange">
-                                              <div>{{coupon.cc_coupon_start_time}}</div>
-                                              <div>{{coupon.cc_coupon_end_time}}</div>
+                                            <div class="timeRange" :class="coupon.cc_coupon_start_time?'':'noStartTime'">
+                                              <div v-if="coupon.cc_coupon_start_time">{{coupon.cc_coupon_start_time}}</div>
+                                              <div v-if="coupon.cc_coupon_end_time">{{coupon.cc_coupon_end_time}}</div>
                                             </div>
                                           </div>
                                           <div class="yuan"></div>
@@ -95,7 +95,7 @@ export default {
       getcouponNum () {
         var that = this
         that.$axios.get('api/mycouponcount', {}).then(res => {
-          console.log('kkkkk', res)
+          // console.log('kkkkk', res)
           if (res.code === 200) {
             that.validNum = res.data.validcoupon_num
             that.invalidNum = res.data.invalidcoupon_num
@@ -135,7 +135,7 @@ export default {
                 }
               }
             }
-            console.log('111111',that.couponList)
+            // console.log('111111',that.couponList)
             if (that.couponList.length > 0) {
               that.showFlag = true
             } else {
@@ -148,6 +148,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .timeRange.noStartTime{
+    line-height: 34px;
+  }
   .loadMore{
     height: 40px;
     width: 360px;

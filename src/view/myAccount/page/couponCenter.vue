@@ -80,7 +80,7 @@ export default {
               }
             }
           }
-          console.log('hhhhh666',that.couponCenterList)
+          // console.log('hhhhh666',that.couponCenterList)
         }
       })
     },

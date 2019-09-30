@@ -89,8 +89,8 @@
                                 :total="total">
                             </el-pagination>
                         </div>
-                        <div class="No_order" v-if="orderList.length==0">
-                            <p><router-link to="/">Sorry, you don’t have any orders yet. Shop Now.</router-link></p>
+                        <div class="No_order" style="text-align: center;" v-if="orderList.length==0">
+                            <p><router-link to="/">Sorry, you don't have any orders yet.</router-link></p>
                         </div>
                         <!-- 取消订单弹框 -->
                         <el-dialog

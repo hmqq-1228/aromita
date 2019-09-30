@@ -126,7 +126,7 @@ export default {
                 confirmButtonText: 'OK',
               })
             }else {
-              this.$alert('This email address is already subscribed.', '', {
+              this.$alert('Unsubscribe failed, please try again', '', {
                 center: true,
                 confirmButtonText: 'OK',
               })
