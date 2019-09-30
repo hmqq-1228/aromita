@@ -67,9 +67,6 @@ export default {
       this.getScription()
    },
     methods:{
-      testShow (e) {
-        // console.log('88888888', e)
-      },
       getScription(){
         delSubscribe().then((res)=>{
           if (res.code === 200) {
@@ -80,9 +77,6 @@ export default {
             }
           }
         })
-      },
-      closeShow () {
-        // console.log('99999999')
       },
       subMyScription (formName) {
         var that = this

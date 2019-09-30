@@ -59,9 +59,6 @@ export default {
             email: [
               { required: true, message: 'Please enter your email address', trigger: 'blur' },
               { type: 'email', message: 'Please enter the correct email address', trigger: 'blur'}
-            ],
-            type: [
-              { type: 'array', required: true, message: 'Please choose the subscribe type.', trigger: 'change' }
             ]
           }
         }
@@ -93,11 +90,13 @@ export default {
       // },
       subMyScription (formName) {
         var that = this
+        var type = that.ruleForm.type.length !== 0?10:20
         that.$refs[formName].validate((valid) => {
           if (valid) {
-            yesSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: 10}).then((res)=>{
+            yesSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: type}).then((res)=>{
               // console.log('666666', res)
               if (res.code === 200) {
+                that.getScription()
                 this.$alert('Modified Successfully', '', {
                   center: true,
                   confirmButtonText: 'OK',

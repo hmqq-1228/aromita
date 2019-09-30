@@ -8,7 +8,7 @@
                         <h3 class="my_title">My Coupon</h3>
                         <div class="Coupons">
                             <el-tabs v-model="activeName" @tab-click="handleClick(activeName)">
-                                <el-tab-pane label="Valid Coupons" name="first">
+                                <el-tab-pane :label="'Valid Coupons ('+ validNum + ')'" name="first">
                                   <div class="pointBox">
                                     <div class="coupon">
                                       <div class="couponItem" v-if="showFlag" v-for="(coupon, index) in couponList">
@@ -18,7 +18,7 @@
                                             <div class="couponUse">For order ${{coupon.coupon_minimum_order}}+</div>
                                           </div>
                                           <div class="couponTime">
-                                            <div class="stateFlag">soon to expired</div>
+                                            <div class="stateFlag" v-if="coupon.is_expire === 1">soon to expired</div>
                                             <div style="line-height: 34px;width: 120px;">Expired Date:</div>
                                             <div class="timeRange">
                                               <div>{{coupon.cc_coupon_start_time}}</div>
@@ -31,9 +31,10 @@
                                       </div>
                                       <div v-if="!showFlag" style="text-align: center;line-height: 60px;color: #666;width: 100%;">Sorry, your account doesn't have valid coupons.</div>
                                     </div>
+                                    <div class="loadMore" v-if="couponNum>40 && couponList.length < couponNum"  @click="addMoreList('1')">Load More</div>
                                   </div>
                                 </el-tab-pane>
-                                <el-tab-pane label="Invalid Coupons" name="second">
+                                <el-tab-pane :label="'Invalid Coupons (' + invalidNum + ')'" name="second">
                                   <div class="pointBox">
                                     <div class="coupon">
                                       <div class="couponItem" v-if="showFlag" v-for="(coupon, index) in couponList">
@@ -41,6 +42,7 @@
                                           <div class="info">
                                             <div class="infoFee unUse"><span class="tag">$</span> <span class="num">{{coupon.cc_amount}}</span></div>
                                             <div class="couponUse" style="color: #a7a7a7;">For order ${{coupon.coupon_minimum_order}}+</div>
+                                            <div class="Expired">Expired</div>
                                           </div>
                                           <div class="couponTime">
                                             <div style="line-height: 40px;width: 120px;color: #a7a7a7">Expired Date:</div>
@@ -55,16 +57,10 @@
                                       </div>
                                       <div v-if="!showFlag" style="text-align: center;line-height: 100px;color: #666;width: 100%;">your account doesn't have invalid coupons.</div>
                                     </div>
+                                    <div class="loadMore" v-if="couponNum>40 && couponList.length < couponNum"  @click="addMoreList('2')">Load More</div>
                                   </div>
                                 </el-tab-pane>
                             </el-tabs>
-                            <!--<div class="page_list">-->
-                                <!--<el-pagination-->
-                                    <!--background-->
-                                    <!--layout="prev, pager, next"-->
-                                    <!--:total="1000">-->
-                                <!--</el-pagination>-->
-                            <!--</div>-->
                         </div>
                     </div>
                 </div>
@@ -74,6 +70,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
+import {couponList} from "@/api/account.js"
 import qs from 'qs'
 export default {
     components: {
@@ -84,33 +81,61 @@ export default {
           activeName:'first',
           couponList: [],
           showFlag: true,
-          couponNum: 0
+          couponNum: 0,
+          validNum: 0,
+          invalidNum: 0,
+          page: 1
         }
     },
    created () {
-      this.getCouponList('10')
+      this.getcouponNum()
+      this.getCouponList('1')
    },
     methods:{
-        handleClick(name){
-          this.couponList = []
-          if (name === 'first') {
-            this.getCouponList('10')
-          } else if (name === 'second') {
-            this.getCouponList('30')
+      getcouponNum () {
+        var that = this
+        that.$axios.get('api/mycouponcount', {}).then(res => {
+          console.log('kkkkk', res)
+          if (res.code === 200) {
+            that.validNum = res.data.validcoupon_num
+            that.invalidNum = res.data.invalidcoupon_num
           }
-          // console.log('666666', this.activeName)
-        },
+        })
+      },
+      handleClick(name){
+        this.couponList = []
+        if (name === 'first') {
+          this.getCouponList('1')
+        } else if (name === 'second') {
+          this.getCouponList('0')
+        }
+        // console.log('666666', this.activeName)
+      },
+      addMoreList: function (num) {
+        this.page = this.page + 1
+        this.getCouponList(num)
+      },
       getCouponList: function (num) {
         var that = this
-        var payMon = qs.stringify({
-          subtotal: 999999999,
-          coupon_status: num
-        })
-        that.$axios.post('api/getCustomerCoupon', payMon).then(res => {
-          // console.log('hhhhh666',res)
+        couponList({page: that.page, status: num}).then((res)=>{
           if (res.code === 200) {
-            that.couponList = res.data
-            that.couponNum = res.data.length
+            if(this.page === 1){
+              that.couponList = res.data.coupon.data
+            }else{
+              that.couponList = that.couponList.concat(res.data.coupon.data);
+            }
+            that.couponNum = res.data.coupon.total
+            if (num == 1) {
+              for (var i=0;i<that.couponList.length;i++) {
+                that.$set(that.couponList[i], 'is_expire', 0)
+                for (var j=0;j<res.data.is_expire.length;j++) {
+                  if (i===j) {
+                    that.couponList[i].is_expire = res.data.is_expire[j]
+                  }
+                }
+              }
+            }
+            console.log('111111',that.couponList)
             if (that.couponList.length > 0) {
               that.showFlag = true
             } else {
@@ -123,6 +148,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+  .loadMore{
+    height: 40px;
+    width: 360px;
+    color: #333;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #666;
+    margin: 30px auto;
+    cursor: pointer;
+    font-family: Tahoma;
+  }
+  .loadMore:hover{
+    background-color: #121037;
+    color: #fff;
+  }
 @import "@/assets/css/account.scss"
 </style>
 

@@ -271,7 +271,8 @@ export default {
       var that = this
       var obj = qs.stringify({
         score: 10,
-        source: '分享得积分'
+        type: 'share',
+        source: '分享获取'
       })
       that.$axios.post('api/updatescore', obj).then(res => {
         if (res.code === 2001) {

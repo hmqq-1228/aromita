@@ -122,15 +122,19 @@ export default {
             }).then((res)=>{
                 var list = []
                 var list2 = []
+                var list3 = []
                 var dataList = res.data.data
                 for (var i=0;i < dataList.length;i++) {
                   if (dataList[i].sku_status === 1) {
                     list.push(dataList[i])
                   } else if (dataList[i].sku_status === 2) {
                     list2.push(dataList[i])
+                  } else if (dataList[i].sku_status === 0) {
+                    list3.push(dataList[i])
                   }
                 }
                 this.wish_List = list.concat(list2)
+                this.wish_List = this.wish_List.concat(list3)
                 if (this.wish_List.length >0){
                   this.noWish = false
                 } else {

@@ -24,3 +24,7 @@ export const setdefault = params =>post("/api/setdefault",params);
 export const wishlist = params =>get("api/wishlist",params);
 //添加心愿单
 export const addwishlist = params =>post("api/wishlist",params)
+//coupon center
+export const couponListCenter = params =>get("api/couponcenter",params);
+// my coupon
+export const couponList = params =>get("api/mycoupon",params);

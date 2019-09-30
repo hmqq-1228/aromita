@@ -91,7 +91,7 @@
 <script>
 import Footer from "@/components/afooter.vue";
 import aheader from "@/components/aheader.vue";
-import {handleRegist, Catpcha} from "../../api/register";
+import {handleRegist, Catpcha, handleLogin} from "../../api/register";
 import {registeSubscribe} from '../../api/subscription'
 import {loginImage} from "../../api/home";
 import identify from "../test/identify";
@@ -209,8 +209,9 @@ export default {
       }
       let data = await handleRegist(params)
       if (data.code === 200) {
-        that.$message.success(data.msg)
-        that.$router.push('/register_ok')
+        // that.$message.success(data.msg)
+        that.handleLoginSub()
+        // that.$router.push('/register_ok')
         if (this.servicechecked) {
           this.subMyScription()
         }
@@ -218,8 +219,39 @@ export default {
         that.$message.error(data.msg)
         that.refreshCode()
       } else {
-        that.$message.error(data.msg.email[0])
+        this.$message({
+          message:data.msg,
+          type: 'error'
+        });
       }
+    },
+    // login
+    handleLoginSub() {
+      let pre = {
+        catpchas: '',
+        email: this.ruleForm2.email,
+        password: this.ruleForm2.password
+      }
+      var routerStr = this.$store.state.fromUrl
+      handleLogin(pre).then((res)=>{
+        if (res.code === 200) {
+          this.loginData = res.data
+          this.$message({
+            message: "success",
+            type: "success"
+          });
+          if (routerStr) {
+            this.$router.push(routerStr)
+          } else {
+            this.$router.push('/')
+          }
+          // this.mergeGoodsFuc()
+          localStorage.setItem('userToken', this.loginData.token)
+        }else {
+          this.$message.error('ERROR Incorrect username or password!')
+          this.num = res.data
+        }
+      })
     },
     //验证码
     refreshCode() {
