@@ -114,7 +114,7 @@ ul,li {
 .el-badge__content.is-fixed{
     right: 0 !important;
 }
-.register .el-checkbox__inner:hover{
+.register .el-checkbox__inner:hover,.Products_Details .el-checkbox__inner:hover{
   border-color: #999 !important;
 }
 .register .policy.policyError .el-checkbox__inner{
@@ -123,11 +123,18 @@ ul,li {
 .register .policy.policyError .el-checkbox__label{
   color: #c51015 !important;
 }
-.register .el-checkbox__input.is-checked .el-checkbox__inner,.register .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+.register .el-checkbox__input.is-checked .el-checkbox__inner,.register .el-checkbox__input.is-indeterminate .el-checkbox__inner,.Products_Details .el-checkbox__input.is-checked .el-checkbox__inner{
   border-color: #999 !important;
   background-color: #fff !important;
 }
-.register .el-checkbox__inner::after{
+.Products_Details .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  border-color: #999 !important;
+  background-color: #fff !important;
+}
+.Products_Details .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
+  background-color: #333 !important;
+}
+.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after{
   border: 1px solid #333 !important;
   border-left: 0 !important;
   border-top: 0 !important;

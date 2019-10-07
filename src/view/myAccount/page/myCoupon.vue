@@ -7,6 +7,7 @@
                     <div class="my_order">
                         <h3 class="my_title">My Coupon</h3>
                         <div class="Coupons">
+                          <div class="couponRules">coupon rules</div>
                             <el-tabs v-model="activeName" @tab-click="handleClick(activeName)">
                                 <el-tab-pane :label="'Valid Coupons ('+ validNum + ')'" name="first">
                                   <div class="pointBox">
@@ -57,7 +58,7 @@
                                       </div>
                                       <div v-if="!showFlag" style="text-align: center;line-height: 100px;color: #666;width: 100%;">your account doesn't have invalid coupons.</div>
                                     </div>
-                                    <div class="loadMore" v-if="couponNum>8 && couponList.length < couponNum"  @click="addMoreList('2')">Load More</div>
+                                    <div class="loadMore" v-if="couponNum>8 && couponList.length < couponNum"  @click="addMoreList('0')">Load More</div>
                                   </div>
                                 </el-tab-pane>
                             </el-tabs>
@@ -80,6 +81,7 @@ export default {
         return{
           activeName:'first',
           couponList: [],
+          expireList: [],
           showFlag: true,
           couponNum: 0,
           validNum: 0,
@@ -105,8 +107,10 @@ export default {
       handleClick(name){
         this.couponList = []
         if (name === 'first') {
+          this.page = 1
           this.getCouponList('1')
         } else if (name === 'second') {
+          this.page = 1
           this.getCouponList('0')
         }
         // console.log('666666', this.activeName)
@@ -121,16 +125,18 @@ export default {
           if (res.code === 200) {
             if(this.page === 1){
               that.couponList = res.data.coupon.data
+              that.expireList = res.data.is_expire
             }else{
               that.couponList = that.couponList.concat(res.data.coupon.data);
+              that.expireList = that.expireList.concat(res.data.is_expire)
             }
             that.couponNum = res.data.coupon.total
             if (num == 1) {
               for (var i=0;i<that.couponList.length;i++) {
                 that.$set(that.couponList[i], 'is_expire', 0)
-                for (var j=0;j<res.data.is_expire.length;j++) {
-                  if (i===j) {
-                    that.couponList[i].is_expire = res.data.is_expire[j]
+                for (var j=0;j<that.expireList.length;j++) {
+                  if (that.expireList[j] === 1) {
+                    that.couponList[j].is_expire = that.expireList[j]
                   }
                 }
               }

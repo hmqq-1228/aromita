@@ -430,6 +430,9 @@
         }
     }
 }
+.select div:hover{
+  color: #c51015;
+}
 //我的优惠券
 //我的积分
 .points_rule{
@@ -1153,4 +1156,18 @@
   flex-wrap: wrap;
   //overflow: hidden;
   box-sizing: border-box;
+}
+.Coupons{
+  position: relative;
+}
+.Coupons .couponRules{
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size:14px;
+  font-family:Tahoma;
+  color: #003764;
+  font-weight:bold;
+  cursor: pointer;
+  z-index: 6;
 }

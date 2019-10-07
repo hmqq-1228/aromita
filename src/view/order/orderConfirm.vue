@@ -261,9 +261,9 @@
                   </div>
                   <div class="couponTime">
                     <div style="width: 115px;font-size: 14px;line-height: 40px;">Expired Date:</div>
-                    <div class="timeRange">
-                      <div>{{coupon.cc_coupon_start_time}}</div>
-                      <div>{{coupon.cc_coupon_end_time}}</div>
+                    <div class="timeRange" :class="coupon.cc_coupon_start_time?'':'noStartTime'">
+                      <div v-if="coupon.cc_coupon_start_time">{{coupon.cc_coupon_start_time}}</div>
+                      <div v-if="coupon.cc_coupon_end_time">{{coupon.cc_coupon_end_time}}</div>
                       <!--<div>2019/09/21 至 2019/10/01</div>-->
                     </div>
                   </div>
@@ -1399,5 +1399,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .timeRange.noStartTime{
+    line-height: 42px;
+  }
   @import "@/assets/css/orderConfirm.scss"
 </style>

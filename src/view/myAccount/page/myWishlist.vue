@@ -22,20 +22,27 @@
                                     size="medium"
                                     :row-class-name="tableRowClassName"
                                     @selection-change="handleSelectionChange"
+                                    empty-text="Sorry, there is no item."
                                     :header-cell-style="{
                                         'background-color': '#F5F5F5',
                                         'color': '#333'
                                     }">
-                                    <el-table-column type="selection" label="Select all" width="40"></el-table-column>
-                                    <!--<el-table-column label="Select all" width="90"></el-table-column>-->
+                                    <el-table-column type="selection" width="40"></el-table-column>
+                                    <el-table-column label="Select all" width="140">
+                                      <template slot-scope="scope">
+                                        <div class="product" style="display: inline-block">
+                                          <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
+                                        </div>
+                                      </template>
+                                    </el-table-column>
                                     <el-table-column label="Product">
                                         <template slot-scope="scope">
                                             <div class="product" style="display: inline-block">
-                                                <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
                                                 <div class="detail" style="display: inline-block">
                                                     <h5 :class="scope.row.sku_status === 1? '': 'errorType'" :title="scope.row.sku_name " @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
-                                                    <div style="margin-top: 10px;display: inline-block;font-size: 13px;">
-                                                      <span :class="scope.row.sku_status === 1? '': 'errorAttrType'" v-for="attr in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
+                                                    <div class="attrBox" :title="scope.row.attrStr">
+                                                      <span :class="scope.row.sku_status === 1? '': 'errorAttrType'" v-for="attr in JSON.parse(scope.row.sku_attrs).slice(0, 2)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>
+                                                      <span v-if="JSON.parse(scope.row.sku_attrs).length>2">...</span>
                                                     </div>
                                                     <p :class="scope.row.sku_status === 1? '': 'errorPriceType'">
                                                       ${{scope.row.sku_price}}
@@ -124,7 +131,14 @@ export default {
                 var list2 = []
                 var list3 = []
                 var dataList = res.data.data
+                var attrStr = ''
                 for (var i=0;i < dataList.length;i++) {
+                  attrStr = ''
+                  for (var j=0;j<JSON.parse(dataList[i].sku_attrs).length; j++){
+                    attrStr = attrStr + JSON.parse(dataList[i].sku_attrs)[j].attr_name + ': ' + JSON.parse(dataList[i].sku_attrs)[j].value.attr_value + '; '
+                  }
+                  dataList[i].attrStr = attrStr
+                  console.log('ssssss', attrStr)
                   if (dataList[i].sku_status === 1) {
                     list.push(dataList[i])
                   } else if (dataList[i].sku_status === 2) {
@@ -135,6 +149,7 @@ export default {
                 }
                 this.wish_List = list.concat(list2)
                 this.wish_List = this.wish_List.concat(list3)
+                console.log('nnnnnnnn', this.wish_List)
                 if (this.wish_List.length >0){
                   this.noWish = false
                 } else {
@@ -205,7 +220,7 @@ export default {
             if (num > 0) {
               this._addcartList(sku)
             } else {
-              this.$alert('Sorry, The goods are out of stock for the time being.', 'Failed to add to cart', {
+              this.$alert('This item is out of stock. Please refresh the page and try again.', '', {
                 confirmButtonText: 'Cancel',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
@@ -215,7 +230,7 @@ export default {
           }else{
             this.purchase = res.inventory - res.goods_count
             if(1 > this.purchase){
-              this.$alert('Exceeds maximun quantity available for this product!', 'Failed to add to cart', {
+              this.$alert('Exceeds maximun quantity available for this product!', '', {
                 confirmButtonText: 'Cancel',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
@@ -248,13 +263,28 @@ export default {
               this.$router.push('/shoppingCar')
             }).catch(() => {
             })
-            // this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', 'Failed to add to cart', {
-            //   confirmButtonText: 'Go to shopping cart',
-            //   callback: action => {
-            //     this.$router.push('/shoppingCar')
-            //   }
-            // })
-          } else if (!res){
+          }else if (res.code == '101') {
+            this.$alert('This item is removed. Please refresh the page and try again.', '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                this.getList()
+              }
+            })
+          } else if (res.code == '102') {
+            this.$alert('This item is restocking. Please refresh the page and try again.', '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                this.getList()
+              }
+            })
+          } else if (res.code == '103') {
+            this.$alert('This item is out of stock. Please refresh the page and try again.', '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                this.getList()
+              }
+            })
+          }  else if (!res){
             this.$store.state.addCartState = true
           }
         })
@@ -278,6 +308,15 @@ export default {
   }
   .wish_options div:hover{
     background-image: url("../../../assets/cart-1.png");
+  }
+  .attrBox{
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+    /*overflow: hidden;*/
+    /*text-overflow:ellipsis;*/
+    /*white-space: nowrap;*/
   }
     @import "@/assets/css/account.scss"
 </style>

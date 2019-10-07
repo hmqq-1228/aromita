@@ -121,17 +121,23 @@
           <!-- <div v-show="msgshow" style="position:absolute;top:-30px;color:red;">Exceeds maximun quantity available for this product.</div> -->
           <div class="subBtn shop_cart">
             <div class="add" v-if="goodDetail.sku_status === 1">
+              <div v-if="goodDetail.inventory > 0">
                 <div class="subType" @click="addToCart($event)">Add to Cart</div>
                 <div style="position: relative;width: 45px;height: 45px;">
                   <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
                   <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
                 </div>
+              </div>
+              <div v-if="goodDetail.inventory === 0">
+                <div class="subType out">Add to Cart</div>
+              </div>
             </div>
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
             <div v-if="inWishList === false" class="addWish" @click="_addwishList()"><img src="@/assets/wish.png" alt><span>Add to WishList</span></div>
             <div class="addWish" v-if="inWishList === true"><img src="@/assets/Wishactive1.png" alt><span>Add to WishList</span></div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
+          <div v-if="goodDetail.sku_status === 1 && goodDetail.inventory === 0" class="restocking">This item is out of stock.</div>
         </div>
       </div>
     </div>
@@ -750,21 +756,21 @@ export default {
         } else if (res === 2050) {
           this.showModel = true
         } else if (res.code == '101') {
-          this.$alert('Sorry, The goods have been off the shelf', '', {
+          this.$alert('This item is removed. Please refresh the page and try again.', '', {
             confirmButtonText: 'OK',
             // callback: action => {
             //   this.$router.push('/shoppingCar')
             // }
           })
         } else if (res.code == '102') {
-          this.$alert('Sorry, The goods is in replenishment', '', {
+          this.$alert('This item is restocking. Please refresh the page and try again.', '', {
             confirmButtonText: 'OK',
             // callback: action => {
             //   this.$router.push('/shoppingCar')
             // }
           })
         } else if (res.code == '103') {
-          this.$alert('Sorry, The goods insufficient inventory', '', {
+          this.$alert('This item is out of stock. Please refresh the page and try again.', '', {
             confirmButtonText: 'OK',
             // callback: action => {
             //   this.$router.push('/shoppingCar')
@@ -789,8 +795,8 @@ export default {
             if (this.maxQuality > 0) {
               this._addcartList()
             } else {
-              this.$alert('Sorry, The goods are out of stock for the time being.', 'Failed to add to cart', {
-                confirmButtonText: 'Cancel',
+              this.$alert('This item is out of stock. Please refresh the page and try again.', '', {
+                confirmButtonText: 'OK',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }
@@ -801,8 +807,8 @@ export default {
             this.goods_count = res.goods_count
             this.purchase = this.maxQuality - this.goods_count
             if(this.numQuality > this.purchase){
-              this.$alert('Exceeds maximun quantity available for this product!', 'Failed to add to cart', {
-                confirmButtonText: 'Cancel',
+              this.$alert('Exceeds maximun quantity available for this product!', '', {
+                confirmButtonText: 'OK',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }

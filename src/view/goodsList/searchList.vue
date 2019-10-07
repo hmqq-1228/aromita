@@ -24,7 +24,9 @@
           <el-collapse>
             <el-collapse-item :title="attr.attr_name" :name="index">
               <el-radio-group v-model="attr.nameStr">
-                <div class="MetalItem" v-for="(attrVal, index2) in attr.values"><el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio></div>
+                <div class="MetalItem" v-for="(attrVal, index2) in attr.values">
+                  <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
+                </div>
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
               </el-radio-group>
