@@ -10,9 +10,9 @@
         <div class="navTitle">Price</div>
         <div class="price">
           <div class="priceRange">
-            <input type="number" placeholder="$" v-model="startPrice">
+            <input type="number" v-model="startPrice">
             <div>	&#8764;</div>
-            <input type="number" placeholder="$" v-model="endPrice">
+            <input type="number" v-model="endPrice">
           </div>
           <button @click="subPrice()">APPLY</button>
         </div>
@@ -144,6 +144,8 @@
         var that = this
         if (that.$store.state.searchFlag) {
           that.keyword = that.$store.state.searchVal
+          // that.$route.query.keyword = that.keyword
+          // console.log('lllllll', that.$route.query.keyword)
           this.getList()
           that.$store.state.searchFlag = false
         }

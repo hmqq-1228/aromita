@@ -31,7 +31,7 @@
                                       </div>
                                       <div v-if="!showFlag" style="text-align: center;line-height: 60px;color: #666;width: 100%;">Sorry, your account doesn't have valid coupons.</div>
                                     </div>
-                                    <div class="loadMore" v-if="couponNum>40 && couponList.length < couponNum"  @click="addMoreList('1')">Load More</div>
+                                    <div class="loadMore" v-if="couponNum>8 && couponList.length < couponNum"  @click="addMoreList('1')">Load More</div>
                                   </div>
                                 </el-tab-pane>
                                 <el-tab-pane :label="'Invalid Coupons (' + invalidNum + ')'" name="second">
@@ -57,7 +57,7 @@
                                       </div>
                                       <div v-if="!showFlag" style="text-align: center;line-height: 100px;color: #666;width: 100%;">your account doesn't have invalid coupons.</div>
                                     </div>
-                                    <div class="loadMore" v-if="couponNum>40 && couponList.length < couponNum"  @click="addMoreList('2')">Load More</div>
+                                    <div class="loadMore" v-if="couponNum>8 && couponList.length < couponNum"  @click="addMoreList('2')">Load More</div>
                                   </div>
                                 </el-tab-pane>
                             </el-tabs>

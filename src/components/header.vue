@@ -102,7 +102,7 @@
       <div class="search_box" v-if="searchShow == true">
         <div class="search">
             <i class="el-icon-search"></i>
-            <el-input v-model="keyword"></el-input>
+            <el-input v-model="searchVal" @keyup.enter.native="search()"></el-input>
             <i class="el-icon-close" @click="searchIcon()"></i>
         </div>
       </div>
@@ -237,6 +237,10 @@ import { mapGetters } from 'vuex';
     created() {
       this._checkLogin()
       this.getGoodsCont()
+      console.log('rrrrr', this.$route.query)
+      if (this.$route.query.keyword){
+        this.searchVal = this.$route.query.keyword
+      }
     },
     computed: {
       ...mapGetters([
@@ -248,9 +252,41 @@ import { mapGetters } from 'vuex';
       search: function () {
         if (this.searchVal) {
           console.log('ssss', this.searchVal)
-          this.$store.state.searchVal = this.searchVal
-          this.$store.state.searchFlag = true
+          if (this.$route.name !== 'searchList'){
+            this.$router.push({
+              path: '/searchList',
+              query: {
+                keyword: this.searchVal
+              }
+            })
+          } else {
+            this.$store.state.searchVal = this.searchVal
+            this.$store.state.searchFlag = true
+            this.$router.push({
+              path: '/searchList',
+              query: {
+                keyword: this.searchVal
+              }
+            })
+          }
         } else {
+          if (this.$route.name !== 'searchList'){
+            this.$router.push({
+              path: '/searchList',
+              query: {
+                keyword: this.searchVal
+              }
+            })
+          } else {
+            this.$store.state.searchVal = ''
+            this.$store.state.searchFlag = true
+            this.$router.push({
+              path: '/searchList',
+              query: {
+                keyword: this.searchVal
+              }
+            })
+          }
           // alert('gogogogogoog')
           // this.$router.push('/')
         }
