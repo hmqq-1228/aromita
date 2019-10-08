@@ -186,6 +186,7 @@
       clearAttrChecked () {
         this.checkAttrList = []
         this.attrStr = null
+        this.checkAttrStr = ''
         this.getAttrList()
         this.getList()
       },

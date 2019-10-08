@@ -173,6 +173,13 @@ export default {
     this.getLoginImage()
     this.getCookie('userInfo')
     this.num = localStorage.getItem('errNum')
+    // var that = this;
+    // document.onkeydown = function () {
+    //   var key = window.event.keyCode;
+    //   if (key === 13) {
+    //     that._handleLogin('ruleForm')
+    //   }
+    // }
   },
   methods: {
     refreshCode() {

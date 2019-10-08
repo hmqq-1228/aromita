@@ -1,12 +1,12 @@
 import axios from "axios";
 import qs from "qs";
 // axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
-console.log('hhhhhhh', window.location.protocol)
+// console.log('hhhhhhh', window.location.protocol)
 // axios.defaults.baseURL = window.location.protocol + '//' + window.location.hostname
 if(process.env.NODE_ENV === 'production'){
   axios.defaults.baseURL = window.location.protocol + '//' + window.location.hostname
 }else{
-  console.log('222222')
+  // console.log('222222')
   axios.defaults.baseURL = ''
 }
 //本地开发

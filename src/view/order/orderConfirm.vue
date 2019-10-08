@@ -25,7 +25,7 @@
     <div class="modelCont alert">
       <div class="modelClose" @click="closeInfoModel"><i class="el-icon-close"></i></div>
       <div class="modelTitle tip">Please select/add a shipping address.</div>
-      <div class="payBtn info" @click="closeInfoModel">OK</div>
+      <div class="payBtn info2" @click="closeInfoModel">OK</div>
     </div>
   </div>
   <!--<div class="model" v-if="overQuanlity">-->
@@ -260,7 +260,7 @@
                     <div class="couponUse">For order ${{coupon.coupon_minimum_order}}+</div>
                   </div>
                   <div class="couponTime">
-                    <div class="stateFlag">soon to expired</div>
+                    <div class="stateFlag" v-if="coupon.soon_expire === 'Y'">soon to expired</div>
                     <div style="width: 115px;font-size: 14px;line-height: 40px;">Expired Date:</div>
                     <div class="timeRange" :class="coupon.cc_coupon_start_time?'':'noStartTime'">
                       <div v-if="coupon.cc_coupon_start_time">{{coupon.cc_coupon_start_time}}</div>
@@ -363,6 +363,7 @@
           </div>
         </div>
       </div>
+      <!--@mousedown="move($event)"-->
       <div class="payDiv" :style="{right:(rightDis==true?'0':'12%')}">
         <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
           <div class="payName">Subtotal:</div>
@@ -633,6 +634,28 @@ export default {
     this.checkLoginInfo()
   },
   methods: {
+    // move(e) {
+    //   // let odiv = document.getElementById('ship-pop');
+    //   let odiv = e.currentTarget;
+    //   odiv.style.zIndex = this.zIndex++;
+    //   // 鼠标相对元素的位置
+    //   let disX = e.clientX - odiv.offsetLeft;
+    //   let disY = e.clientY - odiv.offsetTop;
+    //   document.onmousemove = (e)=>{
+    //     //鼠标按下并移动的事件
+    //     //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+    //     let left = e.clientX - disX;
+    //     let top = e.clientY - disY;
+    //     //移动当前元素
+    //     odiv.style.left = left + 'px';
+    //     odiv.style.top = top + 'px';
+    //   };
+    //   document.onmouseup = (e) => {
+    //     odiv.style.zIndex = this.zIndex++;
+    //     document.onmousemove = null;
+    //     document.onmouseup = null;
+    //   };
+    // },
     proving1(){
       this.inputPoint = this.inputPoint.replace(/[^\.\d]/g,'');
       this.inputPoint = this.inputPoint.replace('.','');
@@ -1301,7 +1324,7 @@ export default {
           }
         } else if (res.code === 301) {
           that.payDisabled = true
-          this.$alert('The order has expired, Please add it again.', 'The order has expired', {
+          this.$alert('The order has expired, Please add it again.', '', {
             confirmButtonText: 'OK',
           })
           // that.$message.warning('The order has expired, Please add it again.')

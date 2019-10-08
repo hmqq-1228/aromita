@@ -290,7 +290,7 @@ export default {
     margin: 20px auto;
   }
   .banner2 {
-    width: 1440px;
+    width: 1436px;
     height: 336px;
     margin: 0 auto 30px auto;
   }
@@ -313,20 +313,29 @@ export default {
     margin-right: 165px;
   }
   .banner2 .swiper-slide{
-    width: 336px !important;
-    margin-right: 22px !important;
+    width: 340px !important;
+    margin: 0 10px !important;
     cursor: pointer !important;
   }
 .swiper-button-prev, .swiper-button-next{
-  height: 30px !important;
+  height: 336px !important;
+  width: 70px !important;
   margin-top: -10px !important;
   background-size: 15px !important;
   color: #666 !important;
+  /*background: rgba(255,255,255, 0.8);*/
+  background-repeat: no-repeat !important;
+  outline: none !important;
 }
-/*.swiper-button-prev{*/
-  /*right: 0 !important;*/
-/*}*/
-  /*.swiper-button-next{*/
-    /*left: 0 !important;*/
-  /*}*/
+.swiper-button-next, .swiper-container-rtl .swiper-button-prev{
+  top: 10px !important;
+}
+.swiper-button-prev{
+  right: -8px !important;
+  background-position:20px center !important;
+}
+  .swiper-button-next{
+    left: -8px !important;
+    background-position:30px center !important;
+  }
 </style>
