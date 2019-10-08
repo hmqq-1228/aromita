@@ -1,12 +1,13 @@
 import axios from "axios";
 import qs from "qs";
-//axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
-console.log('ccccccccc', window.location.hostname)
-console.log('vvvvvv', window.location.protocol)
-if(process.env.API_ROOT){
-    axios.defaults.baseURL = window.location.protocol + window.location.hostname;
+// axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
+console.log('hhhhhhh', window.location.protocol)
+// axios.defaults.baseURL = window.location.protocol + '//' + window.location.hostname
+if(process.env.NODE_ENV === 'production'){
+  axios.defaults.baseURL = window.location.protocol + '//' + window.location.hostname
 }else{
-    axios.defaults.baseURL = ''
+  console.log('222222')
+  axios.defaults.baseURL = ''
 }
 //本地开发
 axios.defaults.timeout = 60 * 1000;
@@ -20,7 +21,7 @@ axios.default.headers ={
 
 // request全局拦截
 axios.interceptors.request.use(config => {
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded,multipart/form-data';
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded,multipart/form-data'
     config.headers['Access-Control-Allow-Origin'] = '*';
     config.headers['Access-Control-Allow-Credentials'] = 'true';
     config.headers['Access-Control-Allow-Methods'] = 'POST,GET,OPTIONS,PUT,DELETE';
