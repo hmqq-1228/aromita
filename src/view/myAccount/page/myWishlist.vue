@@ -221,7 +221,7 @@ export default {
               this._addcartList(sku)
             } else {
               this.$alert('This item is out of stock. Please refresh the page and try again.', '', {
-                confirmButtonText: 'Cancel',
+                confirmButtonText: 'OK',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }
@@ -231,7 +231,7 @@ export default {
             this.purchase = res.inventory - res.goods_count
             if(1 > this.purchase){
               this.$alert('Exceeds maximun quantity available for this product!', '', {
-                confirmButtonText: 'Cancel',
+                confirmButtonText: 'OK',
                 // callback: action => {
                 //   this.$router.push('/shoppingCar')
                 // }

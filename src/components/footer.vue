@@ -37,9 +37,9 @@
                 <el-form-item class="search isfooter" prop="subscribeKey" style="width: 336px">
                   <el-input placeholder="Enter your email" v-model="ruleForm.subscribeKey" clearable></el-input>
                 </el-form-item>
-                <button class="btn">
+                <div class="btn">
                   <p class="btn_word" @click="subscribeSub('ruleForm')">SUBSCRIBE</p>
-                </button>
+                </div>
               </el-form>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default {
                 confirmButtonText: 'OK',
               })
             }else {
-              this.$alert('Unsubscribe failed, please try again', '', {
+              this.$alert('Subscription failed, please try again', '', {
                 center: true,
                 confirmButtonText: 'OK',
               })

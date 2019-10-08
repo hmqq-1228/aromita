@@ -19,7 +19,7 @@
                 <div class="search">
                   <el-input :placeholder="searchInput" v-model="searchVal"></el-input>
                   <!--<el-input v-if="searchInput" v-model="searchVal"></el-input>-->
-                  <p class="search_word" @click="search">Search</p>
+                  <p class="search_word" @mousedown="search($event)" @mouseup="searchOver($event)">Search</p>
                 </div>
                 <div class="optionList">
                   <!-- 登录 -->
@@ -101,8 +101,8 @@
       </div>
       <div class="search_box" v-if="searchShow == true">
         <div class="search">
-            <i class="el-icon-search"></i>
-            <el-input v-model="searchVal" @keyup.enter.native="search()"></el-input>
+            <i class="el-icon-search" style="cursor: pointer;" @click="searchOver()"></i>
+            <el-input v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
             <i class="el-icon-close" @click="searchIcon()"></i>
         </div>
       </div>
@@ -249,7 +249,11 @@ import { mapGetters } from 'vuex';
       ])
     },
     methods: {
-      search: function () {
+      searchOver: function(e) {
+        if (e) {
+          var obj = e.currentTarget
+          $(obj).css({"transform":"scale(1)","transition":"all .3s"})
+        }
         if (this.searchVal) {
           console.log('ssss', this.searchVal)
           if (this.$route.name !== 'searchList'){
@@ -290,6 +294,10 @@ import { mapGetters } from 'vuex';
           // alert('gogogogogoog')
           // this.$router.push('/')
         }
+      },
+      search: function (e) {
+        var obj = e.currentTarget
+        $(obj).css({"transform":"scale(1.06)","transition":"all .3s","font-stretch": "normal"})
       },
       attrshow(num){
         this.attrShowindex = num

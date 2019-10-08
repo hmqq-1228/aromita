@@ -53,7 +53,7 @@ export default {
           checked: true,
           ruleForm:{
             email: '',
-            type: ['The marking email']
+            type: ['']
           },
           rules:{
             email: [
@@ -79,6 +79,7 @@ export default {
           if (res.code === 200) {
             if (res.data.subscribe_status === 10) {
               this.ruleForm.email = res.data.customers_for_mailchimp_email
+              this.ruleForm.type = ['The marking email']
             } else {
               this.ruleForm.email = ''
             }
@@ -106,6 +107,7 @@ export default {
                   center: true,
                   confirmButtonText: 'OK',
                 })
+                that.getScription()
               }else {
                 this.$alert('Unsubscribe failed, please try again', '', {
                   center: true,

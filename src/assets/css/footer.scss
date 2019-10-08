@@ -156,6 +156,8 @@
     border: 0;
     cursor: pointer;
     outline: none;
+    text-align: center;
+    line-height: 32px;
     background: rgba(18, 16, 55, 1);
   }
   .footInput{
@@ -165,7 +167,6 @@
     font-size: 14px;
     font-family: Tahoma;
     font-weight: bold;
-    line-height: 17px;
     color: rgba(255, 255, 255, 1);
   }
   .xian2 {

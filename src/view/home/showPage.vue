@@ -320,7 +320,7 @@ export default {
 .swiper-button-prev, .swiper-button-next{
   height: 30px !important;
   margin-top: -10px !important;
-  background-size: 20px !important;
+  background-size: 15px !important;
   color: #666 !important;
 }
 /*.swiper-button-prev{*/

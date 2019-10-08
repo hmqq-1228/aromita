@@ -260,6 +260,7 @@
                     <div class="couponUse">For order ${{coupon.coupon_minimum_order}}+</div>
                   </div>
                   <div class="couponTime">
+                    <div class="stateFlag">soon to expired</div>
                     <div style="width: 115px;font-size: 14px;line-height: 40px;">Expired Date:</div>
                     <div class="timeRange" :class="coupon.cc_coupon_start_time?'':'noStartTime'">
                       <div v-if="coupon.cc_coupon_start_time">{{coupon.cc_coupon_start_time}}</div>

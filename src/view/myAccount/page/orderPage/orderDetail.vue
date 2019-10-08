@@ -124,7 +124,7 @@
                       label="Total"
                       width="260">
                       <template slot-scope="scope">
-                          <h4>{{(scope.row.final_price*scope.row.products_quantity).toFixed(2)}}</h4>
+                          <h4>$ {{(scope.row.final_price*scope.row.products_quantity).toFixed(2)}}</h4>
                       </template>
                   </el-table-column>
               </el-table>

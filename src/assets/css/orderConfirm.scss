@@ -620,6 +620,15 @@
   display: flex;
   padding-right: 10px;
   justify-content: space-between;
+  position: relative;
+}
+.stateFlag{
+  position: absolute;
+  top: -12px;
+  left: 70px;
+  background-color: #fff;
+  padding: 0 4px;
+  color: #c51015;
 }
 .timeRange{
   //width: 190px;

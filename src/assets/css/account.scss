@@ -70,14 +70,14 @@
         img{
             width:110px;
             height: 110px;
-            margin-right: 70px;
+            margin-right: 40px;
             border:1px solid #E9E9E9;
             float: left;
           cursor: pointer;
         }
         .detail{
             h5{
-                width: 500px;
+                width: 480px;
                 @extend .com_font;
                 font-weight: normal;
                 text-overflow: -o-ellipsis-lastline;
@@ -917,7 +917,6 @@
 }
 .pointBox{
   box-sizing: border-box;
-  padding-bottom: 20px;
   min-height: 135px;
 
 }

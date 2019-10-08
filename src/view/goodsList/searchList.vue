@@ -132,10 +132,12 @@
       },
       s_cate_id() {
         // window,scrollTo(0,0)
+        $('.navItem').removeClass('activeSort')
         this.page = 1
         this.getList()
       },
       f_cate_id () {
+        $('.navItem').removeClass('activeSort')
         // window,scrollTo(0,0)
         this.page = 1
         this.getList()
