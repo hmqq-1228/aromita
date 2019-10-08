@@ -1,10 +1,10 @@
 import axios from "axios";
 import qs from "qs";
 //axios.defaults.baseURL ='https://arapi.panduo.com.cn/';//测试开发
-console.log('ccccccccc', window.location.host)
+console.log('ccccccccc', window.location.hostname)
 console.log('vvvvvv', window.location.protocol)
 if(process.env.API_ROOT){
-    axios.defaults.baseURL = window.location.protocol + window.location.host;
+    axios.defaults.baseURL = window.location.protocol + window.location.hostname;
 }else{
     axios.defaults.baseURL = ''
 }
