@@ -268,6 +268,7 @@ export default {
             that.goodsListOn = OnList
             that.idList.push(that.goodsList[i].sku_id)
             for (var j = 0;j<that.goodsListOn.length;j++) {
+              that.$set(that.goodsListOn[j],'overTipShow',false)
               var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
               that.goodsListOn[j].totalPay = itemPay.toFixed(2)
               that.goodsChecked(that.checkedItem)
@@ -304,7 +305,10 @@ export default {
               that.idList.push(that.goodsList[i].sku_id)
               that.checkedItem = that.idList
               for (var j = 0;j<that.goodsListOn.length;j++) {
-                if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
+                that.$set(that.goodsListOn[j],'overTipShow',false)
+                if (that.goodsListOn[j].goods_count === that.goodsListOn[j].inventory) {
+                  that.goodsListOn[j].overTipShow = true
+                } else if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
                   that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
                 }
                 var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
@@ -530,7 +534,7 @@ export default {
   cursor: pointer;
 }
 .remove:hover{
-  color: #333;
+  color: #C51015;
 }
 .imgBox{
   height: 80px;

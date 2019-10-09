@@ -111,6 +111,10 @@ ul,li {
 .carCont .el-input-number__decrease:hover,.carCont .el-input-number__increase:hover{
     color: #333 !important;
 }
+.carCont .el-input-number__decrease.is-disabled:hover,.carCont .el-input-number__increase.is-disabled:hover{
+  color: #C0C4CC !important;
+  cursor: not-allowed !important;
+}
 .el-badge__content.is-fixed{
     right: 0 !important;
 }

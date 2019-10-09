@@ -31,7 +31,7 @@
                           </el-checkbox-group>
                         </el-form-item>
                         <div class="subScription_btn">
-                            <div class="sub" @click="subMyScription('ruleForm')">Submit</div>
+                            <div class="sub" @click="subMyScription('ruleForm')">Save</div>
                         </div>
                       </el-form>
                     </div>

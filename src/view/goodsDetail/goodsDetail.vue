@@ -151,16 +151,16 @@
     <p v-html="pruductDetail.product_detail">{{pruductDetail.product_detail}}</p>
   </div>
 
-  <!-- 添加心愿单弹框 -->
-  <el-dialog
-    :visible.sync="wishVisible"
-    width="300px">
-    <span>You haven't logged in yet. Please login and add a wish list.</span>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="wishVisible = false">Cancel</el-button>
-      <router-link to="/login"><el-button type="danger">Login</el-button></router-link>
-    </span>
-  </el-dialog>
+  <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
+  <!--<el-dialog-->
+    <!--:visible.sync="wishVisible"-->
+    <!--width="300px">-->
+    <!--<span>You haven't logged in yet. Please login and add a wish list.</span>-->
+    <!--<span slot="footer" class="dialog-footer">-->
+      <!--<el-button @click="wishVisible = false">Cancel</el-button>-->
+      <!--<router-link to="/login"><el-button type="danger">Login</el-button></router-link>-->
+    <!--</span>-->
+  <!--</el-dialog>-->
 </div>
 </div>
 </template>
@@ -265,6 +265,7 @@ export default {
   mounted() {
   },
   created(){
+    this.$store.state.fromUrl = ''
     this.currentPageUrl = window.location.href
     this.getGoodsDetail()
     this.isLogin()
@@ -309,9 +310,10 @@ export default {
     },
     //添加到心愿单
     _addwishList(){
+      var that = this
     if(this.isLoginFlag){
       let pre={
-        wl_products_skus_id:this.$route.params.skuId,
+        wl_products_skus_id:that.$route.params.skuId,
       }
       addwishlist(pre).then((res)=>{
         if(res.code == 200){
@@ -321,13 +323,22 @@ export default {
             cancelButtonText: 'Go shopping',
             confirmButtonText: 'Go to wishlist',
           }).then(() => {
-            this.$router.push('/myWishlist')
+            that.$router.push('/myWishlist')
           }).catch(() => {
           })
         }
       })
     }else{
-      this.wishVisible = true
+      this.$confirm("You haven't logged in yet. Please login and add a wish list.", '', {
+        confirmButtonText: 'Login',
+        cancelButtonText: 'Cancel',
+      }).then(() => {
+        var roterHistory = that.$route.path
+        that.$store.state.fromUrl = roterHistory
+        this.$router.push('/login')
+      }).catch(() => {
+        return false
+      });
       localStorage.removeItem("userToken")
       return false
     }

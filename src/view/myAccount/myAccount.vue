@@ -3,12 +3,12 @@
     <div class="account">
       <div class="accountBox">
         <Left-Nav></Left-Nav>
-        <div class="navCount">
+        <div class="navCount" style="background-color: #E9E9E9">
           <div class="account_home">
             <div class="home_top">
               <div class="user_detail">
                 <div class="name">
-                    <h4 v-if="!userDetail.firstname">请前往Account Setting</h4>
+                    <h4 v-if="!userDetail.firstname">Please Account Setting</h4>
                     <h4 v-else class="user_name" @mouseenter="nameShow()" @mouseleave="nameHidden()">Hello,{{userDetail.firstname}} {{userDetail.lastname}}</h4>
                     <p class="name_hidden" v-if="name_show == true">{{userDetail.firstname}} {{userDetail.lastname}}</p>
                 </div>
@@ -33,7 +33,8 @@
                   </div>
                   <div class="list">
                     <!-- <p>{{userDetail.score}}</p> -->
-                    <h5>Points <span v-if="userDetail.score!=null">({{userDetail.score}})</span></h5>
+                    <router-link to="/myPoints"><h5>Points （{{userDetail.score}}）</h5></router-link>
+                    <!--<h5>Points <span v-if="userDetail.score!=null">({{userDetail.score}})</span></h5>-->
                   </div>
               </div>
             </div>
