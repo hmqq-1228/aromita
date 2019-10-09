@@ -63,6 +63,10 @@
           </div>
         </div>
       </div>
+      <div style="position: relative;width: 45px;height: 45px;top:480px;left: -60px;z-index:-100">
+        <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
+        <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+      </div>
     </div>
     <div class="goodsInfo">
       <div class="goodsTitle">
@@ -117,16 +121,12 @@
             <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
           </div>
         </div>
-        <div style="position: relative;">
+        <div>
           <!-- <div v-show="msgshow" style="position:absolute;top:-30px;color:red;">Exceeds maximun quantity available for this product.</div> -->
           <div class="subBtn shop_cart">
             <div class="add" v-if="goodDetail.sku_status === 1">
               <div v-if="goodDetail.inventory > 0">
                 <div class="subType" @click="addToCart($event)">Add to Cart</div>
-                <div style="position: relative;width: 45px;height: 45px;">
-                  <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
-                  <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
-                </div>
               </div>
               <div v-if="goodDetail.inventory === 0">
                 <div class="subType out">Add to Cart</div>

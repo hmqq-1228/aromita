@@ -689,7 +689,7 @@
     //border-radius: 50%;
     position: absolute;
     top: 0;
-    z-index:10;
+    z-index:100;
     //left: 220px;
 }
 //向上走的动画初始及结尾值
@@ -698,7 +698,7 @@
       top:0px;
     }
     100% {
-      top: -660px;
+      top: -600px;
     }
 }
 //向上右的动画初始及结尾值
