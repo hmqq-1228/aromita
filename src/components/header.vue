@@ -237,7 +237,7 @@ import { mapGetters } from 'vuex';
     created() {
       this._checkLogin()
       this.getGoodsCont()
-      console.log('rrrrr', this.$route.query)
+      // console.log('rrrrr', this.$route.query)
       if (this.$route.query.keyword){
         this.searchVal = this.$route.query.keyword
       }
@@ -255,7 +255,7 @@ import { mapGetters } from 'vuex';
           $(obj).css({"transform":"scale(1)","transition":"all .3s"})
         }
         if (this.searchVal) {
-          console.log('ssss', this.searchVal)
+          // console.log('ssss', this.searchVal)
           if (this.$route.name !== 'searchList'){
             this.$router.push({
               path: '/searchList',

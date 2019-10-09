@@ -272,7 +272,7 @@ export default {
   },
   methods:{
     testShow (e) {
-      console.log('88888888', e)
+      // console.log('88888888', e)
     },
     closeShow () {
       var that = this

@@ -1048,7 +1048,7 @@ export default {
         for (var n=0;n<payList.length;n++) {
           subTotal = subTotal + parseFloat(payList[n])
         }
-        console.log('kkkkk', subTotal)
+        // console.log('kkkkk', subTotal)
         that.subTotalCoupon = subTotal
         if (that.isLogin){
           that.getCouponList()

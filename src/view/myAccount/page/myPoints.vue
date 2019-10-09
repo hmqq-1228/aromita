@@ -52,7 +52,7 @@ export default {
         _myAccount(){
             myAccount().then((res)=>{
                 this.userDetail = res.data
-              console.log('pppp', res)
+              // console.log('pppp', res)
             })
         }
     }

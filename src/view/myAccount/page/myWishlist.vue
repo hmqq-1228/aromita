@@ -138,7 +138,7 @@ export default {
                     attrStr = attrStr + JSON.parse(dataList[i].sku_attrs)[j].attr_name + ': ' + JSON.parse(dataList[i].sku_attrs)[j].value.attr_value + '; '
                   }
                   dataList[i].attrStr = attrStr
-                  console.log('ssssss', attrStr)
+                  // console.log('ssssss', attrStr)
                   if (dataList[i].sku_status === 1) {
                     list.push(dataList[i])
                   } else if (dataList[i].sku_status === 2) {
@@ -149,7 +149,7 @@ export default {
                 }
                 this.wish_List = list.concat(list2)
                 this.wish_List = this.wish_List.concat(list3)
-                console.log('nnnnnnnn', this.wish_List)
+                // console.log('nnnnnnnn', this.wish_List)
                 if (this.wish_List.length >0){
                   this.noWish = false
                 } else {

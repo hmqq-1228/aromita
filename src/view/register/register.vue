@@ -212,9 +212,6 @@ export default {
         // that.$message.success(data.msg)
         that.handleLoginSub()
         // that.$router.push('/register_ok')
-        if (this.servicechecked) {
-          this.subMyScription()
-        }
       } else if (data.code === 10006){
         that.$message.error(data.msg)
         that.refreshCode()
@@ -247,6 +244,9 @@ export default {
           }
           // this.mergeGoodsFuc()
           localStorage.setItem('userToken', this.loginData.token)
+          if (this.servicechecked) {
+            this.subMyScription()
+          }
         }else {
           this.$message.error('ERROR Incorrect username or password!')
           this.num = res.data

@@ -75,7 +75,7 @@ export default {
       // },
       getScription(){
         mysubscribe().then((res)=>{
-          console.log('666666', res)
+          // console.log('666666', res)
           if (res.code === 200) {
             if (res.data.subscribe_status === 10) {
               this.ruleForm.email = res.data.customers_for_mailchimp_email
