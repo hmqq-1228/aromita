@@ -81,7 +81,7 @@ export default {
               this.ruleForm.email = res.data.customers_for_mailchimp_email
               this.ruleForm.type = ['The marking email']
             } else {
-              this.ruleForm.email = ''
+              this.ruleForm.email = res.data.customers_for_mailchimp_email
             }
           }
         })
@@ -97,21 +97,28 @@ export default {
             yesSubscribe({subscribe_email:that.ruleForm.email,subscribe_status: type}).then((res)=>{
               // console.log('666666', res)
               if (res.code === 200) {
-                that.getScription()
                 this.$alert('Modified Successfully', '', {
                   center: true,
                   confirmButtonText: 'OK',
+                  callback: action => {
+                    that.getScription()
+                  }
                 })
               } else if (res.code === 10001){
                 this.$alert('This email address is already subscribed.', '', {
                   center: true,
                   confirmButtonText: 'OK',
+                  callback: action => {
+                    that.getScription()
+                  }
                 })
-                that.getScription()
               }else {
                 this.$alert('Unsubscribe failed, please try again', '', {
                   center: true,
                   confirmButtonText: 'OK',
+                  callback: action => {
+                    that.getScription()
+                  }
                 })
               }
             })

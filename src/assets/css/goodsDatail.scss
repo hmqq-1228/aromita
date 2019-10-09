@@ -248,11 +248,10 @@
 .goodsDetail{
   width: 1440px;
   margin: 10px auto;
-  margin-top: 10px;
+  margin-top: 20px;
   display: flex;
   padding-bottom: 10px;
   justify-content: space-between;
-  border-bottom: 1px solid #eee;
 }
 .mainFeature,.product{
   width: 1440px;
@@ -261,22 +260,22 @@
   font-size: 14px;
   font-family: Tahoma;
   line-height: 30px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
 }
 .mainFeature{
   padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
 }
 .product span{
   color: #999;
 }
-.product{
-  margin-bottom: 30px;
-}
+//.product{
+//  margin-bottom: 30px;
+//}
 .mainFeatureTitle,.productTitle{
   color: #333;
   font-size: 18px;
   font-family: Tahoma;
-  margin-top: 21px;
   margin-bottom: 6px;
 }
 .goodsImg{
@@ -320,7 +319,7 @@
 .sizeSize img{
   height: 80px;
   width: 80px;
-  border: 1px dashed #ccc;
+  border: 1px solid #e9e9e9;
 }
 .sizeSize .textStyle{
   color: #333;
@@ -699,7 +698,7 @@
       top:0px;
     }
     100% {
-      top: -640px;
+      top: -660px;
     }
 }
 //向上右的动画初始及结尾值
@@ -709,7 +708,7 @@
       transform: scale(1);
     }
     100% {
-      left: 500px;
+      left: 780px;
       transform: scale(0.1);
     }
 }

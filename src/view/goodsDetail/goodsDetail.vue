@@ -74,7 +74,7 @@
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
       <div>
-        <div style="min-height:380px">
+        <div style="min-height:350px">
           <div class="mainImage" v-if="attrList.length === 0">
             <div class="goodsLabelSize isImgLabel"></div>
             <div class="smallSlider2">
@@ -105,7 +105,7 @@
               <!--<div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>-->
             </div>
           </div>
-          <div style="display: flex;justify-content: start;margin-top: 20px;">
+          <div style="display: flex;justify-content: start;margin-top: 10px;">
             <div class="goodsLabelSize" style="width: 100px;">quality:</div>
             <div style="display: flex;">
               <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
@@ -142,7 +142,7 @@
       </div>
     </div>
   </div>
-  <div class="mainFeature">
+  <div class="mainFeature" v-if="goodDetail.main_feature">
     <div class="mainFeatureTitle">Main Feature</div>
     <p v-if="goodDetail.main_feature">- {{goodDetail.main_feature}}</p>
   </div>
