@@ -30,8 +30,8 @@
                   <div class="num num_right">
                       <div class="one">
                         <p><span>Subtotal:</span> ${{orders_total.Subtotal}}</p>
-                        <p><span>Coupon:</span> -${{Math.abs(orders_total.Coupon)}}</p>
-                        <p><span>Points:</span> ${{orders_total.PointsToMoney?orders_total.PointsToMoney:0.00}}</p>
+                        <p><span>Coupon:</span> - ${{Math.abs(orders_total.Coupon).toFixed(2)}}</p>
+                        <p><span>Points:</span> - ${{orders_total.PointsToMoney?Math.abs(orders_total.PointsToMoney):0.00}}</p>
                         <p><span>Tax:</span> ${{ orders_total.Taxes_Fee }}</p>
                         <p><span>Shipping:</span> ${{ orders_total.Shipping_Fee }}</p>
                         <p><span>Grand Total:</span> ${{ orders_total.Grand_Total }}</p>

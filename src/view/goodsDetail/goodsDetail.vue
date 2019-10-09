@@ -67,10 +67,6 @@
           </div>
         </div>
       </div>
-      <div style="position: relative;width: 45px;height: 45px;top:480px;left: -60px;z-index:-100">
-        <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
-        <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
-      </div>
     </div>
     <div class="goodsInfo">
       <div class="goodsTitle">

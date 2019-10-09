@@ -679,7 +679,7 @@
     //border-radius: 50%;
     position: absolute;
     top: 0;
-    z-index: 100;
+    z-index: -1;
     //left: 220px;
 }
 // 一开始调整好商品图片在购物车的位置,移入效果最后显示是在一开始定义好的位置
@@ -689,7 +689,7 @@
     //border-radius: 50%;
     position: absolute;
     top: 0;
-    z-index:100;
+    z-index: -1;
     //left: 220px;
 }
 //向上走的动画初始及结尾值

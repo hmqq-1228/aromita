@@ -27,6 +27,7 @@
                 <div class="MetalItem" v-for="(attrVal, index2) in attr.values">
                   <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
                 </div>
+                <!--<div class="viewMore2" v-if="attr.values.length > 3" @click="showMoreAttrVal(moreIcon2, index2)">view more <i :class="moreIcon2"></i></div>-->
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
               </el-radio-group>
@@ -84,6 +85,7 @@
       return {
         topShow: false,
         loading:true,
+        // len: 3,
         page:1,
         Metal: '',
         Color: '',
@@ -92,6 +94,7 @@
         endPrice: '',
         startPrice: '',
         moreIcon: 'el-icon-d-arrow-right',
+        moreIcon2: 'el-icon-d-arrow-right',
         scrollShowFlag: false,
         scrollTop: null,
         prodListLastPage: false,
@@ -174,6 +177,13 @@
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+      // showMoreAttrVal (icon, idx) {
+      //   if (icon === 'el-icon-d-arrow-right') {
+      //     this.moreIcon2 = 'el-icon-d-arrow-left'
+      //   } else {
+      //     this.moreIcon2 = 'el-icon-d-arrow-right'
+      //   }
+      // },
       showMoreAttr (icon) {
         if (icon === 'el-icon-d-arrow-right') {
           // this.moreIcon = 'el-icon-d-arrow-left'
@@ -250,7 +260,7 @@
                 this.moreIcon = 'el-icon-d-arrow-right'
               }
             }
-            console.log('ddddd', that.attrList)
+            // console.log('ddddd', that.attrList)
           }
         })
       },
