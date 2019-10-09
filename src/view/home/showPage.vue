@@ -10,7 +10,7 @@
           </el-carousel>
       </div>
       <!-- 英文 -->
-      <p class="word1">THEME PRODUCT</p>
+      <p class="word1">COLLECTIONS</p>
       <div class="collections">
         <ul class="collections_thr1">
           <li class="thr2" v-for="(item,index) in dataCollections" :key="index">

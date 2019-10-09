@@ -40,8 +40,12 @@
         </div>
       </div>
       <div class="largerBox">
-        <div class="largePic">
+        <div class="largePic" style="position: relative;">
           <img :src="mainImgUrl" alt="">
+          <div style="position: absolute;bottom:20px; right:20px;width: 45px;height: 45px;">
+            <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
+            <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
+          </div>
         </div>
         <div class="shareList">
           <div class="shareBox">
@@ -123,10 +127,6 @@
             <div class="add" v-if="goodDetail.sku_status === 1">
               <div v-if="goodDetail.inventory > 0">
                 <div class="subType" @click="addToCart($event)">Add to Cart</div>
-                <div style="position: relative;width: 45px;height: 45px;">
-                  <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
-                  <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
-                </div>
               </div>
               <div v-if="goodDetail.inventory === 0">
                 <div class="subType out">Add to Cart</div>

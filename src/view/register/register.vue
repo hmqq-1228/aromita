@@ -216,10 +216,15 @@ export default {
         that.$message.error(data.msg)
         that.refreshCode()
       } else {
-        this.$message({
-          message:data.msg,
-          type: 'error'
-        });
+        var arr = []
+        for(var i in data.msg) {
+          var obj = data.msg[i][0];
+          arr.push(obj)
+          this.$message({
+            message:arr[0],
+            type: 'error'
+          });
+        }
       }
     },
     // login

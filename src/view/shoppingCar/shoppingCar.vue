@@ -21,7 +21,9 @@
         <div class="goodsPrice">$ {{carItem.sku_price}}</div>
       </div>
       <div class="goodsNum">
-        <div class="addNum"><el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory"></el-input-number></div>
+        <div class="addNum">
+          <el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory" :disabled="numDisabled"></el-input-number>
+        </div>
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
       <div class="goodsTotal">$ {{(carItem.goods_count*carItem.sku_price).toFixed(2)}}</div>
@@ -186,6 +188,7 @@ export default {
       totalPayShow: 0,
       goodsList: [],
       couponId: '',
+      numDisabled: false,
       hasChecked: false,
       goodsListOn: [],
       goodsListOff: [],
@@ -256,74 +259,79 @@ export default {
       that.totalPay = 0
       if (tr) {
         let data = await getGoodsList();
-        this.goodsList = data
-        that.idList = []
-        let OnList = []
-        let OffList = []
-        that.goodsListOn = []
-        that.goodsListOff = []
-        for (var i = 0;i<that.goodsList.length;i++){
-          if (that.goodsList[i].sku_status === 1) {
-            OnList.push(that.goodsList[i])
-            that.goodsListOn = OnList
-            that.idList.push(that.goodsList[i].sku_id)
-            for (var j = 0;j<that.goodsListOn.length;j++) {
-              that.$set(that.goodsListOn[j],'overTipShow',false)
-              var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
-              that.goodsListOn[j].totalPay = itemPay.toFixed(2)
-              that.goodsChecked(that.checkedItem)
-              if (tr.num >= tr.max) {
-                if (that.goodsListOn[j].sku_id === tr.sid) {
-                  that.goodsListOn[j].overTipShow = true
-                }
-              }
-            }
-          } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
-            OffList.push(that.goodsList[i])
-            that.goodsListOff = OffList
-          }
-        }
-        that.$store.state.addCartState = false
-      } else {
-        let data = await getGoodsList();
-        this.goodsList = data
-        // console.log('55555', data)
-        var onList = []
-        var offList = []
-        that.goodsListOn = []
-        that.goodsListOff = []
-        if (this.goodsList.length === 0) {
-          that.noProduct = true
-          that.goodsListOn = []
-        } else {
-          that.noProduct = false
+        if (data) {
+          that.numDisabled = false
+          this.goodsList = data
           that.idList = []
+          let OnList = []
+          let OffList = []
+          that.goodsListOn = []
+          that.goodsListOff = []
           for (var i = 0;i<that.goodsList.length;i++){
             if (that.goodsList[i].sku_status === 1) {
-              onList.push(that.goodsList[i])
-              that.goodsListOn = onList
+              OnList.push(that.goodsList[i])
+              that.goodsListOn = OnList
               that.idList.push(that.goodsList[i].sku_id)
-              that.checkedItem = that.idList
               for (var j = 0;j<that.goodsListOn.length;j++) {
                 that.$set(that.goodsListOn[j],'overTipShow',false)
-                if (that.goodsListOn[j].goods_count === that.goodsListOn[j].inventory) {
-                  that.goodsListOn[j].overTipShow = true
-                } else if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
-                  that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
-                }
-                var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
+                var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+                that.goodsChecked(that.checkedItem)
+                if (tr.num >= tr.max) {
+                  if (that.goodsListOn[j].sku_id === tr.sid) {
+                    that.goodsListOn[j].overTipShow = true
+                  }
+                }
               }
             } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
-              offList.push(that.goodsList[i])
-              that.goodsListOff = offList
+              OffList.push(that.goodsList[i])
+              that.goodsListOff = OffList
             }
           }
-          if (that.goodsListOn.length === 0) {
-            that.checkedAll = false
-          }
+          that.$store.state.addCartState = false
         }
-        that.$store.state.addCartState = false
+      } else {
+        let data = await getGoodsList();
+        if (data) {
+          this.goodsList = data
+          // console.log('55555', data)
+          var onList = []
+          var offList = []
+          that.goodsListOn = []
+          that.goodsListOff = []
+          if (this.goodsList.length === 0) {
+            that.noProduct = true
+            that.goodsListOn = []
+          } else {
+            that.noProduct = false
+            that.idList = []
+            for (var i = 0;i<that.goodsList.length;i++){
+              if (that.goodsList[i].sku_status === 1) {
+                onList.push(that.goodsList[i])
+                that.goodsListOn = onList
+                that.idList.push(that.goodsList[i].sku_id)
+                that.checkedItem = that.idList
+                for (var j = 0;j<that.goodsListOn.length;j++) {
+                  that.$set(that.goodsListOn[j],'overTipShow',false)
+                  if (that.goodsListOn[j].goods_count === that.goodsListOn[j].inventory) {
+                    that.goodsListOn[j].overTipShow = true
+                  } else if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
+                    that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
+                  }
+                  var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
+                  that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+                }
+              } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
+                offList.push(that.goodsList[i])
+                that.goodsListOff = offList
+              }
+            }
+            if (that.goodsListOn.length === 0) {
+              that.checkedAll = false
+            }
+          }
+          that.$store.state.addCartState = false
+        }
       }
     },
     sumPay: function (arr) {
@@ -430,6 +438,7 @@ export default {
     },
     handleChange: function (e, skuId, max) {
       var that = this
+      that.numDisabled = true
       var obj = {
         num: e,
         sid: skuId,

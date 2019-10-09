@@ -683,7 +683,7 @@
     //left: 220px;
 }
 // 一开始调整好商品图片在购物车的位置,移入效果最后显示是在一开始定义好的位置
-.add_img {
+.largePic .add_img {
     height:60px;
     width: 60px;
     //border-radius: 50%;
@@ -698,7 +698,7 @@
       top:0px;
     }
     100% {
-      top: -660px;
+      top: -620px;
     }
 }
 //向上右的动画初始及结尾值
@@ -708,7 +708,7 @@
       transform: scale(1);
     }
     100% {
-      left: 780px;
+      left: 880px;
       transform: scale(0.1);
     }
 }
