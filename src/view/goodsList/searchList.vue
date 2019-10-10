@@ -25,7 +25,7 @@
           <div class="clear" @click="clearAttrChecked()">Clear</div>
         </div>
         <div class="fliterList" v-for="(attr, index) in attrList" :key="index">
-          <el-collapse>
+          <el-collapse v-model="activeNames">
             <el-collapse-item :title="attr.attr_name" :name="index">
               <el-radio-group v-model="attr.nameStr">
                 <div class="MetalItem" v-for="(attrVal,index2) in attr.values" :key="index2" v-if="index2 < attr.attrLen">
@@ -110,6 +110,7 @@
         scrollTop: null,
         prodListLastPage: false,
         goodsList: [],
+        activeNames: [],
         attrList: [],
         attrListLen: 0,
         checkAttrList: [],
@@ -132,6 +133,7 @@
     watch: {
       checkAttrStr: function (val, oV) {
         if (val) {
+          this.page = 1
           this.attrStr = val
           this.getList()
         }
@@ -147,11 +149,13 @@
       },
       s_cate_id() {
         // window,scrollTo(0,0)
+        this.activeNames = []
         this.clearSearchFuc()
         this.getList()
       },
       f_cate_id () {
         this.clearSearchFuc()
+        this.activeNames = []
         this.getList()
       }
     },
@@ -161,8 +165,8 @@
         if (that.$store.state.searchFlag) {
           that.keyword = that.$store.state.searchVal
           that.clearSearchFuc()
-          // that.$route.query.keyword = that.keyword
-          // console.log('lllllll', that.$route.query.keyword)
+          that.$store.state.keyWord = this.$route.query.keyword
+          that.$store.state.keyWordFlag = true
           that.getList()
           that.$store.state.searchFlag = false
         }
@@ -288,7 +292,7 @@
                 this.moreIcon = 'el-icon-d-arrow-right'
               }
             }
-            console.log('ddddd', that.attrList)
+            // console.log('ddddd', that.attrList)
           }
         })
       },

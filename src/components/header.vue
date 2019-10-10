@@ -262,7 +262,13 @@ import { mapGetters } from 'vuex';
       ]),
       Refresh: function () {
         var that = this
-        if (that.$store.state.keyWordFlag) {
+        if (this.$route.name === 'searchList') {
+          if (that.$store.state.keyWordFlag) {
+            that.searchVal = that.$store.state.keyWord
+            that.$store.state.keyWordFlag = false
+          }
+        } else {
+          that.$store.state.keyWord = ''
           that.searchVal = that.$store.state.keyWord
           that.$store.state.keyWordFlag = false
         }
