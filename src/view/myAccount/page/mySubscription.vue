@@ -2,7 +2,7 @@
     <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>
+                <Left-Nav activeIndex="6"></Left-Nav>
                 <div class="navCount">
                     <div class="my_order Scription">
                         <h3 class="my_title">My Subscription</h3>
