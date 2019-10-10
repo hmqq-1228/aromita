@@ -93,9 +93,28 @@ export default {
       that.$axios.post('api/sendcoupontocustomer', qs.stringify(obj)).then(res => {
         if (res > 0) {
           that.getCouponList()
-          this.$message.success('successfully, please check it in My Coupons')
+          this.$message({
+            message: 'successfully, please check it in My Coupons',
+            type: 'success',
+            duration: 2000
+          });
+          // this.$message.success('successfully, please check it in My Coupons')
+        } else if (res.code === 103) {
+          this.$message({
+            message: 'The coupon can not be collected anymore.',
+            type: 'warning',
+            duration: 2000
+          });
+          that.getCouponList()
+        } else if (res.code === 104) {
+          this.$message({
+            message: 'You have collected this coupon.',
+            type: 'warning',
+            duration: 2000
+          });
+          that.getCouponList()
         } else {
-          this.$message.warning(res.msg)
+          that.$message.warning(res.msg)
         }
       })
     },

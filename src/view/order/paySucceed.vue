@@ -165,7 +165,7 @@ export default {
   }
   .jianTou{
     position: absolute;
-    right: 0;
+    right: 1px;
     top: 0;
     z-index: 888;
     width: 0;

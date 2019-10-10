@@ -3,7 +3,11 @@
     <div>{{nodeDragRefresh?'':''}}</div>
     <div class="listBox">
       <div class="listNav">
-        <div class="navTitle">Sort By</div>
+        <!--<div class="navTitle">Sort By</div>-->
+        <div class="navTitleTwo">
+          <div>Sort By</div>
+          <div class="clear" @click="checkSortType()"><img src="../../../static/img/defult.png" alt=""></div>
+        </div>
         <div class="navItem" @click="checkSortType($event, 1)">Most Recent</div>
         <div class="navItem" @click="checkSortType($event, 2)">Best Selling</div>
         <div class="navItem" @click="checkSortType($event, 3)">Lowest Price</div>
@@ -27,7 +31,7 @@
                 <div class="MetalItem" v-for="(attrVal,index2) in attr.values" :key="index2" v-if="index2 < attr.attrLen">
                   <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
                 </div>
-                <div class="viewMore" @click="showMoreAttrVal(index)">view more <i :class="attr.iconType"></i></div>
+                <div class="viewMore2" @click="showMoreAttrVal(index)">view more <i :class="attr.menuStatus?'el-icon-d-arrow-left':'el-icon-d-arrow-right'"></i></div>
                 <!--<div class="viewMore2" v-if="attr.values.length > 3" @click="showMoreAttrVal(moreIcon2, index2)">view more <i :class="moreIcon2"></i></div>-->
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
@@ -51,7 +55,7 @@
               <div class="smallSlider2">
                 <div class="sliderBox">
                   <div class="sliderCont">
-                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status)">
+                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status, pic.selling)">
                       <img :class="index2 === 0?'active': ''" :src="pic.sku_color_img" class="smallPic">
                     </div>
                   </div>
@@ -62,7 +66,10 @@
               <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
                 {{goods.defultTitle}}
               </div>
-              <div class="goodsPrice">$ {{goods.defultPrice}}</div>
+              <div class="goodsPrice">
+                <div class="pri">$ {{goods.defultPrice}}</div>
+                <div class="num">{{goods.selling}} Sold</div>
+              </div>
             </div>
           </div>
         </div>
@@ -71,7 +78,10 @@
         <div v-if="topShow" class="toTop" @click="toTop()"></div>
       </div>
       <div class="listGoods noData" v-if="noDataShow">
-        NO Exact matches found
+        <div>
+          <img src="../../../static/img/nodata.jpg" alt="">
+          <div style="margin-top: 20px">Sorry. No products were found matching your selection.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -180,9 +190,7 @@
     },
     methods: {
       showMoreAttrVal (dex) {
-        // this.menuStatus = !this.menuStatus
-        
-        if(this.attrList[dex].menuStatus == false){
+        if(this.attrList[dex].menuStatus === false){
           this.attrList[dex].menuStatus = true
           var len = this.attrList[dex].values.length
           this.attrList[dex].attrLen = len
@@ -291,9 +299,14 @@
       },
       // 排序
       checkSortType (e, type) {
-        var obj = e.currentTarget
-        $(obj).addClass('activeSort').siblings().removeClass('activeSort')
-        this.sort = type
+        if (!e && !type) {
+          $('.navItem').removeClass('activeSort')
+          this.sort = ''
+        } else {
+          var obj = e.currentTarget
+          $(obj).addClass('activeSort').siblings().removeClass('activeSort')
+          this.sort = type
+        }
         this.getList()
       },
       handleScroll() {
@@ -360,6 +373,7 @@
                 this.goodsList[i].defultPrice = this.goodsList[i].skus[0].sku_price
                 this.goodsList[i].skuId = this.goodsList[i].skus[0].id
                 this.goodsList[i].state = this.goodsList[i].skus[0].sku_status
+                this.goodsList[i].selling = this.goodsList[i].skus[0].selling
               }
             }
             if (this.goodsList.length === 0) {
@@ -384,7 +398,7 @@
         this.page = this.page + 1
         this.getList()
       },
-      getColorPicture: function (e, index1, url, title, price, id, state) {
+      getColorPicture: function (e, index1, url, title, price, id, state, selling) {
         var obj = e.currentTarget
         var that = this
         var newGoodList = []
@@ -395,6 +409,7 @@
         that.goodsList[index1].defultPrice = price
         that.goodsList[index1].skuId = id
         that.goodsList[index1].state = state
+        that.goodsList[index1].selling = selling
         for (var t = 0; t < that.goodsList.length; t++) {
           newGoodList.push(that.goodsList[t])
         }

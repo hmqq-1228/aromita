@@ -23,6 +23,8 @@
   font-size: 12px;
   font-family: Tahoma;
   padding: 6px 10px;
+  width: 170px;
+  text-align: center;
 }
 .viewMore2 i{
   transform: rotate(90deg);
@@ -143,11 +145,11 @@
   //}
   .listGoods.noData{
     min-height: 300px;
-    line-height: 300px;
     text-align: center;
     font-size: 16px;
     font-family: Tahoma;
     font-weight: bold;
+    padding-top: 50px;
   }
   .goodsItem{
     width: 300px;
@@ -379,12 +381,20 @@
     word-break: break-all;
   }
   .goodsPrice{
+    margin-top: 8px;
+    font-family: Tahoma;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .goodsPrice .pri{
     color: #c30808;
     font-size: 16px;
-    font-family: Tahoma;
-    margin-top: 8px;
-    padding: 0 10px;
   }
+.goodsPrice .num{
+  color: #999;
+  font-size: 14px;
+}
   .loadMore{
     height: 40px;
     width: 360px;
