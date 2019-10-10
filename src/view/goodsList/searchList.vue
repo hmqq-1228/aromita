@@ -51,7 +51,7 @@
               <div class="smallSlider2">
                 <div class="sliderBox">
                   <div class="sliderCont">
-                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status)">
+                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status, pic.selling)">
                       <img :class="index2 === 0?'active': ''" :src="pic.sku_color_img" class="smallPic">
                     </div>
                   </div>
@@ -62,7 +62,10 @@
               <div class="goodsInfo" @click="toGoodsDetail(goods.id, goods.skuId)">
                 {{goods.defultTitle}}
               </div>
-              <div class="goodsPrice">$ {{goods.defultPrice}}</div>
+              <div class="goodsPrice">
+                <div class="pri">$ {{goods.defultPrice}}</div>
+                <div class="num">{{goods.selling}} Sold</div>
+              </div>
             </div>
           </div>
         </div>
@@ -350,6 +353,7 @@
                 this.goodsList[i].defultPrice = this.goodsList[i].skus[0].sku_price
                 this.goodsList[i].skuId = this.goodsList[i].skus[0].id
                 this.goodsList[i].state = this.goodsList[i].skus[0].sku_status
+                this.goodsList[i].selling = this.goodsList[i].skus[0].selling
               }
             }
             if (this.goodsList.length === 0) {
@@ -374,7 +378,7 @@
         this.page = this.page + 1
         this.getList()
       },
-      getColorPicture: function (e, index1, url, title, price, id, state) {
+      getColorPicture: function (e, index1, url, title, price, id, state, selling) {
         var obj = e.currentTarget
         var that = this
         var newGoodList = []
@@ -385,6 +389,7 @@
         that.goodsList[index1].defultPrice = price
         that.goodsList[index1].skuId = id
         that.goodsList[index1].state = state
+        that.goodsList[index1].selling = selling
         for (var t = 0; t < that.goodsList.length; t++) {
           newGoodList.push(that.goodsList[t])
         }
