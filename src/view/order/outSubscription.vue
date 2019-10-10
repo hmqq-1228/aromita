@@ -11,7 +11,7 @@
                         <p class="Scription_tip">Please note that you may not receive all markting email messages from us after unsubscribe.</p>
                       <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
                         <el-form-item prop="email">
-                          <el-input placeholder="Enter your email" v-model="ruleForm.email"></el-input>
+                          <el-input placeholder="" v-model="ruleForm.email"></el-input>
                         </el-form-item>
                         <div style="color: #888;font-size: 14px;">Subscribe Type</div>
                         <el-form-item prop="type" class="checkStyle">

@@ -27,6 +27,7 @@
                 <div class="MetalItem" v-for="(attrVal, index2) in attr.values">
                   <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
                 </div>
+                <!--<div class="viewMore" v-if="attr.attrLen > 3" @click="showMoreAttr(attr.iconType, index2)">view more <i :class="attr.iconType"></i></div>-->
                 <!--<div class="viewMore2" v-if="attr.values.length > 3" @click="showMoreAttrVal(moreIcon2, index2)">view more <i :class="moreIcon2"></i></div>-->
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
@@ -245,8 +246,11 @@
             that.attrList = res.data
             that.attrListLen = res.data.length
             for (var i=0;i<that.attrList.length; i++) {
-              this.$set(this.attrList[i],'nameStr','')
+              that.$set(that.attrList[i],'nameStr','')
+              // that.$set(that.attrList[i],'attrLen',0)
+              // that.$set(that.attrList[i],'iconType','el-icon-d-arrow-right')
               that.attrList[i].nameStr =  that.attrList[i].attr_name
+              // that.attrList[i].attrLen =  that.attrList[i].values.length
             }
             if (!type) {
               that.attrList = that.attrList.slice(0,3)

@@ -17,7 +17,7 @@
               <div class="searchBox">
                 <!-- 搜索框 -->
                 <div class="search">
-                  <el-input :placeholder="searchInput" v-model="searchVal"></el-input>
+                  <el-input :placeholder="searchInput" v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
                   <!--<el-input v-if="searchInput" v-model="searchVal"></el-input>-->
                   <p class="search_word" @mousedown="search($event)" @mouseup="searchOver($event)">Search</p>
                 </div>
