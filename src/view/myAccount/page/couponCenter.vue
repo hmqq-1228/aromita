@@ -101,16 +101,18 @@ export default {
           // this.$message.success('successfully, please check it in My Coupons')
         } else if (res.code === 103) {
           this.$message({
-            message: 'This coupon is no left.',
+            message: 'The coupon has been used up.',
             type: 'warning',
             duration: 2000
           });
+          that.getCouponList()
         } else if (res.code === 104) {
           this.$message({
             message: 'You have collected this coupon.',
             type: 'warning',
             duration: 2000
           });
+          that.getCouponList()
         } else {
           that.$message.warning(res.msg)
         }
