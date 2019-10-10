@@ -102,8 +102,8 @@
         Color: '',
         pageSize:40,
         totalNum: 0,
-        endPrice: '',
-        startPrice: '',
+        endPrice: null,
+        startPrice: null,
         moreIcon: 'el-icon-d-arrow-right',
         moreIcon2: 'el-icon-d-arrow-right',
         scrollShowFlag: false,
@@ -284,8 +284,9 @@
       },
       // 价格区间
       subPrice () {
-        var tamp = this.startPrice
-        if (this.startPrice > this.endPrice) {
+        var tamp = 0
+        tamp = this.startPrice
+        if (parseFloat(this.startPrice) > parseFloat(this.endPrice)) {
           this.startPrice = this.endPrice
           this.endPrice = tamp
         }
