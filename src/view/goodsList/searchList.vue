@@ -20,14 +20,14 @@
           <div>Filter</div>
           <div class="clear" @click="clearAttrChecked()">Clear</div>
         </div>
-        <div class="fliterList" v-for="(attr, index) in attrList">
+        <div class="fliterList" v-for="(attr, index) in attrList" :key="index">
           <el-collapse>
             <el-collapse-item :title="attr.attr_name" :name="index">
               <el-radio-group v-model="attr.nameStr">
-                <div class="MetalItem" v-for="(attrVal, index2) in attr.values">
+                <div class="MetalItem" v-for="(attrVal,index2) in attr.values" :key="index2" v-if="index2 < attr.attrLen">
                   <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
                 </div>
-                <div class="viewMore" @click="showMoreAttrVal()">view more <i :class="attr.iconType"></i></div>
+                <div class="viewMore" @click="showMoreAttrVal(index)">view more <i :class="attr.iconType"></i></div>
                 <!--<div class="viewMore2" v-if="attr.values.length > 3" @click="showMoreAttrVal(moreIcon2, index2)">view more <i :class="moreIcon2"></i></div>-->
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
@@ -116,6 +116,7 @@
         attrStr: '',
         leftNum:[],
         btnindex:-1,
+        menuStatus:false,//属性值状态（收起，展开）
       }
     },
     watch: {
@@ -178,8 +179,17 @@
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
-      showMoreAttrVal () {
-
+      showMoreAttrVal (dex) {
+        // this.menuStatus = !this.menuStatus
+        
+        if(this.attrList[dex].menuStatus == false){
+          this.attrList[dex].menuStatus = true
+          var len = this.attrList[dex].values.length
+          this.attrList[dex].attrLen = len
+        }else{
+          this.attrList[dex].menuStatus = false
+          this.attrList[dex].attrLen = 3
+        }
       },
       showMoreAttr (icon) {
         if (icon === 'el-icon-d-arrow-right') {
@@ -243,10 +253,10 @@
             that.attrListLen = res.data.length
             for (var i=0;i<that.attrList.length; i++) {
               that.$set(that.attrList[i],'nameStr','')
-              // that.$set(that.attrList[i],'attrLen',0)
+              that.$set(that.attrList[i],'attrLen',3)
+              that.$set(that.attrList[i],'menuStatus',false)
               that.$set(that.attrList[i],'iconType','el-icon-d-arrow-right')
               that.attrList[i].nameStr =  that.attrList[i].attr_name
-              // that.attrList[i].attrLen =  that.attrList[i].values.length
             }
             if (!type) {
               that.attrList = that.attrList.slice(0,3)
@@ -260,7 +270,7 @@
                 this.moreIcon = 'el-icon-d-arrow-right'
               }
             }
-            // console.log('ddddd', that.attrList)
+            console.log('ddddd', that.attrList)
           }
         })
       },
