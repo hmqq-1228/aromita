@@ -2,7 +2,7 @@
     <div class="myAccount">
         <div class="account">
             <div class="accountBox">
-                <Left-Nav></Left-Nav>
+                <Left-Nav activeIndex="5"></Left-Nav>
                 <div class="navCount">
                     <div class="my_order">
                         <h3 class="my_title">My Points <span class="points_rule">What's Points? How to get more Points?</span></h3>

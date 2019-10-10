@@ -1,7 +1,7 @@
 <template>
   <div class="account">
     <div class="accountBox">
-      <Left-Nav></Left-Nav>
+      <Left-Nav activeIndex="3"></Left-Nav>
       <div class="navCount">
         <div class="my_order">
           <div class="my_title" style="margin-bottom: 0;font-weight: bold;">Coupon center</div>

@@ -2,7 +2,7 @@
   <div class="myAccount orderDetail">
     <div class="account">
       <div class="accountBox">
-        <Left-Nav></Left-Nav>
+        <Left-Nav activeIndex="1"></Left-Nav>
         <div class="navCount">
           <h3 class="my_title">Order Details</h3>
           <div style="display: flex;justify-content: start;border-bottom:1px dashed #e9e9e9;">
