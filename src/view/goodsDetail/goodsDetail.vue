@@ -361,6 +361,7 @@ export default {
       } else {
         this.mainImgUrl = url
       }
+      // console.log('kkkk', this.mainImgUrl)
     },
     // 商品详情
     getGoodsDetail: function (spu, sku) {
