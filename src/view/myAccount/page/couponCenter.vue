@@ -101,7 +101,7 @@ export default {
           // this.$message.success('successfully, please check it in My Coupons')
         } else if (res.code === 103) {
           this.$message({
-            message: 'The coupon has been used up.',
+            message: 'The coupon can not be collected anymore.',
             type: 'warning',
             duration: 2000
           });
