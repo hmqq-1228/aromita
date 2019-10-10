@@ -147,14 +147,11 @@
       },
       s_cate_id() {
         // window,scrollTo(0,0)
-        $('.navItem').removeClass('activeSort')
-        this.page = 1
+        this.clearSearchFuc()
         this.getList()
       },
       f_cate_id () {
-        $('.navItem').removeClass('activeSort')
-        // window,scrollTo(0,0)
-        this.page = 1
+        this.clearSearchFuc()
         this.getList()
       }
     },
@@ -163,9 +160,10 @@
         var that = this
         if (that.$store.state.searchFlag) {
           that.keyword = that.$store.state.searchVal
+          that.clearSearchFuc()
           // that.$route.query.keyword = that.keyword
           // console.log('lllllll', that.$route.query.keyword)
-          this.getList()
+          that.getList()
           that.$store.state.searchFlag = false
         }
         return this.$store.state.searchFlag
@@ -189,6 +187,16 @@
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+      clearSearchFuc () {
+        $('.navItem').removeClass('activeSort')
+        this.endPrice = ''
+        this.attrStr = ''
+        this.checkAttrList = []
+        this.attrStr = null
+        this.checkAttrStr = ''
+        this.getAttrList()
+        this.page = 1
+      },
       showMoreAttrVal (dex) {
         if(this.attrList[dex].menuStatus === false){
           this.attrList[dex].menuStatus = true

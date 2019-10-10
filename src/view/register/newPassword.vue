@@ -115,12 +115,13 @@ export default {
       var that = this
       var params
       params = {
+        email: that.$route.query.email,
         password: that.newForm.newPassword,
         password_confirmation: that.newForm.comfirmPass,
         catpcha: that.newForm.identifyCode
       }
       let data = await resetPassword(params)
-      console.log('7777777', data)
+      // console.log('7777777', params)
       if (data.code === 200) {
         that.$router.push('/psd_reset_ok')
       } else if (data.code === 401) {

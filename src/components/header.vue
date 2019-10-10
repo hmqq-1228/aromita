@@ -190,6 +190,8 @@ import { mapGetters } from 'vuex';
         keyword:'',//搜索关键字
         searchVal: '',
         searchInput: '',
+        f_cate_id: '',
+        s_cate_id: '',
         login_status:true,//用户登录状态
         userName: 'Welcome',
         TotalPrice:0,//购物车总价
@@ -212,6 +214,16 @@ import { mapGetters } from 'vuex';
           this.getGoodsCont()
         }
         this.$store.state.addCartState = false
+      },
+      $route(){
+        this.s_cate_id = this.$route.query.s_cate_id
+        this.f_cate_id = this.$route.query.f_cate_id
+      },
+      s_cate_id() {
+        this.searchVal = ''
+      },
+      f_cate_id () {
+        this.searchVal = ''
       },
       // searchVal: function (val, oV) {
       //   console.log(val, oV)
@@ -255,7 +267,7 @@ import { mapGetters } from 'vuex';
           $(obj).css({"transform":"scale(1)","transition":"all .3s"})
         }
         if (this.searchVal) {
-          // console.log('ssss', this.searchVal)
+          console.log('ssss', this.searchVal)
           if (this.$route.name !== 'searchList'){
             this.$router.push({
               path: '/searchList',
