@@ -37,6 +37,10 @@ const paySucceed = () => import('@/view/order/paySucceed.vue')
 const payFailed = () => import('@/view/order/payFailed.vue')
 const payAgain = () => import('@/view/order/payAgain.vue')
 const noprojuct = () => import('@/view/errorPage/noprojuct.vue')
+
+//静态页
+const aboutus = () => import('@/view/staticpage/aboutus.vue')
+
 Vue.use(Router)
 
 export default new Router({
@@ -280,6 +284,12 @@ export default new Router({
       path: '/noprojuct',
       name: 'noprojuct',
       component: noprojuct
+    },
+    //静态页
+    {
+      path: '/aboutus',
+      name: 'aboutus',
+      component: aboutus
     }
   ]
 })
