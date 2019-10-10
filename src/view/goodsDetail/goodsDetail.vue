@@ -352,10 +352,15 @@ export default {
     chooseImg: function (e, url) {
       var obj = e.currentTarget
       $(obj).addClass('checkedStyle').siblings().removeClass('checkedStyle')
-      var leftUrl = url.split('_80_80')[0]
-      var rightUrl = url.split('_80_80')[1]
-      var imgUrl = leftUrl + '_550_550' + rightUrl
-      this.mainImgUrl = imgUrl
+      // console.log(url.indexOf("_80_80") !== -1, 'mmmmm')
+      if (url.indexOf("_80_80") !== -1) {
+        var leftUrl = url.split('_80_80')[0]
+        var rightUrl = url.split('_80_80')[1]
+        var imgUrl = leftUrl + '_550_550' + rightUrl
+        this.mainImgUrl = imgUrl
+      } else {
+        this.mainImgUrl = url
+      }
     },
     // 商品详情
     getGoodsDetail: function (spu, sku) {
