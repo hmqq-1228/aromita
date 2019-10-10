@@ -182,6 +182,8 @@
       this.attrStr = this.$route.query.attr
       this.getAttrList()
       // this.scrollShow()
+      this.$store.state.keyWord = this.$route.query.keyword
+      this.$store.state.keyWordFlag = true
     },
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll);

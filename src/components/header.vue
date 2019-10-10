@@ -7,6 +7,7 @@
           <div class="title">
             <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
           </div>
+          <div>{{Refresh?'':''}}</div>
           <!-- 中间内容 -->
           <div class="content">
             <div class="contentHd">
@@ -249,16 +250,24 @@ import { mapGetters } from 'vuex';
     created() {
       this._checkLogin()
       this.getGoodsCont()
-      // console.log('rrrrr', this.$route.query)
       if (this.$route.query.keyword){
         this.searchVal = this.$route.query.keyword
       }
+      console.log('rrrrr', this.searchVal)
     },
     computed: {
       ...mapGetters([
         'addCart',
         'changeusername'
-      ])
+      ]),
+      Refresh: function () {
+        var that = this
+        if (that.$store.state.keyWordFlag) {
+          that.searchVal = that.$store.state.keyWord
+          that.$store.state.keyWordFlag = false
+        }
+        return this.$store.state.keyWordFlag
+      }
     },
     methods: {
       searchOver: function(e) {

@@ -15,6 +15,8 @@ const state = {
   spuId: '',
   skuId: '',
   idList: [],
+  keyWord: '',
+  keyWordFlag: false,
   username:false,//用户名
 }
 
