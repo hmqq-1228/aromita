@@ -22,7 +22,7 @@
       </div>
       <div class="goodsNum">
         <div class="addNum">
-          <el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory" :disabled="numDisabled"></el-input-number>
+          <el-input-number v-model="carItem.goods_count" @change="handleChange($event, carItem.sku_id, carItem.inventory)" :min="1" :max="carItem.inventory"></el-input-number>
         </div>
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
@@ -188,7 +188,7 @@ export default {
       totalPayShow: 0,
       goodsList: [],
       couponId: '',
-      numDisabled: false,
+      // numDisabled: false,
       hasChecked: false,
       goodsListOn: [],
       goodsListOff: [],
@@ -260,7 +260,7 @@ export default {
       if (tr) {
         let data = await getGoodsList();
         if (data) {
-          that.numDisabled = false
+          // that.numDisabled = false
           this.goodsList = data
           that.idList = []
           let OnList = []
@@ -438,7 +438,7 @@ export default {
     },
     handleChange: function (e, skuId, max) {
       var that = this
-      that.numDisabled = true
+      // that.numDisabled = true
       var obj = {
         num: e,
         sid: skuId,

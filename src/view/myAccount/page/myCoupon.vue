@@ -48,9 +48,9 @@
                                           </div>
                                           <div class="couponTime">
                                             <div style="line-height: 40px;width: 120px;color: #a7a7a7">Expired Date:</div>
-                                            <div class="timeRange" style="color: #a7a7a7">
-                                              <div>{{coupon.cc_coupon_start_time}}</div>
-                                              <div>{{coupon.cc_coupon_end_time}}</div>
+                                            <div class="timeRange" style="color: #a7a7a7" :class="coupon.cc_coupon_start_time?'':'noStartTime'">
+                                              <div v-if="coupon.cc_coupon_start_time">{{coupon.cc_coupon_start_time}}</div>
+                                              <div v-if="coupon.cc_coupon_end_time">{{coupon.cc_coupon_end_time}}</div>
                                             </div>
                                           </div>
                                           <div class="yuan grey"></div>
