@@ -27,7 +27,7 @@
                 <div class="MetalItem" v-for="(attrVal, index2) in attr.values">
                   <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
                 </div>
-                <!--<div class="viewMore" v-if="attr.attrLen > 3" @click="showMoreAttr(attr.iconType, index2)">view more <i :class="attr.iconType"></i></div>-->
+                <div class="viewMore" @click="showMoreAttrVal()">view more <i :class="attr.iconType"></i></div>
                 <!--<div class="viewMore2" v-if="attr.values.length > 3" @click="showMoreAttrVal(moreIcon2, index2)">view more <i :class="moreIcon2"></i></div>-->
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
@@ -178,13 +178,9 @@
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
-      // showMoreAttrVal (icon, idx) {
-      //   if (icon === 'el-icon-d-arrow-right') {
-      //     this.moreIcon2 = 'el-icon-d-arrow-left'
-      //   } else {
-      //     this.moreIcon2 = 'el-icon-d-arrow-right'
-      //   }
-      // },
+      showMoreAttrVal () {
+
+      },
       showMoreAttr (icon) {
         if (icon === 'el-icon-d-arrow-right') {
           // this.moreIcon = 'el-icon-d-arrow-left'
@@ -248,7 +244,7 @@
             for (var i=0;i<that.attrList.length; i++) {
               that.$set(that.attrList[i],'nameStr','')
               // that.$set(that.attrList[i],'attrLen',0)
-              // that.$set(that.attrList[i],'iconType','el-icon-d-arrow-right')
+              that.$set(that.attrList[i],'iconType','el-icon-d-arrow-right')
               that.attrList[i].nameStr =  that.attrList[i].attr_name
               // that.attrList[i].attrLen =  that.attrList[i].values.length
             }
