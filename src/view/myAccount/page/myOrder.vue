@@ -215,11 +215,12 @@ export default {
             cancelOrder(pre).then((res)=>{
                 this.myOrderList()
                 this.cancelVisity = false
-                // if(res == 1){
-
-                // }else{
-                //     this.cancelVisity = false
-                // }
+                if(res.code == 101){
+                    this.$message({
+                        message: 'The order has been cancelled. Please refresh the page and try again.',
+                        type: 'error'
+                    });
+                }
             })
         },
         //到订单详情页
