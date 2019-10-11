@@ -48,21 +48,30 @@ export default {
             this.nav_show = false;
         },
         toGoodsList:function (id) {
-          this.$router.push({
-            path: '/searchList',
-            query: {
-              f_cate_id: id
-            }
-          })
+          if (parseInt(this.$route.query.f_cate_id) === id) {
+            window.location.reload()
+          } else {
+            this.$router.push({
+              path: '/searchList',
+              query: {
+                f_cate_id: id
+              }
+            })
+          }
         },
         checkGoodsType: function(id, parentId){
-            this.nav_show = false;
+          this.nav_show = false;
+          // console.log('lll', id)
+          if (parseInt(this.$route.query.s_cate_id) === id) {
+            window.location.reload()
+          } else {
             this.$router.push({
-                path: '/searchList',
-                query: {
-                  s_cate_id: id
-                }
+              path: '/searchList',
+              query: {
+                s_cate_id: id
+              }
             })
+          }
         },
     }
 }

@@ -230,7 +230,7 @@
         this.getList()
       },
       getAttrValue (key, val) {
-        console.log('ffffff', key, val)
+        // console.log('ffffff', key, val)
         var flag = false
         var k = 0
         var FileIdStr = ''
@@ -255,7 +255,7 @@
           this.checkAttrList.push(obj)
         }
         flag = false
-        console.log('list', this.checkAttrList)
+        // console.log('list', this.checkAttrList)
         for (var t=0; t<this.checkAttrList.length; t++){
           var splitIcon = ','
           if (t === this.checkAttrList.length - 1) {
@@ -263,7 +263,7 @@
           }
           FileIdStr = FileIdStr + this.checkAttrList[t].val + splitIcon
         }
-        console.log('kkkkkkk', FileIdStr)
+        // console.log('kkkkkkk', FileIdStr)
         this.checkAttrStr = FileIdStr
       },
       // 查属性
@@ -355,23 +355,6 @@
           sort: that.sort,
           attr: that.attrStr
         }
-        // if (that.s_cate_id){
-        //   obj = {
-        //     s_cate_id: that.s_cate_id,
-        //     page: that.page,
-        //     perPage: that.pageSize,
-        //     keyword: '',
-        //     sort: ''
-        //   }
-        // } else if (that.f_cate_id) {
-        //   obj = {
-        //     f_cate_id: that.f_cate_id,
-        //     page: that.page,
-        //     perPage: that.pageSize,
-        //     keyword: '',
-        //     sort: ''
-        //   }
-        // }
         getSearchList(obj).then((res)=>{
           if(res.code === '200' || res.code === 200){
             if(this.page == 1){
@@ -380,6 +363,7 @@
               this.goodsList = this.goodsList.concat(res.data.data);
             }
             that.totalNum = res.data.total
+            $('.sliderCont').css('left',0)
             for (var i = 0;i < this.goodsList.length; i++) {
               this.$set(this.goodsList[i],'left',0)
               if (this.goodsList[i].skus.length > 0) {
