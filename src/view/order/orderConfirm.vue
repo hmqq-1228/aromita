@@ -1356,6 +1356,15 @@ export default {
               that.getCouponList()
             }
           })
+        } else if (res.code === 115) {
+          that.payDisabled = true
+          this.$alert("Sorry, this coupon has already expired.", '', {
+            confirmButtonText: 'OK',
+            callback: action => {
+              that.getBillingList()
+              that.getCouponList()
+            }
+          })
         }
       })
     },

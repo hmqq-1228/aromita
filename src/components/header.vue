@@ -56,7 +56,7 @@
                   </router-link>
                   <!-- 购物车 -->
                   <div class="cart" v-on:click="visible">
-                    <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" class="item">
+                    <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" :max="99" class="item">
                       <div class="cart_left">
                         <img src="@/assets/cart.png" alt>
                         <div>cart</div>
@@ -95,7 +95,7 @@
             </el-dropdown>
           </div>
           <div class="cart" v-on:click="visible">
-            <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" class="item">
+            <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" :max="99" class="item">
                 <img src="@/assets/cart.png" alt>
             </el-badge>
           </div>
