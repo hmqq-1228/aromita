@@ -1347,6 +1347,15 @@ export default {
               that.getPoints()
             }
           })
+        } else if (res.code === 114) {
+          that.payDisabled = true
+          this.$alert("Sorry, this coupon was already used.", '', {
+            confirmButtonText: 'OK',
+            callback: action => {
+              that.getBillingList()
+              that.getCouponList()
+            }
+          })
         }
       })
     },
