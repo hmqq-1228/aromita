@@ -5,7 +5,7 @@
       <div class="home_banner">
           <el-carousel height="500px">
               <el-carousel-item v-for="(item,index) in dataBanner" :key="index">
-                <img :src="item.picture_src" alt @click="linkHref(item.picture_href)">
+                <img style="cursor: pointer;" :src="item.picture_src" alt @click="linkHref(item.picture_href)">
               </el-carousel-item>
           </el-carousel>
       </div>
