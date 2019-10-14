@@ -31,7 +31,11 @@
                     </div>
                     <el-dropdown v-if="login_status">
                       <div class="login_right" :title="userName">
-                        <router-link to="/myAccount"><span>Hello,{{userName.substring(0,7)}}</span><span v-if="userName.length>7">...</span></router-link>
+                        <router-link to="/myAccount">
+                          <span v-if="!userName">Hello,Welcome</span>
+                          <span v-if="userName">Hello,{{userName.substring(0,7)}}</span>
+                          <span v-if="userName && userName.length>7">...</span>
+                        </router-link>
                       </div>
                       <div class="dropdown">
                         <el-dropdown-menu slot="dropdown">
@@ -238,8 +242,8 @@ import { mapGetters } from 'vuex';
         }
         this.$store.state.username = false
       },
-      'show': function(){
-        if(this.show == true){
+      'show': function(val, ov){
+        if(val){
           this.getGoodsListFuc()
         }else{
           this.goodsListOn = []
@@ -383,7 +387,6 @@ import { mapGetters } from 'vuex';
         this.show = false
       },
       visible:function(){
-        this.getGoodsListFuc()
         this.show = true;
       },
       invisible:function(){

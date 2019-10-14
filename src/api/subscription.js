@@ -1,7 +1,7 @@
 import { get, post } from "../utils/http.js";
 
 // 未登录用户订阅
-export const Nosubscribe = params=>post("/api/subscribe_no_register",params);
+export const Nosubscribe = params=>post("/api/bottom_subscribe",params);
 
 //客户注册是勾选订阅
 export const registeSubscribe = params =>post("/api/register_subscribe_newsletter",params)

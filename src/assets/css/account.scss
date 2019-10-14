@@ -42,12 +42,11 @@
     width: 140px;
     height: 32px;
     text-align: center;
-    line-height: 32px;
+    line-height: 0;
     cursor: pointer;
     background: #C51015;
     color: #fff;
     font-size: 16px;
-    margin-right: 48px;
 }
 .com-Cancel-btn{
     width: 140px;
@@ -873,7 +872,7 @@
         }
     }
     .Profile_form{
-        width:520px;
+        width:570px;
         margin-left: 304px;
         .com-sub-btn{
             margin-left: 120px;

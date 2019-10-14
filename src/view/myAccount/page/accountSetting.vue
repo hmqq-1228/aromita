@@ -13,8 +13,8 @@
                             </ul>
                             <div class="Profile_form payBox">
                                 <div v-show="activeName=='one'">
-                                    <el-form label-position="right" label-width="120px" :rules="rules" :model="settingFrom">
-                                        <el-form-item label="Gender：">
+                                    <el-form label-position="right" label-width="120px" :rules="rules" :model="settingFrom" ref="settingFrom">
+                                        <el-form-item label="Gender：" prop="gender">
                                             <el-radio v-model="settingFrom.gender" label="1">Male</el-radio>
                                             <el-radio v-model="settingFrom.gender" label="0">Female</el-radio>
                                         </el-form-item>
@@ -34,11 +34,11 @@
                                         <el-form-item label="Telephone：" prop="phone">
                                             <el-input v-model="settingFrom.phone"></el-input>
                                         </el-form-item>
+                                      <el-button class="com-sub-btn" @click="setSub('settingFrom')">Save</el-button>
                                     </el-form>
-                                    <div class="com-sub-btn" @click="setSub()">Save</div>
                                 </div>
                                 <div v-show="activeName=='two'">
-                                    <el-form label-position="right" label-width="220px" :rules="rules2" :model="passwordForm">
+                                    <el-form label-position="right" label-width="220px" :rules="rules2" :model="passwordForm" ref="passwordForm">
                                         <el-form-item label="Current Password：" prop="oldpassword" required>
                                             <el-input type="password" v-model="passwordForm.oldpassword"></el-input>
                                         </el-form-item>
@@ -48,8 +48,10 @@
                                         <el-form-item label="Confirm New Password：" prop="newpassword_confirmation" required>
                                             <el-input type="password" v-model="passwordForm.newpassword_confirmation"></el-input>
                                         </el-form-item>
+                                      <div style="text-align: center">
+                                       <el-button style="margin: 0 auto" class="com-sub-btn" @click="editPassword('passwordForm')">Save</el-button>
+                                      </div>
                                     </el-form>
-                                    <div style="margin: 0 auto" class="com-sub-btn" @click="editPassword()">Save</div>
                                 </div>
                                 <el-dialog
                                     :visible.sync="editPasswordVisible"
@@ -114,14 +116,15 @@ export default {
             },
             rules2: {
                 oldpassword:[
-                    { required: true, message: 'Please provide a password', trigger: 'blur' }
+                  { required: true, message: 'Please provide a password', trigger: 'blur' },
+                  { pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
                 ],
                 newpassword: [
-                    { required: true, message: 'Please provide a password', trigger: 'blur' },
-                    { pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
+                  { required: true, message: 'Please provide a password', trigger: 'blur' },
+                  { pattern:/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,14}$/g, message: 'Please enter 6-14 characters, contain numbers and letters.', trigger: 'blur' }
                 ],
                 newpassword_confirmation: [
-                    { validator: validatePass2, trigger: 'blur' }
+                  { validator: validatePass2, trigger: 'blur' }
                 ]
             }
         }
@@ -141,38 +144,53 @@ export default {
             })
         },
         //设置个人信息
-        setSub(){
-            accountPerson(this.settingFrom).then((res)=>{
-                if(res.code == 200){
-                    // this.$message({
-                    //     message: 'Successful setup',
-                    //     type: 'success'
-                    // });
-                    this._myAccountSet()
-
-                    this.editPasswordVisible = true
-                }
-            })
+        setSub(formName){
+          var that = this
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              that.subFuc()
+            } else {
+              return false;
+            }
+          });
+        },
+        subFuc () {
+          accountPerson(this.settingFrom).then((res)=>{
+            if(res.code == 200){
+              this._myAccountSet()
+              this.editPasswordVisible = true
+            }
+          })
         },
         //修改密码
-        editPassword(){
-            if(!this.passwordForm.newpassword_confirmation || !this.passwordForm.newpassword || !this.passwordForm.oldpassword){
-                this.$message({
-                    message: 'Please provide a password',
-                    type: 'error'
-                });
-                return false
+        editPassword(formName){
+          var that = this
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              that.editPasswordFuc()
+            } else {
+              return false;
             }
-            accountPass(this.passwordForm).then((res)=>{
-                if(res.code == 200){
-                    this.editPasswordVisible = true
-                }else{
-                    this.$message({
-                        message: res.msg,
-                        type: 'error'
-                    });
-                }
-            })
+          });
+            // if(!this.passwordForm.newpassword_confirmation || !this.passwordForm.newpassword || !this.passwordForm.oldpassword){
+            //     this.$message({
+            //         message: 'Please provide a password',
+            //         type: 'error'
+            //     });
+            //     return false
+            // }
+        },
+        editPasswordFuc () {
+          accountPass(this.passwordForm).then((res)=>{
+            if(res.code == 200){
+              this.editPasswordVisible = true
+            }else{
+              this.$message({
+                message: res.msg,
+                type: 'error'
+              });
+            }
+          })
         },
         okEdit(){
             this.editPasswordVisible = false
