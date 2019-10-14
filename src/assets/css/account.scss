@@ -42,11 +42,21 @@
     width: 140px;
     height: 32px;
     text-align: center;
-    line-height: 0;
+    line-height: 32px;
     cursor: pointer;
     background: #C51015;
     color: #fff;
     font-size: 16px;
+}
+.com-sub-btn1{
+  width: 140px;
+  height: 32px;
+  text-align: center;
+  line-height: 0;
+  cursor: pointer;
+  background: #C51015;
+  color: #fff;
+  font-size: 16px;
 }
 .com-Cancel-btn{
     width: 140px;
@@ -296,8 +306,7 @@
     .cancelBox{
         p{
             text-align: center;
-            height: 100px;
-            line-height: 100px;
+            height: 50px;
         }
         .cancelBtn{
             display: flex;

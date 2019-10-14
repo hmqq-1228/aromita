@@ -19,13 +19,13 @@
                                             <el-radio v-model="settingFrom.gender" label="0">Female</el-radio>
                                         </el-form-item>
                                         <el-form-item label="First Name：" prop="firstname">
-                                            <el-input v-model="settingFrom.firstname" style="width: 300px"></el-input>
+                                            <el-input :placeholder="settingFrom.email.split('@')[0]" v-model="settingFrom.firstname" style="width: 300px"></el-input>
                                         </el-form-item>
                                         <el-form-item label="Last Name：" prop="lastname">
                                             <el-input v-model="settingFrom.lastname"></el-input>
                                         </el-form-item>
                                         <el-form-item label="Birthday:">
-                                            <el-date-picker
+                                            <el-date-picker style="width: 300px;"
                                                 v-model="settingFrom.dob"
                                                 value-format="yyyy-MM-dd"
                                                 type="date">
@@ -34,7 +34,9 @@
                                         <el-form-item label="Telephone：" prop="phone">
                                             <el-input v-model="settingFrom.phone"></el-input>
                                         </el-form-item>
-                                      <el-button class="com-sub-btn" @click="setSub('settingFrom')">Save</el-button>
+                                      <div style="text-align: center">
+                                        <el-button class="com-sub-btn1" @click="setSub('settingFrom')">Save</el-button>
+                                      </div>
                                     </el-form>
                                 </div>
                                 <div v-show="activeName=='two'">
@@ -49,7 +51,7 @@
                                             <el-input type="password" v-model="passwordForm.newpassword_confirmation"></el-input>
                                         </el-form-item>
                                       <div style="text-align: center">
-                                       <el-button style="margin: 0 auto" class="com-sub-btn" @click="editPassword('passwordForm')">Save</el-button>
+                                       <el-button style="margin: 0 auto" class="com-sub-btn1" @click="editPassword('passwordForm')">Save</el-button>
                                       </div>
                                     </el-form>
                                 </div>
@@ -95,6 +97,7 @@ export default {
                 firstname: '',
                 lastname: '',
                 phone:'',
+                email:'',
                 dob:''
             },
             passwordForm:{//修改密码表单
@@ -105,13 +108,13 @@ export default {
             //个人中心设置表单验证
             rules: {
                 firstname: [
-                    { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+                  { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
                 ],
                 lastname: [
-                    { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
+                  { min: 1, max: 30, message: 'You can write a maximum of 30 characters.', trigger: 'blur' }
                 ],
                 phone:[
-                    {min: 0, max: 15,message:'You can write a maximum of 15 characters.',trigger: 'blur'}
+                  {min: 1, max: 15,message:'You can write a maximum of 15 characters.',trigger: 'blur'}
                 ]
             },
             rules2: {
@@ -140,6 +143,7 @@ export default {
         _myAccountSet(){
             myAccountSet().then((res)=>{
                 this.settingFrom = res
+               this.settingFrom.email = res.email
                 res.gender == 0?this.settingFrom.gender='0':this.settingFrom.gender='1'
             })
         },
@@ -155,6 +159,9 @@ export default {
           });
         },
         subFuc () {
+          if (!this.settingFrom.firstname){
+            this.settingFrom.firstname = this.settingFrom.email.split('@')[0]
+          }
           accountPerson(this.settingFrom).then((res)=>{
             if(res.code == 200){
               this._myAccountSet()

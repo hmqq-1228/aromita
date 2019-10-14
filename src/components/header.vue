@@ -33,8 +33,7 @@
                       <div class="login_right" :title="userName">
                         <router-link to="/myAccount">
                           <span v-if="!userName">Hello,Welcome</span>
-                          <span v-if="userName">Hello,{{userName.substring(0,7)}}</span>
-                          <span v-if="userName && userName.length>7">...</span>
+                          <span v-if="userName">Hello,{{userName.substring(0,7)}}<span v-if="userName && userName.length>7">...</span></span>
                         </router-link>
                       </div>
                       <div class="dropdown">

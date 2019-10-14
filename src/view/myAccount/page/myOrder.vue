@@ -74,7 +74,7 @@
                                 <template slot-scope="scope">
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number, scope.row.id)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope.row.orders_number,scope.row.id,scope.row.orders_status)">Cancel</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                                 </template>
@@ -113,7 +113,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {myOrder,cancelOrder} from "@/api/account.js";
+import {myOrder,cancelOrder,returnTotal} from "@/api/account.js";
 export default {
     components: {
         "Left-Nav":Left
@@ -137,6 +137,8 @@ export default {
             orderNum:'',//订单号
             orderId:'',//订单id
             orderStatus:'',//单个订单状态
+            tranId: '', //交易id
+            totalPay: '', //订单金额
             timer:null
         }
     },
@@ -199,29 +201,49 @@ export default {
             // }
         },
         // 取消订单
-        cancelOrder(num,id,status){
-            this.cancelVisity = true;
-            this.orderNum = num
-            this.orderId = id
-            this.orderStatus = status
+        cancelOrder(obj){
+          this.cancelVisity = true;
+          this.orderNum = obj.row.orders_number,
+          this.orderId = obj.row.id,
+          this.orderStatus = obj.row.orders_status,
+          this.tranId = obj.row.transaction_id,
+          this.totalPay = obj.row.order_total
         },
         //取消订单提交
         cancelSub(){
-            let pre = {
-                order_id:this.orderNum,
-                ins_order:this.orderId,
-                order_current_status:this.orderStatus
-            }
-            cancelOrder(pre).then((res)=>{
+          var that = this
+          let pre = {
+              order_id:this.orderNum,
+              ins_order:this.orderId,
+              order_current_status:this.orderStatus
+          }
+          cancelOrder(pre).then((res)=>{
+            if (res == 201) {
+              if (this.orderStatus === 20) {
+                that.returnTotalFuc()
+              } else {
                 this.myOrderList()
                 this.cancelVisity = false
-                if(res.code == 101){
-                    this.$message({
-                        message: 'The order has been cancelled. Please refresh the page and try again.',
-                        type: 'error'
-                    });
-                }
-            })
+              }
+            }else if(res.code == 101){
+              this.$message({
+                message: 'The order has been cancelled. Please refresh the page and try again.',
+                type: 'error'
+              });
+              }
+          })
+        },
+        returnTotalFuc () {
+          let obj = {
+            transaction_id: this.tranId,
+            order_total: this.totalPay
+          }
+          returnTotal(obj).then((res)=>{
+            if (res.code === 200) {
+              this.myOrderList()
+              this.cancelVisity = false
+            }
+          })
         },
         //到订单详情页
         detail(id){
