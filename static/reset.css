@@ -426,3 +426,8 @@ ul,li {
 .myAccount .el-pagination.is-background .el-pager li:not(.disabled).active{
   background-color: #C51015 !important;
 }
+.account_set .el-button:active{
+  color: #fff !important;
+  border-color: #C51015 !important;
+  outline: 0 !important;
+}
