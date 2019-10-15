@@ -32,6 +32,7 @@ const mySubscription = () =>import('@/view/myAccount/page/mySubscription.vue')
 const outSubscription = () =>import('@/view/order/outSubscription.vue')
 const addressBook = () =>import('@/view/myAccount/page/addressBook.vue')
 const accountSetting = () =>import('@/view/myAccount/page/accountSetting.vue')
+const trackInfo = () =>import('@/view/myAccount/page/trackInfo.vue')
 const orderConfirm = () => import('@/view/order/orderConfirm.vue')
 const paySucceed = () => import('@/view/order/paySucceed.vue')
 const payFailed = () => import('@/view/order/payFailed.vue')
@@ -229,6 +230,15 @@ export default new Router({
       path:'/accountSetting',
       component:accountSetting,
       name:'accountSetting',
+      meta:{
+        keepAlive: true,
+        requireAuth:true
+      }
+    },
+    {
+      path:'/trackInfo',
+      component: trackInfo,
+      name:'trackInfo',
       meta:{
         keepAlive: true,
         requireAuth:true

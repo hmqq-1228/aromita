@@ -66,6 +66,7 @@
     cursor: pointer;
     border:1px solid #121037;
     box-sizing: border-box;
+    margin-left: 30px;
 }
 .Products_Details .product img:hover{
   box-shadow: 1px 2px 2px #ccc;
@@ -585,7 +586,7 @@
 .refund_apply{
     .refund_nav{
         li{
-            width: 320px;
+            width: 285px;
             text-align: center;
             height: 32px;
             line-height:32px;
@@ -685,7 +686,7 @@
     }
     .apply_btn{
         display: flex;
-        margin-left: 120px;
+        margin-left: 200px;
         .sub{
             @extend .com-sub-btn;
         }
@@ -706,17 +707,91 @@
             }
         }
         .examine_tip{
-            margin-bottom: 36px;
+            //margin-bottom: 20px;
+            color: #666666;
+            padding: 20px;
+            font-size: 14px;
+            font-family: Tahoma;
+            box-sizing: border-box;
+            line-height: 20px;
+            .cancelOrderFlag {
+              width: 430px;
+              color: #333;
+              margin: 17px auto;
+              font-size:18px;
+              font-family:Tahoma;
+              font-weight:bold;
+              display: flex;
+              justify-content: space-between;
+              line-height: 44px;
+            }
+           .cancelOrderFlag span{
+             font-size: 44px;
+           }
+            .cancel_refund{
+              float: right;
+              width: 210px;
+              height: 32px;
+              line-height: 32px;
+              text-align: center;
+              color: #fff;
+              font-size: 16px;
+              cursor: pointer;
+              background: #C51015;
+            }
+            .cancel_refund:active{
+              outline: #C51015 solid 1px;
+            }
             h5{
-                margin:10px 0;
                 @extend .com_font;
             }
+            .status2{
+              font-size: 14px;
+              margin-top: 20px;
+              span{
+                color: #333333;
+                font-weight: bold;
+              }
+              .pay{
+                color: #c51015;
+              }
+              .status2_tip{
+                color: #A7A7A7;
+                font-family:Tahoma;
+                font-weight: normal;
+              }
+            }
+            .status6{
+              margin-top: 20px;
+              font-size: 14px;
+              span{
+                color: #333333;
+                font-weight: bold;
+              }
+              .pay{
+                color: #c51015;
+              }
+              .trackSub{
+                width:100px;
+                height:32px;
+                color: #fff;
+                cursor: pointer;
+                text-align: center;
+                line-height: 32px;
+                display: inline-block;
+                background-color: #121037;
+              }
+              .trackSub:active{
+                outline: #121037 solid 1px;
+              }
+            }
             p{
-                color: #999;
+                color: #666;
                 font-size: 14px;
             }
             .email{
-                color: #003764;
+              color: #003764;
+              cursor: pointer;
             }
         }
         .cancel{
@@ -724,17 +799,6 @@
             line-height: 32px;
             h4{
                 float: left;
-            }
-            .cancel_refund{
-                float: right;
-                width: 210px;
-                height: 32px;
-                line-height: 32px;
-                text-align: center;
-                color: #fff;
-                font-size: 16px;
-                cursor: pointer;
-                background: #C51015;
             }
         }
     }
@@ -1177,4 +1241,65 @@
   font-weight:bold;
   cursor: pointer;
   z-index: 6;
+}
+.trackItem{
+  border-bottom: 1px dashed #707070;
+  margin-top: 20px;
+}
+.trackItem:last-child{
+  border-bottom: none;
+}
+.trackTip{
+  font-size: 14px;
+  color: #333333;
+  font-family: Tahoma;
+  line-height: 20px;
+}
+.trackTip span{
+  color: #000;
+  font-weight: bold;
+}
+.trackTitle{
+  background-color: #E9E9E9;
+  width: 1150px;
+  height: 45px;
+  line-height: 45px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: start;
+}
+.trackTitle div{
+  color: #333;
+  font-family: Tahoma;
+  font-size: 16px;
+}
+.traTime{
+  width: 400px;
+  padding-left: 54px;
+  box-sizing: border-box;
+}
+.traDescri{
+  width: 300px;
+}
+.traMemo{
+  width: 400px;
+}
+.traTimeLine{
+  padding: 20px;
+}
+.timeLineBox{
+  display: flex;
+  justify-content: start;
+}
+.moreBtn{
+  color: #fff;
+  width: 140px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  background-color: #C51015;
+  cursor: pointer;
+}
+.moreBtn:active{
+  outline: #C51015 solid 1px;
 }

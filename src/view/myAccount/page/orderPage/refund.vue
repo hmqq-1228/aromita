@@ -2,16 +2,7 @@
   <div class="myAccount orderDetail">
     <div class="account">
       <div class="accountBox">
-        <div class="accountNav">
-          <router-link to="myAccount"><div class="navTitle">My Account</div></router-link>
-          <router-link to="myOrder"><div class="navItem">My Orders</div></router-link>
-          <router-link to="myWishlist"><div class="navItem">My Wishlist</div></router-link>
-          <router-link to="myCoupon"><div class="navItem">My Coupon</div></router-link>
-          <router-link to="myPoints"><div class="navItem">My Points</div></router-link>
-          <router-link to="mySubscription"><div class="navItem">My Subscription</div></router-link>
-          <router-link to="addressBook"><div class="navItem">Address Book</div></router-link>
-          <router-link to="accountSetting"><div class="navItem">Account Setting</div></router-link>
-        </div>
+        <Left-Nav activeIndex="1"></Left-Nav>
         <div class="navCount">
             <h3 class="my_title">Order Refund</h3>
             <div class="refund">
@@ -119,7 +110,11 @@
 </template>
 
 <script>
+import Left from "../../element/leftNav"
 export default {
+  components: {
+    "Left-Nav":Left
+  },
   data(){
     return{
         status:'Refund',//判断是退款还是换货
@@ -159,7 +154,10 @@ export default {
         },
         orderRefundApply(){
             this.$router.push({
-                path:'/orderRefundApply'
+              path:'/orderRefundApply',
+              query: {
+                status: 2
+              }
             })
         },
         //改变售后状态

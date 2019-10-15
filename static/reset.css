@@ -432,3 +432,19 @@ ul,li {
   outline: 0 !important;
   background-color: #C51015 !important;
 }
+.traTimeLine .el-timeline-item__node--normal{
+  left: 1px !important;
+  width: 8px !important;
+  height: 8px !important;
+}
+.traTimeLine .el-timeline-item__wrapper{
+  top: -5px !important;
+}
+.el-timeline .el-timeline-item:last-child{
+  padding-bottom: 0 !important;
+}
+.status6 .el-input__inner{
+  height: 32px !important;
+  line-height: 32px !important;
+  border-radius: 0 !important;
+}
