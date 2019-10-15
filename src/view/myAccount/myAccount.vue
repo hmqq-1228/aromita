@@ -9,7 +9,7 @@
               <div class="user_detail">
                 <div class="name">
                     <h4 v-if="!userDetail.firstname">Please Account Setting</h4>
-                    <h4 v-else class="user_name" @mouseenter="nameShow()" @mouseleave="nameHidden()">Hello,{{userDetail.firstname}} {{userDetail.lastname}}</h4>
+                    <h4 v-else class="user_name" @mouseenter="nameShow()" @mouseleave="nameHidden()">Hello,{{userDetail.firstname}}</h4>
                     <p class="name_hidden" v-if="name_show == true">{{userDetail.firstname}} {{userDetail.lastname}}</p>
                 </div>
                 <div class="other_link">
