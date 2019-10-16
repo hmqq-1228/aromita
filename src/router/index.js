@@ -51,7 +51,8 @@ export default new Router({
       name: 'showPage',
       component: ShowPage,
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {
@@ -89,7 +90,8 @@ export default new Router({
       name: 'productUn',
       component: productUn,
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {
@@ -122,15 +124,17 @@ export default new Router({
       name: 'goodsList',
       component: goodsList,
       meta:{
-        keepAlive: true
-      }
+        keepAlive: true,
+        hasNav: false,
+    }
     },
     {
       path: '/searchList',
       name: 'searchList',
       component: searchList,
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {
@@ -138,7 +142,8 @@ export default new Router({
       name: 'goodsDetail',
       component: goodsDetail,
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {
@@ -146,7 +151,8 @@ export default new Router({
       name: 'shoppingCar',
       component: shoppingCar,
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {
@@ -160,7 +166,8 @@ export default new Router({
       component: myAccount,
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -169,7 +176,8 @@ export default new Router({
       name:'myOrder',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -178,7 +186,8 @@ export default new Router({
       name:'myWishlist',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -187,7 +196,8 @@ export default new Router({
       name:'myCoupon',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -196,7 +206,8 @@ export default new Router({
       name:'couponCenter',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -205,7 +216,8 @@ export default new Router({
       name:'myPoints',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -214,7 +226,8 @@ export default new Router({
       name:'mySubscription',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -223,7 +236,8 @@ export default new Router({
       name:'addressBook',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -232,7 +246,8 @@ export default new Router({
       name:'accountSetting',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -241,7 +256,8 @@ export default new Router({
       name:'trackInfo',
       meta:{
         keepAlive: true,
-        requireAuth:true
+        requireAuth:true,
+        hasNav: true,
       }
     },
     {
@@ -249,7 +265,8 @@ export default new Router({
       component:orderDetail,
       name:'orderDetail',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {
@@ -257,7 +274,8 @@ export default new Router({
       component:orderRefund,
       name:'orderRefund',
       meta:{
-        keepAlive: true
+        keepAlive: true,
+        hasNav: true,
       }
     },
     {

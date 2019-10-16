@@ -69,7 +69,8 @@
                 </div>
               </div>
             </div>
-            <nav-com></nav-com>
+            <nav-com v-if="$route.meta.hasNav"></nav-com>
+            <div v-if="!$route.meta.hasNav" style="height: 10px;"></div>
           </div>
         </div>
     </div>
@@ -77,7 +78,8 @@
     <div class="small_header" :style="{top:(headerShow==true?'0':'-60px')}">
       <div class="box">
           <img src="@/assets/LOGO2.png" alt @click="handleGoHome" class="logo">
-          <nav-com></nav-com>
+          <nav-com v-if="$route.meta.hasNav"></nav-com>
+          <div v-if="!$route.meta.hasNav" style="height: 20px; width: 1050px;"></div>
           <i class="el-icon-search" @click="searchIcon()" v-if="searchShow == false"></i>
           <div class="login">
             <div class="login_left" @click="HandleLogin" v-if="!login_status">
@@ -219,16 +221,16 @@ import { mapGetters } from 'vuex';
         }
         this.$store.state.addCartState = false
       },
-      $route(){
-        this.s_cate_id = this.$route.query.s_cate_id
-        this.f_cate_id = this.$route.query.f_cate_id
-      },
-      s_cate_id() {
-        this.searchVal = ''
-      },
-      f_cate_id () {
-        this.searchVal = ''
-      },
+      // $route(){
+      //   this.s_cate_id = this.$route.query.s_cate_id
+      //   this.f_cate_id = this.$route.query.f_cate_id
+      // },
+      // s_cate_id() {
+      //   this.searchVal = ''
+      // },
+      // f_cate_id () {
+      //   this.searchVal = ''
+      // },
       // searchVal: function (val, oV) {
       //   console.log(val, oV)
       //   // if (val) {
@@ -265,7 +267,7 @@ import { mapGetters } from 'vuex';
       ]),
       Refresh: function () {
         var that = this
-        if (this.$route.name === 'searchList') {
+        if (this.$route.name === 'goodsList') {
           if (that.$store.state.keyWordFlag) {
             that.searchVal = that.$store.state.keyWord
             that.$store.state.keyWordFlag = false
@@ -286,9 +288,9 @@ import { mapGetters } from 'vuex';
         }
         if (this.searchVal) {
           // console.log('ssss', this.searchVal)
-          if (this.$route.name !== 'searchList'){
+          if (this.$route.name !== 'goodsList'){
             this.$router.push({
-              path: '/searchList',
+              path: '/goodsList',
               query: {
                 keyword: this.searchVal
               }
@@ -297,16 +299,16 @@ import { mapGetters } from 'vuex';
             this.$store.state.searchVal = this.searchVal
             this.$store.state.searchFlag = true
             this.$router.push({
-              path: '/searchList',
+              path: '/goodsList',
               query: {
                 keyword: this.searchVal
               }
             })
           }
         } else {
-          if (this.$route.name !== 'searchList'){
+          if (this.$route.name !== 'goodsList'){
             this.$router.push({
-              path: '/searchList',
+              path: '/goodsList',
               query: {
                 keyword: this.searchVal
               }
@@ -315,7 +317,7 @@ import { mapGetters } from 'vuex';
             this.$store.state.searchVal = ''
             this.$store.state.searchFlag = true
             this.$router.push({
-              path: '/searchList',
+              path: '/goodsList',
               query: {
                 keyword: this.searchVal
               }

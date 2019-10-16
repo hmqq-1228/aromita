@@ -160,6 +160,9 @@
     line-height: 32px;
     background: rgba(18, 16, 55, 1);
   }
+  .btn:active{
+    outline: #121037 solid 1px;
+  }
   .footInput{
     margin-top: 10px;
   }

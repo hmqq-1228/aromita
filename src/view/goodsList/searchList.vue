@@ -1,6 +1,6 @@
 <template>
   <div class="goodsList">
-    <div>{{nodeDragRefresh?'':''}}</div>
+    <!--<div>{{nodeDragRefresh?'':''}}</div>-->
     <div class="listBox">
       <div class="listNav">
         <!--<div class="navTitle">Sort By</div>-->
@@ -160,18 +160,18 @@
       }
     },
     computed: {
-      nodeDragRefresh: function () {
-        var that = this
-        if (that.$store.state.searchFlag) {
-          that.keyword = that.$store.state.searchVal
-          that.clearSearchFuc()
-          that.$store.state.keyWord = this.$route.query.keyword
-          that.$store.state.keyWordFlag = true
-          that.getList()
-          that.$store.state.searchFlag = false
-        }
-        return this.$store.state.searchFlag
-      }
+      // nodeDragRefresh: function () {
+      //   var that = this
+      //   if (that.$store.state.searchFlag) {
+      //     that.keyword = that.$store.state.searchVal
+      //     that.clearSearchFuc()
+      //     that.$store.state.keyWord = this.$route.query.keyword
+      //     that.$store.state.keyWordFlag = true
+      //     that.getList()
+      //     that.$store.state.searchFlag = false
+      //   }
+      //   return this.$store.state.searchFlag
+      // }
     },
     mounted() {
       window.addEventListener('scroll', this.handleScroll);
@@ -186,8 +186,6 @@
       this.attrStr = this.$route.query.attr
       this.getAttrList()
       // this.scrollShow()
-      this.$store.state.keyWord = this.$route.query.keyword
-      this.$store.state.keyWordFlag = true
     },
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll);

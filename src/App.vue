@@ -2,6 +2,7 @@
   <div id="app">
     <div class="header" v-if="$route.meta.keepAlive">
       <header-com></header-com>
+      <!--<sheader-com v-if="!$route.meta.hasNav"></sheader-com>-->
       <router-view></router-view>
       <footer-com></footer-com>
     </div>
