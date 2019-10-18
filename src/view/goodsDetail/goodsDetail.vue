@@ -53,13 +53,19 @@
             <social-sharing :url="currentPageUrl" inline-template @open="testShow($event)" @close="closeShow()">
               <div class="showBox">
                 <network network="facebook">
-                  <div style="width: 40px;height: 40px;cursor: pointer;"><img src="../../assets/facebook-01.png" alt=""></div>
+                  <div style="width: 40px;height: 40px;cursor: pointer;display: inline-block;">
+                    <img src="../../assets/facebook-01.png" alt="">
+                  </div>
                 </network>
                 <network network="pinterest">
-                  <div style="width: 40px;height: 40px;cursor: pointer;"><img src="../../assets/pinterest1.png" alt=""></div>
+                  <div style="width: 40px;height: 40px;cursor: pointer;display: inline-block;">
+                    <img src="../../assets/pinterest1.png" alt="">
+                  </div>
                 </network>
                 <network network="twitter">
-                  <div style="width: 40px;height: 40px;cursor: pointer;"><img src="../../assets/twitter1.png" alt=""></div>
+                  <div style="width: 40px;height: 40px;cursor: pointer;display: inline-block;">
+                    <img src="../../assets/twitter1.png" alt="">
+                  </div>
                 </network>
               </div>
             </social-sharing>
@@ -69,7 +75,7 @@
       </div>
     </div>
     <div class="goodsInfo">
-      <div class="goodsTitle">
+      <div class="goodsTitle" :title="goodDetail.sku_name">
         {{goodDetail.sku_name}}
       </div>
       <div class="goodsPrice">
@@ -271,10 +277,10 @@ export default {
     this.isLogin()
   },
   methods:{
-    testShow (e) {
-      // console.log('88888888', e)
+    testShow: function (e) {
+     // alert('88888888', e)
     },
-    closeShow () {
+    closeShow: function () {
       var that = this
       var obj = qs.stringify({
         score: 10,

@@ -66,11 +66,11 @@
                   //}
                 }
                 .optionList{
-                    width: 270px;
+                    width: 280px;
                     display: flex;
                     padding-top: 6px;
                     .login {
-                        width: 100px;
+                        width: 120px;
                         height: 40px;
                         display: flex;
                         cursor: pointer;
@@ -123,6 +123,7 @@
                             width: 24px;
                             height: 24px;
                             background: rgba(0, 0, 0, 0);
+                            border-style: none;
                         }
                         .wish_right {
                             padding-left: 5px;

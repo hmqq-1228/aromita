@@ -1,4 +1,4 @@
-const addressList = {
+var addressList = {
     List:[
         {
             countryName:"United States",
@@ -14,7 +14,6 @@ const addressList = {
                 "Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island",
                 "South Carolina","South Dakota","Tennessee","Texas","Utah",
                 "Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"
-
             ]
         },
         {
@@ -26,7 +25,6 @@ const addressList = {
                 "Nunavut","Northwest Territories","Yukon","Victoria","Edmonton","Regina",
                 "Winnipeg","Toronto","Quebec","Fredericton","Halifax","Charlottetown",
                 "St.Johns","Iqaluit","Yellowknife","Whitehorse"
-
             ]
         }
     ]

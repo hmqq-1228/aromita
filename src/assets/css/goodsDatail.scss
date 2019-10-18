@@ -523,6 +523,7 @@
   .goodsTitle{
     font-size: 18px;
     color: #333;
+    height: 46px;
     font-family: Tahoma;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -695,27 +696,112 @@
 //向上走的动画初始及结尾值
 @keyframes run-right-top {
     0% {
-      top:0px;
-    }
-    100% {
-      top: -620px;
-    }
-}
-//向上右的动画初始及结尾值
-@keyframes run-right-right {
-    0% {
+      top:0;
       left: -100px;
       transform: scale(1);
     }
     100% {
-      left: 880px;
+      top: -620px;
+      left: 840px;
       transform: scale(0.1);
     }
 }
+//@-moz-keyframes run-right-top {
+//  0% {
+//    top:0px;
+//  }
+//  100% {
+//    top: -620px;
+//  }
+//}
+//@-ms-keyframes run-right-top {
+//  0% {
+//    top:0px;
+//  }
+//  100% {
+//    top: -620px;
+//  }
+//}
+//@-o-keyframes run-right-top {
+//  0% {
+//    top:0px;
+//  }
+//  100% {
+//    top: -620px;
+//  }
+//}
+//向上右的动画初始及结尾值
+@keyframes run-right-right {
+    0% {
+      left: -100px;
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+    }
+    100% {
+      left: 840px;
+      transform: scale(0.1);
+      -moz-transform: scale(0.1);
+      -ms-transform: scale(0.1);
+      -o-transform: scale(0.1);
+    }
+}
+//@-ms-keyframes run-right-right {
+//  0% {
+//    left: -100px;
+//    -moz-transform: scale(1);
+//    -ms-transform: scale(1);
+//    -o-transform: scale(1);
+//  }
+//  100% {
+//    left: 880px;
+//    transform: scale(0.1);
+//    -moz-transform: scale(0.1);
+//    -ms-transform: scale(0.1);
+//    -o-transform: scale(0.1);
+//  }
+//}
+//@-ms-keyframes run-right-right {
+//  0% {
+//    left: -100px;
+//    -moz-transform: scale(1);
+//    -ms-transform: scale(1);
+//    -o-transform: scale(1);
+//  }
+//  100% {
+//    left: 880px;
+//    transform: scale(0.1);
+//    -moz-transform: scale(0.1);
+//    -ms-transform: scale(0.1);
+//    -o-transform: scale(0.1);
+//  }
+//}
+//@-o-keyframes run-right-right {
+//  0% {
+//    left: -100px;
+//    -moz-transform: scale(1);
+//    -ms-transform: scale(1);
+//    -o-transform: scale(1);
+//  }
+//  100% {
+//    left: 880px;
+//    transform: scale(0.1);
+//    -moz-transform: scale(0.1);
+//    -ms-transform: scale(0.1);
+//    -o-transform: scale(0.1);
+//  }
+//}
 .run_top_right {
     display: block;
-    animation: run-right-right 1s 0.2s 1 linear, run-right-top 1s 0.2s 1 cubic-bezier(.13,.89,.73,.98);
-    animation-fill-mode: forwards;
+    //animation: run-right-right 1.2s linear, run-right-top 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+    animation: run-right-top 2s cubic-bezier(0.17, 0.84, 0.44, 1);
+    //-ms-animation: run-right-top 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.27);
+    //-o-animation: run-right-top 1.2s cubic-bezier(0.18, 0.89, 0.32, 1.27);
+    //animation-timing-function: cubic-bezier(.25, .1, .25, 1);
+     animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
 }
 .disabled {
   pointer-events: none;

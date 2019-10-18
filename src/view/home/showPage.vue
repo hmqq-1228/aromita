@@ -194,14 +194,18 @@ export default {
     margin: 30px auto;
     color: #333333;
     text-align: center;
+    font-family: Tahoma;
   }
   .collections_thr1 {
     width: 1440px;
-    height: 300px;
+    /*height: 300px;*/
     margin-top: 20px;
     display: flex;
+    display: -webkit-flex;
     flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
     justify-content: space-between;
+    -webkit-justify-content:space-between;
   }
   .thr2 > img {
     width: 100%;

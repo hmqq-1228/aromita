@@ -118,7 +118,7 @@
 <script>
 import Left from "../element/leftNav"
 import {addAddress,address,setdefault} from "@/api/account.js"
-import addressList from "static/config.js"
+import addressList from "../../../assets/js/config"
 import qs from 'qs'
 export default {
     components: {
@@ -203,7 +203,7 @@ export default {
                     this.list = res.data
                 }else{
                     this.list = []
-                }        
+                }
             })
         },
         //新增地址弹框
@@ -216,8 +216,8 @@ export default {
                 this.$message({
                     type:'info',
                     message: 'Sorry, you only can create 10 addresses at most.'
-                }); 
-            }   
+                });
+            }
         },
         //选择国家
         chooseCoutry(){
@@ -260,8 +260,8 @@ export default {
                 }else{
                     return false
                 }
-                
-            })  
+
+            })
         },
         //删除用户地址
         removeAddress(id){

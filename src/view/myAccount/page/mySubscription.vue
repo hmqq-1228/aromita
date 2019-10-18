@@ -105,7 +105,7 @@ export default {
                   }
                 })
               } else if (res.code === 10001){
-                this.$alert('This email address is already subscribed.', '', {
+                this.$alert('Your email address is already subscribed.', '', {
                   center: true,
                   confirmButtonText: 'OK',
                   callback: action => {

@@ -5,7 +5,7 @@
           <div class="img">
             <div  v-for="(item,index) in icon" :key="index">
               <a :href="item.picture_href">
-                <img :src="item.picture_src" alt>
+                <img :src="item.picture_src" alt style="border-style: none;">
               </a>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default {
                 confirmButtonText: 'OK',
               })
             }else if (res.code === 10001){
-              this.$alert('This email address is already subscribed.', '', {
+              this.$alert('Your email address is already subscribed.', '', {
                 center: true,
                 confirmButtonText: 'OK',
               })

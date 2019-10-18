@@ -364,7 +364,7 @@
         </div>
       </div>
       <!--@mousedown="move($event)"-->
-      <div class="payDiv" :style="{right:(rightDis==true?'0':'12%')}">
+      <div class="payDiv" @mousedown="move($event)" :style="{right:(rightDis==true?'0':'12%')}">
         <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
           <div class="payName">Subtotal:</div>
           <div class="payValue">$ {{billing.subtotal.toFixed(2)}}</div>
@@ -406,9 +406,9 @@
 <script>
 import aFooter from "@/components/afooter.vue";
 import aheader from "@/components/aheader.vue";
-import {orderAdd, orderAddress, billingList, checkLogin, deleteAddress} from "../../api/register";
+import {orderAdd, orderAddress, billingList, checkLogin} from "../../api/register";
 import qs from 'qs'
-import addressList from "static/config.js"
+import addressList from "../../assets/js/config"
 export default {
   components: {
     "aheader-com": aheader,
@@ -626,7 +626,6 @@ export default {
     // }
   },
   created(){
-    // console.log('wwwww', document.body.clientWidth)
     if (document.body.clientWidth < 1460){
       this.rightDis = true
     }
@@ -634,34 +633,34 @@ export default {
     this.checkLoginInfo()
   },
   methods: {
-    // move(e) {
-    //   // let odiv = document.getElementById('ship-pop');
-    //   let odiv = e.currentTarget;
-    //   odiv.style.zIndex = this.zIndex++;
-    //   // 鼠标相对元素的位置
-    //   let disX = e.clientX - odiv.offsetLeft;
-    //   let disY = e.clientY - odiv.offsetTop;
-    //   document.onmousemove = (e)=>{
-    //     //鼠标按下并移动的事件
-    //     //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
-    //     let left = e.clientX - disX;
-    //     let top = e.clientY - disY;
-    //     //移动当前元素
-    //     odiv.style.left = left + 'px';
-    //     odiv.style.top = top + 'px';
-    //   };
-    //   document.onmouseup = (e) => {
-    //     odiv.style.zIndex = this.zIndex++;
-    //     document.onmousemove = null;
-    //     document.onmouseup = null;
-    //   };
-    // },
-    proving1(){
+    move(e) {
+      // let odiv = document.getElementById('ship-pop');
+      let odiv = e.currentTarget;
+      odiv.style.zIndex = this.zIndex++;
+      // 鼠标相对元素的位置
+      let disX = e.clientX - odiv.offsetLeft;
+      let disY = e.clientY - odiv.offsetTop;
+      document.onmousemove = (e)=>{
+        //鼠标按下并移动的事件
+        //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+        let left = e.clientX - disX;
+        let top = e.clientY - disY;
+        //移动当前元素
+        odiv.style.left = left + 'px';
+        odiv.style.top = top + 'px';
+      };
+      document.onmouseup = (e) => {
+        odiv.style.zIndex = this.zIndex++;
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
+    },
+    proving1: function(){
       this.inputPoint = this.inputPoint.replace(/[^\.\d]/g,'');
       this.inputPoint = this.inputPoint.replace('.','');
       // this.inputPoint = this.inputPoint.replace(/[\d]/);
     },
-    getInputPoint (num) {
+    getInputPoint: function (num) {
       // console.log('ppppppp', num)
       if (this.inputPoint > this.myPoints) {
         this.inputPoint = this.myPoints
@@ -681,7 +680,7 @@ export default {
       this.getBillingList()
     },
     // 可用积分
-    getPoints () {
+    getPoints: function () {
       var that = this
       that.$axios.post('api/customercanusepoint', {}).then(res => {
         that.myPoints = res.point
@@ -774,7 +773,7 @@ export default {
       this.getOrderAddressOut()
     },
     //选择国家
-    chooseCoutry(){
+    chooseCoutry: function (){
       this.ProvinceList = []
       //查询对应国家下的州区列表
       let Province = this.countryList.find((n) => n.countryValue === this.addNewForm.Country).countryList
@@ -987,7 +986,7 @@ export default {
       that.shipFee = that.radio2.split('-')[1]
       that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
     },
-    getShipMethod (aStr) {
+    getShipMethod: function (aStr) {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       if (aStr.entry_country === 'United States'){
@@ -1167,7 +1166,7 @@ export default {
       })
     },
     // 修改
-    submitForm(formName) {
+    submitForm: function (formName) {
       var that = this
       var objList = []
       that.errorMsg = null
@@ -1271,7 +1270,7 @@ export default {
         })
       }
     },
-    resetForm(formName) {
+    resetForm: function (formName) {
       this.$refs[formName].resetFields();
       this.addressFormShow = false
     },
