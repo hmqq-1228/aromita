@@ -67,7 +67,10 @@
                 <span v-if="address.entry_company">{{address.entry_company}},</span> {{address.entry_street_address1}} {{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
               </div>
             </div>
-            <div class="itemPone"><i class="el-icon-phone" v-if="address.telephone_number" style="width: 14px;height: 14px;"></i> <span>{{address.telephone_number}}</span></div>
+            <div class="itemPone">
+              <i class="el-icon-phone" v-if="address.telephone_number" style="width: 14px;height: 14px;"></i>
+              <span>{{address.telephone_number}}</span>
+            </div>
             <div class="itemDefault"><span v-if="address.is_default === 1">Default</span></div>
             <div class="itemOption">
               <div @click="addNewAddress(address.id)">Edit</div>
@@ -278,8 +281,8 @@
             <div class="availablePoint">
               <div class="point">
                 <div>Your points: <span style="color: chocolate">{{myPoints}}</span></div>
-                <div style="width: 400px;display: flex;justify-content: space-between;">
-                  <div>Maximum points available: </div>
+                <div style="width: 420px;display: flex;">
+                  <div style="margin-right: 20px;">Maximum points available: </div>
                   <el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" maxlength="5" @blur="getInputPoint(inputPoint)" @keyup.native="proving1"></el-input>
                 </div>
                 <div>Point discount: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):0}}</span></div>

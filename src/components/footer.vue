@@ -82,7 +82,6 @@ export default {
   methods: {
     aromiteInfo: function () {
       this.$axios.get('api/homelayout/80', {}).then(res => {
-        // console.log('kkkkkk', res)
         this.aromite = res.data[0].picture_title
       })
     },
@@ -97,16 +96,12 @@ export default {
     // 40
     async homeIcon() {
       let data = await homeIcon()
-      for (let icon of data.data){
-       this.icon = data.data
-      }
+      this.icon = data.data
     },
     //  50
     async homeFootTitle() {
       let data = await homeFootTitle()
-      for (let footTitle of data.data){
-       this.footTitle = data.data
-      }
+      this.footTitle = data.data
     },
     //未登录用户订阅
     subscribeSub(formName){
@@ -114,7 +109,6 @@ export default {
       that.$refs[formName].validate((valid) => {
         if (valid) {
           Nosubscribe({customer_email_address:that.ruleForm.subscribeKey}).then((res)=>{
-            // console.log('666666', res)
             if (res.code === 200) {
               this.$alert('Subscriptions Successful', '', {
                 center: true,
