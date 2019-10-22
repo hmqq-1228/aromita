@@ -75,7 +75,7 @@
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number, scope.row.id)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 40">Tracking</span>
+                                    <span class="list_btn" @click="toTracking(scope.row.orders_number)" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                                 </template>
                             </el-table-column>
@@ -123,7 +123,7 @@ export default {
             total:0,//总条目
             page:1,
             pageSize:20,
-            order_status:'10',//订单状态
+            order_status: '10',//订单状态
             orderList:[],//订单列表
             order_statusList:{
                 '10':"pending",
@@ -193,6 +193,8 @@ export default {
         //切换订单状态
         changeOrderStatus(num){
             this.order_status = num
+            // this.$store.state.order_status = num
+            // this.order_status = this.$store.state.order_status
             this.page = 1
             clearInterval(this.timer)
             this.myOrderList()
@@ -253,6 +255,15 @@ export default {
                     orderId:id
                 }
             })
+        },
+      // 物流信息
+        toTracking: function (num) {
+          this.$router.push({
+            path: '/trackInfo',
+            query: {
+              order_num: num
+            }
+          })
         },
         //到支付页面
         pay(total, num, id){

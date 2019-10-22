@@ -507,6 +507,17 @@
             margin-bottom: 10px;
             @extend .com_font;
         }
+      .Continue{
+        width:180px;
+        height: 32px;
+        text-align: center;
+        line-height: 32px;
+        color: #fff;
+        font-size: 14px;
+        background: #C51015;
+        float: right;
+        cursor: pointer;
+      }
         .classify{
             overflow: hidden;
             margin-bottom: 10px;
@@ -548,17 +559,6 @@
             b{
                 color:#E91818;
             }
-        }
-        .Continue{
-            width:180px;
-            height: 32px;
-            text-align: center;
-            line-height: 32px;
-            color: #fff;
-            font-size: 14px;
-            background: #C51015;
-            float: right;
-            cursor: pointer;
         }
         .Exchange_btn{
             width: 118px;
@@ -1274,12 +1274,12 @@
   font-size: 16px;
 }
 .traTime{
-  width: 400px;
-  padding-left: 54px;
+  width: 305px;
+  padding-left: 45px;
   box-sizing: border-box;
 }
 .traDescri{
-  width: 300px;
+  width: 395px;
 }
 .traMemo{
   width: 400px;
@@ -1290,6 +1290,16 @@
 .timeLineBox{
   display: flex;
   justify-content: start;
+  color: #999999;
+}
+.timeLineBox.colorActive0{
+  color: #c51015;
+}
+.timeLineBox.colorActive1{
+  color: #333333;
+}
+.timeLineBox.colorActive2{
+  color: #666666;
 }
 .moreBtn{
   color: #fff;

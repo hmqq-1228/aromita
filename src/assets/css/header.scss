@@ -40,12 +40,60 @@
                 width: 700px;
                 display: flex;
                 margin-top: 20px;
+                font-family: Tahoma;
                 justify-content: space-between;
-                .search {
+                .search{
+                  height: 36px;
+                  position: relative;
+                  .serHistory{
+                    width: 360px;
+                    box-sizing: border-box;
+                    background-color: #fff;
+                    position: absolute;
+                    left: 0;
+                    top: 34px;
+                    z-index: 999;
+                    box-shadow: 0 2px 4px #ccc;
+                    padding: 10px 0 20px 0;
+                    .hisTitle{
+                      color: #A7A7A7;
+                      height: 24px;
+                      line-height: 24px;
+                      padding: 0 10px;
+                      position: relative;
+                      div{
+                        color: #666;
+                        position: absolute;
+                        top: -6px;
+                        right: 6px;
+                        cursor: pointer;
+                      }
+                      div:hover{
+                        color: #C51015;
+                      }
+                    }
+                    .hisItem{
+                      height: 24px;
+                      line-height: 24px;
+                      padding: 0 5px;
+                      color: #333;
+                      margin-top: 10px;
+                      cursor: pointer;
+                      display: inline-block;
+                    }
+                    .hisItem.hot{
+                      background-color: #f6f6f6;
+                      padding: 0 6px;
+                      border-radius: 20px;
+                      color: #666666;
+                      margin-left: 4px;
+                      margin-right: 4px;
+                    }
+                  }
+                }
+                .search .serInput{
                     width: 360px;
                     height: 32px;
-                    display: inline-block;
-                    border: 1px solid rgba(18, 16, 55, 1);
                     display: flex;
                     .search_word {
                         width: 82px;
@@ -59,11 +107,9 @@
                         line-height: 32px;
                         cursor: pointer;
                     }
-                  //.search_word:hover{
-                  //  transform: scale(1.04);
-                  //  transition: all .3s;
-                  //  font-size: 16px;
-                  //}
+                  .search_word:active{
+                   outline: #030303 solid 1px;
+                  }
                 }
                 .optionList{
                     width: 280px;

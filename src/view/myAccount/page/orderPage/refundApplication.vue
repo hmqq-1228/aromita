@@ -23,7 +23,7 @@
                         </el-form-item>
                         <el-form-item label="Refund：">
                             <p class="price">
-                                <b>$ 148</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
+                              <b>$ 148</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
                             </p>
                         </el-form-item>
                         <el-form-item label="comments：">

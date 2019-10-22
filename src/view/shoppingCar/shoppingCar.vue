@@ -30,7 +30,7 @@
       <div class="optionType">
         <span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span>
         <span class="wishAdd" v-if="carItem.in_wishlist === 10"><img @click="addWish(carItem.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
-        <span class="wishAdd" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
+        <span class="wishAdd" title="wish list" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
       </div>
     </div>
     <div class="noGoods" v-if="noProduct">
@@ -362,24 +362,6 @@ export default {
     },
     getPayList: function (e) {
       var that = this
-      // var flag = false
-      // var k = 0
-      // if (that.payList.length > 0) {
-      //   for(var i=0;i< that.payList.length; i++) {
-      //     if(that.payList[i] === parseFloat(e)){
-      //       flag = true
-      //       k = i
-      //       break
-      //     }
-      //   }
-      //   if (flag) {
-      //     that.payList.splice(k, 1, parseFloat(e))
-      //   } else {
-      //     that.payList.push(parseFloat(e))
-      //   }
-      // } else {
-      //   that.payList.push(parseFloat(e))
-      // }
       that.payList.push(parseFloat(e))
       that.sumPay(that.payList)
     },
@@ -429,12 +411,6 @@ export default {
       } else {
         this.wishVisible = true
       }
-      // var imgName = e.target.currentSrc.split('img/')[1]
-      // if (imgName === 'loveOut.png') {
-      //   this.wishUrl = '../../../static/img/love.png'
-      // } else if (imgName === 'love.png') {
-      //   this.wishUrl = '../../../static/img/loveOut.png'
-      // }
     },
     handleChange: function (e, skuId, max) {
       var that = this

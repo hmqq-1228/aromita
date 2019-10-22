@@ -18,9 +18,32 @@
               <div class="searchBox">
                 <!-- 搜索框 -->
                 <div class="search">
-                  <el-input :placeholder="searchInput" v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
-                  <!--<el-input v-if="searchInput" v-model="searchVal"></el-input>-->
-                  <p class="search_word" @mousedown="search($event)" @mouseup="searchOver($event)">Search</p>
+                  <div class="serInput">
+                    <el-input :placeholder="searchInput" v-model="searchVal" @focus="inputFocus()" @keyup.enter.native="searchOver()"></el-input>
+                    <p class="search_word" @click="searchOver($event)">Search</p>
+                  </div>
+                  <div class="serHistory" v-if="showHistory">
+                    <div class="hisTitle">Search history
+                      <div class="el-icon-close" @click="closeHistory()"></div>
+                    </div>
+                    <div style="padding: 0 10px;">
+                      <div class="hisItem" v-for="(his, index) in historyList" :key="index" @click="toSearch(his)">{{his}}</div>
+                      <!--<div class="hisItem">Pendants</div>-->
+                      <!--<div class="hisItem">nice</div>-->
+                      <!--<div class="hisItem">sanick</div>-->
+                      <!--<div class="hisItem">Rings</div>-->
+                      <!--<div class="hisItem">Pendants</div>-->
+                      <!--<div class="hisItem">nice</div>-->
+                      <!--<div class="hisItem">sanick</div>-->
+                    </div>
+                    <div class="hisTitle" style="margin-top: 10px">Others are searching</div>
+                    <div style="padding: 0 10px;">
+                      <div class="hisItem hot" v-for="(hot, index2) in hotList" :key="index2" @click="toSearch(hot.name)">{{hot.name}}</div>
+                      <!--<div class="hisItem hot">Pendants</div>-->
+                      <!--<div class="hisItem hot">nice</div>-->
+                      <!--<div class="hisItem hot">sanick</div>-->
+                    </div>
+                  </div>
                 </div>
                 <div class="optionList">
                   <!-- 登录 -->
@@ -198,8 +221,12 @@ import { mapGetters } from 'vuex';
         searchInput: '',
         f_cate_id: '',
         s_cate_id: '',
+        hList: [],
+        hotList: [],
+        historyList: [],
         login_status:true,//用户登录状态
         userName: 'Welcome',
+        showHistory: false,
         TotalPrice:0,//购物车总价
         show:false,//购物车显示状态
         goodsList:[],//购物车列表
@@ -220,6 +247,14 @@ import { mapGetters } from 'vuex';
           this.getGoodsCont()
         }
         this.$store.state.addCartState = false
+      },
+      showHistory: function (val, ol) {
+        console.log('val', val)
+        if (val) {
+          var list = JSON.parse(localStorage.getItem('hList'))
+          this.historyList = list.slice(0, 10)
+          this.hotSearch()
+        }
       },
       // $route(){
       //   this.s_cate_id = this.$route.query.s_cate_id
@@ -259,6 +294,9 @@ import { mapGetters } from 'vuex';
         this.searchVal = this.$route.query.keyword
       }
       // console.log('rrrrr', this.searchVal)
+      if (!localStorage.getItem('hList')) {
+        localStorage.setItem('hList', JSON.stringify(this.hList))
+      }
     },
     computed: {
       ...mapGetters([
@@ -281,13 +319,29 @@ import { mapGetters } from 'vuex';
       }
     },
     methods: {
+      inputFocus: function () {
+        this.showHistory = true
+      },
+      closeHistory: function(){
+        this.showHistory = false
+      },
+      // blurInput: function () {
+      //   this.showHistory = false
+      // },
+      toSearch: function (str) {
+        this.searchVal = str
+        this.searchOver()
+        this.showHistory = false
+      },
+      hotSearch: function () {
+        this.$axios.post('api/show',{}).then(res => {
+          if (res.code === 200) {
+            this.hotList = JSON.parse(res.data)
+          }
+        })
+      },
       searchOver: function(e) {
-        if (e) {
-          var obj = e.currentTarget
-          $(obj).css({"transform":"scale(1)","transition":"all .3s"})
-        }
         if (this.searchVal) {
-          // console.log('ssss', this.searchVal)
           if (this.$route.name !== 'goodsList'){
             this.$router.push({
               path: '/goodsList',
@@ -305,31 +359,53 @@ import { mapGetters } from 'vuex';
               }
             })
           }
-        } else {
-          if (this.$route.name !== 'goodsList'){
-            this.$router.push({
-              path: '/goodsList',
-              query: {
-                keyword: this.searchVal
+          var hListNew = []
+          var hListStr = localStorage.getItem('hList')
+          var flag = false
+          var k = 0
+          var hListNewStr = JSON.parse(hListStr)
+          hListNew = hListNewStr.slice(0, 10)
+          if (hListNew.length > 0) {
+            for(var i=0;i< hListNew.length; i++) {
+              if(hListNew[i] === this.searchVal){
+                flag = true
+                k = i
+                break
               }
-            })
+            }
+            if (flag) {
+              hListNew.splice(k, 1)
+              hListNew.unshift(this.searchVal)
+            } else {
+              hListNew.unshift(this.searchVal)
+            }
           } else {
-            this.$store.state.searchVal = ''
-            this.$store.state.searchFlag = true
-            this.$router.push({
-              path: '/goodsList',
-              query: {
-                keyword: this.searchVal
-              }
-            })
+            hListNew.unshift(this.searchVal)
           }
-          // alert('gogogogogoog')
-          // this.$router.push('/')
+          console.log('hhhhhhh', hListNew)
+          localStorage.setItem('hList', JSON.stringify(hListNew))
         }
-      },
-      search: function (e) {
-        var obj = e.currentTarget
-        $(obj).css({"transform":"scale(1.06)","transition":"all .3s","font-stretch": "normal"})
+        // else {
+        //   if (this.$route.name !== 'goodsList'){
+        //     this.$router.push({
+        //       path: '/goodsList',
+        //       query: {
+        //         keyword: this.searchVal
+        //       }
+        //     })
+        //   } else {
+        //     this.$store.state.searchVal = ''
+        //     this.$store.state.searchFlag = true
+        //     this.$router.push({
+        //       path: '/goodsList',
+        //       query: {
+        //         keyword: this.searchVal
+        //       }
+        //     })
+        //   }
+        //   // alert('gogogogogoog')
+        //   // this.$router.push('/')
+        // }
       },
       attrshow(num){
         this.attrShowindex = num
@@ -456,7 +532,8 @@ import { mapGetters } from 'vuex';
 <style scoped>
 .search .el-input{
     width: 280px;
-    border:none;
+    height: 30px !important;
+    border: 1px solid #030303;
 }
 .qty{
   font-size: 14px;

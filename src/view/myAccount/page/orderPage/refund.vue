@@ -6,11 +6,11 @@
         <div class="navCount">
             <h3 class="my_title">Order Refund</h3>
             <div class="refund">
-                <P class="refund_rule">我们提供退款与换货入口，如果您对商品不满意，可先进行换货，换货除质量问题外需退回货品，您自己承担退回运费。
-如果您不需要换货，可进行退款操作，退款除质量问题外需退回货品，您自己承担运费
-</P>
+                <p class="refund_rule">If you are unsatisfied with your items for any reason, please initiate returns.
+                  After the application has been approved, you need to return them back in its original packaging.
+                  A refund will be issued upon receipt of the returned items.</p>
                 <div class="label">
-                    <p>请选择服务类型：</p>
+                    <p style="color: #333;font-weight: bold;">Please select the type of service：</p>
                     <div class="classify">
                         <div class="classification" :class="{'active':status=='Refund'}" @click="changeStatus('Refund')">
                             <img src="@/assets/images/Refund_active.png" v-if="status=='Refund'" alt="" class="refund">
@@ -29,10 +29,11 @@
                             </div>
                         </div>
                     </div>
-                    <el-checkbox v-model="checked">同意退款条约</el-checkbox>
+                    <el-checkbox v-model="checked">I have rend and agreed to the Return Policy</el-checkbox>
+                  <div class="Continue" @click="orderRefundApply()">Continue</div>
                 </div>
                 <div class="Products_Details">
-                    <h4>申请退款商品：</h4>
+                    <h4>The items I want to return：</h4>
                     <el-table
                         :data="tableData"
                         style="width: 100%;border:1px solid #E9E9E9"
@@ -44,15 +45,24 @@
                         <el-table-column
                             type="selection"
                             label="Sealect all"
-                            width="55">
+                            width="40">
                         </el-table-column>
+                      <el-table-column
+                        prop="date"
+                        label="Select All"
+                        width="150">
+                        <template slot-scope="scope">
+                          <div class="product">
+                            <img style="margin-right: 0;" src="@/assets/images/1.jpg" alt="">
+                          </div>
+                        </template>
+                      </el-table-column>
                         <el-table-column
                             prop="date"
                             label="Product"
-                            width="680">
+                            width="560">
                             <template slot-scope="scope">
                                 <div class="product">
-                                    <img src="@/assets/images/1.jpg" alt="">
                                     <div class="detail">
                                         <h5>Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</h5>
                                         <p><span>Size:</span>3.0mm</p>
@@ -79,9 +89,8 @@
                         </el-table-column>
                     </el-table>
                     <p class="price">
-                        退款金额：<b>$ 148</b><span>（包含商品金额、运费、税费）</span>
+                      Refund：<b>$ 148</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
                     </p>
-                    <div class="Continue" @click="orderRefundApply()">Continue</div>
                 </div>
             </div>
         </div>
@@ -156,7 +165,7 @@ export default {
             this.$router.push({
               path:'/orderRefundApply',
               query: {
-                status: 2
+                status: 1
               }
             })
         },

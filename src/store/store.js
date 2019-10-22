@@ -17,6 +17,7 @@ const state = {
   idList: [],
   keyWord: '',
   keyWordFlag: false,
+  order_status: '10',
   username:false,//用户名
 }
 

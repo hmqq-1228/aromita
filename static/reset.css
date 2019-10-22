@@ -50,7 +50,7 @@ ul,li {
     border-color:#a81015 !important;
     background:#C51015 !important;
 }
-.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner,.fliterList .el-radio__input.is-checked .el-radio__inner{
+.wrapLogin .el-checkbox__input.is-checked .el-checkbox__inner,.refund .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner,.fliterList .el-radio__input.is-checked .el-radio__inner{
   border-color: #999 !important;
   background-color: #fff !important;
 }
@@ -111,14 +111,21 @@ ul,li {
 .carCont .el-input-number__decrease:hover,.carCont .el-input-number__increase:hover{
     color: #333 !important;
 }
+.Products_Details .el-input-number__decrease:hover,.Products_Details .el-input-number__increase:hover{
+  color: #333 !important;
+}
 .carCont .el-input-number__decrease.is-disabled:hover,.carCont .el-input-number__increase.is-disabled:hover{
+  color: #C0C4CC !important;
+  cursor: not-allowed !important;
+}
+.Products_Details .el-input-number__decrease.is-disabled:hover,.Products_Details .el-input-number__increase.is-disabled:hover{
   color: #C0C4CC !important;
   cursor: not-allowed !important;
 }
 .el-badge__content.is-fixed{
     right: 0 !important;
 }
-.register .el-checkbox__inner:hover,.Products_Details .el-checkbox__inner:hover{
+.register .el-checkbox__inner:hover,.Products_Details .el-checkbox__inner:hover,.refund .el-checkbox__inner:hover{
   border-color: #999 !important;
 }
 .register .policy.policyError .el-checkbox__inner{
@@ -138,12 +145,12 @@ ul,li {
 .Products_Details .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
   background-color: #333 !important;
 }
-.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after{
+.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after,.refund .el-checkbox__inner::after{
   border: 1px solid #333 !important;
   border-left: 0 !important;
   border-top: 0 !important;
 }
-.register .el-checkbox__input.is-checked+.el-checkbox__label{
+.register .el-checkbox__input.is-checked+.el-checkbox__label,.refund .el-checkbox__input.is-checked+.el-checkbox__label{
   color: #333 !important;
 }
 .el-badge__content{
@@ -268,7 +275,7 @@ ul,li {
 .payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover,.payConfirm .el-checkbox__input.is-focus .el-checkbox__inner,.payConfirm .el-checkbox__inner:hover{
     border-color: #E5E5E5 !important;
 }
-.wrapLogin .el-checkbox__input.is-focus .el-checkbox__inner,.wrapLogin .el-checkbox__inner:hover{
+.wrapLogin .el-checkbox__input.is-focus .el-checkbox__inner,.wrapLogin .el-checkbox__inner:hover,.refund .el-checkbox__input.is-focus .el-checkbox__inner{
   border-color: #999 !important;
 }
 .Scription .el-checkbox__input.is-focus .el-checkbox__inner,.Scription .el-checkbox__inner:hover{
@@ -357,8 +364,8 @@ ul,li {
 }
 .search .el-input__inner{
   border:none !important;
-  height: 32px !important;
-  line-height: 32px !important;
+  height: 30px !important;
+  line-height: 30px !important;
 }
 .wrapLogin .el-button:focus,.wrapLogin .el-button:hover {
    color: #fff !important;
@@ -456,4 +463,11 @@ ul,li {
   height: 32px !important;
   line-height: 32px !important;
   border-radius: 0 !important;
+}
+.refund_form .el-textarea__inner:focus{
+  border-color: #888888 !important;
+}
+.refund_form .el-upload--picture-card:hover,.refund_form .el-upload:focus{
+  border-color: #888888 !important;
+  color: #666;
 }
