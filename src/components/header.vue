@@ -530,7 +530,7 @@ import { mapGetters } from 'vuex';
   };
 </script>
 <style scoped>
-.search .el-input{
+.search .serInput .el-input{
     width: 280px;
     height: 30px !important;
     border: 1px solid #030303;
