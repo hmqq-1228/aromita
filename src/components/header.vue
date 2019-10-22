@@ -23,7 +23,7 @@
                     <p class="search_word" @click="searchOver($event)">Search</p>
                   </div>
                   <div class="serHistory" v-if="showHistory">
-                    <div class="hisTitle">Search history
+                    <div class="hisTitle"><span v-if="historyList.length>0">Search history</span>
                       <div class="el-icon-close" @click="closeHistory()"></div>
                     </div>
                     <div style="padding: 0 10px;">
@@ -36,7 +36,7 @@
                       <!--<div class="hisItem">nice</div>-->
                       <!--<div class="hisItem">sanick</div>-->
                     </div>
-                    <div class="hisTitle" style="margin-top: 10px">Others are searching</div>
+                    <div class="hisTitle" style="margin-top: 10px" v-if="hotList.length>0">Others are searching</div>
                     <div style="padding: 0 10px;">
                       <div class="hisItem hot" v-for="(hot, index2) in hotList" :key="index2" @click="toSearch(hot.name)">{{hot.name}}</div>
                       <!--<div class="hisItem hot">Pendants</div>-->
