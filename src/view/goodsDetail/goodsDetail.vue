@@ -561,37 +561,37 @@ export default {
         }
       }
     },
-    getNumbers: function (source, count, isPermutation = true) {
-      var that = this
-      //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
-      let currentList = source.map((item) => [item]);
-      if (count === 1) {
-        return currentList;
-      }
-      //取出第一项后，再取出后面count - 1 项的排列组合，并把第一项的所有可能（currentList）和 后面count-1项所有可能交叉组合
-      for (let i = 0; i < currentList.length; i++) {
-        let current = currentList[i];
-        //如果是排列的方式，在取count-1时，源数组中排除当前项
-        let children = [];
-        // isPermutation = true
-        // console.log('cccc', current)
-        if (isPermutation) {
-          children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
-        }
-        //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
-        else {
-          // console.log('22222222222', source)
-          children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
-        }
-        if (children && children.length>0) {
-          for (let child of children) {
-            that.getSkuList.push([...current, ...child]);
-          }
-        } else {
-          // console.log('555555555', source)
-        }
-      }
-    },
+    // getNumbers: function (source, count, isPermutation = true) {
+    //   var that = this
+    //   //如果只取一位，返回数组中的所有项，例如 [ [1], [2], [3] ]
+    //   let currentList = source.map((item) => [item]);
+    //   if (count === 1) {
+    //     return currentList
+    //   }
+    //   //取出第一项后，再取出后面count - 1 项的排列组合，并把第一项的所有可能（currentList）和 后面count-1项所有可能交叉组合
+    //   for (let i = 0; i < currentList.length; i++) {
+    //     let current = currentList[i];
+    //     //如果是排列的方式，在取count-1时，源数组中排除当前项
+    //     let children = [];
+    //     // isPermutation = true
+    //     // console.log('cccc', current)
+    //     if (isPermutation) {
+    //       children = this.getNumbers(source.filter(item => item !== current[0]), count - 1, isPermutation);
+    //     }
+    //     //如果是组合的方法，在取count-1时，源数组只使用当前项之后的
+    //     else {
+    //       // console.log('22222222222', source)
+    //       children = this.getNumbers(source.slice(i + 1), count - 1, isPermutation);
+    //     }
+    //     if (children && children.length>0) {
+    //       for (let child of children) {
+    //         that.getSkuList.push([...current, ...child]);
+    //       }
+    //     } else {
+    //       // console.log('555555555', source)
+    //     }
+    //   }
+    // },
     isContained: function (a, b){
       if(!(a instanceof Array) || !(b instanceof Array)) return false;
       if(a.length < b.length) return false;

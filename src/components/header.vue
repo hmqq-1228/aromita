@@ -1,208 +1,208 @@
 <template>
   <!-- 头部 -->
-  <div>
+  <div @click="hidePanel($event)">
     <!-- 大头部 -->
     <div class="wrap1">
-        <div class="wrap">
-          <div class="title">
-            <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
-          </div>
-          <div>{{Refresh?'':''}}</div>
-          <!-- 中间内容 -->
-          <div class="content">
-            <div class="contentHd">
-              <!-- 左边logo -->
-              <div class="LOGO2" @click="handleGoHome">
-                <img src="@/assets/LOGO2.png" alt>
-              </div>
-              <div class="searchBox">
-                <!-- 搜索框 -->
-                <div class="search">
-                  <div class="serInput">
-                    <el-input :placeholder="searchInput" v-model="searchVal" @focus="inputFocus()" @keyup.enter.native="searchOver()"></el-input>
-                    <p class="search_word" @click="searchOver($event)">Search</p>
+      <div class="wrap">
+        <div class="title">
+          <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
+        </div>
+        <div>{{Refresh?'':''}}</div>
+        <!-- 中间内容 -->
+        <div class="content">
+          <div class="contentHd">
+            <!-- 左边logo -->
+            <div class="LOGO2" @click="handleGoHome">
+              <img src="@/assets/LOGO2.png" alt>
+            </div>
+            <div class="searchBox">
+              <!-- 搜索框 -->
+              <div class="search">
+                <div class="serInput">
+                  <el-input :placeholder="searchInput" v-model="searchVal" @focus="inputFocus()" @keyup.enter.native="searchOver()"></el-input>
+                  <p class="search_word" @click="searchOver($event)">Search</p>
+                </div>
+                <div class="serHistory" v-if="showHistory">
+                  <div class="hisTitle"><span v-if="historyList.length>0">Search history</span>
+                    <div class="el-icon-close" @click="closeHistory()"></div>
                   </div>
-                  <div class="serHistory" v-if="showHistory">
-                    <div class="hisTitle"><span v-if="historyList.length>0">Search history</span>
-                      <div class="el-icon-close" @click="closeHistory()"></div>
-                    </div>
-                    <div style="padding: 0 10px;">
-                      <div class="hisItem" v-for="(his, index) in historyList" :key="index" @click="toSearch(his)">{{his}}</div>
-                      <!--<div class="hisItem">Pendants</div>-->
-                      <!--<div class="hisItem">nice</div>-->
-                      <!--<div class="hisItem">sanick</div>-->
-                      <!--<div class="hisItem">Rings</div>-->
-                      <!--<div class="hisItem">Pendants</div>-->
-                      <!--<div class="hisItem">nice</div>-->
-                      <!--<div class="hisItem">sanick</div>-->
-                    </div>
-                    <div class="hisTitle" style="margin-top: 10px" v-if="hotList.length>0">Others are searching</div>
-                    <div style="padding: 0 10px;">
-                      <div class="hisItem hot" v-for="(hot, index2) in hotList" :key="index2" @click="toSearch(hot.name)">{{hot.name}}</div>
-                      <!--<div class="hisItem hot">Pendants</div>-->
-                      <!--<div class="hisItem hot">nice</div>-->
-                      <!--<div class="hisItem hot">sanick</div>-->
-                    </div>
+                  <div style="padding: 0 10px;">
+                    <div class="hisItem" v-for="(his, index) in historyList" :key="index" @click="toSearch(his)">{{his}}</div>
+                    <!--<div class="hisItem">Pendants</div>-->
+                    <!--<div class="hisItem">nice</div>-->
+                    <!--<div class="hisItem">sanick</div>-->
+                    <!--<div class="hisItem">Rings</div>-->
+                    <!--<div class="hisItem">Pendants</div>-->
+                    <!--<div class="hisItem">nice</div>-->
+                    <!--<div class="hisItem">sanick</div>-->
+                  </div>
+                  <div class="hisTitle" style="margin-top: 10px" v-if="hotList.length>0">Others are searching</div>
+                  <div style="padding: 0 10px;">
+                    <div class="hisItem hot" v-for="(hot, index2) in hotList" :key="index2" @click="toSearch(hot.name)">{{hot.name}}</div>
+                    <!--<div class="hisItem hot">Pendants</div>-->
+                    <!--<div class="hisItem hot">nice</div>-->
+                    <!--<div class="hisItem hot">sanick</div>-->
                   </div>
                 </div>
-                <div class="optionList">
-                  <!-- 登录 -->
-                  <div class="login">
-                    <div class="login_left" @click="HandleLogin" v-if="!login_status">
-                      <img src="@/assets/login.png" alt>
-                      <span>{{userName}}</span>
-                    </div>
-                    <el-dropdown v-if="login_status">
-                      <div class="login_right" :title="userName">
-                        <router-link to="/myAccount">
-                          <span v-if="!userName">Hello,Welcome</span>
-                          <span v-if="userName">Hello,{{userName.substring(0,7)}}<span v-if="userName && userName.length>7">...</span></span>
-                        </router-link>
-                      </div>
-                      <div class="dropdown">
-                        <el-dropdown-menu slot="dropdown">
-                          <el-dropdown-item><router-link to="/myOrder">My Orders</router-link></el-dropdown-item>
-                          <el-dropdown-item><router-link to="/myCoupon">My Coupons</router-link></el-dropdown-item>
-                          <el-dropdown-item><router-link to="/myPoints">My Points</router-link></el-dropdown-item>
-                          <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
-                        </el-dropdown-menu>
-                      </div>
-                    </el-dropdown>
+              </div>
+              <div class="optionList">
+                <!-- 登录 -->
+                <div class="login">
+                  <div class="login_left" @click="HandleLogin" v-if="!login_status">
+                    <img src="@/assets/login.png" alt>
+                    <span>{{userName}}</span>
                   </div>
-                  <!-- 心愿单 -->
-                  <router-link to="/myWishlist">
-                    <div class="wish">
-                      <div class="wish_left">
-                        <img src="@/assets/wish.png" alt>
-                      </div>
-                      <div class="wish_right">
-                        <p class="wish_word">Wish</p>
-                      </div>
+                  <el-dropdown v-if="login_status">
+                    <div class="login_right" :title="userName">
+                      <router-link to="/myAccount">
+                        <span v-if="!userName">Hello,Welcome</span>
+                        <span v-if="userName">Hello,{{userName.substring(0,7)}}<span v-if="userName && userName.length>7">...</span></span>
+                      </router-link>
                     </div>
-                  </router-link>
-                  <!-- 购物车 -->
-                  <div class="cart" v-on:click="visible">
-                    <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" :max="99" class="item">
-                      <div class="cart_left">
-                        <img src="@/assets/cart.png" alt>
-                        <div>cart</div>
-                      </div>
-                    </el-badge>
+                    <div class="dropdown">
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item><router-link to="/myOrder">My Orders</router-link></el-dropdown-item>
+                        <el-dropdown-item><router-link to="/myCoupon">My Coupons</router-link></el-dropdown-item>
+                        <el-dropdown-item><router-link to="/myPoints">My Points</router-link></el-dropdown-item>
+                        <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
+                      </el-dropdown-menu>
+                    </div>
+                  </el-dropdown>
+                </div>
+                <!-- 心愿单 -->
+                <router-link to="/myWishlist">
+                  <div class="wish">
+                    <div class="wish_left">
+                      <img src="@/assets/wish.png" alt>
+                    </div>
+                    <div class="wish_right">
+                      <p class="wish_word">Wish</p>
+                    </div>
                   </div>
+                </router-link>
+                <!-- 购物车 -->
+                <div class="cart" v-on:click="visible">
+                  <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" :max="99" class="item">
+                    <div class="cart_left">
+                      <img src="@/assets/cart.png" alt>
+                      <div>cart</div>
+                    </div>
+                  </el-badge>
                 </div>
               </div>
             </div>
-            <nav-com v-if="$route.meta.hasNav"></nav-com>
-            <div v-if="!$route.meta.hasNav" style="height: 10px;"></div>
           </div>
+          <nav-com v-if="$route.meta.hasNav"></nav-com>
+          <div v-if="!$route.meta.hasNav" style="height: 10px;"></div>
         </div>
+      </div>
     </div>
     <!-- 小头部 -->
     <div class="small_header" :style="{top:(headerShow==true?'0':'-60px')}">
       <div class="box">
-          <img src="@/assets/LOGO2.png" alt @click="handleGoHome" class="logo">
-          <nav-com v-if="$route.meta.hasNav"></nav-com>
-          <div v-if="!$route.meta.hasNav" style="height: 20px; width: 1050px;"></div>
-          <i class="el-icon-search" @click="searchIcon()" v-if="searchShow == false"></i>
-          <div class="login">
-            <div class="login_left" @click="HandleLogin" v-if="!login_status">
-              <img src="@/assets/login.png" alt>
+        <img src="@/assets/LOGO2.png" alt @click="handleGoHome" class="logo">
+        <nav-com v-if="$route.meta.hasNav"></nav-com>
+        <div v-if="!$route.meta.hasNav" style="height: 20px; width: 1050px;"></div>
+        <i class="el-icon-search" @click="searchIcon()" v-if="searchShow == false"></i>
+        <div class="login">
+          <div class="login_left" @click="HandleLogin" v-if="!login_status">
+            <img src="@/assets/login.png" alt>
+          </div>
+          <el-dropdown v-if="login_status">
+            <div class="login_right" :title="userName">
+              <router-link to="/myAccount"><span>{{userName}}</span></router-link>
             </div>
-            <el-dropdown v-if="login_status">
-              <div class="login_right" :title="userName">
-                <router-link to="/myAccount"><span>{{userName}}</span></router-link>
-              </div>
-              <div class="dropdown">
-                <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item><router-link to="/myOrder">My Orders</router-link></el-dropdown-item>
-                  <el-dropdown-item><router-link to="/myCoupon">My Coupons</router-link></el-dropdown-item>
-                  <el-dropdown-item><router-link to="/myPoints">My Points</router-link></el-dropdown-item>
-                  <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
-                </el-dropdown-menu>
-              </div>
-            </el-dropdown>
-          </div>
-          <div class="cart" v-on:click="visible">
-            <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" :max="99" class="item">
-                <img src="@/assets/cart.png" alt>
-            </el-badge>
-          </div>
+            <div class="dropdown">
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item><router-link to="/myOrder">My Orders</router-link></el-dropdown-item>
+                <el-dropdown-item><router-link to="/myCoupon">My Coupons</router-link></el-dropdown-item>
+                <el-dropdown-item><router-link to="/myPoints">My Points</router-link></el-dropdown-item>
+                <el-dropdown-item><span @click="logout()">Logout</span></el-dropdown-item>
+              </el-dropdown-menu>
+            </div>
+          </el-dropdown>
+        </div>
+        <div class="cart" v-on:click="visible">
+          <el-badge :hidden="goodsNum === 0?true:false" :value="goodsNum" :max="99" class="item">
+            <img src="@/assets/cart.png" alt>
+          </el-badge>
+        </div>
       </div>
       <div class="search_box" v-if="searchShow == true">
         <div class="search">
-            <i class="el-icon-search" style="cursor: pointer;" @click="searchOver()"></i>
-            <el-input v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
-            <i class="el-icon-close" @click="searchIcon()"></i>
+          <i class="el-icon-search" style="cursor: pointer;" @click="searchOver()"></i>
+          <el-input v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
+          <i class="el-icon-close" @click="searchIcon()"></i>
         </div>
       </div>
     </div>
     <!-- 购物车缩略版 -->
     <div class="cart_list" v-on:mouseenter="visible" v-on:mouseleave="invisible" :style="{right:(show==true?'0':'-560px')}">
-        <div class="cart_title">
-          <i class="el-icon-close" @click="invisible"></i>
-          <p>Your Cart Has {{this.goodsNum}} Items</p>
+      <div class="cart_title">
+        <i class="el-icon-close" @click="invisible"></i>
+        <p>Your Cart Has {{this.goodsNum}} Items</p>
+      </div>
+      <div class="cart_center">
+        <ul v-if="goodsListOn.length!=0">
+          <li v-for="(item,index) in goodsListOn" :key="index">
+            <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
+            <div class="list_detail">
+              <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
+              <div class="spec_color">
+                <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
+                  <span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
+                    <span v-if="index1<2">
+                      {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                    </span>
+                    <span v-if="index1>=2">...</span>
+                  </span>
+                </p>
+                <p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
+                  <span v-for="(item1,index2) in JSON.parse(item.sku_attrs)" :key="index2">
+                    {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                  </span>
+                </p>
+                <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
+              </div>
+            </div>
+            <div class="price_del">
+              <i class="el-icon-error" @click="delList(item.sku_id)"></i>
+              <div class="price">${{(item.sku_price*item.goods_count).toFixed(2)}}</div>
+            </div>
+          </li>
+        </ul>
+        <!-- <ul v-if="goodsListOff.length!=0" class="offGoodList">
+          <li v-for="(item,index) in goodsListOff" :key="index">
+            <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
+            <div class="list_detail">
+              <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
+              <div class="spec_color">
+                <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
+                <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
+              </div>
+            </div>
+            <div class="price_del">
+              <i class="el-icon-error" @click="delList(item.sku_id)"></i>
+              <div class="price">${{item.sku_price*item.goods_count}}</div>
+            </div>
+          </li>
+        </ul> -->
+        <div v-if="this.goodsList.length != 0 && goodsListOn.length == 0" class="empty_cart">
+          <div class="noGoodsText">{{this.goodsNum}}items are unavailable, please check your shopping cart. </div>
+          <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
         </div>
-        <div class="cart_center">
-          <ul v-if="goodsListOn.length!=0">
-            <li v-for="(item,index) in goodsListOn" :key="index">
-              <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
-              <div class="list_detail">
-                <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
-                <div class="spec_color">
-                  <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
-                      <span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
-                        <span v-if="index1<2">
-                            {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
-                        </span>
-                        <span v-if="index1>=2">...</span>
-                      </span>
-                  </p>
-                  <p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
-                      <span v-for="(item1,index2) in JSON.parse(item.sku_attrs)" :key="index2">
-                        {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
-                      </span>
-                  </p>
-                  <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
-                </div>
-              </div>
-              <div class="price_del">
-                <i class="el-icon-error" @click="delList(item.sku_id)"></i>
-                <div class="price">${{(item.sku_price*item.goods_count).toFixed(2)}}</div>
-              </div>
-            </li>
-          </ul>
-          <!-- <ul v-if="goodsListOff.length!=0" class="offGoodList">
-            <li v-for="(item,index) in goodsListOff" :key="index">
-              <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
-              <div class="list_detail">
-                <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
-                <div class="spec_color">
-                  <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
-                  <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
-                </div>
-              </div>
-              <div class="price_del">
-                <i class="el-icon-error" @click="delList(item.sku_id)"></i>
-                <div class="price">${{item.sku_price*item.goods_count}}</div>
-              </div>
-            </li>
-          </ul> -->
-          <div v-if="this.goodsList.length != 0 && goodsListOn.length == 0" class="empty_cart">
-            <div class="noGoodsText">{{this.goodsNum}}items are unavailable, please check your shopping cart. </div>
-            <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
-          </div>
-          <div v-if="this.goodsList.length == 0" class="empty_cart">
-            <div class="noGoodsText">The Shopping Cart is Empty!</div>
-            <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
-          </div>
+        <div v-if="this.goodsList.length == 0" class="empty_cart">
+          <div class="noGoodsText">The Shopping Cart is Empty!</div>
+          <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
         </div>
-        <div class="total" v-if="this.goodsList.length!=0">
-          <div class="total_price">
-            <span>Total Price:</span>
-            <b>${{TotalPrice}}</b>
-          </div>
-          <div class="view_cart" @click="toShopCart()"><span>View Cart</span></div>
+      </div>
+      <div class="total" v-if="this.goodsList.length!=0">
+        <div class="total_price">
+          <span>Total Price:</span>
+          <b>${{TotalPrice}}</b>
         </div>
+        <div class="view_cart" @click="toShopCart()"><span>View Cart</span></div>
+      </div>
     </div>
   </div>
 </template>
@@ -249,7 +249,6 @@ import { mapGetters } from 'vuex';
         this.$store.state.addCartState = false
       },
       showHistory: function (val, ol) {
-        console.log('val', val)
         if (val) {
           var list = JSON.parse(localStorage.getItem('hList'))
           this.historyList = list.slice(0, 10)
@@ -340,6 +339,15 @@ import { mapGetters } from 'vuex';
           }
         })
       },
+      // 点击任意区域弹窗消失
+      hidePanel (event) {
+        let sp2 = document.querySelector('.search')
+        if (sp2) {
+          if (!sp2.contains(event.target)) {
+            this.showHistory = false
+          }
+        }
+      },
       searchOver: function(e) {
         if (this.searchVal) {
           this.showHistory = false
@@ -383,7 +391,7 @@ import { mapGetters } from 'vuex';
           } else {
             hListNew.unshift(this.searchVal)
           }
-          console.log('hhhhhhh', hListNew)
+          // console.log('hhhhhhh', hListNew)
           localStorage.setItem('hList', JSON.stringify(hListNew))
         }
         // else {
