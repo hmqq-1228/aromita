@@ -342,6 +342,7 @@ import { mapGetters } from 'vuex';
       },
       searchOver: function(e) {
         if (this.searchVal) {
+          this.showHistory = false
           if (this.$route.name !== 'goodsList'){
             this.$router.push({
               path: '/goodsList',
