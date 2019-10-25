@@ -41,6 +41,7 @@
                                 <el-upload
                                     action="https://jsonplaceholder.typicode.com/posts/"
                                     list-type="picture-card"
+                                    limit="3"
                                     :on-preview="handlePictureCardPreview"
                                     :on-remove="handleRemove">
                                     <i class="el-icon-plus"></i>
@@ -49,7 +50,7 @@
                             </div>
                             <p class="tip"><i>*</i>In order to accelerate refund process, please attach the file.</p>
                             <el-dialog :visible.sync="dialogVisible" size="tiny">
-                                <img width="100%" :src="dialogImageUrl" alt="">
+                              <img width="100%" :src="dialogImageUrl" alt="">
                             </el-dialog>
                         </el-form-item>
                     </el-form>

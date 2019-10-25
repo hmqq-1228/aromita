@@ -65,8 +65,14 @@
                         color: #666;
                         position: absolute;
                         top: -6px;
-                        right: 6px;
+                        right: 10px;
                         cursor: pointer;
+                      }
+                      .hisClear{
+                        font-size: 12px;
+                        //margin-right: 20px;
+                        cursor: pointer;
+                        color: #888;
                       }
                       div:hover{
                         color: #C51015;
@@ -81,6 +87,9 @@
                       cursor: pointer;
                       display: inline-block;
                     }
+                    .hisItem:hover{
+                      color: #C51015;
+                    }
                     .hisItem.hot{
                       background-color: #f6f6f6;
                       padding: 0 6px;
@@ -88,6 +97,9 @@
                       color: #666666;
                       margin-left: 4px;
                       margin-right: 4px;
+                    }
+                    .hisItem.hot:hover{
+                      color: #C51015;
                     }
                   }
                 }

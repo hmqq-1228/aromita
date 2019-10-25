@@ -1,6 +1,6 @@
 <template>
   <!-- 头部 -->
-  <div @click="hidePanel($event)">
+  <div>
     <!-- 大头部 -->
     <div class="wrap1">
       <div class="wrap">
@@ -8,6 +8,7 @@
           <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
         </div>
         <div>{{Refresh?'':''}}</div>
+        <div>{{showHistoryRefresh?'':''}}</div>
         <!-- 中间内容 -->
         <div class="content">
           <div class="contentHd">
@@ -17,14 +18,14 @@
             </div>
             <div class="searchBox">
               <!-- 搜索框 -->
-              <div class="search">
+              <div class="search" id="search">
                 <div class="serInput">
                   <el-input :placeholder="searchInput" v-model="searchVal" @focus="inputFocus()" @keyup.enter.native="searchOver()"></el-input>
                   <p class="search_word" @click="searchOver($event)">Search</p>
                 </div>
                 <div class="serHistory" v-if="showHistory">
                   <div class="hisTitle"><span v-if="historyList.length>0">Search history</span>
-                    <div class="el-icon-close" @click="closeHistory()"></div>
+                    <div class="hisClear" v-if="historyList.length>0" @click="clearHistory()">clear search history</div>
                   </div>
                   <div style="padding: 0 10px;">
                     <div class="hisItem" v-for="(his, index) in historyList" :key="index" @click="toSearch(his)">{{his}}</div>
@@ -34,9 +35,10 @@
                     <!--<div class="hisItem">Rings</div>-->
                     <!--<div class="hisItem">Pendants</div>-->
                     <!--<div class="hisItem">nice</div>-->
-                    <!--<div class="hisItem">sanick</div>-->
+                    <!--<div class="hisItem">clear</div>-->
                   </div>
-                  <div class="hisTitle" style="margin-top: 10px" v-if="hotList.length>0">Others are searching</div>
+                  <!--<div class="hisClear" v-if="historyList.length>0" @click="clearHistory()">clear search history</div>-->
+                  <div class="hisTitle" style="margin-top: 10px;clear: both;" v-if="hotList.length>0">Others are searching</div>
                   <div style="padding: 0 10px;">
                     <div class="hisItem hot" v-for="(hot, index2) in hotList" :key="index2" @click="toSearch(hot.name)">{{hot.name}}</div>
                     <!--<div class="hisItem hot">Pendants</div>-->
@@ -131,7 +133,7 @@
       <div class="search_box" v-if="searchShow == true">
         <div class="search">
           <i class="el-icon-search" style="cursor: pointer;" @click="searchOver()"></i>
-          <el-input v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
+          <el-input :placeholder="searchInput" v-model="searchVal" @keyup.enter.native="searchOver()"></el-input>
           <i class="el-icon-close" @click="searchIcon()"></i>
         </div>
       </div>
@@ -219,6 +221,7 @@ import { mapGetters } from 'vuex';
         keyword:'',//搜索关键字
         searchVal: '',
         searchInput: '',
+        linkWordUrl: '',
         f_cate_id: '',
         s_cate_id: '',
         hList: [],
@@ -265,12 +268,13 @@ import { mapGetters } from 'vuex';
       // f_cate_id () {
       //   this.searchVal = ''
       // },
-      // searchVal: function (val, oV) {
-      //   console.log(val, oV)
-      //   // if (val) {
-      //   //   this.searchInput = true
-      //   // }
-      // },
+      searchVal: function (val, oV) {
+        if (val) {
+          this.showHistory = false
+        } else {
+          this.showHistory = true
+        }
+      },
       changeusername(user){
         if(user == true){
           this._checkLogin()
@@ -289,6 +293,7 @@ import { mapGetters } from 'vuex';
     created() {
       this._checkLogin()
       this.getGoodsCont()
+      this.linkSearch()
       if (this.$route.query.keyword){
         this.searchVal = this.$route.query.keyword
       }
@@ -315,6 +320,14 @@ import { mapGetters } from 'vuex';
           that.$store.state.keyWordFlag = false
         }
         return this.$store.state.keyWordFlag
+      },
+      showHistoryRefresh: function () {
+        var that = this
+        if (that.$store.state.searchShow === 1) {
+          that.showHistory = false
+          that.$store.state.searchShow = 0
+        }
+        return this.$store.state.searchFlag
       }
     },
     methods: {
@@ -339,15 +352,29 @@ import { mapGetters } from 'vuex';
           }
         })
       },
-      // 点击任意区域弹窗消失
-      hidePanel (event) {
-        let sp2 = document.querySelector('.search')
-        if (sp2) {
-          if (!sp2.contains(event.target)) {
-            this.showHistory = false
+      linkSearch: function () {
+        this.$axios.post('api/linkword/show',{}).then(res => {
+          if (res.code === 200) {
+            this.searchInput = res.data.link_word_name
+            this.linkWordUrl = res.data.url
           }
-        }
+        })
       },
+      clearHistory: function () {
+        this.hList = []
+        localStorage.setItem('hList', JSON.stringify(this.hList))
+        var list = JSON.parse(localStorage.getItem('hList'))
+        this.historyList = list.slice(0, 10)
+      },
+      // 点击任意区域弹窗消失
+      // hidePanel (event) {
+      //   let sp2 = document.querySelector('.search')
+      //   if (sp2) {
+      //     if (!sp2.contains(event.target)) {
+      //       this.showHistory = false
+      //     }
+      //   }
+      // },
       searchOver: function(e) {
         if (this.searchVal) {
           this.showHistory = false
@@ -393,28 +420,9 @@ import { mapGetters } from 'vuex';
           }
           // console.log('hhhhhhh', hListNew)
           localStorage.setItem('hList', JSON.stringify(hListNew))
+        } else {
+          window.location.href = this.linkWordUrl
         }
-        // else {
-        //   if (this.$route.name !== 'goodsList'){
-        //     this.$router.push({
-        //       path: '/goodsList',
-        //       query: {
-        //         keyword: this.searchVal
-        //       }
-        //     })
-        //   } else {
-        //     this.$store.state.searchVal = ''
-        //     this.$store.state.searchFlag = true
-        //     this.$router.push({
-        //       path: '/goodsList',
-        //       query: {
-        //         keyword: this.searchVal
-        //       }
-        //     })
-        //   }
-        //   // alert('gogogogogoog')
-        //   // this.$router.push('/')
-        // }
       },
       attrshow(num){
         this.attrShowindex = num

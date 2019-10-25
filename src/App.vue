@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @click="hidePanel($event)">
     <div class="header" v-if="$route.meta.keepAlive">
       <header-com></header-com>
       <!--<sheader-com v-if="!$route.meta.hasNav"></sheader-com>-->
@@ -19,6 +19,18 @@ export default {
     "header-com": Header,
     "footer-com": Footer
   },
+  methods:{
+    // 点击任意区域弹窗消失
+    hidePanel (event) {
+      let sp2 = document.querySelector('#search')
+      if (sp2) {
+        if (!sp2.contains(event.target)) {
+          console.log('kkkkkkkkkkkkkkkk')
+          this.$store.state.searchShow = 1
+        }
+      }
+    },
+  }
 }
 </script>
 
