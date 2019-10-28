@@ -1311,6 +1311,17 @@
   overflow: hidden;
   text-overflow:ellipsis;
 }
+.timeLineBox .trackDes{
+  width: 380px;
+  height: 40px;
+  margin-right: 20px;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;   //行数为2
+  overflow: hidden;
+  text-overflow:ellipsis;
+}
 .moreBtn{
   color: #fff;
   width: 140px;
