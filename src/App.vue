@@ -41,6 +41,9 @@ export default {
   opacity:1;
   margin: 0 auto;
 }
+.el-timeline-item{
+  padding-bottom: 10px !important;
+}
 .el-button--primary{
   background-color: #C51015 !important;
   width: 100px !important;

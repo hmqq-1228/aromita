@@ -16,11 +16,11 @@
               </div>
               <div class="traTimeLine">
                 <el-timeline>
-                  <el-timeline-item v-for="(tItem, index2) in track" :key="index2" :color="tItem.colorStr" v-if="index2<track.attrLen">
-                    <div class="timeLineBox" :class="'colorActive'+ index2">
+                  <el-timeline-item v-for="(tItem, index2) in track" :key="index2" :color="index2 === 0?'#C51015':'#999'" v-if="index2<track.attrLen">
+                    <div class="timeLineBox" :class="index2 === 0?'colorActive':''">
                       <div style="width: 260px;">{{tItem.tracking_last_update_time}}</div>
                       <div style="width: 380px;margin-right: 20px;">{{tItem.tracking_description}}</div>
-                      <div>{{tItem.tracking_details}}</div>
+                      <div class="trackDel" :title="tItem.tracking_details">{{tItem.tracking_details}}</div>
                     </div>
                   </el-timeline-item>
                 </el-timeline>
@@ -55,16 +55,11 @@
     methods:{
       getTrackList: function (num) {
         var that = this
-        console.log('pppppppp', num)
         that.$axios.post('api/showOrdertrackimgmore', qs.stringify({order_id: num})).then(res => {
-          console.log('kkkkkk', res)
           if (res.code === 200) {
             that.trackList = res.data
             for (var i=0;i<that.trackList.length;i++) {
               that.$set(that.trackList[i],'attrLen',3)
-              that.$set(that.trackList[i][0],'colorStr', '#c51015')
-              that.$set(that.trackList[i][1],'colorStr', '#666666')
-              that.$set(that.trackList[i][2],'colorStr', '#999999')
             }
           }
         })

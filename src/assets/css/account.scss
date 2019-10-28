@@ -1290,9 +1290,9 @@
 .timeLineBox{
   display: flex;
   justify-content: start;
-  color: #999999;
+  color: #333;
 }
-.timeLineBox.colorActive0{
+.timeLineBox.colorActive{
   color: #c51015;
 }
 .timeLineBox.colorActive1{
@@ -1300,6 +1300,16 @@
 }
 .timeLineBox.colorActive2{
   color: #666666;
+}
+.timeLineBox .trackDel{
+  width: 420px;
+  height: 40px;
+  display: -webkit-box;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:2;   //行数为2
+  overflow: hidden;
+  text-overflow:ellipsis;
 }
 .moreBtn{
   color: #fff;
