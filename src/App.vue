@@ -25,7 +25,6 @@ export default {
       let sp2 = document.querySelector('#search')
       if (sp2) {
         if (!sp2.contains(event.target)) {
-          console.log('kkkkkkkkkkkkkkkk')
           this.$store.state.searchShow = 1
         }
       }

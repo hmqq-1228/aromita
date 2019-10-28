@@ -45,7 +45,7 @@
                                 <template slot-scope="scope">
                                     <p style="display:none">{{scope.row}}</p>
                                     <p>{{scope.row.orders_number}}</p>
-                                    <p style="color:#C51015;text-align:left;font-weight:bolder" v-if="(scope.row.orders_status== 10 ||scope.row.orders_status== 60)&& (order_status == '10'||order_status == '')">Time Left:{{scope.row.remainTimeStr}}</p>
+                                    <p style="color:#C51015;text-align:left;font-weight:bolder" v-if="(scope.row.orders_status== 10 ||scope.row.orders_status== 60)&& (order_status == '10'||order_status == '')">Time Left: {{scope.row.remainTimeStr}}</p>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -93,18 +93,18 @@
                             <p><router-link to="/">Sorry, you don't have any orders yet.</router-link></p>
                         </div>
                         <!-- 取消订单弹框 -->
-                        <el-dialog
-                            title="Cancel Order"
-                            :visible.sync="cancelVisity"
-                            width="30%">
-                            <div class="cancelBox">
-                                <p>Are you sure you want cancel the order ?</p>
-                                <div class="cancelBtn">
-                                    <div class="com-Cancel-btn cancelbtn" @click="cancelVisity = false">Cancel</div>
-                                    <div class="com-sub-btn cancelbtn" @click="cancelSub()">Submit</div>
-                                </div>
-                            </div>
-                        </el-dialog>
+                        <!--<el-dialog-->
+                            <!--title="Cancel Order"-->
+                            <!--:visible.sync="cancelVisity"-->
+                            <!--width="30%">-->
+                            <!--<div class="cancelBox">-->
+                                <!--<p>Are you sure you want cancel the order ?</p>-->
+                                <!--<div class="cancelBtn">-->
+                                    <!--<div class="com-Cancel-btn cancelbtn" @click="cancelVisity = false">Cancel</div>-->
+                                    <!--<div class="com-sub-btn cancelbtn" @click="cancelSub()">Submit</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</el-dialog>-->
                     </div>
                 </div>
             </div>
@@ -113,7 +113,7 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {myOrder,cancelOrder,returnTotal} from "@/api/account.js";
+import {myOrder,cancelOrderSub,returnTotal} from "@/api/account.js";
 export default {
     components: {
         "Left-Nav":Left
@@ -204,12 +204,20 @@ export default {
         },
         // 取消订单
         cancelOrder(obj){
-          this.cancelVisity = true;
+          // this.cancelVisity = true;
           this.orderNum = obj.row.orders_number,
           this.orderId = obj.row.id,
           this.orderStatus = obj.row.orders_status,
           this.tranId = obj.row.transaction_id,
           this.totalPay = obj.row.order_total
+          this.$confirm('Are you sure you want cancel the order ?', 'Cancel Order', {
+            confirmButtonText: 'Submit',
+            cancelButtonText: 'Cancel',
+          }).then(() => {
+             this.cancelSub()
+          }).catch(() => {
+            return false
+          });
         },
         //取消订单提交
         cancelSub(){
@@ -219,13 +227,13 @@ export default {
               ins_order:this.orderId,
               order_current_status:this.orderStatus
           }
-          cancelOrder(pre).then((res)=>{
+          cancelOrderSub(pre).then((res)=>{
             if (res == 201) {
               if (this.orderStatus === 20) {
                 that.returnTotalFuc()
               } else {
                 this.myOrderList()
-                this.cancelVisity = false
+                // this.cancelVisity = false
               }
             }else if(res.code == 101){
               this.$message({
@@ -243,7 +251,7 @@ export default {
           returnTotal(obj).then((res)=>{
             if (res.code === 200) {
               this.myOrderList()
-              this.cancelVisity = false
+              // this.cancelVisity = false
             }
           })
         },
