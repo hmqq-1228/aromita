@@ -245,6 +245,11 @@ export default {
                             this.clearFrom()
                             this.addressFormVisible = false;
                             this._address()
+                        }else if(res.code == 101){
+                            this.$message({
+                                message: 'Your shipping address is invalid. Please check it.',
+                                type: 'error'
+                            });
                         }else{
                             var arr = []
                             for(var i in res.msg) {
@@ -330,11 +335,16 @@ export default {
                         if(res.code === '200' || res.code === 200){
                             this.$message({
                                 type: 'success',
-                                message: 'Successful deletion!'
+                                message: 'Successful address modification!'
                             });
                             this.addressFormVisible = false;
                             this.clearFrom()
                             this._address()
+                        }else if(res.code == 101){
+                            this.$message({
+                                type: 'error',
+                                message: 'Your shipping address is invalid. Please check it.'
+                            });
                         }
                     })
                 }else{
