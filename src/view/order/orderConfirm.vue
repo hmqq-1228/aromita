@@ -667,6 +667,7 @@ export default {
     getInputPoint: function (num) {
       // console.log('ppppppp', num)
       this.butLoading = true
+      this.payDisabled = true
       if (this.inputPoint > this.myPoints) {
         this.inputPoint = this.myPoints
       } else if (this.inputPoint < this.myPoints) {
@@ -762,6 +763,7 @@ export default {
     useCoupon: function (e, cpId) {
       var obj = e.currentTarget
       this.butLoading = true
+      this.payDisabled = true
       if ($(obj).hasClass('couponChecked')) {
         $(obj).removeClass('couponChecked')
         this.couponId = ''
@@ -1016,6 +1018,7 @@ export default {
     showMethod: function () {
       var that = this
       that.butLoading = true
+      this.payDisabled = true
       if (that.radio === ''){
         that.methodShow = false
       } else {
@@ -1072,6 +1075,8 @@ export default {
           that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
             // + parseFloat(that.exciseFee)
           that.getBillingList()
+          // this.butLoading = true
+          // this.payDisabled = true
           for(var i=0;i<that.shipMethodList.length;i++) {
             if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
               that.orderShipMethod = that.shipMethodList[i]
@@ -1149,13 +1154,12 @@ export default {
           }
         }
       }
-      addData.Address1 = addObj.entry_street_address1
-      addData.Address2 = addObj.entry_street_address2
-      addData.City = addObj.entry_city
-      addData.State = addObj.entry_state
-      addData.Zip5 = addObj.entry_postcode
-      console.log('kkkk222', JSON.stringify(addData))
-      that.payDisabled = true
+      addData.entry_street_address1 = addObj.entry_street_address1
+      addData.entry_street_address2 = addObj.entry_street_address2
+      addData.entry_city = addObj.entry_city
+      addData.entry_state = addObj.entry_state
+      addData.entry_postcode = addObj.entry_postcode
+      // console.log('kkkk222', JSON.stringify(addData))
       if (that.inputPoint < 0){
         that.inputPoint = 0
       }
@@ -1163,7 +1167,7 @@ export default {
         ids: idStr,
         score: that.inputPoint,
         cc_id: coupon_id,
-        pd_des_address: JSON.stringify(addData)
+        order_address_info: JSON.stringify(addData)
       }
       let data = await billingList(idList)
       if (data.subtotal) {
@@ -1392,6 +1396,7 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
+      // console.log('uuuuuuu', orderAddress)
       var shipMethod = that.orderShipMethod
       var payMethod = {
         payment_module_code: 1,
