@@ -57,6 +57,7 @@
         <div class="address" v-if="isLogin">
           <div v-if="addressList && addressList.length>0" class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
             <div class="itemName" :title="address.entry_firstname + ' ' + address.entry_lastname">
+              <!--@change="checkAddress(address.id)"-->
               <el-radio v-model="radio" :label="address.id+'-'+address.entry_country+'-'+address.entry_state+'-'+address.entry_city+'-'+address.entry_postcode">
                 <i class="el-icon-s-custom" style="color: #ccc;"></i> {{address.entry_firstname}} {{address.entry_lastname}}
               </el-radio>
@@ -280,12 +281,12 @@
             <div class="more" v-if="moreFlagShow" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>
             <div class="availablePoint">
               <div class="point">
-                <div>Your points: <span style="color: chocolate">{{myPoints}}</span></div>
+                <div style="margin-right: 20px;">Your points: <span style="color: chocolate">{{myPoints}}</span></div>
                 <div style="width: 420px;display: flex;">
                   <div style="margin-right: 20px;">Maximum points available: </div>
                   <el-input v-model="inputPoint" :placeholder="maxPoints" style="width: 180px;" :min="0" maxlength="5" @blur="getInputPoint(inputPoint)" @keyup.native="proving1"></el-input>
                 </div>
-                <div>Point discount: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):0}}</span></div>
+                <div>Point discount: <span style="color: #C51015;">$ {{inputPoint>0?(inputPoint*0.01).toFixed(2):'0.00'}}</span></div>
               </div>
             </div>
           </div>
@@ -380,13 +381,13 @@
           <div class="payName">Points:</div>
           <div class="payValue">$ {{billing.pointToMoney.toFixed(2)}}</div>
         </div>
-        <div class="payItem" v-if="billing.taxfee && billing.taxfee>0">
+        <div class="payItem" v-if="billing.taxfee">
           <div class="payName">Tax:</div>
           <div class="payValue">$ {{billing.taxfee.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="shipFee>0">
           <div class="payName">Shipping:</div>
-          <div class="payValue">$ {{shipFee}}</div>
+          <div class="payValue">$ {{parseFloat(shipFee).toFixed(2)}}</div>
         </div>
         <div class="payItem">
           <div class="payName total">Grand Total:</div>
@@ -434,6 +435,7 @@ export default {
       pointMore: 'el-icon-d-arrow-right',
       errorInfo: 'No mode of transportation, please choose a valid address.',
       shipFee: 0,
+      exciseFee: 0,
       totalPay: 0,
       billTotal: 0,
       addressNum: 0,
@@ -595,7 +597,6 @@ export default {
         that.showMethod()
         // that.methodShow = true
       } else {
-        // console.log('mmmmmm99999999', val)
         that.methodShow = false
         that.shipMethodList = []
         that.errorInfo = 'No mode of transportation, please choose a valid address.'
@@ -665,6 +666,7 @@ export default {
     },
     getInputPoint: function (num) {
       // console.log('ppppppp', num)
+      this.butLoading = true
       if (this.inputPoint > this.myPoints) {
         this.inputPoint = this.myPoints
       } else if (this.inputPoint < this.myPoints) {
@@ -698,8 +700,68 @@ export default {
         // }
       })
     },
+    // checkAddress: function (id) {
+    //   this.butLoading = true
+    //   if (id) {
+    //     console.log('111111111111', id)
+    //     this.$axios.post('api/pingtaxcloud', {}).then(res => {
+    //       if (res === 200) {
+    //         this.getDataFuc(id, this.goodsList)
+    //       }
+    //     })
+    //   } else {
+    //     // console.log('22222222222')
+    //     this.butLoading = false
+    //   }
+    // },
+    // 处理消费税数据
+    // getDataFuc: function (radioId, list) {
+    //   var addObj = {}
+    //   var addData = {}
+    //   var goodObj = {}
+    //   var goods = []
+    //   var that = this
+    //   for (var i=0;i<this.addressList.length;i++){
+    //     if (that.addressList[i].id == radioId){
+    //       addObj = that.addressList[i]
+    //     }
+    //   }
+    //   addData.Address1 = addObj.entry_street_address1
+    //   addData.Address2 = addObj.entry_street_address2
+    //   addData.City = addObj.entry_city
+    //   addData.State = addObj.entry_state
+    //   addData.Zip5 = addObj.entry_postcode
+    //   // console.log('kkkk222', JSON.stringify(addData))
+    //   if (list) {
+    //     for (var j = 0; j < list.length; j++) {
+    //       goodObj = {
+    //         index: j,
+    //         itemId: list[j].sku_id,
+    //         qty: list[j].goods_count,
+    //         price: list[j].sku_price,
+    //         tic: list[j].tic
+    //       }
+    //       goods.push(goodObj)
+    //     }
+    //   }
+    //   // console.log('kkkk3333', JSON.stringify(goods))
+    //   this.$axios.post('api/lookup', qs.stringify({
+    //     pd_des_address: JSON.stringify(addData),
+    //     pd_skus: JSON.stringify(goods)
+    //   })).then(res => {
+    //     // console.log('777777777', res)
+    //     if (res !== 101) {
+    //       // console.log('777777777', that.billTotalSum)
+    //       that.exciseFee = res
+    //       that.billTotalSum = that.billTotalSum + parseFloat(that.exciseFee)
+    //       that.butLoading = false
+    //       that.getBillingList()
+    //     }
+    //   })
+    // },
     useCoupon: function (e, cpId) {
       var obj = e.currentTarget
+      this.butLoading = true
       if ($(obj).hasClass('couponChecked')) {
         $(obj).removeClass('couponChecked')
         this.couponId = ''
@@ -742,7 +804,6 @@ export default {
           if (that.addressList2[i].is_default === 1) {
             that.radio = that.addressList2[i].id + '-'+that.addressList2[i].entry_country+'-'+that.addressList2[i].entry_state+'-'+that.addressList2[i].entry_city+'-'+that.addressList2[i].entry_postcode
             // console.log('22222', that.radio)
-            that.showMethod()
           } else {
             that.radio = ''
           }
@@ -837,6 +898,7 @@ export default {
                 // let defultList = []
                 that.radio = data.data[i].id + '-'+data.data[i].entry_country+'-'+data.data[i].entry_state+'-'+data.data[i].entry_city+'-'+data.data[i].entry_postcode
                 // console.log('ffffff', that.radio)
+                // that.checkAddress(data.data[i].id)
                 var redioList = that.radio.split('-')
                 that.checkedAdressId = redioList[0]
                 // defultList.push(data.data[i])
@@ -988,6 +1050,7 @@ export default {
       }
       that.shipFee = that.radio2.split('-')[1]
       that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+        // + parseFloat(that.exciseFee)
     },
     getShipMethod: function (aStr) {
       var that = this
@@ -1007,7 +1070,8 @@ export default {
           that.radio2 = res.data[0].ship_id + '-' + res.data[0].ship_fee
           that.shipFee = that.radio2.split('-')[1]
           that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
-          that.butLoading = false
+            // + parseFloat(that.exciseFee)
+          that.getBillingList()
           for(var i=0;i<that.shipMethodList.length;i++) {
             if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
               that.orderShipMethod = that.shipMethodList[i]
@@ -1042,6 +1106,8 @@ export default {
           data[i].sku_pay = data[i].goods_count * data[i].sku_price
         }
         that.goodsList = data
+        // that.butLoading = true
+        // this.checkAddress(that.checkedAdressId)
         for(var i= 0;i<this.goodsList.length;i++){
           this.$set(this.goodsList[i],'soldOut',0)
           this.$set(this.goodsList[i],'realNum',0)
@@ -1050,12 +1116,9 @@ export default {
         for (var n=0;n<payList.length;n++) {
           subTotal = subTotal + parseFloat(payList[n])
         }
-        // console.log('kkkkk', subTotal)
         that.subTotalCoupon = subTotal
         if (that.isLogin){
           that.getCouponList()
-        }else {
-          that.getBillingList()
         }
         that.orderListInvalid = false
       } else {
@@ -1070,6 +1133,28 @@ export default {
       var coupon_id = that.couponId
       var billList = []
       var sumBill = 0
+      var addObj = {}
+      var addData = {}
+      var that = this
+      if (that.isLogin) {
+        for (var i=0;i<this.addressList.length;i++){
+          if (that.addressList[i].id == that.checkedAdressId){
+            addObj = that.addressList[i]
+          }
+        }
+      } else {
+        for (var i=0;i<this.addressList2.length;i++){
+          if (that.addressList2[i].id == that.checkedAdressId){
+            addObj = that.addressList2[i]
+          }
+        }
+      }
+      addData.Address1 = addObj.entry_street_address1
+      addData.Address2 = addObj.entry_street_address2
+      addData.City = addObj.entry_city
+      addData.State = addObj.entry_state
+      addData.Zip5 = addObj.entry_postcode
+      console.log('kkkk222', JSON.stringify(addData))
       that.payDisabled = true
       if (that.inputPoint < 0){
         that.inputPoint = 0
@@ -1077,7 +1162,8 @@ export default {
       let idList = {
         ids: idStr,
         score: that.inputPoint,
-        cc_id: coupon_id
+        cc_id: coupon_id,
+        pd_des_address: JSON.stringify(addData)
       }
       let data = await billingList(idList)
       if (data.subtotal) {
@@ -1092,8 +1178,11 @@ export default {
           sumBill = sumBill + billList[i]
         }
         that.billTotal = sumBill
+        // console.log('UUUUUUUU', that.exciseFee)
         that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+          // + parseFloat(that.exciseFee)
         that.payDisabled = false
+        that.butLoading = false
       } else if (data.code === 102) {
         that.payDisabled = true
         that.inputPoint = ''
@@ -1113,6 +1202,8 @@ export default {
             that.getBillingList()
           }
         })
+      } else {
+        that.$message.warning('Your shipping address is invalid. Please check it.')
       }
     },
     getCouponList: function (type) {
@@ -1164,7 +1255,7 @@ export default {
               }
             }
           }
-          that.getBillingList()
+          // that.getBillingList()      1030-0950
         }
       })
     },
@@ -1192,7 +1283,6 @@ export default {
             })
             // console.log('editObj', editObj)
             that.$axios.post('api/address/' + that.editId, editObj).then(res => {
-              // console.log('sssssss', res)
               if (res.code === 200 || res.code === '200'){
                 that.getOrderAddress()
                 if (that.editId) {
@@ -1204,6 +1294,8 @@ export default {
                 that.addressFormShow = false
               } else if (res.code === 10010) {
                 that.$message.warning('Sorry, you only can create 10 addresses at most.')
+              } else if (res == 101){
+                that.$message.warning('Your shipping address is invalid. Please check it.')
               } else {
                 var arr = []
                 for(var i in res.msg) {
@@ -1234,25 +1326,40 @@ export default {
             })
             that.$axios.post('api/customer_no_login', codeLoad).then(res => {
               if (res.code === 200) {
-                var obj = {
-                  id: 0,
-                  entry_firstname: that.addNewForm.First,
-                  entry_lastname: that.addNewForm.Last,
-                  entry_company: that.addNewForm.Company,
-                  entry_email_address: that.addNewForm.email,
-                  entry_country: that.addNewForm.Country,
-                  entry_street_address1: that.addNewForm.Address1,
-                  entry_street_address2: that.addNewForm.Address2,
-                  entry_city: that.addNewForm.City,
-                  entry_state: that.addNewForm.Province,
-                  entry_postcode: that.addNewForm.Postcode,
-                  telephone_number: that.addNewForm.Phone,
-                  is_default: that.addNewForm.checked === true ? 1 : 0
+                var objV = {
+                  Address1: that.addNewForm.Address1,
+                  Address2: that.addNewForm.Address2,
+                  City: that.addNewForm.City,
+                  State: that.addNewForm.Province,
+                  Zip5: that.addNewForm.Postcode
                 }
-                objList.push(obj)
-                sessionStorage.setItem('addressList', JSON.stringify(objList))
-                that.getOrderAddressOut()
-                this.addressFormShow = false
+                this.$axios.post('api/verifyaddress', qs.stringify({
+                  pd_des_address: JSON.stringify(objV),
+                })).then(res => {
+                  if (res.Address1) {
+                    var obj = {
+                      id: 0,
+                      entry_firstname: that.addNewForm.First,
+                      entry_lastname: that.addNewForm.Last,
+                      entry_company: that.addNewForm.Company,
+                      entry_email_address: that.addNewForm.email,
+                      entry_country: that.addNewForm.Country,
+                      entry_street_address1: res.Address1,
+                      entry_street_address2: res.Address2,
+                      entry_city: res.City,
+                      entry_state: res.State,
+                      entry_postcode: res.Zip5,
+                      telephone_number: that.addNewForm.Phone,
+                      is_default: that.addNewForm.checked === true ? 1 : 0
+                    }
+                    objList.push(obj)
+                    sessionStorage.setItem('addressList', JSON.stringify(objList))
+                    that.getOrderAddressOut()
+                    this.addressFormShow = false
+                  } else {
+                    that.$message.warning('Your shipping address is invalid. Please check it.')
+                  }
+                })
               } else {
                 var arr = []
                 for(var i in res.msg) {

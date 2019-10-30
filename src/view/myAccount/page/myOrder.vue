@@ -128,7 +128,7 @@ export default {
             order_statusList:{
                 '10':"pending",
                 '20':"Processing",
-                '30':"Processing (Payment Review)",
+                '30':"Processing(Payment Review)",
                 '40':"Shipped",
                 '50':"Cancelled",
                 '60':"pending"
