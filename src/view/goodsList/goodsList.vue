@@ -31,7 +31,7 @@
                 <div class="MetalItem" v-for="(attrVal,index2) in attr.values" :key="index2" v-if="index2 < attr.attrLen">
                   <el-radio :label="attrVal.attr_value" @change="getAttrValue(attr.attr_name, attrVal.attr_value)">{{attrVal.attr_value}}</el-radio>
                 </div>
-                <div class="viewMore2" @click="showMoreAttrVal(index)">view more <i :class="attr.menuStatus?'el-icon-d-arrow-left':'el-icon-d-arrow-right'"></i></div>
+                <div class="viewMore2" v-if="attr.realLen>4" @click="showMoreAttrVal(index)">view more <i :class="attr.menuStatus?'el-icon-d-arrow-left':'el-icon-d-arrow-right'"></i></div>
                 <!--<div class="viewMore2" v-if="attr.values.length > 3" @click="showMoreAttrVal(moreIcon2, index2)">view more <i :class="moreIcon2"></i></div>-->
                 <!--<div class="MetalItem"><el-radio :label="6">备选项</el-radio></div>-->
                 <!--<div class="MetalItem"><el-radio :label="9">备选项</el-radio></div>-->
@@ -212,7 +212,7 @@
           this.attrList[dex].attrLen = len
         }else{
           this.attrList[dex].menuStatus = false
-          this.attrList[dex].attrLen = 3
+          this.attrList[dex].attrLen = 4
         }
       },
       showMoreAttr (icon) {
@@ -277,7 +277,8 @@
             that.attrListLen = res.data.length
             for (var i=0;i<that.attrList.length; i++) {
               that.$set(that.attrList[i],'nameStr','')
-              that.$set(that.attrList[i],'attrLen',3)
+              that.$set(that.attrList[i],'attrLen',4)
+              that.$set(that.attrList[i],'realLen',that.attrList[i].values.length)
               that.$set(that.attrList[i],'menuStatus',false)
               that.$set(that.attrList[i],'iconType','el-icon-d-arrow-right')
               that.attrList[i].nameStr =  that.attrList[i].attr_name
