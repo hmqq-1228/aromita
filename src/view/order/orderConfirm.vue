@@ -1298,7 +1298,7 @@ export default {
                 that.addressFormShow = false
               } else if (res.code === 10010) {
                 that.$message.warning('Sorry, you only can create 10 addresses at most.')
-              } else if (res == 101){
+              } else if (res.code == 101){
                 that.$message.warning('Your shipping address is invalid. Please check it.')
               } else {
                 var arr = []
