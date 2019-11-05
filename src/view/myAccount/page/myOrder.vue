@@ -199,7 +199,7 @@ export default {
             clearInterval(this.timer)
             this.myOrderList()
             // if(num == 10){
-            //     this.$router.go(0)
+            //   this.$router.go(0)
             // }
         },
         // 取消订单
