@@ -39,7 +39,7 @@
                   </div>
                   <!--<div class="hisClear" v-if="historyList.length>0" @click="clearHistory()">clear search history</div>-->
                   <div class="hisTitle" style="margin-top: 10px;clear: both;" v-if="hotList.length>0">Others are searching</div>
-                  <div style="padding: 0 10px;">
+                  <div style="padding: 0 10px 20px 10px;">
                     <div class="hisItem hot" v-for="(hot, index2) in hotList" :key="index2" @click="toSearch(hot.name)">{{hot.name}}</div>
                     <!--<div class="hisItem hot">Pendants</div>-->
                     <!--<div class="hisItem hot">nice</div>-->
