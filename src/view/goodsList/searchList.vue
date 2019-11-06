@@ -145,16 +145,19 @@
         this.endPrice = this.$route.query.price_end
         this.attrStr = this.$route.query.attr
       },
-      s_cate_id() {
-        // window,scrollTo(0,0)
-        this.activeNames = []
-        this.clearSearchFuc()
-        this.getList()
+      s_cate_id(val, oV) {
+        if (val) {
+          this.activeNames = []
+          this.clearSearchFuc()
+          this.getList()
+        }
       },
-      f_cate_id () {
-        this.clearSearchFuc()
-        this.activeNames = []
-        this.getList()
+      f_cate_id (val, oV) {
+        if (val) {
+          this.clearSearchFuc()
+          this.activeNames = []
+          this.getList()
+        }
       }
     },
     computed: {
@@ -182,7 +185,7 @@
       this.startPrice = this.$route.query.price_start
       this.endPrice = this.$route.query.price_end
       this.attrStr = this.$route.query.attr
-      this.getAttrList()
+      // this.getAttrList()
       // this.scrollShow()
     },
     destroyed() {

@@ -471,3 +471,17 @@ ul,li {
   border-color: #888888 !important;
   color: #666;
 }
+.my_order .el-dialog__title{
+  font-size: 14px !important;
+  font-weight: bold !important;
+}
+.my_order .el-dialog__header{
+  border-bottom: 1px solid #E9E9E9 !important;
+  padding: 8px 20px 6px !important;
+}
+.my_order .el-dialog__headerbtn{
+  top: 10px !important;
+}
+.el-message{
+  top: 162px !important;
+}

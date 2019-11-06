@@ -38,7 +38,7 @@
                                     <el-table-column label="Product">
                                         <template slot-scope="scope">
                                             <div class="product" style="display: inline-block">
-                                                <div class="detail" style="display: inline-block">
+                                                <div class="detail2" style="display: inline-block">
                                                     <h5 :class="scope.row.sku_status === 1? '': 'errorType'" :title="scope.row.sku_name " @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)">{{scope.row.sku_name}}</h5>
                                                     <div class="attrBox" :title="scope.row.attrStr">
                                                       <span :class="scope.row.sku_status === 1? '': 'errorAttrType'" v-for="attr in JSON.parse(scope.row.sku_attrs).slice(0, 2)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span>

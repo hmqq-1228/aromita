@@ -355,8 +355,13 @@ import { mapGetters } from 'vuex';
       linkSearch: function () {
         this.$axios.post('api/linkword/show',{}).then(res => {
           if (res.code === 200) {
-            this.searchInput = res.data.link_word_name
-            this.linkWordUrl = res.data.url
+            if (res.data) {
+              this.searchInput = res.data.link_word_name
+              this.linkWordUrl = res.data.url
+            } else {
+              this.searchInput = 'search for items or shops'
+              this.linkWordUrl = ''
+            }
           }
         })
       },
@@ -421,7 +426,9 @@ import { mapGetters } from 'vuex';
           // console.log('hhhhhhh', hListNew)
           localStorage.setItem('hList', JSON.stringify(hListNew))
         } else {
-          window.location.href = this.linkWordUrl
+          if (this.linkWordUrl){
+            window.location.href = this.linkWordUrl
+          }
         }
       },
       attrshow(num){

@@ -342,7 +342,7 @@ export default {
                             this._address()
                         }else if(res.code == 101){
                             this.$message({
-                                type: 'error',
+                                type: 'warning',
                                 message: 'Your shipping address is invalid. Please check it.'
                             });
                         }

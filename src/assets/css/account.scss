@@ -85,7 +85,7 @@
             float: left;
           cursor: pointer;
         }
-        .detail{
+        .detail,.detail2{
             h5{
                 width: 480px;
                 @extend .com_font;
@@ -308,6 +308,8 @@
         p{
             text-align: center;
             height: 50px;
+            font-weight: bold;
+            color: #333;
         }
         .cancelBtn{
             display: flex;
@@ -372,7 +374,7 @@
                     @extend .com_font;
                     margin-bottom:10px;
                 }
-                .detail{
+                .detail,.detail2{
                     width: 460px;
                     // height: 180px;
                     border:1px solid #E9E9E9;
@@ -1097,7 +1099,7 @@
   border: 1px solid #f5f5f5;
   border-right: none;
 }
-.Products_Details .product .detail:hover h5{
+.Products_Details .product .detail2:hover h5{
   color: #C51015;
   cursor: pointer;
 }

@@ -60,7 +60,7 @@
                                 prop="order_total"
                                 label="Total">
                                 <template slot-scope="scope">
-                                    <span style="color:#c51015">${{scope.row.order_total}}</span>
+                                    <span style="color:#c51015">$ {{scope.row.order_total}}</span>
                                 </template>
                             </el-table-column>
                             <el-table-column
@@ -74,7 +74,7 @@
                                 <template slot-scope="scope">
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number, scope.row.id)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 20 || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
+                                    <span class="list_btn" v-if="(scope.row.orders_status== 20 && scope.row.time>0) || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
                                     <span class="list_btn" @click="toTracking(scope.row.orders_number)" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
                                 </template>
@@ -92,19 +92,15 @@
                         <div class="No_order" style="text-align: center;" v-if="orderList.length==0">
                             <p><router-link to="/">Sorry, you don't have any orders yet.</router-link></p>
                         </div>
-                        <!-- 取消订单弹框 -->
-                        <!--<el-dialog-->
-                            <!--title="Cancel Order"-->
-                            <!--:visible.sync="cancelVisity"-->
-                            <!--width="30%">-->
-                            <!--<div class="cancelBox">-->
-                                <!--<p>Are you sure you want cancel the order ?</p>-->
-                                <!--<div class="cancelBtn">-->
-                                    <!--<div class="com-Cancel-btn cancelbtn" @click="cancelVisity = false">Cancel</div>-->
-                                    <!--<div class="com-sub-btn cancelbtn" @click="cancelSub()">Submit</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</el-dialog>-->
+                         <!--取消订单弹框-->
+                        <el-dialog
+                            title="Cancel Order"
+                            :visible.sync="cancelVisity"
+                            width="30%">
+                            <div class="cancelBox">
+                              <p>Your order has been cancelled. The money will be return to you in the original way. Please check it later.</p>
+                            </div>
+                        </el-dialog>
                     </div>
                 </div>
             </div>
@@ -133,10 +129,10 @@ export default {
                 '50':"Cancelled",
                 '60':"pending"
             },
-            cancelVisity:false,
+            cancelVisity: false,
             orderNum:'',//订单号
             orderId:'',//订单id
-            orderStatus:'',//单个订单状态
+            orderStatus:'',//订单状态
             tranId: '', //交易id
             totalPay: '', //订单金额
             timer:null
@@ -204,7 +200,6 @@ export default {
         },
         // 取消订单
         cancelOrder(obj){
-          // this.cancelVisity = true;
           this.orderNum = obj.row.orders_number,
           this.orderId = obj.row.id,
           this.orderStatus = obj.row.orders_status,
@@ -233,14 +228,18 @@ export default {
                 that.returnTotalFuc()
               } else {
                 this.myOrderList()
-                // this.cancelVisity = false
               }
             }else if(res.code == 101){
               this.$message({
                 message: 'The order has been cancelled. Please refresh the page and try again.',
-                type: 'error'
+                type: 'warning'
               });
-              }
+            }else if(res.code == 102){
+              this.$message({
+                message: 'Sorry, the order cannot be canceled once 30 minutes have passed.',
+                type: 'warning'
+              });
+            }
           })
         },
         returnTotalFuc () {
@@ -251,7 +250,7 @@ export default {
           returnTotal(obj).then((res)=>{
             if (res.code === 200) {
               this.myOrderList()
-              // this.cancelVisity = false
+              this.cancelVisity = true
             }
           })
         },
