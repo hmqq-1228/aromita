@@ -44,6 +44,9 @@ export default {
 .el-timeline-item{
   padding-bottom: 10px !important;
 }
+.el-table .warning-row{
+  background-color: #f1f1f1 !important;
+}
 .el-button--primary{
   background-color: #C51015 !important;
   width: 100px !important;

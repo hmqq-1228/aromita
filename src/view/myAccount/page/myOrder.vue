@@ -75,8 +75,9 @@
                                     <span class="list_btn" @click="pay(scope.row.order_total, scope.row.orders_number, scope.row.id)" v-if="(scope.row.orders_status== 10 || scope.row.orders_status== 60)&&scope.row.time>0">Pay</span>
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                     <span class="list_btn" v-if="(scope.row.orders_status== 20 && scope.row.time>0) || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
-                                    <span class="list_btn" @click="toTracking(scope.row.orders_number)" v-if="scope.row.orders_status== 40">Tracking</span>
+                                    <span class="list_btn" @click="toTracking(scope.row.id)" v-if="scope.row.orders_status== 40">Tracking</span>
                                     <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refundDetail()">After-sales details</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -90,7 +91,8 @@
                             </el-pagination>
                         </div>
                         <div class="No_order" style="text-align: center;" v-if="orderList.length==0">
-                            <p><router-link to="/">Sorry, you don't have any orders yet.</router-link></p>
+                            <!--<p><router-link to="/">Sorry, you don't have any orders yet.</router-link></p>-->
+                          <p>Sorry, you don't have any orders yet.</p>
                         </div>
                          <!--取消订单弹框-->
                         <el-dialog
@@ -209,7 +211,7 @@ export default {
             confirmButtonText: 'Submit',
             cancelButtonText: 'Cancel',
           }).then(() => {
-             this.cancelSub()
+            this.cancelSub()
           }).catch(() => {
             return false
           });
@@ -227,6 +229,7 @@ export default {
               if (this.orderStatus === 20) {
                 that.returnTotalFuc()
               } else {
+                this.cancelVisity = true
                 this.myOrderList()
               }
             }else if(res.code == 101){
@@ -288,7 +291,15 @@ export default {
                     // s_cate_id: id
                 }
             })
-        }
+        },
+      _refundDetail(){
+        this.$router.push({
+          path: '/afterSale',
+          query: {
+            // s_cate_id: id
+          }
+        })
+      }
     },
     destroyed () {
         // this.orderList.forEach((val) => {

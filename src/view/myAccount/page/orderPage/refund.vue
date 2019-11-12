@@ -15,36 +15,35 @@
                         <div class="classification" :class="{'active':status=='Refund'}" @click="changeStatus('Refund')">
                             <img src="@/assets/images/Refund_active.png" v-if="status=='Refund'" alt="" class="refund">
                             <img src="@/assets/images/inRefund.png" v-else alt="" class="refund">
-                            <div>
+                            <div style="padding-top: 6px;">
                                 <h5>Refund</h5>
-                                <p>未收到货（包括丢件）/收到货后需要退款</p>
+                                <!--<p>未收到货（包括丢件）/收到货后需要退款</p>-->
                             </div>
                         </div>
-                        <div class="classification" :class="{'active':status=='Exchange'}" @click="changeStatus('Exchange')">
-                            <img src="@/assets/images/Exchange.png" alt="" v-if="status=='Exchange'" class="refund">
-                            <img src="@/assets/images/inExchange.png" alt="" v-else class="refund">
-                            <div>
-                                <h5>Exchange</h5>
-                                <p>已收到货/未收到货，需要货品更换或补发</p>
-                            </div>
-                        </div>
+                        <!--<div class="classification" :class="{'active':status=='Exchange'}" @click="changeStatus('Exchange')">-->
+                            <!--<img src="@/assets/images/Exchange.png" alt="" v-if="status=='Exchange'" class="refund">-->
+                            <!--<img src="@/assets/images/inExchange.png" alt="" v-else class="refund">-->
+                            <!--<div>-->
+                                <!--<h5>Exchange</h5>-->
+                                <!--<p>已收到货/未收到货，需要货品更换或补发</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
-                    <el-checkbox v-model="checked">I have rend and agreed to the Return Policy</el-checkbox>
+                    <el-checkbox class="policeStyle" v-model="checked">I have rend and agreed to the Return Policy</el-checkbox>
                   <div class="Continue" @click="orderRefundApply()">Continue</div>
                 </div>
                 <div class="Products_Details">
                     <h4>The items I want to return：</h4>
                     <el-table
                         :data="tableData"
-                        style="width: 100%;border:1px solid #E9E9E9"
                         size="medium"
+                        :row-class-name="tableRowClassName"
                         :header-cell-style="{
                             'background-color': '#F5F5F5',
                             'color': '#333'
                         }">
                         <el-table-column
                             type="selection"
-                            label="Sealect all"
                             width="40">
                         </el-table-column>
                       <el-table-column
@@ -53,6 +52,7 @@
                         width="150">
                         <template slot-scope="scope">
                           <div class="product">
+                            <div class="tip">closed</div>
                             <img style="margin-right: 0;" src="@/assets/images/1.jpg" alt="">
                           </div>
                         </template>
@@ -75,7 +75,7 @@
                             prop="name"
                             label="Quantity">
                             <template slot-scope="scope">
-                                <el-input-number v-if="status == 'Refund'" v-model="scope.row.name" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                                <el-input-number v-if="status == 'Refund'" v-model="scope.row.name" @change="handleChange" :min="1"></el-input-number>
                                 <h4 v-if="status == 'Exchange'">{{scope.row.name}}</h4>
                             </template>
                         </el-table-column>
@@ -141,10 +141,10 @@ export default {
             address: '$ 64.00'
         },{
             date: '2016-05-02',
-            name: '1',
+            name: '2',
             address: '$ 64.00'
         }],
-        checked:'',//同意退款条约
+        checked: false,//同意退款条约
         dialogFormVisible:false,
         formLabelWidth:'120px',
         form: {
@@ -158,16 +158,37 @@ export default {
   created(){
   },
   methods:{
+    // checkSelectable (row,index) {
+    //   if (index == 3) {
+    //     return false
+    //   } else {
+    //     return true
+    //   }
+    // },
+    tableRowClassName ({row, rowIndex}) {
+      console.log(row, rowIndex)
+      if (rowIndex === 3) {
+        return 'warning-row';
+      } else{
+        return '';
+      }
+      return '';
+    },
         handleChange(value) {
             // console.log(value);
         },
         orderRefundApply(){
+          if (this.checked) {
+            $('.policeStyle').removeClass('errorSub')
             this.$router.push({
               path:'/orderRefundApply',
               query: {
                 status: 1
               }
             })
+          } else {
+            $('.policeStyle').addClass('errorSub')
+          }
         },
         //改变售后状态
         changeStatus(str){

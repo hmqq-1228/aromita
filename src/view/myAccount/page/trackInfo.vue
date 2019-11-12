@@ -7,8 +7,8 @@
         <div class="my_order">
           <h3 class="my_title">Tracking Info</h3>
           <div class="account_set">
-            <div class="trackItem" v-for="(track, index) in trackList" :key="index">
-              <div class="trackTip">Your parcel of <span>{{orderNum}}</span> has been shipped out via {{track[0].tracking_shipping_name}}, tracking number is {{track[0].tracking_number}}, here is the tracking information.Or you can click here to check detailed tracking information.</div>
+            <div class="trackItem" v-if="trackList.length>0" v-for="(track, index) in trackList" :key="index">
+              <div class="trackTip">Your parcel of <span>{{track[0].orders_number}}</span> has been shipped out via {{track[0].tracking_shipping_name}}, tracking number is {{track[0].tracking_number}}, here is the tracking information.Or you can click here to check detailed tracking information.</div>
               <div class="trackTitle">
                 <div class="traTime">Time</div>
                 <div class="traDescri">Description</div>
@@ -27,6 +27,7 @@
                 <div class="moreBtn" v-if="track.attrLen<track.length" @click="showMoreAttrVal(index)">View more</div>
               </div>
             </div>
+            <div class="trackNoData" v-if="trackList.length === 0">Shipment label created. Please waiting for update.</div>
           </div>
         </div>
       </div>

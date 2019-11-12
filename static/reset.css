@@ -485,3 +485,21 @@ ul,li {
 .el-message{
   top: 162px !important;
 }
+.refund .el-table tbody tr:hover>td {
+  background-color:#ffffff !important;
+}
+.refund .el-table tbody .warning-row:hover>td {
+  background-color:#f1f1f1 !important;
+}
+.refund .el-table tbody .warning-row .el-checkbox{
+  display: none !important;
+}
+.refund .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),.refund .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){
+  border-color: #ccc !important;
+}
+.errorSub .el-checkbox__label{
+  color: #C51015 !important;
+}
+.errorSub .el-checkbox__inner{
+  border: 1px solid #C51015;
+}
