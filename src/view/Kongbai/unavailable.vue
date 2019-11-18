@@ -32,36 +32,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.unavailableCont{
-  width: 1440px;
-  margin: 0 auto;
-  min-height: 400px;
-  position: relative;
-}
-.content_4 {
-  width: 420px;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
-.right {
-  height: 60px;
-  line-height: 60px;
-  margin-left: 20px;
-  font-size: 18px;
-  font-family: Tahoma;
-}
-.foot{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
+<style scoped lang="scss">
+  @import "@/assets/css/public.scss"
 </style>

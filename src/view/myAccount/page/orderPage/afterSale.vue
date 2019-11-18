@@ -13,42 +13,16 @@
                 <div>Date</div>
                 <div>Operation</div>
               </div>
-              <div class="afterSaleItem">
-                <div style="font-weight: bold;">Refund successful</div>
-                <div style="color: #C51015;">$ 64.00</div>
-                <div>15 Jua,2018  11:51:58</div>
+              <div class="afterSaleItem" v-for="(item, index) in refundList" :key="index">
+                <div style="font-weight: bold;">{{item.status}}</div>
+                <div style="color: #C51015;">$ {{item.total}}</div>
+                <div>{{item.created_at}}</div>
                 <div class="afterSaleOpe">
-                  <div>After-sales details</div>
+                  <div @click="toRefundDetail(item.id)">After-sales details</div>
                   <!--<div>details</div>-->
                 </div>
               </div>
-              <div class="afterSaleItem">
-                <div style="font-weight: bold;">Refund successful</div>
-                <div style="color: #C51015;">$ 64.00</div>
-                <div>15 Jua,2018  11:51:58</div>
-                <div class="afterSaleOpe">
-                  <div>After-sales details</div>
-                  <!--<div>details</div>-->
-                </div>
-              </div>
-              <div class="afterSaleItem">
-                <div style="font-weight: bold;">Refund successful</div>
-                <div style="color: #C51015;">$ 64.00</div>
-                <div>15 Jua,2018  11:51:58</div>
-                <div class="afterSaleOpe">
-                  <div>After-sales details</div>
-                  <!--<div>details</div>-->
-                </div>
-              </div>
-              <div class="afterSaleItem">
-                <div style="font-weight: bold;">Successful</div>
-                <div style="color: #C51015;">$ 88.88</div>
-                <div>2019-11-08 15:36:36</div>
-                <div class="afterSaleOpe">
-                  <div>After-sales details</div>
-                  <!--<div>details</div>-->
-                </div>
-              </div>
+              <div class="noSaleData" v-if="refundList.length == 0">You have no after-sales record.</div>
             </div>
             <div class="page_list">
               <el-pagination
@@ -76,21 +50,49 @@
 </template>
 <script>
   import Left from "../../element/leftNav"
-  import secret from "../../../../assets/js/secret";
-  import {editAddress} from "../../../../api/register";
+  import {refundList} from "@/api/account.js"
+  import qs from 'qs'
   export default {
     components: {
       "Left-Nav":Left
     },
     data() {
       return {
-        pageSize: 10,
-        total: 100,
+        pageSize: 15,
+        total: 10,
+        pageNum: 1,
+        refundList: []
+      }
+    },
+    created(){
+      this.order_id = this.$route.query.order_id
+      if (this.order_id) {
+        this.getRefundList()
       }
     },
     methods: {
+      getRefundList () {
+        var obj = {
+          order_id: this.order_id,
+          page: this.pageNum
+        }
+        refundList(obj).then((res)=>{
+          if (res.code === 200) {
+            this.refundList = res.data.data
+            this.total = res.data.total
+          }
+        })
+      },
+      toRefundDetail (id) {
+        this.$router.push({
+          path:'/applicationResult',
+          query: {
+            orders_refund_id: id
+          }
+        })
+      },
       handleCurrentChange (e) {
-        console.log('kkkkk', e)
+        this.pageNum = e
       }
     }
   }

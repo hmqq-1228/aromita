@@ -12,18 +12,33 @@
                     <li :class="{'active':status>=4}">Return items</li>
                     <li :class="{'active':status>=7}">Refund successful</li>
                 </ul>
-                <div class="refund_form" v-if="status ==1">
-                    <el-form label-position="right" label-width="200px" :model="formLabelAlign">
+                <div class="refund_form">
+                    <el-form label-position="right" label-width="200px">
                         <el-form-item label="Return reason：">
                             <ul class="refund_reason">
-                                <li class="active">商品质量问题</li>
-                                <li>不想要了</li>
-                                <li>快递一直未到</li>
+                                <li v-for="(reason, index) in reasonList" :key="index" :class="index===0? 'active':''" @click="selectReasion($event, reason.id, reason.is_upload)">{{reason.return_reason}}</li>
                             </ul>
                         </el-form-item>
                         <el-form-item label="Refund：">
                             <p class="price">
-                              <b>$ 148</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
+                              <b v-if="orderList.refund_total">$ {{(orderList.refund_total).toFixed(2)}}</b>
+                              <el-popover v-if="orderList.refund_total"
+                                placement="right"
+                                width="220"
+                                trigger="hover">
+                                <div class="feeInfo">
+                                  <div style="display: flex;justify-content: space-between;">
+                                    <div>Refund items amount:</div>
+                                    <div style="color: #C51015" v-if="orderList.subtotal">$ {{(orderList.subtotal).toFixed(2)}}</div>
+                                  </div>
+                                  <div style="display: flex;justify-content: space-between;">
+                                    <div>Refund tax amount:</div>
+                                    <div style="color: #C51015" v-if="orderList.tax>=0">$ {{(orderList.tax).toFixed(2)}}</div>
+                                  </div>
+                                </div>
+                                <i slot="reference"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
+                              </el-popover>
+                              <span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
                             </p>
                         </el-form-item>
                         <el-form-item label="comments：">
@@ -33,200 +48,37 @@
                                 placeholder="1000 Characters"
                                 show-word-limit
                                 maxlength="1000"
-                                v-model="formLabelAlign.type">
+                                v-model="describe">
                             </el-input>
                         </el-form-item>
                         <el-form-item label="File attachments：">
-                            <div class="imglist">
+                            <div class="imglist" :class="uploadImageList.length>=5? 'notUpload': ''">
+                              <div :class="!canSub?'errSub': ''">
                                 <el-upload
-                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                    action="api/upload"
                                     list-type="picture-card"
-                                    :limit="3"
+                                    name="image"
+                                    :limit="5"
+                                    :data="dataType"
+                                    accept=".jpg,.png,.JPG,.PNG,.jpeg,.JPEG"
                                     :on-preview="handlePictureCardPreview"
+                                    :on-success="handleAvatarSuccess"
                                     :on-remove="handleRemove">
                                     <i class="el-icon-plus"></i>
                                 </el-upload>
-                                <span class="rule">(3 max)</span>
+                              </div>
+                                <!--<span class="rule">(5 max)</span>-->
                             </div>
                             <p class="tip"><i>*</i>In order to accelerate refund process, please attach the file.</p>
-                            <el-dialog :visible.sync="dialogVisible" size="tiny">
+                            <!--<p class="tip" v-if="isUploadImg==1" style="color: #C51015"><i>*</i>In order to accelerate refund process, please attach the file.</p>-->
+                            <el-dialog :visible.sync="dialogVisible">
                               <img width="100%" :src="dialogImageUrl" alt="">
                             </el-dialog>
                         </el-form-item>
                     </el-form>
                     <div class="apply_btn">
-                        <div class="sub">Submit</div>
-                        <div class="Cancel">Cancel</div>
-                    </div>
-                </div>
-                <div class="refund_examine" v-if="status != 1">
-                    <div class="examine_tip" v-if="status == 2">
-                      <div style="line-height: 26px;" v-if="!cancelOrderFlag">
-                        <h5>We've received your request, and someone from our team will be in touch soon. It will take about 1-2 business days to processe your request. Please wait.</h5>
-                        <p>We will notify you through email when the request has been processed.</p>
-                        <p>Sorry, your request was rejected. Please see the details attached. Any question, please contact <span class="email">Aromita@gmail.com</span></p>
-                      </div>
-                      <div style="height: 78px;" v-if="cancelOrderFlag">
-                        <div class="cancelOrderFlag">
-                          <span class="el-icon-success" style="color: #67C23A;"></span>
-                          <div>Cancelled after sales service successfully.</div>
-                        </div>
-                      </div>
-                        <div class="status2"><span>Refund：</span><span class="pay">$ 148.00 </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
-                        <div class="cancel_refund" v-if="!cancelOrderFlag" @click="cancelledBtn()">Cancelled request</div>
-                    </div>
-                    <!--<div class="examine_tip" v-if="status == 3">-->
-                      <!--<h5>您的退货申请已审核通过，请等待商家审核处理，1-2个工作日之内会完成处理</h5>-->
-                    <!--</div>-->
-                    <div class="examine_tip" v-if="status == 3">
-                      <h5>Your refund request hasn't been approved for the following reasons:</h5>
-                      <p style="margin-top: 10px">If you are in any doubt, please contact <span class="email">Aromita@gmail.com</span></p>
-                      <div class="status2"><span>Refund：</span><span class="pay">$ 148.00 </span><span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
-                    </div>
-                    <div class="examine_tip" v-if="status === 4">
-                      <h5>Your return request is approved. Please ship them back in time, and let us know the tracking number. Thank you.</h5>
-                      <div class="status6"><span>Refund：</span><span class="pay">$ 148.00 </span>
-                        <el-popover
-                          placement="right"
-                          width="220"
-                          trigger="hover">
-                          <div class="feeInfo">
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund items amount:</div>
-                              <div style="color: #C51015">$ 128.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund tax amount:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund shipping fee:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                          </div>
-                          <i style="color: #FF9D3B" class="el-icon-warning-outline" slot="reference"></i>
-                        </el-popover>
-                      </div>
-                      <div class="status6">
-                        <span>Tracking number：</span>
-                        <el-input style="width: 380px;" v-model="inputTracking" placeholder="Please enter the tracking number to expedite the refund."></el-input>
-                        <div class="trackSub">Submit</div>
-                      </div>
-                    </div>
-                    <div class="examine_tip" v-if="status == 5">
-                      <p>Your return request is approved. And you don't need to ship them back. We will refund you ASAP. Any question, please contact <span class="email">Aromita@gmail.com</span></p>
-                      <div class="status6"><span>Refund：</span><span class="pay">$ 148.00 </span>
-                        <el-popover
-                          placement="right"
-                          width="220"
-                          trigger="hover">
-                          <div class="feeInfo">
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund items amount:</div>
-                              <div style="color: #C51015">$ 128.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund tax amount:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund shipping fee:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                          </div>
-                          <i style="color: #FF9D3B" class="el-icon-warning-outline" slot="reference"></i>
-                        </el-popover>
-                      </div>
-                    </div>
-                    <div class="examine_tip" v-if="status == 6">
-                      <p>We've received your tracking number. Once receive the parcel, we will refund you ASAP.</p>
-                      <div class="status6"><span>Tracking number：</span>JD89454575115HN</div>
-                      <div class="status6"><span>Refund：</span><span class="pay">$ 148.00 </span>
-                        <el-popover
-                          placement="right"
-                          width="220"
-                          trigger="hover">
-                          <div class="feeInfo">
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund items amount:</div>
-                              <div style="color: #C51015">$ 128.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund tax amount:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund shipping fee:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                          </div>
-                          <i style="color: #FF9D3B" class="el-icon-warning-outline" slot="reference"></i>
-                        </el-popover>
-                      </div>
-                    </div>
-                    <div class="examine_tip" v-if="status == 7">
-                      <div><div class="status6" style="display: inline-block;margin-top: 0;"><span class="pay">$ 148.00 </span>
-                        <el-popover
-                          placement="right"
-                          width="220"
-                          trigger="hover">
-                          <div class="feeInfo">
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund items amount:</div>
-                              <div style="color: #C51015">$ 128.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund tax amount:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                            <div style="display: flex;justify-content: space-between;">
-                              <div>Refund shipping fee:</div>
-                              <div style="color: #C51015">$ 10.00</div>
-                            </div>
-                          </div>
-                          <i style="color: #FF9D3B" class="el-icon-warning-outline" slot="reference"></i>
-                        </el-popover>
-                      </div> We have intiated a refund to your pay account on 1234@gmailpaypal, Please check it later.</div>
-                      <p style="margin-top: 10px">Any question, please contact  <span class="email">Aromita@panduo.com.cn</span></p>
-                    </div>
-                    <div class="Products_Details">
-                        <div class="cancel">
-                          <h4>The items I want to return：</h4>
-                        </div>
-                        <el-table
-                            :data="tableData"
-                            style="width: 100%;border:1px solid #E9E9E9"
-                            size="medium"
-                            :header-cell-style="{
-                                'background-color': '#F5F5F5',
-                                'color': '#333'
-                            }">
-                            <el-table-column
-                                prop="date"
-                                label="Product">
-                                <template slot-scope="scope">
-                                    <div class="product">
-                                        <img src="@/assets/images/1.jpg" alt="">
-                                        <div class="detail">
-                                            <h5>Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</h5>
-                                            <p><span>Size:</span>3.0mm</p>
-                                            <p>$ 1.99<span class="old_price">$ 4.99</span></p>
-                                        </div>
-                                    </div>
-                                </template>
-                            </el-table-column>
-                            <el-table-column
-                                prop="name"
-                                label="Quantity"
-                                width="220">
-                                <template slot-scope="scope">
-                                    <h5>{{scope.row.name}}</h5>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <p class="price">
-                          Refund：<b>$ 148</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
-                        </p>
+                        <div class="sub" @click="refundSub()">Submit</div>
+                        <!--<div class="Cancel">Cancel</div>-->
                     </div>
                 </div>
             </div>
@@ -238,6 +90,7 @@
 
 <script>
 import Left from "../../element/leftNav"
+import qs from 'qs'
 export default {
   components: {
     "Left-Nav":Left
@@ -245,46 +98,172 @@ export default {
   data(){
     return{
         status:1  ,//售后状态
-        formLabelAlign: {
-          name: '',
-          region: '',
-          type: ''
+        describe: '',
+        order_id: '',
+        reasonId: '',
+        rList: [],
+        tokenStr: {
+          Token: ''
         },
+        reasonList: [],
+        orderList: [],
+        payLoadList:[],
+        savePayLoad:[],
+        isUploadImg: '',
+        canSub: true,
+        dataType: {
+          type: 'refund',
+          token: ''
+        },
+        uploadImageList: [],
         inputTracking: '',
         dialogImageUrl: '',
         dialogVisible: false,
         cancelOrderFlag: false,
-        tableData: [{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        },{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        },{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        },{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        }],
     }
   },
   watch:{
-
+    uploadImageList(val,oV){
+      if (val.length > 0) {
+         this.canSub = true
+      }
+    }
   },
   created(){
-    this.status = this.$route.query.status
+    this.getDataFun()
   },
   methods:{
+    getDataFun () {
+      var obj = {}
+      var selectList = []
+      var objSub = {}
+      var listSub = []
+      this.status = this.$route.query.status
+      this.order_id = this.$route.query.orderId
+      this.rList = JSON.parse(sessionStorage.getItem('selectInfo'))
+      console.log('jjjj', this.rList)
+      if (this.rList.length>0){
+        for (var i=0; i<this.rList.length; i++) {
+          obj = {
+            sku_id: this.rList[i].sku_id,
+            final_price: this.rList[i].final_price,
+            actual_price: this.rList[i].products_price,
+            tic: this.rList[i].tic,
+            refund_quantity: this.rList[i].numQuality
+          }
+          objSub = {
+            sku_no: this.rList[i].sku_no,
+            sku_id: this.rList[i].sku_id,
+            final_price: this.rList[i].final_price,
+            products_price: this.rList[i].products_price,
+            tic: this.rList[i].tic,
+            sku_attrs: this.rList[i].sku_attrs,
+            products_name: this.rList[i].products_name,
+            products_pic: this.rList[i].products_pic,
+            refund_quantity: this.rList[i].numQuality,
+            actual_price: this.rList[i].actual_price
+          }
+          selectList.push(obj)
+          listSub.push(objSub)
+        }
+      }
+      this.payLoadList = selectList
+      this.savePayLoad = listSub
+      this.dataType.token = localStorage.getItem('userToken')
+      this.getRefundReason()
+      if (this.order_id && this.payLoadList) {
+        this.getRefundTotal()
+      }
+    },
+    // 选中退款原因
+    selectReasion (e, id, isUp) {
+      var obj = e.currentTarget
+      this.canSub = true
+      $(obj).addClass('active').siblings().removeClass('active')
+      this.reasonId = id
+      this.isUploadImg = isUp
+    },
+    // 退款原因
+    getRefundReason () {
+      var that = this
+      that.$axios.get('api/refund/getRefundReasons', {}).then(res => {
+        if (res.code === 200) {
+          that.reasonList = res.data
+          that.reasonId = res.data[0].id
+          that.isUploadImg = res.data[0].is_upload
+        }
+      })
+    },
+    // 退款金额
+    getRefundTotal () {
+      var that = this
+      var obj = qs.stringify({
+        order_id: parseInt(this.order_id),
+        product_list: JSON.stringify(this.payLoadList)
+      })
+      that.$axios.post('api/refund/getRefundTotal', obj).then(res => {
+        if (res.code === 200) {
+          // console.log('nnnnnn', res)
+          // that.reasonList = res.data
+          that.orderList = res.data
+        }
+      })
+    },
+    refundSub () {
+      var that = this
+      if (that.isUploadImg == 1) {
+        if (that.uploadImageList.length>0) {
+          this.canSub = true
+          that.subDataFnc()
+        } else {
+          that.canSub = false
+        }
+      } else {
+        that.subDataFnc()
+        this.canSub = true
+      }
+    },
+    subDataFnc () {
+      var that = this
+      var obj = qs.stringify({
+        order_id: parseInt(this.order_id),
+        product_list: JSON.stringify(this.savePayLoad),
+        refund_reason: that.reasonId,
+        refund_total: JSON.stringify(that.orderList),
+        refund_instructions: that.describe,
+        evidence_pictures: JSON.stringify(that.uploadImageList)
+      })
+      // console.log('kkkkk', this.savePayLoad)
+      that.$axios.post('api/refund/save', obj).then(res => {
+        if (res.code === 200) {
+          // console.log('nnnnnn', res)
+          this.$router.push({
+            path:'/applicationResult',
+            query: {
+              orders_refund_id: res.data.orders_refund_id
+            }
+          })
+          // that.reasonList = res.data
+        } else {
+          that.$message.warning(res.msg)
+        }
+      })
+    },
     cancelledBtn () {
       this.cancelOrderFlag = true
     },
     handleRemove(file, fileList) {
-      // console.log(file, fileList);
+      var imgUrl = ''
+      var imgs = []
+      for (var i=0; i<fileList.length; i++){
+        imgUrl = fileList[i].response.data
+        imgs.push(imgUrl)
+      }
+      this.uploadImageList = imgs
+    },
+    handleAvatarSuccess (res) {
+      this.uploadImageList.push(res.data)
+      // console.log(this.uploadImageList, 'mmmmg')
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;

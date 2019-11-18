@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap resetOk">
     <aheader-com></aheader-com>
     <div class="content_3">
       <div style="display: flex;justify-content: space-between;width: 608px;margin: 150px auto;">
@@ -38,41 +38,6 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.content_3 {
-  width: 1440px;
-  margin: 0 auto;
-  .left {
-    width: 60px;
-    height: 60px;
-  }
-  .right {
-    width: 542px;
-    height: 60px;
-    line-height: 60px;
-    // background-color: aqua;
-    .word_one {
-      font-size: 18px;
-      font-family: Tahoma;
-      font-weight: bold;
-      color: rgba(51, 51, 51, 1);
-    }
-    .word_one > span {
-      font-size: 18px;
-      display: inline-block;
-      font-family: Tahoma;
-      font-weight: bold;
-      line-height: 18px;
-      cursor: pointer;
-      color: rgba(0, 55, 100, 1);
-      text-decoration: underline;
-    }
-  }
-}
-.foot{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
+<style scoped lang="scss">
+  @import "@/assets/css/public.scss"
 </style>

@@ -48,6 +48,9 @@
     color: #fff;
     font-size: 16px;
 }
+.com-sub-btn:active{
+  border: 1px solid #c51015;
+}
 .com-sub-btn1{
   width: 140px;
   height: 32px;
@@ -528,9 +531,18 @@
         line-height: 32px;
         color: #fff;
         font-size: 14px;
-        background: #C51015;
+        background: #ccc;
         float: right;
+        pointer-events:none;
+        //cursor: pointer;
+      }
+      .Continue.canSub{
+        background: #C51015;
         cursor: pointer;
+        pointer-events:auto;
+      }
+      .Continue.canSub:active{
+        border: 1px solid #C51015;
       }
         .classify{
             overflow: hidden;
@@ -657,11 +669,15 @@
         }
         .refund_reason{
             display: flex;
+            flex-wrap: wrap;
             li{
                 padding:0px 20px;
                 border:1px solid #E9E9E9;
                 @extend .com_font;
                 margin-right: 20px;
+                margin-top: 10px;
+                height: 32px;
+                line-height: 32px;
             }
             .active{
                 border-color: #C51015;
@@ -700,6 +716,7 @@
     }
     .apply_btn{
         display: flex;
+        height: 40px;
         margin-left: 200px;
         .sub{
             @extend .com-sub-btn;
@@ -805,7 +822,7 @@
             }
             .email{
               color: #003764;
-              cursor: pointer;
+              //cursor: pointer;
             }
         }
         .cancel{
@@ -1402,4 +1419,25 @@
 .Products_Details .warning-row .product img:hover{
   box-shadow: none;
   cursor: auto;
+}
+.inputTrackingTip{
+  margin-left: 140px;
+  color: #C51015;
+  width: 300px;
+}
+#shipMethod{
+  font-size:14px;
+  color:#333;
+  padding-left:30px;
+  height: 32px;
+  line-height: 32px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width: 600px;
+}
+.noSaleData{
+  height: 110px;
+  line-height: 110px;
+  text-align: center;
 }

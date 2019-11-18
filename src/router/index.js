@@ -25,6 +25,7 @@ const orderDetail = () =>import('@/view/myAccount/page/orderPage/orderDetail.vue
 const orderRefund = () =>import('@/view/myAccount/page/orderPage/refund.vue')
 const afterSale = () =>import('@/view/myAccount/page/orderPage/afterSale.vue')
 const orderRefundApply = () =>import('@/view/myAccount/page/orderPage/refundApplication.vue')
+const applicationResult = () =>import('@/view/myAccount/page/orderPage/applicationResult.vue')
 const myWishlist = () =>import('@/view/myAccount/page/myWishlist.vue')
 const myCoupon = () =>import('@/view/myAccount/page/myCoupon.vue')
 const couponCenter = () =>import('@/view/myAccount/page/couponCenter.vue')
@@ -283,6 +284,15 @@ export default new Router({
       path:'/orderRefundApply',
       component:orderRefundApply,
       name:'orderRefundApply',
+      meta:{
+        keepAlive: true,
+        hasNav: true,
+      }
+    },
+    {
+      path:'/applicationResult',
+      component:applicationResult,
+      name:'applicationResult',
       meta:{
         keepAlive: true,
         hasNav: true,

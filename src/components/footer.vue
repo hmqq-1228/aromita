@@ -135,14 +135,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .afooter{
-      width: 100%;
-      height: 40px;
-      line-height: 32px;
-      text-align: center;
-      background: #FBFBFB;
-      color: #999;
-      font-size: 12px;
-  }
   @import "@/assets/css/footer.scss"
 </style>

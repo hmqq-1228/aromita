@@ -6,31 +6,31 @@
         <div class="navCount">
             <h3 class="my_title">Order Refund</h3>
             <div class="refund">
-                <p class="refund_rule">If you are unsatisfied with your items for any reason, please initiate returns.
-                  After the application has been approved, you need to return them back in its original packaging.
-                  A refund will be issued upon receipt of the returned items.</p>
-                <div class="label">
-                    <p style="color: #333;font-weight: bold;">Please select the type of service：</p>
-                    <div class="classify">
-                        <div class="classification" :class="{'active':status=='Refund'}" @click="changeStatus('Refund')">
-                            <img src="@/assets/images/Refund_active.png" v-if="status=='Refund'" alt="" class="refund">
-                            <img src="@/assets/images/inRefund.png" v-else alt="" class="refund">
-                            <div style="padding-top: 6px;">
-                                <h5>Refund</h5>
-                                <!--<p>未收到货（包括丢件）/收到货后需要退款</p>-->
-                            </div>
-                        </div>
-                        <!--<div class="classification" :class="{'active':status=='Exchange'}" @click="changeStatus('Exchange')">-->
-                            <!--<img src="@/assets/images/Exchange.png" alt="" v-if="status=='Exchange'" class="refund">-->
-                            <!--<img src="@/assets/images/inExchange.png" alt="" v-else class="refund">-->
-                            <!--<div>-->
-                                <!--<h5>Exchange</h5>-->
-                                <!--<p>已收到货/未收到货，需要货品更换或补发</p>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    </div>
-                    <el-checkbox class="policeStyle" v-model="checked">I have rend and agreed to the Return Policy</el-checkbox>
-                  <div class="Continue" @click="orderRefundApply()">Continue</div>
+              <p class="refund_rule">If you are unsatisfied with your items for any reason, please initiate returns.
+                After the application has been approved, you need to return them back in its original packaging.
+                A refund will be issued upon receipt of the returned items.</p>
+              <div class="label">
+                <p style="color: #333;font-weight: bold;">Please select the type of service：</p>
+                <div class="classify">
+                  <div class="classification" :class="{'active':status=='Refund'}" @click="changeStatus('Refund')">
+                      <img src="@/assets/images/Refund_active.png" v-if="status=='Refund'" alt="" class="refund">
+                      <img src="@/assets/images/inRefund.png" v-else alt="" class="refund">
+                      <div style="padding-top: 6px;">
+                          <h5>Refund</h5>
+                          <!--<p>未收到货（包括丢件）/收到货后需要退款</p>-->
+                      </div>
+                  </div>
+                  <!--<div class="classification" :class="{'active':status=='Exchange'}" @click="changeStatus('Exchange')">-->
+                      <!--<img src="@/assets/images/Exchange.png" alt="" v-if="status=='Exchange'" class="refund">-->
+                      <!--<img src="@/assets/images/inExchange.png" alt="" v-else class="refund">-->
+                      <!--<div>-->
+                          <!--<h5>Exchange</h5>-->
+                          <!--<p>已收到货/未收到货，需要货品更换或补发</p>-->
+                      <!--</div>-->
+                  <!--</div>-->
+                </div>
+                <el-checkbox class="policeStyle" v-model="checked">I have rend and agreed to the Return Policy</el-checkbox>
+                <div class="Continue" :class="multipleSelection.length>0?'canSub': ''" @click="orderRefundApply()">Continue</div>
                 </div>
                 <div class="Products_Details">
                     <h4>The items I want to return：</h4>
@@ -38,12 +38,14 @@
                         :data="tableData"
                         size="medium"
                         :row-class-name="tableRowClassName"
+                        @selection-change="handleSelectionChange"
                         :header-cell-style="{
                             'background-color': '#F5F5F5',
                             'color': '#333'
                         }">
                         <el-table-column
                             type="selection"
+                            :selectable="checkSelectable"
                             width="40">
                         </el-table-column>
                       <el-table-column
@@ -52,8 +54,8 @@
                         width="150">
                         <template slot-scope="scope">
                           <div class="product">
-                            <div class="tip">closed</div>
-                            <img style="margin-right: 0;" src="@/assets/images/1.jpg" alt="">
+                            <div class="tip" v-if="!scope.row.can_refund">closed</div>
+                            <img style="margin-right: 0;" :src="scope.row.products_pic" alt="">
                           </div>
                         </template>
                       </el-table-column>
@@ -64,9 +66,10 @@
                             <template slot-scope="scope">
                                 <div class="product">
                                     <div class="detail">
-                                        <h5>Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Gemstone Pen dants Silver Tone Deep Blue</h5>
-                                        <p><span>Size:</span>3.0mm</p>
-                                        <p>$ 1.99<span class="old_price">$ 4.99</span></p>
+                                        <h5>{{scope.row.products_name}}</h5>
+                                        <p style="height: 23px;"><span v-for="(attr, index) in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}}; </span></p>
+                                        <p>$ {{scope.row.products_price}}</p>
+                                      <!--<span class="old_price">$ 4.99</span>-->
                                     </div>
                                 </div>
                             </template>
@@ -75,8 +78,8 @@
                             prop="name"
                             label="Quantity">
                             <template slot-scope="scope">
-                                <el-input-number v-if="status == 'Refund'" v-model="scope.row.name" @change="handleChange" :min="1"></el-input-number>
-                                <h4 v-if="status == 'Exchange'">{{scope.row.name}}</h4>
+                                <el-input-number v-if="status == 'Refund'" v-model="scope.row.numQuality" @change="handleChange" :min="1" :max="scope.row.products_quantity"></el-input-number>
+                                <!--<h4 v-if="status == 'Exchange'">{{scope.row.name}}</h4>-->
                             </template>
                         </el-table-column>
                         <el-table-column
@@ -89,30 +92,30 @@
                         </el-table-column>
                     </el-table>
                     <p class="price">
-                      Refund：<b>$ 148</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
+                      Refund：<b>$ {{totalPay.toFixed(2)}}</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
                     </p>
                 </div>
             </div>
         </div>
-        <el-dialog title="添加换后商品" :visible.sync="dialogFormVisible" center>
-            <el-form :model="form">
-                <el-form-item label="商品1" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="商品2" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="商品3" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" auto-complete="off"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <div class="footer_btn">
-                    <div class="sub" @click="dialogFormVisible = false">Submit</div>
-                    <div class="Cancel" @click="dialogFormVisible = false">Cancel</div>
-                </div>
-            </div>
-        </el-dialog>
+        <!--<el-dialog title="添加换后商品" :visible.sync="dialogFormVisible" center>-->
+            <!--<el-form :model="form">-->
+                <!--<el-form-item label="商品1" :label-width="formLabelWidth">-->
+                    <!--<el-input v-model="form.name" auto-complete="off"></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="商品2" :label-width="formLabelWidth">-->
+                    <!--<el-input v-model="form.name" auto-complete="off"></el-input>-->
+                <!--</el-form-item>-->
+                <!--<el-form-item label="商品3" :label-width="formLabelWidth">-->
+                    <!--<el-input v-model="form.name" auto-complete="off"></el-input>-->
+                <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<div slot="footer" class="dialog-footer">-->
+                <!--<div class="footer_btn">-->
+                    <!--<div class="sub" @click="dialogFormVisible = false">Submit</div>-->
+                    <!--<div class="Cancel" @click="dialogFormVisible = false">Cancel</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</el-dialog>-->
       </div>
     </div>
   </div>
@@ -126,78 +129,99 @@ export default {
   },
   data(){
     return{
-        status:'Refund',//判断是退款还是换货
-        tableData: [{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        },{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        },{
-            date: '2016-05-02',
-            name: '1',
-            address: '$ 64.00'
-        },{
-            date: '2016-05-02',
-            name: '2',
-            address: '$ 64.00'
-        }],
-        checked: false,//同意退款条约
-        dialogFormVisible:false,
-        formLabelWidth:'120px',
-        form: {
-          name: '',
-        }
+      status:'Refund',//判断是退款还是换货
+      tableData: [],
+      numQuality: 1,
+      totalPay: 0,
+      checked: false,//同意退款条约
+      selectInfoList: [],
+      multipleSelection: [],
+      dialogFormVisible:false,
+      formLabelWidth:'120px',
+      orderId: this.$route.query.order_id,
+      form: {
+        name: '',
+      }
     }
   },
   watch:{
 
   },
   created(){
+    this.orderId = this.$route.query.order_id
+    this.getAfterSaleList()
   },
   methods:{
-    // checkSelectable (row,index) {
-    //   if (index == 3) {
-    //     return false
-    //   } else {
-    //     return true
-    //   }
-    // },
+    getAfterSaleList () {
+      var that = this
+      that.$axios.get('api/refund/step1/' + this.orderId, {}).then(res => {
+        if (res.code === 200) {
+          that.tableData = res.data
+          for (var i=0; i<that.tableData.length; i++) {
+            this.$set(this.tableData[i],'numQuality',1)
+          }
+        }
+      })
+    },
+    checkSelectable (row,index) {
+      // console.log(row, index)
+      if (!row.can_refund) {
+        return false
+      } else {
+        return true
+      }
+    },
     tableRowClassName ({row, rowIndex}) {
-      console.log(row, rowIndex)
-      if (rowIndex === 3) {
+      if (!row.can_refund) {
         return 'warning-row';
       } else{
         return '';
       }
-      return '';
     },
-        handleChange(value) {
-            // console.log(value);
-        },
-        orderRefundApply(){
-          if (this.checked) {
-            $('.policeStyle').removeClass('errorSub')
-            this.$router.push({
-              path:'/orderRefundApply',
-              query: {
-                status: 1
-              }
-            })
-          } else {
-            $('.policeStyle').addClass('errorSub')
-          }
-        },
-        //改变售后状态
-        changeStatus(str){
-            this.status = str
-        },
-        //添加换后商品
-        addExchange(){
-            this.dialogFormVisible = true;
+    handleChange() {
+      this.handleSelectionChange(this.multipleSelection)
+    },
+    orderRefundApply(){
+      if (this.checked) {
+        $('.policeStyle').removeClass('errorSub')
+        if (this.multipleSelection) {
+          this.$router.push({
+            path:'/orderRefundApply',
+            query: {
+              status: 1,
+              orderId: this.orderId
+            }
+          })
+          sessionStorage.setItem('selectInfo', JSON.stringify(this.multipleSelection))
         }
+      } else {
+        $('.policeStyle').addClass('errorSub')
+      }
+    },
+    handleSelectionChange (val) {
+      this.multipleSelection = val
+      var payList = []
+      var totalPay = 0
+      var sumBill = 0
+      if (val.length>0){
+        for (var i=0; i<val.length; i++) {
+          totalPay = val[i].numQuality * parseFloat(val[i].actual_price)
+          payList.push(totalPay)
+        }
+      }
+      for (var i=0;i<payList.length;i++) {
+        sumBill = sumBill + payList[i]
+      }
+      this.totalPay = sumBill
+    },
+    //改变售后状态
+    changeStatus(str){
+      this.status = str
+    },
+    //添加换后商品
+    addExchange(){
+      this.dialogFormVisible = true;
+    }
   }
 }
 </script>

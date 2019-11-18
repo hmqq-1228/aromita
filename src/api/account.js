@@ -12,9 +12,12 @@ export const accountPerson = params =>post("api/accountperson",params);
 export const accountPass = params =>post("api/accountpass",params)
 //我的订单
 export const myOrder = params=>get("api/myorder",params);
+// 售后列表
+export const refundList = params=>get("api/refund",params);
 //取消订单
 export const cancelOrderSub = params =>post("api/cancelOrder",params);
 export const returnTotal = params =>get("api/paypal-refund",params);
+export const proccessingOrder = params =>post("api/refund/proccessingOrder",params);
 //添加地址
 export const addAddress = params =>post("api/addressbook",params);
 //地址列表

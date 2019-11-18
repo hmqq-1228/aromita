@@ -8,7 +8,7 @@
           <h3 class="my_title">Tracking Info</h3>
           <div class="account_set">
             <div class="trackItem" v-if="trackList.length>0" v-for="(track, index) in trackList" :key="index">
-              <div class="trackTip">Your parcel of <span>{{track[0].orders_number}}</span> has been shipped out via {{track[0].tracking_shipping_name}}, tracking number is {{track[0].tracking_number}}, here is the tracking information.Or you can click here to check detailed tracking information.</div>
+              <div class="trackTip">Your parcel of <span>{{track[0].orders_number}}</span> has been shipped out via {{trackName[index].tty_trans_name}}, tracking number is {{track[0].tracking_number}}, here is the tracking information.Or you can click here to check detailed tracking information.</div>
               <div class="trackTitle">
                 <div class="traTime">Time</div>
                 <div class="traDescri">Description</div>
@@ -46,7 +46,8 @@
     data(){
       return{
         orderNum: this.$route.query.order_num,
-        trackList: []
+        trackList: [],
+        trackName: []
       }
     },
     created(){
@@ -58,7 +59,8 @@
         var that = this
         that.$axios.post('api/showOrdertrackimgmore', qs.stringify({order_id: num})).then(res => {
           if (res.code === 200) {
-            that.trackList = res.data
+            that.trackList = res.data.tracking
+            that.trackName = res.data.track_name
             for (var i=0;i<that.trackList.length;i++) {
               that.$set(that.trackList[i],'attrLen',3)
             }

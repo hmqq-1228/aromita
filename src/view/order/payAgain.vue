@@ -81,7 +81,7 @@
         <div class="payConfirm">
           <el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions.</span>
           <div style="margin-top: 15px;">
-            <el-button @click="paySub('ruleForm', 'shipForm')">
+            <el-button :disabled="isSub" @click="paySub('ruleForm', 'shipForm')">
             Pay now
             </el-button>
           </div>
@@ -108,6 +108,7 @@ export default {
       payTotal: '',
       orderNum: '',
       orderId: '',
+      isSub: false,
       checked: true,
       modelShow2: false,
       checkedSub: false,
@@ -196,6 +197,11 @@ export default {
     this.orderId = sessionStorage.getItem('orderId')
     // console.log('22222222', this.payTotal)
     // console.log('33333333', this.orderNum)
+    if (this.payTotal && this.orderNum && this.orderId) {
+      this.isSub = false
+    }else {
+      this.isSub = true
+    }
   },
   methods:{
     payByPaypal: function () {
@@ -208,19 +214,23 @@ export default {
       })
       // that.$store.state.addCartState = true
       if (that.payTotal && that.orderNum && that.orderId) {
+        // console.log('11111111', that.payTotal)
+        that.isSub = false
         that.$axios.post('api/paypal-pay', payLoad).then(res => {
           if (res.code === 200) {
             that.modelShow2 = true
-            console.log('11111111', res.data)
             payUrl = res.data
             window.location.href = payUrl
-          } else if (res.code === 401 || res.code === '401') {
+          } else if (res.code == 101) {
             that.$router.push('/over_time_order')
           } else {
             that.modelShow2 = false
             that.$message.warning(res.msg)
           }
         })
+      } else {
+        // console.log('1111111122', that.payTotal)
+        that.isSub = true
       }
     },
     paySub: function (formName, formName1) {
@@ -258,75 +268,6 @@ export default {
 }
 </script>
 
-<style scoped>
-  .payAgain{
-    min-height: 400px;
-    width: 950px;
-    margin: 0 auto;
-  }
-  .GrandTotal{
-    font-size:18px;
-    font-family:Tahoma;
-    font-weight:bold;
-    color: #333;
-    margin-top: 100px;
-    margin-bottom: 6px;
-  }
-  .GrandTotal span{
-    font-size: 20px;
-    color: #C51015;
-  }
-  .moreCard{
-    height: 32px;
-    display: flex;
-    justify-content: start;
-    margin-top: 30px;
-    margin-bottom: 10px;
-  }
-  .payBox{
-    width: 950px;
-    border: 1px solid #E9E9E9;
-    padding: 20px;
-    box-sizing: border-box;
-    color: #333;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    font-family:Tahoma;
-  }
-  .payBox img{
-    border: 1px solid #E9E9E9;
-  }
-  .dataType{
-    display: flex;
-    justify-content: start;
-    height: 36px;
-    line-height: 36px;
-    margin-bottom: 22px;
-  }
-  .payConfirm.error span{
-    color: #F56C6C;
-  }
-  .payConfirm{
-    color: #707070;
-    width: 950px;
-    font-size: 14px;
-    word-wrap:break-word;
-    margin: 10px auto;
-    margin-bottom: 30px;
-  }
-  .model2{
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.4);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  .foot{
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
+<style scoped lang="scss">
+  @import "@/assets/css/public.scss"
 </style>

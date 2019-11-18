@@ -76,8 +76,8 @@
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                     <span class="list_btn" v-if="(scope.row.orders_status== 20 && scope.row.time>0) || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
                                     <span class="list_btn" @click="toTracking(scope.row.id)" v-if="scope.row.orders_status== 40">Tracking</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund()">After-sale service</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refundDetail()">After-sales details</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund(scope.row.id)">After-sale service</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refundDetail(scope.row.id)">After-sales details</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -111,205 +111,224 @@
 </template>
 <script>
 import Left from "../element/leftNav"
-import {myOrder,cancelOrderSub,returnTotal} from "@/api/account.js";
+import {myOrder,cancelOrderSub,returnTotal,proccessingOrder} from "@/api/account.js";
 export default {
-    components: {
-        "Left-Nav":Left
-    },
-    data(){
-        return{
-            total:0,//总条目
-            page:1,
-            pageSize:20,
-            order_status: '10',//订单状态
-            orderList:[],//订单列表
-            order_statusList:{
-                '10':"pending",
-                '20':"Processing",
-                '30':"Processing(Payment Review)",
-                '40':"Shipped",
-                '50':"Cancelled",
-                '60':"pending"
-            },
-            cancelVisity: false,
-            orderNum:'',//订单号
-            orderId:'',//订单id
-            orderStatus:'',//订单状态
-            tranId: '', //交易id
-            totalPay: '', //订单金额
-            timer:null
-        }
-    },
-    created(){
-      this.myOrderList()
-      if (this.$route.params.path) {
-        this.order_status = this.$route.params.path
-      }
-    },
-    methods:{
-        //分页
-        handleCurrentChange(val){
-           this.page = val
-           this.myOrderList()
-        },
-        //倒计时
-        countdown() {
-            this.timer = setInterval(()=>{
-                for (let i = 0; i < this.orderList.length; i++) {
-                    this.orderList[i].time --
-                    let t = this.orderList[i].time
-                    if (t > 0) {
-                        let day = Math.floor(t / 86400)
-                        let hour = Math.floor((t / 3600) % 24)
-                        let min = Math.floor((t / 60) % 60)
-                        let sec = Math.floor(t % 60)
-                        day = day < 10 ? '0' + day : day
-                        hour = hour < 10 ? '0' + hour : hour
-                        min = min < 10 ? '0' + min : min
-                        sec = sec < 10 ? '0' + sec : sec
-                        let format = ''
-                        format = `${min}m${sec}s`
-                        this.orderList[i].remainTimeStr = format
-                    } else {
-                        let flag = this.orderList.every((val, ind) =>val.time <= 0)
-                        if (flag) clearInterval(this.timer)
-                        this.orderList[i].remainTimeStr = `over` // 结束文案
-                    }
-                }
-            }, 1000)
-        },
-        //订单列表
-        myOrderList(){
-            myOrder({status:this.order_status,page:this.page}).then((res)=>{
-                this.orderList = res.data
-                this.total = res.total
-                if(this.orderList){
-                    this.countdown()
-                }
-            })
-        },
-        //切换订单状态
-        changeOrderStatus(num){
-            this.order_status = num
-            // this.$store.state.order_status = num
-            // this.order_status = this.$store.state.order_status
-            this.page = 1
-            clearInterval(this.timer)
-            this.myOrderList()
-            // if(num == 10){
-            //   this.$router.go(0)
-            // }
-        },
-        // 取消订单
-        cancelOrder(obj){
-          this.orderNum = obj.row.orders_number,
-          this.orderId = obj.row.id,
-          this.orderStatus = obj.row.orders_status,
-          this.tranId = obj.row.transaction_id,
-          this.totalPay = obj.row.order_total
-          this.$confirm('Are you sure you want cancel the order ?', 'Cancel Order', {
-            confirmButtonText: 'Submit',
-            cancelButtonText: 'Cancel',
-          }).then(() => {
-            this.cancelSub()
-          }).catch(() => {
-            return false
-          });
-        },
-        //取消订单提交
-        cancelSub(){
-          var that = this
-          let pre = {
-              order_id:this.orderNum,
-              ins_order:this.orderId,
-              order_current_status:this.orderStatus
-          }
-          cancelOrderSub(pre).then((res)=>{
-            if (res == 201) {
-              if (this.orderStatus === 20) {
-                that.returnTotalFuc()
-              } else {
-                this.cancelVisity = true
-                this.myOrderList()
-              }
-            }else if(res.code == 101){
-              this.$message({
-                message: 'The order has been cancelled. Please refresh the page and try again.',
-                type: 'warning'
-              });
-            }else if(res.code == 102){
-              this.$message({
-                message: 'Sorry, the order cannot be canceled once 30 minutes have passed.',
-                type: 'warning'
-              });
-            }
-          })
-        },
-        returnTotalFuc () {
-          let obj = {
-            transaction_id: this.tranId,
-            order_total: this.totalPay
-          }
-          returnTotal(obj).then((res)=>{
-            if (res.code === 200) {
-              this.myOrderList()
-              this.cancelVisity = true
-            }
-          })
-        },
-        //到订单详情页
-        detail(id){
-            this.$router.push({
-                path: '/orderDetail',
-                query: {
-                    orderId:id
-                }
-            })
-        },
-      // 物流信息
-        toTracking: function (num) {
-          this.$router.push({
-            path: '/trackInfo',
-            query: {
-              order_num: num
-            }
-          })
-        },
-        //到支付页面
-        pay(total, num, id){
-          sessionStorage.setItem('payTotal', total)
-          sessionStorage.setItem('orderNum', num)
-          sessionStorage.setItem('orderId', id)
-          this.$router.push({
-            path: '/payAgain',
-          })
-        },
-        _refund(){
-            this.$router.push({
-                path: '/orderRefund',
-                query: {
-                    // s_cate_id: id
-                }
-            })
-        },
-      _refundDetail(){
-        this.$router.push({
-          path: '/afterSale',
-          query: {
-            // s_cate_id: id
-          }
-        })
-      }
-    },
-    destroyed () {
-        // this.orderList.forEach((val) => {
-        //     val.time = 0
-        // })
+  components: {
+      "Left-Nav":Left
+  },
+  data(){
+    return{
+      total:0,//总条目
+      page:1,
+      pageSize:20,
+      order_status: '10',//订单状态
+      orderList:[],//订单列表
+      order_statusList:{
+        '10':"pending",
+        '20':"Processing",
+        '30':"Processing(Payment Review)",
+        '40':"Shipped",
+        '50':"Cancelled",
+        '60':"pending"
+      },
+      cancelVisity: false,
+      orderNum:'',//订单号
+      orderId:'',//订单id
+      orderStatus:'',//订单状态
+      tranId: '', //交易id
+      totalPay: '', //订单金额
+      timer:null
     }
+  },
+  created(){
+    if (this.$route.params.path) {
+      this.order_status = this.$route.params.path
+      this.myOrderList()
+    } else {
+      this.myOrderList()
+    }
+  },
+  methods:{
+    //分页
+    handleCurrentChange(val){
+       this.page = val
+       this.myOrderList()
+    },
+    //倒计时
+    countdown() {
+      this.timer = setInterval(()=>{
+        for (let i = 0; i < this.orderList.length; i++) {
+          this.orderList[i].time --
+          let t = this.orderList[i].time
+          if (t > 0) {
+            let day = Math.floor(t / 86400)
+            let hour = Math.floor((t / 3600) % 24)
+            let min = Math.floor((t / 60) % 60)
+            let sec = Math.floor(t % 60)
+            day = day < 10 ? '0' + day : day
+            hour = hour < 10 ? '0' + hour : hour
+            min = min < 10 ? '0' + min : min
+            sec = sec < 10 ? '0' + sec : sec
+            let format = ''
+            format = `${min}m${sec}s`
+            this.orderList[i].remainTimeStr = format
+          } else {
+            let flag = this.orderList.every((val, ind) =>val.time <= 0)
+            if (flag) clearInterval(this.timer)
+            this.orderList[i].remainTimeStr = `over` // 结束文案
+          }
+        }
+      }, 1000)
+    },
+    //订单列表
+    myOrderList(){
+      myOrder({status:this.order_status,page:this.page}).then((res)=>{
+        this.orderList = res.data
+        this.total = res.total
+        if(this.orderList){
+          this.countdown()
+        }
+      })
+    },
+    //切换订单状态
+    changeOrderStatus(num){
+      this.order_status = num
+      // this.$store.state.order_status = num
+      // this.order_status = this.$store.state.order_status
+      this.page = 1
+      clearInterval(this.timer)
+      this.myOrderList()
+      // if(num == 10){
+      //   this.$router.go(0)
+      // }
+    },
+    // 取消订单
+    cancelOrder(obj){
+      this.orderNum = obj.row.orders_number,
+      this.orderId = obj.row.id,
+      this.orderStatus = obj.row.orders_status,
+      this.tranId = obj.row.transaction_id,
+      this.totalPay = obj.row.order_total
+      this.$confirm('Are you sure you want cancel the order ?', 'Cancel Order', {
+        confirmButtonText: 'Submit',
+        cancelButtonText: 'Cancel',
+      }).then(() => {
+        this.cancelSub()
+      }).catch(() => {
+        return false
+      });
+    },
+    //取消订单提交
+    cancelSub(){
+      var that = this
+      let pre = {
+        order_id:this.orderNum,
+        ins_order:this.orderId,
+        order_current_status:this.orderStatus
+      }
+      cancelOrderSub(pre).then((res)=>{
+        if (res == 201) {
+          if (this.orderStatus === 20) {
+            that.returnTotalFuc()
+          } else {
+            this.cancelVisity = true
+            this.myOrderList()
+          }
+        }else if(res.code == 101){
+          this.$message({
+            message: 'The order has been cancelled. Please refresh the page and try again.',
+            type: 'warning'
+          });
+        }else if(res.code == 102){
+          this.$message({
+            message: 'Sorry, the order cannot be canceled once 30 minutes have passed.',
+            type: 'warning'
+          });
+        }
+      })
+    },
+    returnTotalFuc () {
+      let obj = {
+        transaction_id: this.tranId,
+        order_total: this.totalPay
+      }
+      returnTotal(obj).then((res)=>{
+        if (res.code === 200) {
+          this.cancelProcceOrder()
+        }
+      })
+    },
+    cancelProcceOrder () {
+      let obj = {
+        orders_id:this.orderId,
+      }
+      proccessingOrder(obj).then((res)=>{
+        if (res.code === 200) {
+          this.myOrderList()
+          this.cancelVisity = true
+        }
+      })
+    },
+    //到订单详情页
+    detail(id){
+      this.$router.push({
+        path: '/orderDetail',
+        query: {
+          orderId:id
+        }
+      })
+    },
+  // 物流信息
+    toTracking: function (num) {
+      this.$router.push({
+        path: '/trackInfo',
+        query: {
+          order_num: num
+        }
+      })
+    },
+    //到支付页面
+    pay(total, num, id){
+      sessionStorage.setItem('payTotal', total)
+      sessionStorage.setItem('orderNum', num)
+      sessionStorage.setItem('orderId', id)
+      this.$router.push({
+        path: '/payAgain',
+      })
+    },
+    _refund(id){
+      var that = this
+      that.$axios.get('api/refund/step1/' + id, {}).then(res => {
+        if (res.code === 200) {
+          this.$router.push({
+            path: '/orderRefund',
+            query: {
+              order_id: id
+            }
+          })
+        } else {
+          that.$message.warning(res.msg)
+        }
+      })
+    },
+    _refundDetail(id){
+      this.$router.push({
+        path: '/afterSale',
+        query: {
+          order_id: id
+        }
+      })
+    }
+  },
+  destroyed () {
+    // this.orderList.forEach((val) => {
+    //   val.time = 0
+    // })
+  }
 }
 </script>
 <style lang="scss" scoped>
-    @import "@/assets/css/account.scss"
+  @import "@/assets/css/account.scss"
 </style>
 
 

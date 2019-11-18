@@ -138,26 +138,6 @@ export default {
 }
 </script>
 
-<style scoped>
-  .passwordCont{
-    width: 400px;
-    margin: 100px auto;
-  }
-  .titleNew{
-    color: #333;
-    font-size: 18px;
-    font-family: Tahoma;
-  }
-  .itemTitle{
-    color: #666;
-    font-size: 14px;
-    font-family: Tahoma;
-    margin-bottom: 2px;
-  }
-  .foot{
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
+<style scoped lang="scss">
+  @import "@/assets/css/public.scss"
 </style>

@@ -204,16 +204,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  #shipMethod{
-    font-size:14px;
-    color:#333;
-    padding-left:30px;
-    height: 32px;
-    line-height: 32px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    width: 600px;
-  }
 @import "@/assets/css/account.scss"
 </style>

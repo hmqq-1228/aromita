@@ -553,18 +553,6 @@ import { mapGetters } from 'vuex';
     }
   };
 </script>
-<style scoped>
-.search .serInput .el-input{
-    width: 280px;
-    height: 30px !important;
-    border: 1px solid #030303;
-}
-.qty{
-  font-size: 14px;
-  font-family: Tahoma;
-  margin-top: 10px;
-}
-</style>
 <style lang="scss" scoped>
     @import "@/assets/css/header.scss"
 </style>

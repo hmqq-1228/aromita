@@ -501,5 +501,21 @@ ul,li {
   color: #C51015 !important;
 }
 .errorSub .el-checkbox__inner{
-  border: 1px solid #C51015;
+  border: 1px solid #C51015 !important;
+}
+.refund .errorSub .el-checkbox__inner:hover{
+  border: 1px solid #C51015 !important;
+}
+.notUpload .el-upload--picture-card{
+  display: none !important;
+}
+.errSub .el-upload--picture-card{
+  border: 1px dashed #C51015 !important;
+}
+.errSub .el-upload--picture-card i{
+  color: #c51015 !important;
+}
+.refund_form .errSub .el-upload--picture-card:hover, .refund_form .errSub .el-upload:focus{
+  border-color: #C51015 !important;
+  color: #C51015 !important;
 }

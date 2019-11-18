@@ -1,5 +1,5 @@
 <template>
-  <div class="warp_1">
+  <div class="warp_1 forgotPwd">
     <aheader-com></aheader-com>
     <div class="warp">
       <div class="content_forgot">
@@ -116,74 +116,6 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.warp_1 {
-  .warp {
-    .content_forgot {
-      width: 400px;
-      height: 308px;
-      margin: 0 auto;
-      margin-top: 200px;
-      text-align: center;
-      .word_a {
-        font-size: 20px;
-        font-weight: 500;
-        color: #333333;
-      }
-      .word_b {
-        font-size: 14px;
-        font-weight: 400;
-        font-family: Verdana;
-        color: #333333;
-      }
-      .captcha {
-        height: 50px;
-        text-align: justify;
-
-        .verification_input {
-          width: 280px;
-          font-family: "Exo 2", sans-serif;
-          border: 1px solid #fff;
-          color: black;
-          outline: none;
-          letter-spacing: 1px;
-          font-size: 17px;
-          font-weight: normal;
-          height: 40px;
-          border: 1px solid #e6e6e6;
-        }
-        .verification {
-          width: 100px;
-          letter-spacing: 5px;
-          margin-left: 25px;
-          border: none;
-          font-style:oblique;
-          height: 40px;
-          font-size: 16px;
-          transform: translate(-15px, 0);
-        }
-      }
-      .emails {
-
-        width: 400px ;
-        height: 40px;
-        margin-top: 20px ;
-      }
-      .btn_next {
-        width: 400px;
-        height: 40px;
-        border: none;
-        background-color: #121037;
-        color: #ffffff;
-        margin-top: 50px;
-      }
-    }
-  }
-}
-.foot{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
+<style scoped lang="scss">
+  @import "@/assets/css/public.scss"
 </style>

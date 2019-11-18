@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap resetPwd">
     <aheader-com></aheader-com>
     <div class="content_2">
       <div class="left">
@@ -25,48 +25,6 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.content_2 {
-  width: 780px;
-  display: flex;
-  margin: 0 auto;
-  margin-top: 200px;
-  justify-content: space-between;
-}
-.left {
-  width: 60px;
-  height: 60px;
-}
-.right {
-  width: 710px;
-  height: 76px;
-}
-// background-color: aqua;
-.word_one {
-  font-size: 18px;
-  font-family: Tahoma;
-  font-weight: bold;
-  color: rgba(51, 51, 51, 1);
-}
-.word_two {
-  color: #888;
-  width: 710px;
-  height: 53px;
-  font-size: 14px;
-  font-family: Tahoma;
-  font-weight: 400;
-  margin-top: 12px;
-  line-height: 20px;
-}
-  .help{
-    display: inline-block;
-    color: #003764;
-    cursor: pointer;
-  }
-.foot{
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
+<style scoped lang="scss">
+  @import "@/assets/css/public.scss"
 </style>
