@@ -22,7 +22,7 @@
                   <!--<div>details</div>-->
                 </div>
               </div>
-              <div class="noSaleData" v-if="refundList.length == 0">You have no after-sales record.</div>
+              <div class="noSaleData" v-if="refundList.length == 0">There is no record.</div>
             </div>
             <div class="page_list">
               <el-pagination

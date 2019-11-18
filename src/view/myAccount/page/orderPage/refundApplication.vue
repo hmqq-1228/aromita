@@ -100,7 +100,7 @@ export default {
         status:1  ,//售后状态
         describe: '',
         order_id: '',
-        reasonId: '',
+        reasonId: [],
         rList: [],
         tokenStr: {
           Token: ''
@@ -109,7 +109,7 @@ export default {
         orderList: [],
         payLoadList:[],
         savePayLoad:[],
-        isUploadImg: '',
+        isUploadImg: [],
         canSub: true,
         dataType: {
           type: 'refund',
@@ -141,7 +141,7 @@ export default {
       this.status = this.$route.query.status
       this.order_id = this.$route.query.orderId
       this.rList = JSON.parse(sessionStorage.getItem('selectInfo'))
-      console.log('jjjj', this.rList)
+      // console.log('jjjj', this.rList)
       if (this.rList.length>0){
         for (var i=0; i<this.rList.length; i++) {
           obj = {
@@ -178,10 +178,48 @@ export default {
     // 选中退款原因
     selectReasion (e, id, isUp) {
       var obj = e.currentTarget
-      this.canSub = true
-      $(obj).addClass('active').siblings().removeClass('active')
-      this.reasonId = id
-      this.isUploadImg = isUp
+      var flag = false
+      var k = 0
+      var flag2 = false
+      var k2 = 0
+      // this.canSub = true
+      if ($(obj).hasClass('active')){
+        $(obj).removeClass('active')
+        for (var i=0; i<this.reasonId.length; i++){
+          if(this.reasonId[i] == id){
+            flag = true
+            k = i
+            break
+          }
+        }
+        for (var j=0; j<this.isUploadImg.length; j++){
+          if(this.isUploadImg[j] == isUp){
+            flag2 = true
+            k2 = j
+            break
+          }
+        }
+        if (flag) {
+          this.reasonId.splice(k, 1)
+        } else {
+          this.reasonId.push(id)
+        }
+        if (flag2) {
+          this.isUploadImg.splice(k2, 1)
+        } else {
+          this.isUploadImg.push(isUp)
+        }
+        flag = false
+        flag2 = false
+      } else {
+        $(obj).addClass('active')
+        this.isUploadImg.push(isUp)
+        this.reasonId.push(id)
+      }
+      // console.log('hhhhhhhh', this.reasonId)
+      // console.log('dddddddd', this.isUploadImg)
+      // this.reasonId = id
+      // this.isUploadImg = isUp
     },
     // 退款原因
     getRefundReason () {
@@ -189,8 +227,8 @@ export default {
       that.$axios.get('api/refund/getRefundReasons', {}).then(res => {
         if (res.code === 200) {
           that.reasonList = res.data
-          that.reasonId = res.data[0].id
-          that.isUploadImg = res.data[0].is_upload
+          that.reasonId.push(res.data[0].id)
+          that.isUploadImg.push(res.data[0].is_upload)
         }
       })
     },
@@ -211,7 +249,7 @@ export default {
     },
     refundSub () {
       var that = this
-      if (that.isUploadImg == 1) {
+      if (that.isUploadImg.indexOf(1) > -1){
         if (that.uploadImageList.length>0) {
           this.canSub = true
           that.subDataFnc()
@@ -228,7 +266,7 @@ export default {
       var obj = qs.stringify({
         order_id: parseInt(this.order_id),
         product_list: JSON.stringify(this.savePayLoad),
-        refund_reason: that.reasonId,
+        refund_reason: JSON.stringify(that.reasonId),
         refund_total: JSON.stringify(that.orderList),
         refund_instructions: that.describe,
         evidence_pictures: JSON.stringify(that.uploadImageList)

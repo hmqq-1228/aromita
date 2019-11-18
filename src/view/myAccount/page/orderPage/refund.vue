@@ -29,7 +29,7 @@
                       <!--</div>-->
                   <!--</div>-->
                 </div>
-                <el-checkbox class="policeStyle" v-model="checked">I have rend and agreed to the Return Policy</el-checkbox>
+                <div class="refundPolice"><el-checkbox class="policeStyle" v-model="checked">I have rend and agreed to the</el-checkbox> <span>Return Policy</span></div>
                 <div class="Continue" :class="multipleSelection.length>0?'canSub': ''" @click="orderRefundApply()">Continue</div>
                 </div>
                 <div class="Products_Details">
@@ -78,7 +78,7 @@
                             prop="name"
                             label="Quantity">
                             <template slot-scope="scope">
-                                <el-input-number v-if="status == 'Refund'" v-model="scope.row.numQuality" @change="handleChange" :min="1" :max="scope.row.products_quantity"></el-input-number>
+                                <el-input-number v-if="scope.row.refund_count>0" v-model="scope.row.numQuality" @change="handleChange" :min="1" :max="scope.row.refund_count"></el-input-number>
                                 <!--<h4 v-if="status == 'Exchange'">{{scope.row.name}}</h4>-->
                             </template>
                         </el-table-column>
@@ -92,7 +92,7 @@
                         </el-table-column>
                     </el-table>
                     <p class="price">
-                      Refund：<b>$ {{totalPay.toFixed(2)}}</b><span>（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span>
+                      Refund：<b>$ {{totalPay.toFixed(2)}}</b><span> Not including shipping fee and sale tax. (Sale tax will be calculated in next step. As to the shipping fee, it will depend on our Return Policy)</span>
                     </p>
                 </div>
             </div>

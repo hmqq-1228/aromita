@@ -1,6 +1,7 @@
 .com_font{
     font-size: 14px;
     color: #333;
+  line-height: 25px;
 }
 .order_Detail{
   width: 700px;
@@ -1440,4 +1441,10 @@
   height: 110px;
   line-height: 110px;
   text-align: center;
+}
+.refundPolice span{
+  color: #003764;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
 }

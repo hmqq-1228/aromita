@@ -519,3 +519,6 @@ ul,li {
   border-color: #C51015 !important;
   color: #C51015 !important;
 }
+.refundPolice .el-checkbox{
+  margin-right: 0 !important;
+}
