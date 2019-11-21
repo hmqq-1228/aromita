@@ -1173,7 +1173,13 @@ export default {
       if (data.subtotal) {
         that.billing = data
         for (let k in data) {
-          if (data[k]) {
+          if (k === 'subtotal') {
+            billList.push(data[k])
+          } else if (k === 'taxfee'){
+            billList.push(data[k])
+          } else if (k === 'cc_amount') {
+            billList.push(data[k])
+          } else if (k === 'pointToMoney') {
             billList.push(data[k])
           }
         }
@@ -1182,7 +1188,6 @@ export default {
           sumBill = sumBill + billList[i]
         }
         that.billTotal = sumBill
-        // console.log('UUUUUUUU', that.exciseFee)
         that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
           // + parseFloat(that.exciseFee)
         that.payDisabled = false
@@ -1396,7 +1401,7 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
-      // console.log('uuuuuuu', orderAddress)
+      console.log('uuuuuuu', orderAddress)
       var shipMethod = that.orderShipMethod
       var payMethod = {
         payment_module_code: 1,
@@ -1405,7 +1410,7 @@ export default {
       var payLoad = qs.stringify({
         ids: JSON.stringify(ids),
         cc_id: coupon_id,
-        order_address_info: JSON.stringify(orderAddress),
+        pd_des_address: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),
         pay_method: JSON.stringify(payMethod),
         score: that.inputPoint
