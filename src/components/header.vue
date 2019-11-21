@@ -4,8 +4,20 @@
     <!-- 大头部 -->
     <div class="wrap1">
       <div class="wrap">
-        <div class="title">
+        <div class="title" v-if="!titleActivity">
           <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
+        </div>
+        <div class="title activity" v-if="titleActivity">
+          <div class="activityBox">
+            <div class="title_word">
+              Up To 40% OFF  Lovely Moments +Free Shipping Order Over $45!
+              <span>{{countDownList}}</span>
+              <span :class="showIconActive" style="font-size: 22px;cursor: pointer;" @click="showActivity(showIconActive)"></span>
+            </div>
+            <div class="activityCont" v-if="activityShow">
+              <div>1111111111</div>
+            </div>
+          </div>
         </div>
         <div>{{Refresh?'':''}}</div>
         <div>{{showHistoryRefresh?'':''}}</div>
@@ -224,18 +236,23 @@ import { mapGetters } from 'vuex';
         linkWordUrl: '',
         f_cate_id: '',
         s_cate_id: '',
+        showIconActive: 'el-icon-arrow-up',
+        countDownList: '00天00时00分00秒',
+        actEndTime: '2019-11-29 18:50:00',
         hList: [],
         hotList: [],
         historyList: [],
         login_status:true,//用户登录状态
         userName: 'Welcome',
         showHistory: false,
+        titleActivity: true,// 活动显示
         TotalPrice:0,//购物车总价
         show:false,//购物车显示状态
         goodsList:[],//购物车列表
         goodsListOn:[],//上架商品列表
         goodsListOff:[],//已下架商品列表
         goodsNum: 0,//购物车商品数量
+        activityShow: false,
         headerShow:false,//头部显示状态
         searchShow:false,//搜索框显示状态
         attrShowindex:-1,//缩略版购物车属性值显示状态
@@ -291,6 +308,7 @@ import { mapGetters } from 'vuex';
       }
     },
     created() {
+      this.countDown() // 倒计时
       this._checkLogin()
       this.getGoodsCont()
       this.linkSearch()
@@ -331,6 +349,53 @@ import { mapGetters } from 'vuex';
       }
     },
     methods: {
+      // 活动详情
+      showActivity(type) {
+        if (type === 'el-icon-arrow-up') {
+          this.showIconActive = 'el-icon-arrow-down'
+          this.activityShow = true
+        } else {
+          this.showIconActive = 'el-icon-arrow-up'
+          this.activityShow = false
+        }
+      },
+      timeFormat(param) {
+        return param < 10 ? '0' + param : param;
+      },
+      // 倒计时
+      countDown(it) {
+        var interval = setInterval(() => {
+          // 获取当前时间，同时得到活动结束时间数组
+          let newTime = new Date().getTime();
+          // 对结束时间进行处理渲染到页面
+          let endTime = new Date(this.actEndTime).getTime();
+          let obj = null;
+          // 如果活动未结束，对时间进行处理
+          if (endTime - newTime > 0) {
+            let time = (endTime - newTime) / 1000;
+            // 获取天、时、分、秒
+            let day = parseInt(time / (60 * 60 * 24));
+            let hou = parseInt(time % (60 * 60 * 24) / 3600);
+            let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
+            let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
+            obj = {
+              day: this.timeFormat(day),
+              hou: this.timeFormat(hou),
+              min: this.timeFormat(min),
+              sec: this.timeFormat(sec)
+            };
+          } else { // 活动已结束，全部设置为'00'
+            obj = {
+              day: '00',
+              hou: '00',
+              min: '00',
+              sec: '00'
+            };
+            clearInterval(interval);
+          }
+          this.countDownList = obj.day + '天' + obj.hou + '时' + obj.min + '分' + obj.sec + '秒';
+        }, 1000);
+      },
       inputFocus: function () {
         this.showHistory = true
       },
@@ -345,6 +410,7 @@ import { mapGetters } from 'vuex';
         this.searchOver()
         this.showHistory = false
       },
+      // 热词
       hotSearch: function () {
         this.$axios.post('api/show',{}).then(res => {
           if (res.code === 200) {
@@ -352,6 +418,7 @@ import { mapGetters } from 'vuex';
           }
         })
       },
+      // 搜索底纹
       linkSearch: function () {
         this.$axios.post('api/linkword/show',{}).then(res => {
           if (res.code === 200) {
@@ -365,12 +432,14 @@ import { mapGetters } from 'vuex';
           }
         })
       },
+      // 历史记录
       clearHistory: function () {
         this.hList = []
         localStorage.setItem('hList', JSON.stringify(this.hList))
         var list = JSON.parse(localStorage.getItem('hList'))
         this.historyList = list.slice(0, 10)
       },
+      // 搜索
       searchOver: function(e) {
         if (this.searchVal) {
           this.showHistory = false

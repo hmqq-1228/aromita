@@ -242,7 +242,7 @@ export default {
           this.mergeGoodsFuc()
           localStorage.setItem('userToken', this.loginData.token)
         }else {
-          this.$message.error('ERROR Incorrect username or password!')
+          this.$message.warning('ERROR Incorrect username or password!')
           this.num = res.data
         }
       })

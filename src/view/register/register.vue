@@ -213,7 +213,7 @@ export default {
         that.handleLoginSub()
         // that.$router.push('/register_ok')
       } else if (data.code === 10006){
-        that.$message.error(data.msg)
+        that.$message.warning(data.msg)
         that.refreshCode()
       } else {
         var arr = []
@@ -222,7 +222,7 @@ export default {
           arr.push(obj)
           this.$message({
             message:arr[0],
-            type: 'error'
+            type: 'warning'
           });
         }
       }
@@ -253,7 +253,7 @@ export default {
             this.subMyScription()
           }
         }else {
-          this.$message.error('ERROR Incorrect username or password!')
+          this.$message.warning('ERROR Incorrect username or password!')
           this.num = res.data
         }
       })

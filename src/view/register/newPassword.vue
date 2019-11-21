@@ -131,7 +131,7 @@ export default {
           duration: 5000
         })
       } else {
-        that.$message.error(data.msg)
+        that.$message.warning(data.msg)
       }
     }
   }

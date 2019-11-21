@@ -129,7 +129,9 @@ export default {
               that.expireList = res.data.is_expire
             }else{
               that.couponList = that.couponList.concat(res.data.coupon.data);
-              that.expireList = that.expireList.concat(res.data.is_expire)
+              if (res.data.is_expire) {
+                that.expireList = that.expireList.concat(res.data.is_expire)
+              }
             }
             that.couponNum = res.data.coupon.total
             if (num == 1) {

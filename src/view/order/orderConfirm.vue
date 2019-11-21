@@ -1167,7 +1167,7 @@ export default {
         ids: idStr,
         score: that.inputPoint,
         cc_id: coupon_id,
-        order_address_info: JSON.stringify(addData)
+        pd_des_address: JSON.stringify(addData)
       }
       let data = await billingList(idList)
       if (data.subtotal) {
@@ -1310,7 +1310,7 @@ export default {
                     arr.push(obj)
                     this.$message({
                       message:arr[0],
-                      type: 'error'
+                      type: 'warning'
                     });
                   }
                 }
@@ -1374,7 +1374,7 @@ export default {
                     arr.push(obj)
                     this.$message({
                       message:arr[0],
-                      type: 'error'
+                      type: 'warning'
                     });
                   }
                 }

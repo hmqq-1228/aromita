@@ -214,7 +214,7 @@ export default {
                 this.addressFormVisible = true;
             }else{
                 this.$message({
-                    type:'info',
+                    type:'warning',
                     message: 'Sorry, you only can create 10 addresses at most.'
                 });
             }
@@ -248,7 +248,7 @@ export default {
                         }else if(res.code == 101){
                             this.$message({
                                 message: 'Your shipping address is invalid. Please check it.',
-                                type: 'error'
+                                type: 'warning'
                             });
                         }else{
                             var arr = []
@@ -258,7 +258,7 @@ export default {
                             }
                             this.$message({
                                 message:arr[0],
-                                type: 'error'
+                                type: 'warning'
                             });
                         }
                     })
@@ -270,10 +270,9 @@ export default {
         },
         //删除用户地址
         removeAddress(id){
-            this.$confirm('Are you sure you want to delete this address?', 'tip', {
+            this.$confirm('Are you sure you want to delete this address?', '', {
                 confirmButtonText: 'Sure',
                 cancelButtonText: 'Cancel',
-                type: 'warning'
             }).then(() => {
                 this.$axios.delete(`api/address/${id}`, {}).then(res => {
                     if(res.code === '200' || res.code === 200){
@@ -285,10 +284,7 @@ export default {
                     this._address()
                 })
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: 'Delete Successfully Canceled Delete'
-                });
+
             });
         },
         //设置为默认地址
@@ -305,7 +301,7 @@ export default {
                     });
                 }else{
                     this.$message({
-                        type: 'error',
+                        type: 'warning',
                         message:res.msg
                     });
                 }

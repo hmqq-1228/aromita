@@ -115,7 +115,7 @@
               <!--<div :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'" v-if="attr.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, index5)"></div>-->
             </div>
           </div>
-          <div style="display: flex;justify-content: start;margin-top: 10px;">
+          <div style="display: flex;justify-content: start;margin-top: 20px;">
             <div class="goodsLabelSize" style="width: 100px;">quality:</div>
             <div style="display: flex;">
               <el-input-number v-model="numQuality" @change="handleChange" :min="1" :max="maxQuality"></el-input-number>
@@ -127,7 +127,7 @@
             <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
           </div>
         </div>
-        <div>
+        <div style="width: 700px;">
           <!-- <div v-show="msgshow" style="position:absolute;top:-30px;color:red;">Exceeds maximun quantity available for this product.</div> -->
           <div class="subBtn shop_cart">
             <div class="add" v-if="goodDetail.sku_status === 1">
@@ -141,6 +141,7 @@
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
             <div v-if="inWishList === false" class="addWish" @click="_addwishList()"><img src="@/assets/wish.png" alt><span>Add to WishList</span></div>
             <div class="addWish" v-if="inWishList === true"><img src="@/assets/Wishactive1.png" alt><span>Add to WishList</span></div>
+            <div class="previewPic" @click="previewImg"><img src="../../../static/img/preview.png" alt=""> 图片预览</div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
           <div v-if="goodDetail.sku_status === 1 && goodDetail.inventory === 0" class="restocking">This item is out of stock.</div>
@@ -158,15 +159,17 @@
   </div>
 
   <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
-  <!--<el-dialog-->
-    <!--:visible.sync="wishVisible"-->
-    <!--width="300px">-->
-    <!--<span>You haven't logged in yet. Please login and add a wish list.</span>-->
-    <!--<span slot="footer" class="dialog-footer">-->
-      <!--<el-button @click="wishVisible = false">Cancel</el-button>-->
-      <!--<router-link to="/login"><el-button type="danger">Login</el-button></router-link>-->
-    <!--</span>-->
-  <!--</el-dialog>-->
+  <el-dialog
+    :visible.sync="wishVisible">
+    <!--<el-carousel height="400px" :interval="5000" arrow="always" :autoplay="false">-->
+      <!--<el-carousel-item v-for="item in srcList" :key="item">-->
+        <!--<img width="100%" height="100%" :src="item" alt="">-->
+      <!--</el-carousel-item>-->
+    <!--</el-carousel>-->
+    <div class="demo-image__lazy">
+      <el-image style="height: 500px;" v-for="url in srcList" :key="url" :src="url" lazy></el-image>
+    </div>
+  </el-dialog>
 </div>
 </div>
 </template>
@@ -204,6 +207,7 @@ export default {
       priceOrder: 0,
       totalPay: 0,
       sumIds: [],
+      srcList: [],
       goodsIds: [],
       attrList: [],
       attrListDis: [],
@@ -277,6 +281,9 @@ export default {
     this.isLogin()
   },
   methods:{
+    previewImg(){
+      this.wishVisible = true
+    },
     testShow: function (e) {
      // alert('88888888', e)
     },
@@ -396,6 +403,7 @@ export default {
           that.goodDetail = res.data.sku
           that.pruductDetail = res.data.detail
           that.imageList = res.data.sku.small_thumbnail_images
+          that.srcList = res.data.sku.thumbnail_images
           that.mainImgUrl = res.data.sku.sku_image
           that.maxQuality = res.data.sku.inventory
           that.priceOrder = res.data.sku.sku_price

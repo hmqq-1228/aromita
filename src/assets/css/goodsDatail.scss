@@ -244,6 +244,7 @@
 }
 .detail{
   min-height: 380px;
+  margin-bottom: 50px;
 }
 .goodsDetail{
   width: 1440px;
@@ -593,7 +594,7 @@
   .subBtn{
     margin-top: 20px;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
   }
   .subType{
     width: 300px;
@@ -635,7 +636,7 @@
   font-size: 18px;
   font-family: Tahoma;
   color: #333;
-  margin-left: 60px;
+  //margin-left: 60px;
   cursor: pointer;
   img{
     width:24px;
@@ -647,6 +648,26 @@
     margin-top: 4px;
     cursor: pointer;
   }
+}
+.addWish:hover span{
+  color: #C51015;
+}
+.previewPic{
+  width: 100px;
+  height: 45px;
+  line-height: 45px;
+  cursor: pointer;
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+}
+.previewPic img{
+  width: 24px;
+  height: 24px;
+  margin-top: 12px;
+}
+.previewPic:hover,.previewPic:hover span{
+  color: #C51015;
 }
   .kuCun{
     line-height: 40px;
@@ -660,11 +681,13 @@
     color: #888;
     margin-top: 4px;
   }
-
+  .demo-image__lazy{
+    height: 500px;
+    overflow-y: auto;
+  }
 //添加购物车动画
 .shop_cart .add {
     //position: relative;
-  width: 350px;
   display: flex;
   justify-content: start;
 }

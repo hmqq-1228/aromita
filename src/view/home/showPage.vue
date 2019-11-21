@@ -1,6 +1,6 @@
 <template>
   <div class="wrap_1">
-    <div class="wrap">
+    <div class="wrap" @click="hidePanel($event)">
       <!-- 轮播图 -->
       <div class="home_banner">
           <el-carousel height="500px">
@@ -8,6 +8,12 @@
                 <img style="cursor: pointer;" :src="item.picture_src" alt @click="linkHref(item.picture_href)">
               </el-carousel-item>
           </el-carousel>
+          <div class="subscribe" :style="{left:(showActivity==true?'0':'-264px')}">
+            <div class="subscribeCon"></div>
+            <div class="subscribeBtn" @click="subscribe(showActivity)">
+              <span>Get $10 OFF</span>
+            </div>
+          </div>
       </div>
       <!-- 英文 -->
       <p class="word1">COLLECTIONS</p>
@@ -69,6 +75,7 @@ export default {
   data() {
     return {
       swiper1: "",
+      showActivity: false,
       url: "https://arapi.panduo.com.cn/uploads/",
       homeData: [], //Best Seller商品信息
       dataBanner: [], //首页banner信息
@@ -93,6 +100,22 @@ export default {
     });
   },
   methods: {
+    subscribe (stute) {
+      if (stute) {
+        this.showActivity = false
+      } else {
+        this.showActivity = true
+      }
+    },
+    // 点击任意区域
+    hidePanel (event) {
+      let sp2 = document.querySelector('.subscribe')
+      if (sp2) {
+        if (!sp2.contains(event.target)) {
+          this.showActivity = false
+        }
+      }
+    },
     //运营配置活动页
     linkHref(link){
       //window.open(link)

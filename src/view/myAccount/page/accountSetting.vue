@@ -194,7 +194,7 @@ export default {
             }else{
               this.$message({
                 message: res.msg,
-                type: 'error'
+                type: 'warning'
               });
             }
           })

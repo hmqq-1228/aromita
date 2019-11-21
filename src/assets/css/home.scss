@@ -3,12 +3,49 @@
 }
 .home_banner{
   width: 1440px;
+  overflow: hidden;
   margin:0 auto;
+  position: relative;
   .el-carousel__button{
     background: #333;
     width:8px;
     height: 8px;
     border-radius: 50%;
+  }
+  .subscribe{
+    height: 140px;
+    width: 300px;
+    position: absolute;
+    left: -260px;
+    bottom: 20px;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-between;
+    transition: all .5s ease;
+    border-radius: 0 6px 6px 0;
+    .subscribeCon{
+      width: 264px;
+      height: 100%;
+      background-color: #999999;
+    }
+    .subscribeBtn{
+      width: 36px;
+      height: 100%;
+      background-color: #C51015;
+      cursor: pointer;
+      line-height: 140px;
+      border-radius: 0 6px 6px 0;
+      span{
+        color: #fff;
+        display: inline-block;
+        width: 140px;
+        height: 36px;
+        line-height: 36px;
+        text-align: center;
+        transform: rotate(90deg);
+        transform-origin:44px -8px;
+      }
+    }
   }
 }
 .demo-carousel {
