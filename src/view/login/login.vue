@@ -89,7 +89,7 @@
 <script>
 import aheader from "@/components/aheader.vue";
 import afooter from "@/components/afooter.vue"
-import { handleLogin, handleCatpchas} from "../../api/register";
+import { handleLogin, handleCatpchas, mergeGoods} from "../../api/register";
 import {loginImage} from "../../api/home";
 import { async } from "q";
 import qs from 'qs'
@@ -235,10 +235,11 @@ export default {
           });
           if (routerStr) {
             this.$router.push(routerStr)
+            this.$store.state.fromUrl = ''
           } else {
             this.$router.push('/')
           }
-          // this.mergeGoodsFuc()
+          this.mergeGoodsFuc()
           localStorage.setItem('userToken', this.loginData.token)
         }else {
           this.$message.error('ERROR Incorrect username or password!')
@@ -246,9 +247,11 @@ export default {
         }
       })
     },
-    // async mergeGoodsFuc(){
-    //   await mergeGoods()
-    // },
+    mergeGoodsFuc(){
+    mergeGoods().then((res)=>{
+      console.log(res)
+    })
+    },
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();
       d.setDate(d.getDate()+cookieDates)

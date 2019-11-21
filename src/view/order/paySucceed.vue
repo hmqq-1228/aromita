@@ -35,6 +35,20 @@
             </div>
           </div>
         </div>
+        <div class="suggestion">
+          <div class="name">Your Suggestion</div>
+          <el-input
+            type="textarea"
+            :rows="4"
+            maxlength="2000"
+            show-word-limit
+            placeholder="please enter your any suggestion."
+            v-model="textarea">
+          </el-input>
+          <div style="text-align: right; margin-top: 20px;">
+            <el-button :disabled="subFlag" size="medium" type="primary" @click="subSuggestion">Submit</el-button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="foot">
@@ -56,17 +70,31 @@ export default {
   data(){
     return{
       orderNumber: '',
-      getScore: 0
+      getScore: 0,
+      textarea: '',
+      subFlag: true
     }
   },
   created(){
     this.getSucceedState()
+  },
+  watch:{
+    textarea (val ,Ov) {
+      if (val) {
+        this.subFlag = false
+      } else {
+        this.subFlag = true
+      }
+    }
   },
   methods:{
     getSucceedState: function () {
     // console.log('kkkk', this.$route.query.order_number)
       this.orderNumber = this.$route.query.order_number
       this.getScore = this.$route.query.score
+    },
+    subSuggestion: function () {
+      alert('ssssss')
     }
     // async getSucceedState () {
     //   let data = await succeedState()

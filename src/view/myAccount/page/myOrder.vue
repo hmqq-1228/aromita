@@ -228,10 +228,10 @@ export default {
       }
       cancelOrderSub(pre).then((res)=>{
         if (res == 201) {
+          this.cancelVisity = true
           if (this.orderStatus === 20) {
             that.returnTotalFuc()
           } else {
-            this.cancelVisity = true
             this.myOrderList()
           }
         }else if(res.code == 101){
@@ -265,7 +265,7 @@ export default {
       proccessingOrder(obj).then((res)=>{
         if (res.code === 200) {
           this.myOrderList()
-          this.cancelVisity = true
+          // this.cancelVisity = true
         }
       })
     },

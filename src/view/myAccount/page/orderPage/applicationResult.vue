@@ -222,11 +222,26 @@
     watch:{
 
     },
+    mounted () {
+      if (window.history && window.history.pushState) {
+        // 向历史记录中插入了当前页
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', this.goBack, false);
+      }
+    },
+    destroyed () {
+      window.removeEventListener('popstate', this.goBack, false);
+    },
     created(){
       this.refund_id = this.$route.query.orders_refund_id
       this.getRefundDetail()
     },
     methods:{
+      goBack () {
+        console.log("点击了浏览器的返回按钮");
+        sessionStorage.clear();
+        window.history.go(-2);
+      },
       getRefundDetail () {
         var that = this
         that.$axios.get('api/refund/step2/' + that.refund_id, {}).then(res => {

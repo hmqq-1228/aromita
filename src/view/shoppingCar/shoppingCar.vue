@@ -2,9 +2,9 @@
 <div class="shoppingCar">
   <div class="carCont">
     <div class="cartHeader">
-      <div class="checkState">
-        <input type="checkbox" id="Size1" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>
-      </div>
+      <!--<div class="checkState">-->
+        <!--<input type="checkbox" id="Size1" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>-->
+      <!--</div>-->
       <div class="product">Product</div>
       <div class="quantity">Quantity</div>
       <div class="total">Total</div>
@@ -12,7 +12,8 @@
     </div>
     <div class="carItem" v-if="goodsListOn.length>0" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
       <div class="checkState item">
-        <input type="checkbox" :id="'good'+ carItem.sku_id" :value="carItem.sku_id" v-model="checkedItem"><label :for="'good'+ carItem.sku_id"></label>
+        <!--<div style="width: 20px;"></div>-->
+        <!--<input type="checkbox" :id="'good'+ carItem.sku_id" :value="carItem.sku_id" v-model="checkedItem"><label :for="'good'+ carItem.sku_id"></label>-->
         <div class="imgBox" @click="toGoodDetail(carItem.product_id, carItem.sku_id)"><img :src="carItem.sku_image" alt=""></div>
       </div>
       <div class="productCont">
@@ -43,26 +44,31 @@
   </div>
   <div class="overTime">
     <div class="overHd">
-      <div class="checkState over">
-        <input type="checkbox" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>
-      </div>
-      <div class="remove" @click="batchDelete()">Remove Select</div>
-      <div class="WishList" v-if="false">Move Selected to WishList</div>
+      <!--<div class="checkState over">-->
+        <!--<input type="checkbox" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>-->
+      <!--</div>-->
+      <!--<div class="remove" @click="batchDelete()">Remove Select</div>-->
+      <!--<div class="WishList" v-if="false">Move Selected to WishList</div>-->
     </div>
-    <div class="carItem" style="background-color: #fbfbfb;border-top: 1px solid #eee;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
-      <div class="checkState item" style="width: 120px; box-sizing: border-box;">
+    <div class="carItem" style="background-color: #fbfbfb;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
+      <div class="checkState item" style="width: 106px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
-        <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)" style="margin-left: 20px;"><img :src="unGood.sku_image" alt=""></div>
+        <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)"><img :src="unGood.sku_image" alt=""></div>
       </div>
-      <div class="productCont" style="width: 530px;">
+      <div class="productCont" style="width: 500px;">
         <div class="textBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)">{{unGood.sku_name}}</div>
         <div class="goodsType" v-for="goodAttr in JSON.parse(unGood.sku_attrs)">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
         <div class="goodsPrice">$ {{unGood.sku_price}}</div>
       </div>
       <div class="goodsNum_goodsTotal">
-       Unavailable
+        <span v-if="unGood.sku_status == 0">Unavailable</span>
+        <span v-if="unGood.sku_status == 2">Restocking</span>
       </div>
-      <div class="optionType"><span @click="deleteItemCart(unGood.sku_id)"><i class="el-icon-circle-close"></i></span></div>
+      <div class="optionType">
+        <span @click="deleteItemCart(unGood.sku_id)"><i class="el-icon-circle-close"></i></span>
+        <span class="wishAdd" v-if="unGood.sku_status===2 && unGood.in_wishlist === 10"><img @click="addWish(unGood.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
+        <span class="wishAdd" v-if="unGood.sku_status===2 && unGood.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
+      </div>
     </div>
   </div>
   <div class="overTime" style="margin-bottom: 30px;margin-top: 30px;">
@@ -158,6 +164,19 @@
       <router-link to="/login"><el-button type="danger">Login</el-button></router-link>
     </span>
   </el-dialog>
+  <div class="shoppingCarPay">
+    <el-dialog
+      title="Login/Guest"
+      :visible.sync="payDialogVisible"
+      width="450px"
+      center>
+      <span>如果您已有账户，可以选择登录您的账户结算订单，登录后可使用Coupon/积分等客户权益。</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="medium" type="primary" @click="toLogin()">Login</el-button>
+        <el-button size="medium" @click="toOrderConfirm()">Guest</el-button>
+      </span>
+    </el-dialog>
+  </div>
   <!--<div class="foot">-->
     <!--<footer-com></footer-com>-->
   <!--</div>-->
@@ -180,6 +199,7 @@ export default {
       checkedAll: false,
       tipOverShow: false,
       wishVisible: false,
+      payDialogVisible: false,
       checkedItem: [],
       idList: [],
       payList: [],
@@ -444,8 +464,22 @@ export default {
     },
     subTotalPay: function() {
       var that = this
+      if (that.isLogin) {
+        sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
+        that.$router.push('/orderConfirm')
+      } else {
+        that.payDialogVisible = true
+      }
+    },
+    toLogin () {
+      var that = this
+      var roterHistory = that.$route.path
+      that.$store.state.fromUrl = roterHistory
+      that.$router.push('/Login')
+    },
+    toOrderConfirm () {
+      var that = this
       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
-      // sessionStorage.setItem('couponId', that.couponId)
       that.$router.push('/orderConfirm')
     },
     toGoodDetail: function(spuid, skuid){

@@ -20,7 +20,7 @@
                             </ul>
                         </el-form-item>
                         <el-form-item label="Refund：">
-                            <p class="price">
+                            <p class="price" style="margin-top: 7px;">
                               <b v-if="orderList.refund_total">$ {{(orderList.refund_total).toFixed(2)}}</b>
                               <el-popover v-if="orderList.refund_total"
                                 placement="right"
@@ -51,7 +51,7 @@
                                 v-model="describe">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="File attachments：">
+                        <el-form-item label="File attachments：" style="margin-top: 20px;">
                             <div class="imglist" :class="uploadImageList.length>=5? 'notUpload': ''">
                               <div :class="!canSub?'errSub': ''">
                                 <el-upload
@@ -69,6 +69,7 @@
                               </div>
                                 <!--<span class="rule">(5 max)</span>-->
                             </div>
+
                             <p class="tip"><i>*</i>In order to accelerate refund process, please attach the file.</p>
                             <!--<p class="tip" v-if="isUploadImg==1" style="color: #C51015"><i>*</i>In order to accelerate refund process, please attach the file.</p>-->
                             <el-dialog :visible.sync="dialogVisible">
@@ -264,8 +265,8 @@ export default {
     subDataFnc () {
       var that = this
       var obj = qs.stringify({
-        order_id: parseInt(this.order_id),
-        product_list: JSON.stringify(this.savePayLoad),
+        order_id: parseInt(that.order_id),
+        product_list: JSON.stringify(that.savePayLoad),
         refund_reason: JSON.stringify(that.reasonId),
         refund_total: JSON.stringify(that.orderList),
         refund_instructions: that.describe,
@@ -282,6 +283,7 @@ export default {
             }
           })
           // that.reasonList = res.data
+          sessionStorage.removeItem('selectInfo')
         } else {
           that.$message.warning(res.msg)
         }

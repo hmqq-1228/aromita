@@ -481,6 +481,17 @@
 .paySucceed2 .stateItem:nth-of-type(3){
   margin-left: -16px;
 }
+.paySucceed2 .suggestion{
+  width: 400px;
+  margin: 20px auto;
+  padding-left: 20px;
+}
+.paySucceed2 .suggestion .name{
+  font-family: Tahoma;
+  height: 30px;
+  line-height: 30px;
+  margin-bottom: 6px;
+}
 
 
 

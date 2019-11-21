@@ -695,9 +695,11 @@
         }
         .el-textarea{
             width: 600px;
+          margin-top: 14px;
         }
         .imglist{
             display: flex;
+            margin-top: 14px;
             .rule{
                 margin-left: 20px;
                 color: #999;
@@ -719,6 +721,7 @@
         display: flex;
         height: 40px;
         margin-left: 200px;
+        margin-bottom: 30px;
         .sub{
             @extend .com-sub-btn;
         }

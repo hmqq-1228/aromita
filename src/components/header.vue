@@ -371,15 +371,6 @@ import { mapGetters } from 'vuex';
         var list = JSON.parse(localStorage.getItem('hList'))
         this.historyList = list.slice(0, 10)
       },
-      // 点击任意区域弹窗消失
-      // hidePanel (event) {
-      //   let sp2 = document.querySelector('.search')
-      //   if (sp2) {
-      //     if (!sp2.contains(event.target)) {
-      //       this.showHistory = false
-      //     }
-      //   }
-      // },
       searchOver: function(e) {
         if (this.searchVal) {
           this.showHistory = false
@@ -423,7 +414,6 @@ import { mapGetters } from 'vuex';
           } else {
             hListNew.unshift(this.searchVal)
           }
-          // console.log('hhhhhhh', hListNew)
           localStorage.setItem('hList', JSON.stringify(hListNew))
         } else {
           if (this.linkWordUrl){

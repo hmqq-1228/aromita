@@ -522,3 +522,16 @@ ul,li {
 .refundPolice .el-checkbox{
   margin-right: 0 !important;
 }
+.shoppingCarPay .el-dialog--center .el-dialog__body {
+  text-align: initial;
+  padding: 10px 25px 20px !important;
+}
+.paySucceed2 .el-textarea__inner:focus{
+  border-color: #666 !important;
+}
+.paySucceed2 .el-button.is-disabled, .paySucceed2 .el-button.is-disabled:focus,.paySucceed2 .el-button.is-disabled:hover {
+  color: #fff !important;
+  cursor: not-allowed;
+  background-color: #ccc !important;
+  border-color: #EBEEF5 !important;
+}

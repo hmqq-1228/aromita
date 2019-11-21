@@ -52,4 +52,7 @@ export default {
   width: 100px !important;
   border-color: #C51015 !important;
 }
+.el-button--small{
+  width: 100px !important;
+}
 </style>
