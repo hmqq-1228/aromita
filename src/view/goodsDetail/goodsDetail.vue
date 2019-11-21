@@ -161,14 +161,15 @@
   <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
   <el-dialog
     :visible.sync="wishVisible">
-    <!--<el-carousel height="400px" :interval="5000" arrow="always" :autoplay="false">-->
-      <!--<el-carousel-item v-for="item in srcList" :key="item">-->
-        <!--<img width="100%" height="100%" :src="item" alt="">-->
-      <!--</el-carousel-item>-->
-    <!--</el-carousel>-->
-    <div class="demo-image__lazy">
-      <el-image style="height: 500px;" v-for="url in srcList" :key="url" :src="url" lazy></el-image>
-    </div>
+    <el-carousel height="500px" :interval="5000" arrow="always" :autoplay="false">
+      <el-carousel-item v-for="item in srcList" :key="item">
+        <img width="100%" height="100%" :src="item" alt="">
+      </el-carousel-item>
+    </el-carousel>
+    <!--<div class="demo-image__lazy" v-if="srcList">-->
+      <!--&lt;!&ndash;<div>{{srcList}}</div>&ndash;&gt;-->
+      <!--<el-image style="height: 500px;" v-for="url in srcList" :key="url" :src="url" lazy></el-image>-->
+    <!--</div>-->
   </el-dialog>
 </div>
 </div>
