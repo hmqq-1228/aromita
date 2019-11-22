@@ -1172,17 +1172,21 @@ export default {
       let data = await billingList(idList)
       if (data.subtotal) {
         that.billing = data
-        for (let k in data) {
-          if (k === 'subtotal') {
-            billList.push(data[k])
-          } else if (k === 'taxfee'){
-            billList.push(data[k])
-          } else if (k === 'cc_amount') {
-            billList.push(data[k])
-          } else if (k === 'pointToMoney') {
-            billList.push(data[k])
-          }
-        }
+        // for (let k in data) {
+        //   if (k === 'subtotal') {
+        //     billList.push(data[k])
+        //   } else if (k === 'taxfee'){
+        //     billList.push(data[k])
+        //   } else if (k === 'cc_amount') {
+        //     billList.push(data[k])
+        //   } else if (k === 'pointToMoney') {
+        //     billList.push(data[k])
+        //   }
+        // }
+        billList.push(data['subtotal'])
+        billList.push(data['taxfee'])
+        billList.push(data['cc_amount'])
+        billList.push(data['pointToMoney'])
         // console.log('mmmmmm', billList)
         for (var i=0;i<billList.length;i++) {
           sumBill = sumBill + billList[i]
