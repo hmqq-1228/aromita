@@ -245,7 +245,7 @@ import { mapGetters } from 'vuex';
         login_status:true,//用户登录状态
         userName: 'Welcome',
         showHistory: false,
-        titleActivity: true,// 活动显示
+        titleActivity: false,// 活动头部显示
         TotalPrice:0,//购物车总价
         show:false,//购物车显示状态
         goodsList:[],//购物车列表

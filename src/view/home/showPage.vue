@@ -134,12 +134,6 @@ export default {
       let data = await homeBanner();
       this.dataBanner = data.data;
     },
-    // async homeFoote() {
-    //   let data = await homeFoote();
-    //   for (this.homeFoot in data.data) {
-    //     this.homeFoot = data.data;
-    //   }
-    // },
     // Best Seller商品信息
     async homeSeller() {
       let data = await homeSeller();
