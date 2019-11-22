@@ -283,6 +283,7 @@ export default {
             }
           })
           // that.reasonList = res.data
+          that.$store.state.isApplication = true
           sessionStorage.removeItem('selectInfo')
         } else {
           that.$message.warning(res.msg)

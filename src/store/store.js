@@ -20,6 +20,7 @@ const state = {
   order_status: '10',
   searchShow: 0,
   username:false,//用户名
+  isApplication: false,
 }
 
 const mutations = {

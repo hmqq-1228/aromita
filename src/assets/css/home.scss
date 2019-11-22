@@ -1,6 +1,88 @@
 .wrap_1 {
   margin: 0 auto;
 }
+.wrap{
+  position: relative;
+}
+.subscribe{
+  height: 245px;
+  width: 440px;
+  position: fixed;
+  left: -260px;
+  top: 40%;
+  z-index: 99;
+  display: flex;
+  justify-content: space-between;
+  transition: all .4s ease;
+  border-radius: 0 6px 6px 0;
+  box-shadow: 1px 1px 4px #ccc;
+  .subscribeCon{
+    width: 404px;
+    height: 100%;
+    background-color: #f5f5f5;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    .money{
+      font-size: 36px;
+      font-weight: bold;
+      color: #c51015;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .condition{
+      text-align: right;
+      margin-top: 10px;
+    }
+  }
+  .search{
+    width: 230px;
+  }
+  .subscribeInput{
+    margin-top: 16px;
+  }
+  .policy{
+    font-size: 14px;
+    color: #003764;
+    cursor: pointer;
+    font-family: Tahoma;
+    text-decoration: underline;
+  }
+  .demo-ruleForm{
+    display: flex;
+    justify-content: space-between;
+  }
+  .subButton{
+    width: 100px;
+    color: #fff;
+    background-color: #c51015;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .subButton:active{
+    border: 1px solid #c51015;
+  }
+  .subscribeBtn{
+    width: 36px;
+    height: 100%;
+    background-color: #C51015;
+    cursor: pointer;
+    line-height: 180px;
+    border-radius: 0 6px 6px 0;
+    span{
+      color: #fff;
+      display: inline-block;
+      width: 245px;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      transform: rotate(90deg);
+      transform-origin:55px -18px;
+    }
+  }
+}
 .home_banner{
   width: 1440px;
   overflow: hidden;
@@ -11,41 +93,6 @@
     width:8px;
     height: 8px;
     border-radius: 50%;
-  }
-  .subscribe{
-    height: 140px;
-    width: 300px;
-    position: absolute;
-    left: -260px;
-    bottom: 20px;
-    z-index: 99;
-    display: flex;
-    justify-content: space-between;
-    transition: all .5s ease;
-    border-radius: 0 6px 6px 0;
-    .subscribeCon{
-      width: 264px;
-      height: 100%;
-      background-color: #999999;
-    }
-    .subscribeBtn{
-      width: 36px;
-      height: 100%;
-      background-color: #C51015;
-      cursor: pointer;
-      line-height: 140px;
-      border-radius: 0 6px 6px 0;
-      span{
-        color: #fff;
-        display: inline-block;
-        width: 140px;
-        height: 36px;
-        line-height: 36px;
-        text-align: center;
-        transform: rotate(90deg);
-        transform-origin:44px -8px;
-      }
-    }
   }
 }
 .demo-carousel {

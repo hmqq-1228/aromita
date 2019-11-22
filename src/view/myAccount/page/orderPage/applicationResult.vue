@@ -238,16 +238,21 @@
     },
     methods:{
       goBack () {
-        console.log("点击了浏览器的返回按钮");
-        sessionStorage.clear();
-        window.history.go(-2);
+        // sessionStorage.clear();
+        // console.log("点击了浏览器的返回按钮", this.$store.state.isApplication);
+        if (this.$store.state.isApplication) {
+          // console.log("点击了浏览器的返回按钮222");
+          window.history.go(-2);
+        } else {
+          window.history.go(-1);
+          // console.log("点击了浏览器的返回按钮111");
+        }
+        this.$store.state.isApplication = false
       },
       getRefundDetail () {
         var that = this
         that.$axios.get('api/refund/step2/' + that.refund_id, {}).then(res => {
           if (res.code === 200) {
-            // console.log('nnnnnn', res)
-            // that.reasonList = res.data
             that.status = res.data.status
             if (that.status == 10 || that.status == 20 || that.status == 50 || that.status == 100) {
               that.activeIndex = 2
@@ -273,8 +278,6 @@
         var that = this
         that.$axios.get('api/refund/cancel/' + that.refund_id, {}).then(res => {
           if (res.code === 200) {
-            // console.log('nnnnnn', res)
-            // that.reasonList = res.data
             that.getRefundDetail()
           }
         })
@@ -290,8 +293,6 @@
           that.inputTrackingTip = false
           that.$axios.post('api/refund/commitReturnNum', obj).then(res => {
             if (res.code === 200) {
-              // console.log('nnnnnn555', res)
-              // that.reasonList = res.data
               that.getRefundDetail()
             }
           })

@@ -54,7 +54,7 @@ ul,li {
   border-color: #999 !important;
   background-color: #fff !important;
 }
-.Scription .el-checkbox__input.is-checked .el-checkbox__inner, .Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+.subscribeInput .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner, .Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner{
   border-color: #999 !important;
   background-color: #fff !important;
 }
@@ -145,12 +145,12 @@ ul,li {
 .Products_Details .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
   background-color: #333 !important;
 }
-.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after,.refund .el-checkbox__inner::after{
+.subscribeInput .el-checkbox__inner::after,.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after,.refund .el-checkbox__inner::after{
   border: 1px solid #333 !important;
   border-left: 0 !important;
   border-top: 0 !important;
 }
-.register .el-checkbox__input.is-checked+.el-checkbox__label,.refund .el-checkbox__input.is-checked+.el-checkbox__label{
+.register .el-checkbox__input.is-checked+.el-checkbox__label,.refund .el-checkbox__input.is-checked+.el-checkbox__label,.subscribeInput .el-checkbox__input.is-checked+.el-checkbox__label{
   color: #333 !important;
 }
 .el-badge__content{
@@ -278,7 +278,7 @@ ul,li {
 .wrapLogin .el-checkbox__input.is-focus .el-checkbox__inner,.wrapLogin .el-checkbox__inner:hover,.refund .el-checkbox__input.is-focus .el-checkbox__inner{
   border-color: #999 !important;
 }
-.Scription .el-checkbox__input.is-focus .el-checkbox__inner,.Scription .el-checkbox__inner:hover{
+.Scription .el-checkbox__input.is-focus .el-checkbox__inner,.Scription .el-checkbox__inner:hover,.subscribeInput .el-checkbox__inner:hover{
   border-color: #999 !important;
 }
 .fliterList .el-checkbox__input.is-focus .el-checkbox__inner,.fliterList .el-checkbox__inner:hover{
@@ -506,6 +506,9 @@ ul,li {
 .refund .errorSub .el-checkbox__inner:hover{
   border: 1px solid #C51015 !important;
 }
+.subscribeInput .errorSub .el-checkbox__inner:hover{
+  border: 1px solid #C51015 !important;
+}
 .notUpload .el-upload--picture-card{
   display: none !important;
 }
@@ -519,7 +522,7 @@ ul,li {
   border-color: #C51015 !important;
   color: #C51015 !important;
 }
-.refundPolice .el-checkbox{
+.refundPolice .el-checkbox,.subscribeInput .el-checkbox{
   margin-right: 0 !important;
 }
 .shoppingCarPay .el-dialog--center .el-dialog__body {
@@ -534,4 +537,14 @@ ul,li {
   cursor: not-allowed;
   background-color: #ccc !important;
   border-color: #EBEEF5 !important;
+}
+.el-tree-node__children .el-tree-node.is-current.is-focusable{
+  color: #C51015 !important;
+}
+.subscribeInput .el-form-item{
+ margin-bottom: 16px !important;
+}
+.subscribeInput .el-form-item__content{
+  height: 32px !important;
+  line-height: 32px !important;
 }

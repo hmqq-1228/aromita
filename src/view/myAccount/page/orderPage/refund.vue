@@ -37,6 +37,7 @@
                     <el-table
                         :data="tableData"
                         size="medium"
+                        :empty-text="emptyText"
                         :row-class-name="tableRowClassName"
                         @selection-change="handleSelectionChange"
                         :header-cell-style="{
@@ -133,6 +134,7 @@ export default {
       tableData: [],
       numQuality: 1,
       totalPay: 0,
+      emptyText: 'There is no product that can be sold.',
       checked: false,//同意退款条约
       selectInfoList: [],
       multipleSelection: [],

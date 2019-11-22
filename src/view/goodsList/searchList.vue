@@ -3,6 +3,13 @@
     <!--<div>{{nodeDragRefresh?'':''}}</div>-->
     <div class="listBox">
       <div class="listNav">
+        <div class="navTitleTwo">
+          <div>Occasion</div>
+          <div class="clear"><img src="../../../static/img/defult.png" alt=""></div>
+        </div>
+        <div class="OccasionTree">
+          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        </div>
         <!--<div class="navTitle">Sort By</div>-->
         <div class="navTitleTwo">
           <div>Sort By</div>
@@ -126,6 +133,35 @@
         leftNum:[],
         btnindex:-1,
         menuStatus:false,//属性值状态（收起，展开）
+        data: [{
+          label: '一级 1',
+          children: [{
+            label: '二级 1-1',
+            children: []
+          }]
+        }, {
+          label: '一级 2',
+          children: [{
+            label: '二级 2-1',
+            children: []
+          }, {
+            label: '二级 2-2',
+            children: []
+          }]
+        }, {
+          label: '一级 3',
+          children: [{
+            label: '二级 3-1',
+            children: []
+          }, {
+            label: '二级 3-2',
+            children: []
+          }]
+        }],
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        }
       }
     },
     watch: {
@@ -192,6 +228,12 @@
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+      handleNodeClick(data, node) {
+        console.log(data, node);
+        if (node.level === 2) {
+          alert('点击二级')
+        }
+      },
       clearSearchFuc () {
         $('.navItem').removeClass('activeSort')
         this.endPrice = ''

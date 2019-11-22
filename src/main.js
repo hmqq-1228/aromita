@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'swiper/dist/css/swiper.css';
 import $ from 'jquery'
 import axios from 'axios';
+import 'default-passive-events'
 var SocialSharing = require('vue-social-sharing');
 
 Vue.use(SocialSharing);

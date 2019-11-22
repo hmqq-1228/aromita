@@ -2,18 +2,35 @@
   <div class="wrap_1">
     <div class="wrap" @click="hidePanel($event)">
       <!-- 轮播图 -->
+      <div class="subscribe" :style="{left:(showActivity==true?'0':'-404px')}">
+        <div class="subscribeCon">
+          <div>Subscribe To Get</div>
+          <div class="money">$10 OFF</div>
+          <div class="condition">No Limit Coupon</div>
+          <div class="subscribeInput">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+              <div class="demo-ruleForm">
+                <el-form-item class="search isfooter" prop="name">
+                  <el-input placeholder="Enter your email" v-model="ruleForm.name"></el-input>
+                </el-form-item>
+                <div>
+                  <div class="subButton" @click="submitForm('ruleForm')">SUBSCRIBE</div>
+                </div>
+              </div>
+              <el-checkbox class="policeStyle" v-model="agreenSub" label="I have read and agreed to the"></el-checkbox> <span class="policy">Privacy Policy</span>
+            </el-form>
+          </div>
+        </div>
+        <div class="subscribeBtn" @click="subscribe(showActivity)">
+          <span>Get $10 OFF</span>
+        </div>
+      </div>
       <div class="home_banner">
           <el-carousel height="500px">
               <el-carousel-item v-for="(item,index) in dataBanner" :key="index">
                 <img style="cursor: pointer;" :src="item.picture_src" alt @click="linkHref(item.picture_href)">
               </el-carousel-item>
           </el-carousel>
-          <div class="subscribe" :style="{left:(showActivity==true?'0':'-264px')}">
-            <div class="subscribeCon"></div>
-            <div class="subscribeBtn" @click="subscribe(showActivity)">
-              <span>Get $10 OFF</span>
-            </div>
-          </div>
       </div>
       <!-- 英文 -->
       <p class="word1">COLLECTIONS</p>
@@ -75,6 +92,7 @@ export default {
   data() {
     return {
       swiper1: "",
+      agreenSub: false,
       showActivity: false,
       url: "https://arapi.panduo.com.cn/uploads/",
       homeData: [], //Best Seller商品信息
@@ -82,7 +100,16 @@ export default {
       homeArr: [], //NEW Arrivai 信息
       homeFoot: [],
       dataCollections: [], //Collections信息
-      hotStyle: [] //Hot Style 信息
+      hotStyle: [], //Hot Style 信息
+      ruleForm: {
+        name: ''
+      },
+      rules: {
+        name: [
+          { required: true, message: 'Please enter your email address', trigger: 'blur' },
+          { type: 'email', message: 'Please enter the correct email address', trigger: 'blur'}
+        ]
+      }
     };
   },
   mounted() {
@@ -99,7 +126,31 @@ export default {
       }
     });
   },
+  watch:{
+    showActivity (val, Ov) {
+      if (!val) {
+        this.$refs['ruleForm'].resetFields();
+        this.agreenSub = false
+        $('.policeStyle').removeClass('errorSub')
+      }
+    }
+  },
   methods: {
+    submitForm (formName) {
+      if (this.agreenSub) {
+        $('.policeStyle').removeClass('errorSub')
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      }else {
+        $('.policeStyle').addClass('errorSub')
+      }
+    },
     subscribe (stute) {
       if (stute) {
         this.showActivity = false
