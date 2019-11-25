@@ -60,7 +60,7 @@
 <script>
 import Header from "@/components/aheader.vue";
 import Footer from "@/components/afooter.vue";
-import {succeedState} from "../../api/register";
+import qs from 'qs'
 export default {
   components: {
     "aheader-com": Header,
@@ -94,7 +94,17 @@ export default {
       this.getScore = this.$route.query.score
     },
     subSuggestion: function () {
-      alert('ssssss')
+      var that = this
+      var obj = qs.stringify({
+        orders_number: that.orderNumber,
+        suggestions: that.textarea
+      })
+      that.$axios.post('api/suggestions/insert', obj).then(res => {
+        if (res.code === 200) {
+          console.log('ssssss', res)
+          that.$message.success('Submit successfully')
+        }
+      })
     }
     // async getSucceedState () {
     //   let data = await succeedState()
