@@ -103,6 +103,7 @@ export default {
         if (res.code === 200) {
           console.log('ssssss', res)
           that.$message.success('Submit successfully')
+          that.textarea = ''
         }
       })
     }
