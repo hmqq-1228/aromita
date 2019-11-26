@@ -2,7 +2,7 @@
   <div>
     <aheader-com></aheader-com>
     <div class="payAgain">
-        <div class="model2" v-if="modelShow2"></div>
+      <div class="model2" v-if="modelShow2"></div>
         <div class="GrandTotal">Grand Total：<span>$ {{payTotal?payTotal:'--'}}</span></div>
         <div class="payBox">
           <div class="imgRadio"><el-radio v-model="radio3" label="1"><img style="float: right;" src="../../../static/img/pay.png" alt=""></el-radio></div>
@@ -212,13 +212,13 @@ export default {
         order_number: that.orderNum,
         order_id: that.orderId
       })
+      that.modelShow2 = true
       // that.$store.state.addCartState = true
       if (that.payTotal && that.orderNum && that.orderId) {
         // console.log('11111111', that.payTotal)
         that.isSub = false
         that.$axios.post('api/paypal-pay', payLoad).then(res => {
           if (res.code === 200) {
-            that.modelShow2 = true
             payUrl = res.data
             window.location.href = payUrl
           } else if (res.code == 101) {

@@ -338,6 +338,7 @@
         $('body,html').animate({scrollTop: 0}, 500)
       },
       toGoodsDetail: function (spuid, skuid) {
+        sessionStorage.setItem('listUrl', window.location.href)
         if (spuid && skuid) {
           this.$store.state.spuId = spuid
           this.$store.state.skuId = skuid

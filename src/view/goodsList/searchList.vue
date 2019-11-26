@@ -5,10 +5,22 @@
       <div class="listNav">
         <div class="navTitleTwo">
           <div>Occasion</div>
-          <div class="clear"><img src="../../../static/img/defult.png" alt=""></div>
+          <div class="clear"></div>
         </div>
-        <div class="OccasionTree">
-          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        <div class="OccasionTree Occasion">
+          <el-tree
+          :data="data"
+          empty-text="Loading"
+          :props="defaultProps"
+          @node-click="handleNodeClick"></el-tree>
+        </div>
+        <div class="navTitleTwo">
+          <div>Ring</div>
+          <div class="clear"></div>
+        </div>
+        <div class="OccasionTree" v-for="name in data">
+          <div class="navItem Ring" :class="activeId == name.id?'activeSort':''" @click="checkItem($event, name.id, 'first')">{{name.cate_name}}</div>
+          <div class="navItem child Ring" :class="activeId == item.id?'activeSort':''" v-for="item in name.second" @click="checkItem($event, item.id, 'second')">{{item.cate_name}}</div>
         </div>
         <!--<div class="navTitle">Sort By</div>-->
         <div class="navTitleTwo">
@@ -114,6 +126,7 @@
         scrollShowFlag: false,
         scrollTop: null,
         prodListLastPage: false,
+        activeId: '',
         goodsList: [],
         activeNames: [],
         attrList: [],
@@ -133,34 +146,10 @@
         leftNum:[],
         btnindex:-1,
         menuStatus:false,//属性值状态（收起，展开）
-        data: [{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: []
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: []
-          }, {
-            label: '二级 2-2',
-            children: []
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: []
-          }, {
-            label: '二级 3-2',
-            children: []
-          }]
-        }],
+        data: [],
         defaultProps: {
-          children: 'children',
-          label: 'label'
+          children: 'second',
+          label: 'cate_name'
         }
       }
     },
@@ -223,9 +212,6 @@
       this.attrStr = this.$route.query.attr
       // this.getAttrList()
       // this.scrollShow()
-    },
-    destroyed() {
-      window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
       handleNodeClick(data, node) {
@@ -366,6 +352,27 @@
         }
         this.getList()
       },
+      checkItem (e, id, lv) {
+        var obj = e.currentTarget
+        $(obj).addClass('activeSort').siblings().removeClass('activeSort')
+        if (lv === 'first') {
+          this.f_cate_id = id
+          this.$router.push({
+            path: '/searchList',
+            query: {
+              f_cate_id: id
+            }
+          })
+        } else if (lv === 'second'){
+          this.s_cate_id = id
+          this.$router.push({
+            path: '/searchList',
+            query: {
+              s_cate_id: id
+            }
+          })
+        }
+      },
       handleScroll() {
         if (document.documentElement.scrollTop>0) {
           this.topShow = true
@@ -377,6 +384,8 @@
         $('body,html').animate({scrollTop: 0}, 500)
       },
       toGoodsDetail: function (spuid, skuid) {
+        console.log('kkkkk', window.location.href)
+        sessionStorage.setItem('listUrl', window.location.href)
         if (spuid && skuid) {
           this.$store.state.spuId = spuid
           this.$store.state.skuId = skuid
@@ -386,6 +395,7 @@
       getList() {
         var that = this
         var obj
+        that.data = []
         obj = {
           s_cate_id: that.s_cate_id,
           f_cate_id: that.f_cate_id,
@@ -405,6 +415,12 @@
               this.goodsList = this.goodsList.concat(res.data.data);
             }
             that.totalNum = res.data.total
+            that.data = res.data.category
+            if (that.s_cate_id) {
+              that.activeId = that.s_cate_id
+            } else if (that.f_cate_id) {
+              that.activeId = that.f_cate_id
+            }
             $('.sliderCont').css('left',0)
             for (var i = 0;i < this.goodsList.length; i++) {
               this.$set(this.goodsList[i],'left',0)

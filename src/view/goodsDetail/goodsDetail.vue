@@ -10,6 +10,12 @@
       <div class="toCart" @click="toGoodsCart()">Go to Cart</div>
     </div>
   </div>
+  <div class="navBread">
+    <el-breadcrumb>
+      <el-breadcrumb-item><a :href="backListUrl" >{{goodDetail.first_cate_name}}</a></el-breadcrumb-item>
+      <el-breadcrumb-item>{{goodDetail.second_cate_name}}</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
   <div class="goodsDetail">
     <div class="goodsImg">
       <div class="detailSwiper">
@@ -141,7 +147,7 @@
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
             <div v-if="inWishList === false" class="addWish" @click="_addwishList()"><img src="@/assets/wish.png" alt><span>Add to WishList</span></div>
             <div class="addWish" v-if="inWishList === true"><img src="@/assets/Wishactive1.png" alt><span>Add to WishList</span></div>
-            <div class="previewPic" @click="previewImg"><img src="../../../static/img/preview.png" alt=""> 图片预览</div>
+            <div class="previewPic" v-if="srcList && srcList.length>0" @click="previewImg"><img src="../../../static/img/preview.png" alt=""> 查看场景图</div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
           <div v-if="goodDetail.sku_status === 1 && goodDetail.inventory === 0" class="restocking">This item is out of stock.</div>
@@ -161,7 +167,7 @@
   <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
   <el-dialog
     :visible.sync="wishVisible">
-    <el-carousel height="500px" :interval="5000" arrow="always" :autoplay="false">
+    <el-carousel height="550px" :interval="5000" arrow="always" :autoplay="false">
       <el-carousel-item v-for="item in srcList" :key="item">
         <img width="100%" height="100%" :src="item" alt="">
       </el-carousel-item>
@@ -191,6 +197,7 @@ export default {
   },
   data(){
     return{
+      backListUrl: '',
       AddThis: "AddThis",
       publicId: 'ra-5d6e36b2d704b326',
       currentPageUrl: 'https://aromita.panduo.com.cn/#/',
@@ -278,6 +285,7 @@ export default {
   created(){
     this.$store.state.fromUrl = ''
     this.currentPageUrl = window.location.href
+    this.backListUrl = sessionStorage.getItem('listUrl')
     this.getGoodsDetail()
     this.isLogin()
   },
@@ -288,6 +296,11 @@ export default {
     testShow: function (e) {
      // alert('88888888', e)
     },
+    navBack () {
+      alert('88888888')
+      window.history.back(-1);
+    },
+    // 分享获得积分
     closeShow: function () {
       var that = this
       var obj = qs.stringify({
@@ -404,7 +417,7 @@ export default {
           that.goodDetail = res.data.sku
           that.pruductDetail = res.data.detail
           that.imageList = res.data.sku.small_thumbnail_images
-          that.srcList = res.data.sku.thumbnail_images
+          that.srcList = res.data.sku.scene_images
           that.mainImgUrl = res.data.sku.sku_image
           that.maxQuality = res.data.sku.inventory
           that.priceOrder = res.data.sku.sku_price

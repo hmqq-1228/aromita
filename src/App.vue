@@ -55,4 +55,7 @@ export default {
 .el-button--small{
   width: 100px !important;
 }
+.el-tree-node__label{
+  font-family: Tahoma;
+}
 </style>

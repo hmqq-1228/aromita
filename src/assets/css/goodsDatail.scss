@@ -246,10 +246,13 @@
   min-height: 380px;
   margin-bottom: 50px;
 }
-.goodsDetail{
+.navBread{
   width: 1440px;
   margin: 10px auto;
-  margin-top: 20px;
+}
+.goodsDetail{
+  width: 1440px;
+  margin: 0 auto;
   display: flex;
   padding-bottom: 10px;
   justify-content: space-between;
@@ -594,7 +597,10 @@
   .subBtn{
     margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
+  }
+  .subBtn>div{
+    margin-right: 30px;
   }
   .subType{
     width: 300px;
@@ -652,19 +658,20 @@
 .addWish:hover span{
   color: #C51015;
 }
-.previewPic{
-  width: 100px;
+.subBtn .previewPic{
+  width: 114px;
   height: 45px;
-  line-height: 45px;
+  line-height: 56px;
   cursor: pointer;
   display: flex;
   text-align: center;
   justify-content: space-between;
+  margin-right: 0;
 }
 .previewPic img{
   width: 24px;
   height: 24px;
-  margin-top: 12px;
+  margin-top: 16px;
 }
 .previewPic:hover,.previewPic:hover span{
   color: #C51015;

@@ -134,7 +134,7 @@
     font-weight: bold;
     line-height: 17px;
     color: rgba(3, 3, 3, 1);
-    padding-bottom: 15px;
+    padding-bottom: 5px;
   }
   .deals {
     font-size: 14px;
@@ -160,10 +160,18 @@
     text-align: center;
     line-height: 32px;
     background: rgba(18, 16, 55, 1);
+    margin-top: 10px;
   }
   .btn:active{
     outline: #121037 solid 1px;
   }
+.policy{
+  font-size: 14px;
+  color: #003764;
+  cursor: pointer;
+  font-family: Tahoma;
+  text-decoration: underline;
+}
   .footInput{
     margin-top: 10px;
   }

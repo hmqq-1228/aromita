@@ -54,7 +54,7 @@ ul,li {
   border-color: #999 !important;
   background-color: #fff !important;
 }
-.subscribeInput .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner, .Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+.footer .el-checkbox__input.is-checked .el-checkbox__inner,.subscribeInput .el-checkbox__input.is-checked .el-checkbox__inner,.Scription .el-checkbox__input.is-checked .el-checkbox__inner, .Scription .el-checkbox__input.is-indeterminate .el-checkbox__inner{
   border-color: #999 !important;
   background-color: #fff !important;
 }
@@ -145,12 +145,15 @@ ul,li {
 .Products_Details .el-checkbox__input.is-indeterminate .el-checkbox__inner::before{
   background-color: #333 !important;
 }
-.subscribeInput .el-checkbox__inner::after,.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after,.refund .el-checkbox__inner::after{
+.footer .el-checkbox__inner::after,.register .el-checkbox__inner::after,.subscribeInput .el-checkbox__inner::after,.register .el-checkbox__inner::after,.Products_Details .el-checkbox__inner::after,.refund .el-checkbox__inner::after{
   border: 1px solid #333 !important;
   border-left: 0 !important;
   border-top: 0 !important;
 }
 .register .el-checkbox__input.is-checked+.el-checkbox__label,.refund .el-checkbox__input.is-checked+.el-checkbox__label,.subscribeInput .el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #333 !important;
+}
+.footer .el-checkbox__input.is-checked+.el-checkbox__label,.refund .el-checkbox__input.is-checked+.el-checkbox__label{
   color: #333 !important;
 }
 .el-badge__content{
@@ -274,6 +277,9 @@ ul,li {
 }
 .payBox .el-checkbox__input.is-focus .el-checkbox__inner,.payBox .el-checkbox__inner:hover,.payConfirm .el-checkbox__input.is-focus .el-checkbox__inner,.payConfirm .el-checkbox__inner:hover{
     border-color: #E5E5E5 !important;
+}
+.footer .el-checkbox__inner:hover{
+  border-color: #666 !important;
 }
 .wrapLogin .el-checkbox__input.is-focus .el-checkbox__inner,.wrapLogin .el-checkbox__inner:hover,.refund .el-checkbox__input.is-focus .el-checkbox__inner{
   border-color: #999 !important;
@@ -497,13 +503,13 @@ ul,li {
 .refund .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),.refund .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){
   border-color: #ccc !important;
 }
-.errorSub .el-checkbox__label{
+.subscribeInput .errorSub .el-checkbox__label, .footer .errorSub .el-checkbox__label, .refund .errorSub .el-checkbox__label{
   color: #C51015 !important;
 }
-.errorSub .el-checkbox__inner{
+.subscribeInput .errorSub .el-checkbox__inner, .footer .errorSub .el-checkbox__inner, .refund .errorSub .el-checkbox__inner{
   border: 1px solid #C51015 !important;
 }
-.refund .errorSub .el-checkbox__inner:hover{
+.refund .errorSub .el-checkbox__inner:hover,.footer .errorSub .el-checkbox__inner:hover{
   border: 1px solid #C51015 !important;
 }
 .subscribeInput .errorSub .el-checkbox__inner:hover{
@@ -522,7 +528,7 @@ ul,li {
   border-color: #C51015 !important;
   color: #C51015 !important;
 }
-.refundPolice .el-checkbox,.subscribeInput .el-checkbox{
+.refundPolice .el-checkbox,.subscribeInput .el-checkbox,.footer .el-checkbox{
   margin-right: 0 !important;
 }
 .shoppingCarPay .el-dialog--center .el-dialog__body {
@@ -538,13 +544,32 @@ ul,li {
   background-color: #ccc !important;
   border-color: #EBEEF5 !important;
 }
-.el-tree-node__children .el-tree-node.is-current.is-focusable{
+.el-tree-node__children .el-tree-node.is-expanded.is-focusable.is-checked .el-tree-node__label{
   color: #C51015 !important;
 }
-.subscribeInput .el-form-item{
+.subscribeInput .el-form-item,.footer .el-form-item{
  margin-bottom: 16px !important;
 }
-.subscribeInput .el-form-item__content{
+.subscribeInput .el-form-item__content,.footer .el-form-item__content{
   height: 32px !important;
   line-height: 32px !important;
+}
+.goodsList .el-icon-caret-right:before{
+  content: '' !important;
+}
+.navBread .el-breadcrumb__inner{
+  font-size: 14px !important;
+  font-family: Tahoma !important;
+}
+.navBread .el-breadcrumb__inner a:hover,.navBread .el-breadcrumb__inner.is-link:hover{
+  color: #333 !important;
+}
+.navBread .el-breadcrumb__inner a{
+  font-weight: normal !important;
+}
+.Occasion .el-tree-node__children .el-tree-node.is-current.is-focusable .el-tree-node__label{
+  color: #C51015 !important;
+}
+.orderDetail .el-checkbox__inner,.footer .el-checkbox__inner{
+  border: 1px solid #aaa !important;
 }

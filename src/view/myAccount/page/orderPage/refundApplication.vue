@@ -33,7 +33,7 @@
                                   </div>
                                   <div style="display: flex;justify-content: space-between;">
                                     <div>Refund tax amount:</div>
-                                    <div style="color: #C51015" v-if="orderList.tax>=0">$ {{(orderList.tax).toFixed(2)}}</div>
+                                    <!--<div style="color: #C51015" v-if="orderList.tax>=0">$ {{(orderList.tax).toFixed(2)}}</div>-->
                                   </div>
                                 </div>
                                 <i slot="reference"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
@@ -303,8 +303,8 @@ export default {
       this.uploadImageList = imgs
     },
     handleAvatarSuccess (res) {
+      // console.log(res, 'mmmmg')
       this.uploadImageList.push(res.data)
-      // console.log(this.uploadImageList, 'mmmmg')
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;

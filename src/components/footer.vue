@@ -37,6 +37,7 @@
                 <el-form-item class="search isfooter" prop="subscribeKey" style="width: 336px">
                   <el-input placeholder="Enter your email" v-model="ruleForm.subscribeKey" clearable></el-input>
                 </el-form-item>
+                <el-checkbox class="policeStyle1" v-model="agreenSub" label="I have read and agreed to the"></el-checkbox> <span class="policy">Privacy Policy</span>
                 <div class="btn">
                   <p class="btn_word" @click="subscribeSub('ruleForm')">SUBSCRIBE</p>
                 </div>
@@ -70,6 +71,7 @@ export default {
       icon: [], //40
       footTitle: [], //50
       list:[],
+      agreenSub: false,
       aromite: ''
     };
   },
@@ -106,30 +108,35 @@ export default {
     //未登录用户订阅
     subscribeSub(formName){
       var that = this
-      that.$refs[formName].validate((valid) => {
-        if (valid) {
-          Nosubscribe({customer_email_address:that.ruleForm.subscribeKey}).then((res)=>{
-            if (res.code === 200) {
-              this.$alert('Subscriptions Successful', '', {
-                center: true,
-                confirmButtonText: 'OK',
-              })
-            }else if (res.code === 10001){
-              this.$alert('Your email address is already subscribed.', '', {
-                center: true,
-                confirmButtonText: 'OK',
-              })
-            }else {
-              this.$alert('Subscription failed, please try again', '', {
-                center: true,
-                confirmButtonText: 'OK',
-              })
-            }
-          })
-        } else {
-          return false;
-        }
-      });
+      if (this.agreenSub) {
+        $('.policeStyle1').removeClass('errorSub')
+        that.$refs[formName].validate((valid) => {
+          if (valid) {
+            Nosubscribe({customer_email_address: that.ruleForm.subscribeKey}).then((res) => {
+              if (res.code === 200) {
+                this.$alert('Subscriptions Successful', '', {
+                  center: true,
+                  confirmButtonText: 'OK',
+                })
+              } else if (res.code === 10001) {
+                this.$alert('Your email address is already subscribed.', '', {
+                  center: true,
+                  confirmButtonText: 'OK',
+                })
+              } else {
+                this.$alert('Subscription failed, please try again', '', {
+                  center: true,
+                  confirmButtonText: 'OK',
+                })
+              }
+            })
+          } else {
+            return false;
+          }
+        });
+      } else {
+        $('.policeStyle1').addClass('errorSub')
+      }
     }
   }
 }
