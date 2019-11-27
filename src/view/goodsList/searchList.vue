@@ -9,7 +9,7 @@
         </div>
         <div class="OccasionTree Occasion">
           <el-tree
-          :data="data"
+          :data="screenList"
           empty-text="Loading"
           :props="defaultProps"
           @node-click="handleNodeClick"></el-tree>
@@ -18,7 +18,7 @@
           <div>Ring</div>
           <div class="clear"></div>
         </div>
-        <div class="OccasionTree" v-for="name in data">
+        <div class="OccasionTree" v-for="name in categoryData">
           <div class="navItem Ring" :class="activeId == name.id?'activeSort':''" @click="checkItem($event, name.id, 'first')">{{name.cate_name}}</div>
           <div class="navItem child Ring" :class="activeId == item.id?'activeSort':''" v-for="item in name.second" @click="checkItem($event, item.id, 'second')">{{item.cate_name}}</div>
         </div>
@@ -107,7 +107,7 @@
 <script>
   import 'swiper/dist/css/swiper.css';
   import Swiper from 'swiper'
-  import {getSearchList} from "../../api/home";
+  import {getSearchList, categoryList, tagList} from "../../api/home";
   export default {
     data () {
       return {
@@ -146,10 +146,11 @@
         leftNum:[],
         btnindex:-1,
         menuStatus:false,//属性值状态（收起，展开）
-        data: [],
+        categoryData: [],
+        screenList: [],
         defaultProps: {
           children: 'second',
-          label: 'cate_name'
+          label: 'tag_name'
         }
       }
     },
@@ -175,6 +176,7 @@
           this.activeNames = []
           this.clearSearchFuc()
           this.getList()
+          // this.getCategoryList()
         }
       },
       f_cate_id (val, oV) {
@@ -182,6 +184,7 @@
           this.clearSearchFuc()
           this.activeNames = []
           this.getList()
+          // this.getCategoryList()
         }
       }
     },
@@ -212,6 +215,8 @@
       this.attrStr = this.$route.query.attr
       // this.getAttrList()
       // this.scrollShow()
+      this.getTagList()
+      this.getCategoryList()
     },
     methods: {
       handleNodeClick(data, node) {
@@ -324,6 +329,32 @@
           }
         })
       },
+      getCategoryList () {
+        var that = this
+        var obj = {}
+        obj = {
+          s_cate_id: that.s_cate_id,
+          f_cate_id: that.f_cate_id,
+        }
+        categoryList(obj).then((res)=>{
+          if (res.code === 200) {
+            that.categoryData = res.data
+          }
+        })
+      },
+      getTagList () {
+        var that = this
+        // var obj = {}
+        // obj = {
+        //   s_cate_id: that.s_cate_id,
+        //   f_cate_id: that.f_cate_id,
+        // }
+        tagList().then((res)=>{
+          if (res.code === 200) {
+            that.screenList = res.data
+          }
+        })
+      },
       // 价格区间
       subPrice () {
         var tamp = 0
@@ -415,7 +446,6 @@
               this.goodsList = this.goodsList.concat(res.data.data);
             }
             that.totalNum = res.data.total
-            that.data = res.data.category
             if (that.s_cate_id) {
               that.activeId = that.s_cate_id
             } else if (that.f_cate_id) {

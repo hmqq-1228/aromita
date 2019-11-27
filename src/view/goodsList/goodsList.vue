@@ -3,6 +3,17 @@
     <div>{{nodeDragRefresh?'':''}}</div>
     <div class="listBox">
       <div class="listNav">
+        <div class="navTitleTwo">
+          <div>Occasion</div>
+          <div class="clear"></div>
+        </div>
+        <div class="OccasionTree Occasion">
+          <el-tree
+            :data="screenList"
+            empty-text="Loading"
+            :props="defaultProps"
+            @node-click="handleNodeClick"></el-tree>
+        </div>
         <!--<div class="navTitle">Sort By</div>-->
         <div class="navTitleTwo">
           <div>Sort By</div>
@@ -90,7 +101,7 @@
 <script>
   import 'swiper/dist/css/swiper.css';
   import Swiper from 'swiper'
-  import {getSearchList} from "../../api/home";
+  import {getSearchList, tagList} from "../../api/home";
   export default {
     data () {
       return {
@@ -128,6 +139,11 @@
         leftNum:[],
         btnindex:-1,
         menuStatus:false,//属性值状态（收起，展开）
+        screenList: [],
+        defaultProps: {
+          children: 'second',
+          label: 'tag_name'
+        }
       }
     },
     watch: {
@@ -186,6 +202,7 @@
       this.attrStr = this.$route.query.attr
       this.getAttrList()
       this.getList()
+      this.getTagList()
       // this.scrollShow()
       this.$store.state.keyWord = this.$route.query.keyword
       this.$store.state.keyWordFlag = true
@@ -298,6 +315,26 @@
             // console.log('ddddd', that.attrList)
           }
         })
+      },
+      // 场景
+      getTagList () {
+        var that = this
+        // var obj = {}
+        // obj = {
+        //   s_cate_id: that.s_cate_id,
+        //   f_cate_id: that.f_cate_id,
+        // }
+        tagList().then((res)=>{
+          if (res.code === 200) {
+            that.screenList = res.data
+          }
+        })
+      },
+      handleNodeClick(data, node) {
+        console.log(data, node);
+        if (node.level === 2) {
+          alert('点击二级')
+        }
       },
       // 价格区间
       subPrice () {

@@ -67,7 +67,7 @@
       <div class="optionType">
         <span @click="deleteItemCart(unGood.sku_id)"><i class="el-icon-circle-close"></i></span>
         <span class="wishAdd" v-if="unGood.sku_status===2 && unGood.in_wishlist === 10"><img @click="addWish(unGood.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
-        <span class="wishAdd" v-if="unGood.sku_status===2 && unGood.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
+        <span class="wishAdd isWished" v-if="unGood.sku_status===2 && unGood.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
       </div>
     </div>
   </div>

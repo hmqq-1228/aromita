@@ -20,7 +20,7 @@
                   <p>Sorry, your request was rejected. Please see the details attached. Any question, please contact <span class="email">Aromita@gmail.com</span></p>
                 </div>
                 <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
-                <div class="cancel_refund" @click="cancelledBtn()">Cancelled request</div>
+                <div class="cancel_refund" @click="cancelledBtn()">Cancelled Request</div>
               </div>
               <div class="examine_tip" v-if="status == 100">
                 <div style="height: 78px;">
@@ -29,7 +29,8 @@
                     <div>Cancelled after sales service successfully.</div>
                   </div>
                 </div>
-                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
+                <div class="status2"><span>Refund：</span><span class="pay" v-if="totalMoney">$ {{totalMoney}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
+                <div class="cancel_refund" @click="requestAgain()">Request Again</div>
               </div>
               <!--<div class="examine_tip" v-if="status == 3">-->
               <!--<h5>您的退货申请已审核通过，请等待商家审核处理，1-2个工作日之内会完成处理</h5>-->
@@ -214,6 +215,7 @@
         activeIndex: 1,
         inputTracking: '',
         return_num: '',
+        totalMoney: 0,
         // refundAccount: '',
         feedbackRefund: '',
         cancelOrderFlag: false,
@@ -224,38 +226,41 @@
     watch:{
 
     },
-    mounted () {
-      if (window.history && window.history.pushState) {
-        // 向历史记录中插入了当前页
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', this.goBack, false);
-      }
-    },
-    destroyed () {
-      window.removeEventListener('popstate', this.goBack, false);
-    },
+    // mounted () {
+    //   if (window.history && window.history.pushState) {
+    //     // 向历史记录中插入了当前页
+    //     history.pushState(null, null, document.URL);
+    //     window.addEventListener('popstate', this.goBack, false);
+    //   }
+    // },
+    // destroyed () {
+    //   window.removeEventListener('popstate', this.goBack, false);
+    // },
     created(){
       this.refund_id = this.$route.query.orders_refund_id
       this.getRefundDetail()
+      var money = sessionStorage.getItem('refundTotal')
+      this.totalMoney = parseFloat(money).toFixed(2)
     },
     methods:{
-      goBack () {
-        // sessionStorage.clear();
-        // console.log("点击了浏览器的返回按钮", this.$store.state.isApplication);
-        if (this.$store.state.isApplication) {
-          // console.log("点击了浏览器的返回按钮222");
-          window.history.go(-2);
-        } else {
-          window.history.go(-1);
-          // console.log("点击了浏览器的返回按钮111");
-        }
-        this.$store.state.isApplication = false
-      },
+      // goBack () {
+      //   // sessionStorage.clear();
+      //   // console.log("点击了浏览器的返回按钮", this.$store.state.isApplication);
+      //   if (this.$store.state.isApplication) {
+      //     // console.log("点击了浏览器的返回按钮222");
+      //     window.history.go(-2);
+      //   } else {
+      //     window.history.go(-1);
+      //     // console.log("点击了浏览器的返回按钮111");
+      //   }
+      //   this.$store.state.isApplication = false
+      // },
       getRefundDetail () {
         var that = this
         that.$axios.get('api/refund/step2/' + that.refund_id, {}).then(res => {
           if (res.code === 200) {
             that.status = res.data.status
+            console.log('kkkkk', res)
             if (that.status == 10 || that.status == 20 || that.status == 50 || that.status == 100) {
               that.activeIndex = 2
             } else if (that.status == 30 || that.status == 31 || that.status == 40 || that.status == 51) {
@@ -283,6 +288,17 @@
             that.getRefundDetail()
           }
         })
+      },
+      requestAgain() {
+        var id = sessionStorage.getItem('orderId')
+        if (id) {
+          this.$router.push({
+            path: '/orderRefund',
+            query: {
+              order_id: id
+            }
+          })
+        }
       },
       // 提交订单号
       trackNumSub () {

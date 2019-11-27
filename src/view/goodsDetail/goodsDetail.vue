@@ -167,7 +167,7 @@
   <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
   <el-dialog
     :visible.sync="wishVisible">
-    <el-carousel height="550px" :interval="5000" arrow="always" :autoplay="false">
+    <el-carousel height="600px" :interval="5000" arrow="always" :autoplay="false">
       <el-carousel-item v-for="item in srcList" :key="item">
         <img width="100%" height="100%" :src="item" alt="">
       </el-carousel-item>

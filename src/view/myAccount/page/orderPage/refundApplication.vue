@@ -16,7 +16,7 @@
                     <el-form label-position="right" label-width="200px">
                         <el-form-item label="Return reason：">
                             <ul class="refund_reason">
-                                <li v-for="(reason, index) in reasonList" :key="index" :class="index===0? 'active':''" @click="selectReasion($event, reason.id, reason.is_upload)">{{reason.return_reason}}</li>
+                                <li v-for="(reason, index) in reasonList" :key="index" :class="index===0? 'active':''" @click="selectReasion($event,reason.id,reason.return_reason,reason.is_upload)">{{reason.return_reason}}</li>
                             </ul>
                         </el-form-item>
                         <el-form-item label="Refund：">
@@ -33,7 +33,7 @@
                                   </div>
                                   <div style="display: flex;justify-content: space-between;">
                                     <div>Refund tax amount:</div>
-                                    <!--<div style="color: #C51015" v-if="orderList.tax>=0">$ {{(orderList.tax).toFixed(2)}}</div>-->
+                                    <div style="color: #C51015" v-if="orderList.tax>=0">$ {{(orderList.tax).toFixed(2)}}</div>
                                   </div>
                                 </div>
                                 <i slot="reference"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
@@ -111,6 +111,7 @@ export default {
         payLoadList:[],
         savePayLoad:[],
         isUploadImg: [],
+        nameList: [],
         canSub: true,
         dataType: {
           type: 'refund',
@@ -177,13 +178,10 @@ export default {
       }
     },
     // 选中退款原因
-    selectReasion (e, id, isUp) {
+    selectReasion (e, id, name, isUp) {
       var obj = e.currentTarget
       var flag = false
       var k = 0
-      var flag2 = false
-      var k2 = 0
-      // this.canSub = true
       if ($(obj).hasClass('active')){
         $(obj).removeClass('active')
         for (var i=0; i<this.reasonId.length; i++){
@@ -193,34 +191,23 @@ export default {
             break
           }
         }
-        for (var j=0; j<this.isUploadImg.length; j++){
-          if(this.isUploadImg[j] == isUp){
-            flag2 = true
-            k2 = j
-            break
-          }
-        }
         if (flag) {
           this.reasonId.splice(k, 1)
+          this.nameList.splice(k, 1)
+          this.isUploadImg.splice(k, 1)
         } else {
           this.reasonId.push(id)
-        }
-        if (flag2) {
-          this.isUploadImg.splice(k2, 1)
-        } else {
+          this.nameList.push(name)
           this.isUploadImg.push(isUp)
         }
         flag = false
-        flag2 = false
       } else {
         $(obj).addClass('active')
         this.isUploadImg.push(isUp)
         this.reasonId.push(id)
+        this.nameList.push(name)
       }
-      // console.log('hhhhhhhh', this.reasonId)
-      // console.log('dddddddd', this.isUploadImg)
-      // this.reasonId = id
-      // this.isUploadImg = isUp
+      console.log('hhhhhhhh', this.isUploadImg)
     },
     // 退款原因
     getRefundReason () {
@@ -230,6 +217,7 @@ export default {
           that.reasonList = res.data
           that.reasonId.push(res.data[0].id)
           that.isUploadImg.push(res.data[0].is_upload)
+          that.nameList.push(res.data[0].return_reason)
         }
       })
     },
@@ -242,9 +230,8 @@ export default {
       })
       that.$axios.post('api/refund/getRefundTotal', obj).then(res => {
         if (res.code === 200) {
-          // console.log('nnnnnn', res)
-          // that.reasonList = res.data
           that.orderList = res.data
+          sessionStorage.setItem('refundTotal', res.data.refund_total)
         }
       })
     },
@@ -268,27 +255,31 @@ export default {
         order_id: parseInt(that.order_id),
         product_list: JSON.stringify(that.savePayLoad),
         refund_reason: JSON.stringify(that.reasonId),
+        refund_reason_str: JSON.stringify(that.nameList),
         refund_total: JSON.stringify(that.orderList),
         refund_instructions: that.describe,
         evidence_pictures: JSON.stringify(that.uploadImageList)
       })
+      if (that.reasonId.length > 0) {
+        that.$axios.post('api/refund/save', obj).then(res => {
+          if (res.code === 200) {
+            // console.log('nnnnnn', res)
+            this.$router.push({
+              path:'/applicationResult',
+              query: {
+                orders_refund_id: res.data.orders_refund_id
+              }
+            })
+            // that.$store.state.isApplication = true
+            // sessionStorage.removeItem('selectInfo')
+          } else {
+            that.$message.warning(res.msg)
+          }
+        })
+      } else {
+        that.$message.warning('至少选择一种售后理由')
+      }
       // console.log('kkkkk', this.savePayLoad)
-      that.$axios.post('api/refund/save', obj).then(res => {
-        if (res.code === 200) {
-          // console.log('nnnnnn', res)
-          this.$router.push({
-            path:'/applicationResult',
-            query: {
-              orders_refund_id: res.data.orders_refund_id
-            }
-          })
-          // that.reasonList = res.data
-          that.$store.state.isApplication = true
-          sessionStorage.removeItem('selectInfo')
-        } else {
-          that.$message.warning(res.msg)
-        }
-      })
     },
     cancelledBtn () {
       this.cancelOrderFlag = true

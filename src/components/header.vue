@@ -9,14 +9,23 @@
         </div>
         <div class="title activity" v-if="titleActivity">
           <div class="activityBox">
-            <div class="title_word">
-              Up To 40% OFF  Lovely Moments +Free Shipping Order Over $45!
-              <span>{{countDownList}}</span>
-              <span :class="showIconActive" style="font-size: 22px;cursor: pointer;" @click="showActivity(showIconActive)"></span>
+            <div class="title_word act" :style="'float:'+ titlePosition">
+              <span class="titleAct"><span>Up To 40% OFF</span>  Lovely Moments +Free Shipping Order Over $45!</span>
+              <span>
+                <span class="timeAct">{{countDownList}}</span>
+                <span style="font-size: 22px;cursor: pointer;" @click="showActivity(showIconActive)">
+                  <img :src="'../../static/img/' + showIconActive + '.png'" alt="">
+                </span>
+              </span>
             </div>
-            <div class="activityCont" v-if="activityShow">
-              <div>1111111111</div>
-            </div>
+            <!--<div class="activityCont" v-if="activityShow">-->
+              <!--<img src="../../static/img/title.jpg" alt="">-->
+            <!--</div>-->
+          </div>
+        </div>
+        <div class="imgTest" v-if="titleActivity" :style="{top:(activityShow==true?'0':'-440px')}">
+          <div class="activityCont">
+            <img src="../../static/img/title.jpg" alt="">
           </div>
         </div>
         <div>{{Refresh?'':''}}</div>
@@ -236,16 +245,17 @@ import { mapGetters } from 'vuex';
         linkWordUrl: '',
         f_cate_id: '',
         s_cate_id: '',
-        showIconActive: 'el-icon-arrow-up',
+        titlePosition: 'left',
+        showIconActive: 'do',
         countDownList: '00天00时00分00秒',
-        actEndTime: '2019-11-29 18:50:00',
+        actEndTime: '2019-11-29 14:52:00',
         hList: [],
         hotList: [],
         historyList: [],
         login_status:true,//用户登录状态
         userName: 'Welcome',
         showHistory: false,
-        titleActivity: false,// 活动头部显示
+        titleActivity: true,// 活动头部显示
         TotalPrice:0,//购物车总价
         show:false,//购物车显示状态
         goodsList:[],//购物车列表
@@ -351,12 +361,12 @@ import { mapGetters } from 'vuex';
     methods: {
       // 活动详情
       showActivity(type) {
-        if (type === 'el-icon-arrow-up') {
-          this.showIconActive = 'el-icon-arrow-down'
-          this.activityShow = true
-        } else {
-          this.showIconActive = 'el-icon-arrow-up'
+        if (type === 'up') {
+          this.showIconActive = 'do'
           this.activityShow = false
+        } else {
+          this.showIconActive = 'up'
+          this.activityShow = true
         }
       },
       timeFormat(param) {
@@ -504,6 +514,8 @@ import { mapGetters } from 'vuex';
       showIcon() {
         if (!!document.documentElement.scrollTop && document.documentElement.scrollTop > 120) {
             this.headerShow = true;
+            this.activityShow = false
+            this.showIconActive = 'do'
         } else {
             this.headerShow = false;
             this.searchShow = false;

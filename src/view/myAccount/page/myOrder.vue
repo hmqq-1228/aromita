@@ -299,6 +299,7 @@ export default {
     },
     _refund(id){
       var that = this
+      sessionStorage.setItem('orderId', id)
       that.$axios.get('api/refund/step1/' + id, {}).then(res => {
         if (res.code === 200) {
           this.$router.push({
@@ -313,6 +314,7 @@ export default {
       })
     },
     _refundDetail(id){
+      sessionStorage.setItem('orderId', id)
       this.$router.push({
         path: '/afterSale',
         query: {

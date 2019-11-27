@@ -373,6 +373,9 @@ ul,li {
   height: 30px !important;
   line-height: 30px !important;
 }
+.subscribeCon .el-input__inner{
+  background-color: #FFF3F3 !important;
+}
 .wrapLogin .el-button:focus,.wrapLogin .el-button:hover {
    color: #fff !important;
    border-color: rgba(18, 16, 55, 1) !important;
@@ -397,6 +400,11 @@ ul,li {
 .isfooter .el-input{
   height: 32px !important;
   line-height: 32px !important;
+  border: 1px solid #121037 !important;
+}
+.subscribe .subscribeCon .el-input{
+  height: 34px !important;
+  line-height: 34px !important;
   border: 1px solid #121037 !important;
 }
 .checkStyle .el-form-item__content{
@@ -557,6 +565,13 @@ ul,li {
 .goodsList .el-icon-caret-right:before{
   content: '' !important;
 }
+.goodsList .el-tree-node__children .el-icon-caret-right:before{
+  content: '\2022' !important;
+  color: #666;
+}
+.goodsList .el-tree{
+  color: #333 !important;
+}
 .navBread .el-breadcrumb__inner{
   font-size: 14px !important;
   font-family: Tahoma !important;
@@ -570,6 +585,9 @@ ul,li {
 .Occasion .el-tree-node__children .el-tree-node.is-current.is-focusable .el-tree-node__label{
   color: #C51015 !important;
 }
-.orderDetail .el-checkbox__inner,.footer .el-checkbox__inner{
+.Occasion .el-tree-node__children .el-tree-node.is-current.is-focusable .el-icon-caret-right:before{
+  color: #C51015 !important;
+}
+.orderDetail .el-checkbox__inner,.footer .el-checkbox__inner,.subscribeInput .el-checkbox__inner{
   border: 1px solid #aaa !important;
 }

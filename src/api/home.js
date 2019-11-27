@@ -20,5 +20,7 @@ export const homeFoote = params=>get("/api/footertools",params);
 export const getGoodsList = params=>get("/api/product",params);
 export const getSearchList = params=>get("/api/product/search",params);
 
+export const categoryList = params=>get("/api/category/searchCategory",params);
 
+export const tagList = params=>get("/api/scene/tags",params);
 //自定义            // 请求方式   //接口的路径名字        一个大的页面是一个api  js文件

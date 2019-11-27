@@ -5,11 +5,11 @@
   position: relative;
 }
 .subscribe{
-  height: 245px;
-  width: 440px;
+  height: 340px;
+  width: 615px;
   position: fixed;
   left: -260px;
-  top: 40%;
+  top: 420px;
   z-index: 99;
   display: flex;
   justify-content: space-between;
@@ -17,25 +17,34 @@
   border-radius: 0 6px 6px 0;
   box-shadow: 1px 1px 4px #ccc;
   .subscribeCon{
-    width: 404px;
+    width: 575px;
     height: 100%;
-    background-color: #f5f5f5;
-    padding: 20px 30px;
+    background-color: #FFF3F3;
+    padding: 40px 63px;
     box-sizing: border-box;
-    .money{
-      font-size: 36px;
-      font-weight: bold;
-      color: #c51015;
+    .subscribeCart{
       text-align: center;
-      margin-top: 20px;
+      width: 450px;
+      height: 180px;
+      padding: 16px 0;
+      box-sizing: border-box;
+      border: 1px dashed rgba(112,112,112,1);
+    }
+    .subTitle{
+      font-size:20px;
+      font-family: Century;
+    }
+    .money{
+      font-size:80px;
+      font-family:Century;
     }
     .condition{
-      text-align: right;
-      margin-top: 10px;
+      font-size:20px;
+      font-family: Century;
     }
   }
   .search{
-    width: 230px;
+    width: 260px;
   }
   .subscribeInput{
     margin-top: 16px;
@@ -52,11 +61,11 @@
     justify-content: space-between;
   }
   .subButton{
-    width: 100px;
+    width: 170px;
     color: #fff;
     background-color: #c51015;
-    height: 32px;
-    line-height: 32px;
+    height: 36px;
+    line-height: 36px;
     text-align: center;
     cursor: pointer;
     font-size: 14px;
@@ -65,21 +74,22 @@
     border: 1px solid #c51015;
   }
   .subscribeBtn{
-    width: 36px;
+    width: 40px;
     height: 100%;
-    background-color: #C51015;
+    background-color: #121037;
     cursor: pointer;
     line-height: 180px;
     border-radius: 0 6px 6px 0;
     span{
       color: #fff;
       display: inline-block;
-      width: 245px;
-      height: 36px;
-      line-height: 36px;
+      width: 340px;
+      height: 40px;
+      font-size: 16px;
+      line-height: 40px;
       text-align: center;
       transform: rotate(90deg);
-      transform-origin:55px -18px;
+      transform-origin:55px -15px;
     }
   }
 }

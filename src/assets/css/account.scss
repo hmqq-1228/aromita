@@ -679,6 +679,7 @@
                 margin-top: 10px;
                 height: 32px;
                 line-height: 32px;
+                cursor: pointer;
             }
             .active{
                 border-color: #C51015;
@@ -1352,9 +1353,9 @@
   text-overflow:ellipsis;
 }
 .timeLineBox .trackDes{
-  width: 380px;
+  width: 360px;
   height: 40px;
-  margin-right: 20px;
+  margin-right: 30px;
   display: -webkit-box;
   word-break: break-all;
   -webkit-box-orient: vertical;

@@ -2,11 +2,13 @@
   <div class="wrap_1">
     <div class="wrap" @click="hidePanel($event)">
       <!-- 轮播图 -->
-      <div class="subscribe" :style="{left:(showActivity==true?'0':'-404px')}">
+      <div class="subscribe" :style="{left:(showActivity==true?'0':'-575px')}">
         <div class="subscribeCon">
-          <div>Subscribe To Get</div>
-          <div class="money">$10 OFF</div>
-          <div class="condition">No Limit Coupon</div>
+          <div class="subscribeCart">
+            <div class="subTitle">Subscribe To Get</div>
+            <div class="money">$10 OFF</div>
+            <div class="condition">No Limit Coupon</div>
+          </div>
           <div class="subscribeInput">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
               <div class="demo-ruleForm">
@@ -22,7 +24,7 @@
           </div>
         </div>
         <div class="subscribeBtn" @click="subscribe(showActivity)">
-          <span>Get $10 OFF</span>
+          <span><i :class="subscribeIcon"></i> Get $10 OFF</span>
         </div>
       </div>
       <div class="home_banner">
@@ -88,12 +90,14 @@ import {
   homeCollections,
   homeHotStyle
 } from "../../api/home";
+import {Nosubscribe} from '../../api/subscription'
 export default {
   data() {
     return {
       swiper1: "",
       agreenSub: false,
       showActivity: false,
+      subscribeIcon: 'el-icon-caret-top',
       url: "https://arapi.panduo.com.cn/uploads/",
       homeData: [], //Best Seller商品信息
       dataBanner: [], //首页banner信息
@@ -137,13 +141,13 @@ export default {
   },
   methods: {
     submitForm (formName) {
+      var that = this
       if (this.agreenSub) {
         $('.policeStyle').removeClass('errorSub')
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            that.subSubscribe()
           } else {
-            console.log('error submit!!');
             return false;
           }
         });
@@ -151,11 +155,37 @@ export default {
         $('.policeStyle').addClass('errorSub')
       }
     },
+    subSubscribe () {
+      var that = this
+      Nosubscribe({customer_email_address: that.ruleForm.name}).then((res) => {
+        if (res.code === 200) {
+          this.$alert('Subscriptions Successful', '', {
+            center: true,
+            confirmButtonText: 'OK',
+            callback: action => {
+              that.showActivity = false
+            }
+          })
+        } else if (res.code === 10001) {
+          this.$alert('Your email address is already subscribed.', '', {
+            center: true,
+            confirmButtonText: 'OK',
+          })
+        } else {
+          this.$alert('Subscription failed, please try again', '', {
+            center: true,
+            confirmButtonText: 'OK',
+          })
+        }
+      })
+    },
     subscribe (stute) {
       if (stute) {
         this.showActivity = false
+        this.subscribeIcon = 'el-icon-caret-top'
       } else {
         this.showActivity = true
+        this.subscribeIcon = 'el-icon-caret-bottom'
       }
     },
     // 点击任意区域
