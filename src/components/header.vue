@@ -9,13 +9,11 @@
         </div>
         <div class="title activity" v-if="titleActivity" :style="'background-color:' + bgColorAct">
           <div class="activityBox">
-            <div class="title_word act" :style="'float:'+ titlePosition">
-              <span class="titleAct"><span>Up To 40% OFF</span>  Lovely Moments +Free Shipping Order Over $45!</span>
+            <div class="title_word act" :style="'justify-content:'+ titlePosition + '; color:' + titleColor">
+              <span class="titleAct" @click="toActity(activityDetail.top_ad_title_url)"><span>{{activityDetail.top_ad_name}}</span></span>
               <span>
                 <span class="timeAct">{{countDownList}}</span>
-                <span style="font-size: 22px;cursor: pointer;" @click="showActivity(showIconActive)">
-                  <img :src="'../../static/img/' + showIconActive + '.png'" alt="">
-                </span>
+                <span v-if="activityDetail.top_ad_detail_image" class="iconFlag" :class="showIconActive" @click="showActivity(showIconActive)"></span>
               </span>
             </div>
             <!--<div class="activityCont" v-if="activityShow">-->
@@ -23,9 +21,9 @@
             <!--</div>-->
           </div>
         </div>
-        <div class="imgTest" v-if="titleActivity" :style="{top:(activityShow==true?'0':'-440px')}">
+        <div class="imgTest" v-if="titleActivity" :style="{top:(activityShow==true?'0':'-550px')}">
           <div class="activityCont">
-            <img src="../../static/img/title.jpg" alt="">
+            <a :href="activityDetail.top_ad_detail_url"><img :src="activityDetail.top_ad_detail_image" alt=""></a>
           </div>
         </div>
         <div>{{Refresh?'':''}}</div>
@@ -245,9 +243,11 @@ import { mapGetters } from 'vuex';
         linkWordUrl: '',
         f_cate_id: '',
         s_cate_id: '',
-        bgColorAct: '#CE153F',
-        titlePosition: 'left',
-        showIconActive: 'do',
+        titleColor: '#fff',
+        bgColorAct: '#f00',
+        titlePosition: 'start',
+        showIconActive: 'el-icon-d-arrow-right',
+        activityDetail: '',
         countDownList: '00天00时00分00秒',
         actEndTime: '2019-11-29 14:52:00',
         hList: [],
@@ -323,6 +323,7 @@ import { mapGetters } from 'vuex';
       this._checkLogin()
       this.getGoodsCont()
       this.linkSearch()
+      this.activityShowFnc()
       if (this.$route.query.keyword){
         this.searchVal = this.$route.query.keyword
       }
@@ -360,14 +361,18 @@ import { mapGetters } from 'vuex';
       }
     },
     methods: {
+      // 名称点击
+      toActity (url) {
+        window.location.href = url
+      },
       // 活动详情
       showActivity(type) {
-        if (type === 'up') {
-          this.showIconActive = 'do'
-          this.activityShow = false
-        } else {
-          this.showIconActive = 'up'
+        if (type === 'el-icon-d-arrow-right') {
+          this.showIconActive = 'el-icon-d-arrow-left'
           this.activityShow = true
+        } else {
+          this.showIconActive = 'el-icon-d-arrow-right'
+          this.activityShow = false
         }
       },
       timeFormat(param) {
@@ -420,6 +425,28 @@ import { mapGetters } from 'vuex';
         this.searchVal = str
         this.searchOver()
         this.showHistory = false
+      },
+      // 广告
+      activityShowFnc: function () {
+        this.$axios.post('api/topadvert/show',{}).then(res => {
+          if (res.code === 200) {
+           console.log('gggg', res)
+            this.activityDetail = res.data
+            if (res.data.ad_end_time) {
+              this.actEndTime = res.data.ad_end_time
+            }
+            if (res.data.top_ad_location == 0) {
+              this.titlePosition = 'flex-end'
+            } else if (res.data.top_ad_location == 1) {
+              this.titlePosition = 'center'
+            } else if (res.data.top_ad_location == 2) {
+              this.titlePosition = 'start'
+            }
+            // if (res.data.top_ad_bgcolor) {
+            //   this.bgColorAct = res.data.top_ad_bgcolor
+            // }
+          }
+        })
       },
       // 热词
       hotSearch: function () {
