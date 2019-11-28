@@ -164,8 +164,8 @@ export default {
     }
   },
   created(){
-    if (this.$route.params.path) {
-      this.order_status = this.$route.params.path
+    if (this.$route.query.path) {
+      this.order_status = this.$route.query.path
       this.myOrderList()
     } else {
       this.myOrderList()

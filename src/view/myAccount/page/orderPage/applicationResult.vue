@@ -226,16 +226,16 @@
     watch:{
 
     },
-    // mounted () {
-    //   if (window.history && window.history.pushState) {
-    //     // 向历史记录中插入了当前页
-    //     history.pushState(null, null, document.URL);
-    //     window.addEventListener('popstate', this.goBack, false);
-    //   }
-    // },
-    // destroyed () {
-    //   window.removeEventListener('popstate', this.goBack, false);
-    // },
+    mounted () {
+      if (window.history && window.history.pushState) {
+        // 向历史记录中插入了当前页
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', this.goBack, false);
+      }
+    },
+    destroyed () {
+      window.removeEventListener('popstate', this.goBack, false);
+    },
     created(){
       this.refund_id = this.$route.query.orders_refund_id
       this.getRefundDetail()
@@ -243,18 +243,29 @@
       this.totalMoney = parseFloat(money).toFixed(2)
     },
     methods:{
-      // goBack () {
-      //   // sessionStorage.clear();
-      //   // console.log("点击了浏览器的返回按钮", this.$store.state.isApplication);
-      //   if (this.$store.state.isApplication) {
-      //     // console.log("点击了浏览器的返回按钮222");
-      //     window.history.go(-2);
-      //   } else {
-      //     window.history.go(-1);
-      //     // console.log("点击了浏览器的返回按钮111");
-      //   }
-      //   this.$store.state.isApplication = false
-      // },
+      goBack () {
+        var orderId = sessionStorage.getItem('orderId')
+        // sessionStorage.clear();
+        // console.log("点击了浏览器的返回按钮", this.$store.state.isApplication);
+        if (this.$store.state.isApplication) {
+          // console.log("点击了浏览器的返回按钮222");
+          this.$router.push({
+            path: '/myOrder',
+            query:{
+              path: '40'
+            }
+          })
+        } else {
+          this.$router.push({
+            path: '/afterSale',
+            query: {
+              order_id: orderId
+            }
+          })
+          // console.log("点击了浏览器的返回按钮111");
+        }
+        this.$store.state.isApplication = false
+      },
       getRefundDetail () {
         var that = this
         that.$axios.get('api/refund/step2/' + that.refund_id, {}).then(res => {

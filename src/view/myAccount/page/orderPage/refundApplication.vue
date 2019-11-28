@@ -77,6 +77,28 @@
                             <el-dialog :visible.sync="dialogVisible">
                               <img width="100%" :src="dialogImageUrl" alt="">
                             </el-dialog>
+                          <!--售后完成-->
+                          <div class="my_order">
+                            <el-dialog
+                              title="After-sale"
+                              :visible.sync="finishedAfter"
+                              width="570px">
+                              <div class="cancelBox">
+                                <p>Sorry，this order has been fully refunded you.</p>
+                                <p> You can't issue an after sale service for it.</p>
+                              </div>
+                            </el-dialog>
+                            <!--订单超时-->
+                            <el-dialog
+                              title="After-sale"
+                              :visible.sync="overTimeDialog"
+                              width="570px">
+                              <div class="cancelBox">
+                                <p>Sorry, you can't issue an after sales request for this order.</p>
+                                <p>It has exceeded 30 days.</p>
+                              </div>
+                            </el-dialog>
+                          </div>
                         </el-form-item>
                     </el-form>
                     <div class="apply_btn">
@@ -122,7 +144,9 @@ export default {
         uploadImageList: [],
         inputTracking: '',
         dialogImageUrl: '',
+        finishedAfter: false,
         dialogVisible: false,
+        overTimeDialog: false,
         cancelOrderFlag: false,
     }
   },
@@ -146,7 +170,7 @@ export default {
       this.order_id = this.$route.query.orderId
       this.rList = JSON.parse(sessionStorage.getItem('selectInfo'))
       // console.log('jjjj', this.rList)
-      if (this.rList.length>0){
+      if (this.rList && this.rList.length>0){
         for (var i=0; i<this.rList.length; i++) {
           obj = {
             sku_id: this.rList[i].sku_id,
@@ -170,13 +194,20 @@ export default {
           selectList.push(obj)
           listSub.push(objSub)
         }
-      }
-      this.payLoadList = selectList
-      this.savePayLoad = listSub
-      this.dataType.token = localStorage.getItem('userToken')
-      this.getRefundReason()
-      if (this.order_id && this.payLoadList) {
-        this.getRefundTotal()
+        this.payLoadList = selectList
+        this.savePayLoad = listSub
+        this.dataType.token = localStorage.getItem('userToken')
+        this.getRefundReason()
+        if (this.order_id && this.payLoadList) {
+          this.getRefundTotal()
+        }
+      } else {
+        this.$router.push({
+          path: '/myOrder',
+          query:{
+            path: '40'
+          }
+        })
       }
     },
     // 选中退款原因
@@ -274,10 +305,14 @@ export default {
                 orders_refund_id: res.data.orders_refund_id
               }
             })
-            // that.$store.state.isApplication = true
-            // sessionStorage.removeItem('selectInfo')
+            that.$store.state.isApplication = true
+            sessionStorage.removeItem('selectInfo')
+          } else if (res.code == 10004) {
+            that.finishedAfter = true
+          } else if (res.code == 10003) {
+            that.overTimeDialog = true
           } else {
-            that.$message.warning(res.msg)
+            that.$message.warning('Please reselect after-sale products.')
           }
         })
       } else {
