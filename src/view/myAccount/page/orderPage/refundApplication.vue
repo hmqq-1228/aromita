@@ -169,7 +169,6 @@ export default {
       this.status = this.$route.query.status
       this.order_id = this.$route.query.orderId
       this.rList = JSON.parse(sessionStorage.getItem('selectInfo'))
-      // console.log('jjjj', this.rList)
       if (this.rList && this.rList.length>0){
         for (var i=0; i<this.rList.length; i++) {
           obj = {
