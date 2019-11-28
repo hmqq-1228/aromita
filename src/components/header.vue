@@ -7,7 +7,7 @@
         <div class="title" v-if="!titleActivity">
           <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
         </div>
-        <div class="title activity" v-if="titleActivity">
+        <div class="title activity" v-if="titleActivity" :style="'background-color:' + bgColorAct">
           <div class="activityBox">
             <div class="title_word act" :style="'float:'+ titlePosition">
               <span class="titleAct"><span>Up To 40% OFF</span>  Lovely Moments +Free Shipping Order Over $45!</span>
@@ -245,6 +245,7 @@ import { mapGetters } from 'vuex';
         linkWordUrl: '',
         f_cate_id: '',
         s_cate_id: '',
+        bgColorAct: '#CE153F',
         titlePosition: 'left',
         showIconActive: 'do',
         countDownList: '00天00时00分00秒',

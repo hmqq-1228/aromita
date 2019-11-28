@@ -81,11 +81,12 @@ ul,li {
     border-bottom: 1px solid #EBEEF5 !important;
 }
 .fliterList .el-collapse-item__header{
-    height: 36px !important;
-    line-height: 36px !important;
+    height: 28px !important;
+    line-height: 28px !important;
     padding-left: 10px !important;
     font-family: Tahoma !important;
     border-bottom: none !important;
+    font-size: 14px !important;
 }
 .fliterList .el-collapse-item__content{
     padding-bottom: 10px !important;
@@ -582,12 +583,18 @@ ul,li {
 .navBread .el-breadcrumb__inner a{
   font-weight: normal !important;
 }
-.Occasion .el-tree-node__children .el-tree-node.is-current.is-focusable .el-tree-node__label{
+.Occasion .el-tree-node.is-expanded.is-focusable .el-tree-node__children .el-tree-node.is-current.is-focusable .el-tree-node__label{
   color: #C51015 !important;
 }
-.Occasion .el-tree-node__children .el-tree-node.is-current.is-focusable .el-icon-caret-right:before{
+.Occasion .el-tree-node.is-expanded.is-focusable .el-tree-node__children .el-tree-node.is-current.is-focusable .el-icon-caret-right:before{
   color: #C51015 !important;
+}
+.Occasion .el-icon-arrow-right:before{
+  content: '' !important;
 }
 .orderDetail .el-checkbox__inner,.footer .el-checkbox__inner,.subscribeInput .el-checkbox__inner{
   border: 1px solid #aaa !important;
+}
+.detail .el-dialog__header{
+  border-bottom: 1px solid #E9E9E9;
 }

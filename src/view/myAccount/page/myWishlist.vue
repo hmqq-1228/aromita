@@ -73,7 +73,7 @@
                                     <el-pagination
                                         background
                                         @current-change="currentPage($event)"
-                                        layout="total, prev, pager, next"
+                                        layout="prev, pager, next"
                                         :page-size = "pagesize"
                                         :total="total">
                                     </el-pagination>

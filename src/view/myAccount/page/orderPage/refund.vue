@@ -117,6 +117,28 @@
                 <!--</div>-->
             <!--</div>-->
         <!--</el-dialog>-->
+        <!--售后完成-->
+        <div class="my_order">
+          <el-dialog
+            title="After-sale"
+            :visible.sync="finishedAfter"
+            width="570px">
+            <div class="cancelBox">
+              <p>Sorry，this order has been fully refunded you.</p>
+              <p> You can't issue an after sale service for it.</p>
+            </div>
+          </el-dialog>
+          <!--订单超时-->
+          <el-dialog
+            title="After-sale"
+            :visible.sync="overTimeDialog"
+            width="570px">
+            <div class="cancelBox">
+              <p>Sorry, you can't issue an after sales request for this order.</p>
+              <p>It has exceeded 30 days.</p>
+            </div>
+          </el-dialog>
+        </div>
       </div>
     </div>
   </div>
@@ -138,6 +160,8 @@ export default {
       checked: false,//同意退款条约
       selectInfoList: [],
       multipleSelection: [],
+      finishedAfter: false,
+      overTimeDialog: false,
       dialogFormVisible:false,
       formLabelWidth:'120px',
       orderId: this.$route.query.order_id,
@@ -162,6 +186,12 @@ export default {
           for (var i=0; i<that.tableData.length; i++) {
             this.$set(this.tableData[i],'numQuality',1)
           }
+        } else if (res.code == 10004) {
+          that.finishedAfter = true
+        } else if (res.code == 10003) {
+          that.overTimeDialog = true
+        } else {
+          that.$message.warning('Please reselect after-sale products.')
         }
       })
     },

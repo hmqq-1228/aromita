@@ -5,24 +5,31 @@
       <div class="listNav">
         <div class="navTitleTwo">
           <div>Occasion</div>
-          <div class="clear"></div>
+          <div class="clear" @click="clearSearch()"><img src="../../../static/img/defult.png" alt=""></div>
         </div>
         <div class="OccasionTree Occasion">
-          <el-tree
-            :data="screenList"
-            empty-text="Loading"
-            :props="defaultProps"
-            @node-click="handleNodeClick"></el-tree>
+          <div class="fliterList" v-for="(screen, index) in screenList" :key="index">
+            <el-collapse v-model="activeNameScreen">
+              <el-collapse-item :title="screen.tag_name">
+                <div class="MetalItem" v-for="item in screen.second" @click="checkedScren($event, item.tag_name)"><span>&#8226;</span> {{item.tag_name}}</div>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+          <!--<el-tree-->
+            <!--:data="screenList"-->
+            <!--empty-text="Loading"-->
+            <!--:props="defaultProps"-->
+            <!--@node-click="handleNodeClick"></el-tree>-->
         </div>
         <!--<div class="navTitle">Sort By</div>-->
-        <div class="navTitleTwo">
+        <div class="navTitleTwo" style="margin-top: 10px">
           <div>Sort By</div>
-          <div class="clear" @click="checkSortType()"><img src="../../../static/img/defult.png" alt=""></div>
+          <div class="clear"></div>
         </div>
         <div class="navItem" @click="checkSortType($event, 1)">Most Recent</div>
         <div class="navItem" @click="checkSortType($event, 2)">Best Selling</div>
         <div class="navItem" @click="checkSortType($event, 3)">Lowest Price</div>
-        <div class="navTitle">Price</div>
+        <div class="navTitle" style="margin-top: 10px">Price</div>
         <div class="price">
           <div class="priceRange">
             <input type="number" v-model="startPrice">
@@ -31,7 +38,7 @@
           </div>
           <button @click="subPrice()">APPLY</button>
         </div>
-        <div class="navTitleTwo">
+        <div class="navTitleTwo" style="margin-top: 10px">
           <div>Filter</div>
           <div class="clear" @click="clearAttrChecked()">Clear</div>
         </div>
@@ -122,6 +129,7 @@
         prodListLastPage: false,
         goodsList: [],
         activeNames: [],
+        activeNameScreen: [],
         attrList: [],
         attrListLen: 0,
         checkAttrList: [],
@@ -136,6 +144,7 @@
         keyword: '',
         sort: '',
         attrStr: '',
+        tagName: '',
         leftNum:[],
         btnindex:-1,
         menuStatus:false,//属性值状态（收起，展开）
@@ -162,6 +171,7 @@
         this.startPrice = this.$route.query.price_start
         this.endPrice = this.$route.query.price_end
         this.attrStr = this.$route.query.attr
+        this.tagName = this.$route.query.tag
       },
       // s_cate_id() {
       //   // window,scrollTo(0,0)
@@ -200,6 +210,7 @@
       this.startPrice = this.$route.query.price_start
       this.endPrice = this.$route.query.price_end
       this.attrStr = this.$route.query.attr
+      this.tagName = this.$route.query.tag
       this.getAttrList()
       this.getList()
       this.getTagList()
@@ -211,6 +222,36 @@
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+      // 点击场景标签
+      // handleNodeClick(data, node) {
+      //   // console.log(data, node);
+      //   if (node.level === 2) {
+      //     this.tagName = data.tag_name
+      //     this.getList()
+      //   }
+      // },
+      checkedScren (e, tag) {
+        var obj = e.currentTarget
+        var pObj = e.path[5]
+        $(obj).addClass('active').siblings().removeClass('active')
+        $(pObj).addClass('parentAct').siblings().removeClass('parentAct')
+        console.log('hhhhh', tag)
+        this.tagName = tag
+        this.getList()
+      },
+      // 收起场景标签
+      // closeNode () {
+      //   this.tagName = ''
+      //   this.getList()
+      // },
+      clearSearch () {
+        $('.navItem.sort').removeClass('activeSort')
+        $('.Occasion .MetalItem').removeClass('active')
+        this.sort = ''
+        this.tagName = ''
+        this.activeNameScreen = []
+        this.getList()
+      },
       clearSearchFuc () {
         $('.navItem').removeClass('activeSort')
         this.endPrice = ''
@@ -330,12 +371,6 @@
           }
         })
       },
-      handleNodeClick(data, node) {
-        console.log(data, node);
-        if (node.level === 2) {
-          alert('点击二级')
-        }
-      },
       // 价格区间
       subPrice () {
         var tamp = 0
@@ -354,14 +389,9 @@
       },
       // 排序
       checkSortType (e, type) {
-        if (!e && !type) {
-          $('.navItem').removeClass('activeSort')
-          this.sort = ''
-        } else {
-          var obj = e.currentTarget
-          $(obj).addClass('activeSort').siblings().removeClass('activeSort')
-          this.sort = type
-        }
+        var obj = e.currentTarget
+        $(obj).addClass('activeSort').siblings().removeClass('activeSort')
+        this.sort = type
         this.getList()
       },
       handleScroll() {
@@ -394,6 +424,7 @@
           perPage: that.pageSize,
           keyword: that.keyword,
           sort: that.sort,
+          tag: that.tagName,
           attr: that.attrStr
         }
         getSearchList(obj).then((res)=>{

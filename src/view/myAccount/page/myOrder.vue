@@ -99,11 +99,31 @@
                         <el-dialog
                             title="Cancel Order"
                             :visible.sync="cancelVisity"
-                            width="30%">
+                            width="570px">
                             <div class="cancelBox">
                               <p>Your order has been cancelled. The money will be return to you in the original way. Please check it later.</p>
                             </div>
                         </el-dialog>
+                        <!--售后完成-->
+                      <el-dialog
+                        title="After-sale"
+                        :visible.sync="finishedAfter"
+                        width="570px">
+                        <div class="cancelBox">
+                          <p>Sorry，this order has been fully refunded you.</p>
+                          <p> You can't issue an after sale service for it.</p>
+                        </div>
+                      </el-dialog>
+                      <!--订单超时-->
+                      <el-dialog
+                        title="After-sale"
+                        :visible.sync="overTimeDialog"
+                        width="570px">
+                        <div class="cancelBox">
+                          <p>Sorry, you can't issue an after sales request for this order.</p>
+                          <p>It has exceeded 30 days.</p>
+                        </div>
+                      </el-dialog>
                     </div>
                 </div>
             </div>
@@ -133,6 +153,8 @@ export default {
         '60':"pending"
       },
       cancelVisity: false,
+      finishedAfter: false,
+      overTimeDialog: false,
       orderNum:'',//订单号
       orderId:'',//订单id
       orderStatus:'',//订单状态
@@ -308,8 +330,12 @@ export default {
               order_id: id
             }
           })
+        } else if (res.code == 10004) {
+          that.finishedAfter = true
+        } else if (res.code == 10003) {
+          that.overTimeDialog = true
         } else {
-          that.$message.warning(res.msg)
+          that.$message.warning('Please reselect after-sale products.')
         }
       })
     },

@@ -60,9 +60,10 @@
                                     name="image"
                                     :limit="5"
                                     :data="dataType"
-                                    accept=".jpg,.png,.JPG,.PNG,.jpeg,.JPEG"
+                                    accept=".jpg,.png,.JPG,.PNG"
                                     :on-preview="handlePictureCardPreview"
                                     :on-success="handleAvatarSuccess"
+                                    :before-upload="beforeAvatarUpload"
                                     :on-remove="handleRemove">
                                     <i class="el-icon-plus"></i>
                                 </el-upload>
@@ -71,6 +72,7 @@
                             </div>
 
                             <p class="tip"><i>*</i>In order to accelerate refund process, please attach the file.</p>
+                            <p class="tip"><i>*</i>Only upload images in JPG and PNG formats.</p>
                             <!--<p class="tip" v-if="isUploadImg==1" style="color: #C51015"><i>*</i>In order to accelerate refund process, please attach the file.</p>-->
                             <el-dialog :visible.sync="dialogVisible">
                               <img width="100%" :src="dialogImageUrl" alt="">
@@ -183,24 +185,26 @@ export default {
       var flag = false
       var k = 0
       if ($(obj).hasClass('active')){
-        $(obj).removeClass('active')
-        for (var i=0; i<this.reasonId.length; i++){
-          if(this.reasonId[i] == id){
-            flag = true
-            k = i
-            break
+        if (this.reasonId.length > 1) {
+          $(obj).removeClass('active')
+          for (var i=0; i<this.reasonId.length; i++){
+            if(this.reasonId[i] == id){
+              flag = true
+              k = i
+              break
+            }
           }
+          if (flag) {
+            this.reasonId.splice(k, 1)
+            this.nameList.splice(k, 1)
+            this.isUploadImg.splice(k, 1)
+          } else {
+            this.reasonId.push(id)
+            this.nameList.push(name)
+            this.isUploadImg.push(isUp)
+          }
+          flag = false
         }
-        if (flag) {
-          this.reasonId.splice(k, 1)
-          this.nameList.splice(k, 1)
-          this.isUploadImg.splice(k, 1)
-        } else {
-          this.reasonId.push(id)
-          this.nameList.push(name)
-          this.isUploadImg.push(isUp)
-        }
-        flag = false
       } else {
         $(obj).addClass('active')
         this.isUploadImg.push(isUp)
@@ -277,7 +281,7 @@ export default {
           }
         })
       } else {
-        that.$message.warning('至少选择一种售后理由')
+        that.$message.warning('Choose at least one return reason.')
       }
       // console.log('kkkkk', this.savePayLoad)
     },
@@ -292,6 +296,18 @@ export default {
         imgs.push(imgUrl)
       }
       this.uploadImageList = imgs
+    },
+    beforeAvatarUpload (file) {
+      var that = this
+      const isJPG = file.type === 'image/jpeg';
+      const isPNG = file.type === 'image/png';
+      if (isJPG || isPNG) {
+        that.canSub = true
+        return file
+      } else {
+        that.canSub = false
+        return false
+      }
     },
     handleAvatarSuccess (res) {
       // console.log(res, 'mmmmg')

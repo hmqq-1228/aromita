@@ -1,5 +1,22 @@
 .MetalItem{
-  padding: 4px 20px;
+  height: 28px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.Occasion .MetalItem{
+  cursor: pointer;
+  font-size: 14px;
+  font-family: Tahoma;
+}
+.Occasion .MetalItem span{
+  color: #999;
+  font-size: 12px;
+}
+.Occasion .parentAct .MetalItem.active{
+  color: #c51015;
+}
+.Occasion .parentAct .MetalItem.active span{
+  color: #c51015;
 }
 .clear{
   color: #999;
@@ -126,15 +143,15 @@
     font-family: Tahoma;
     color: #333;
     font-size: 14px;
-    height: 30px;
+    height: 28px;
     cursor: pointer;
     padding: 0 10px;
-    line-height: 30px;
+    line-height: 28px;
   }
   .navItem.child{
-    padding-left: 30px;
-    height: 24px;
-    line-height: 24px;
+    padding-left: 20px;
+    height: 28px;
+    line-height: 28px;
   }
   .listGoods{
     width: 1220px;

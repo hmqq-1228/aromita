@@ -5,16 +5,23 @@
       <div class="listNav">
         <div class="navTitleTwo">
           <div>Occasion</div>
-          <div class="clear"></div>
+          <div class="clear" @click="clearSearch()"><img src="../../../static/img/defult.png" alt=""></div>
         </div>
         <div class="OccasionTree Occasion">
-          <el-tree
-          :data="screenList"
-          empty-text="Loading"
-          :props="defaultProps"
-          @node-click="handleNodeClick"></el-tree>
+          <div class="fliterList" v-for="(screen, index) in screenList" :key="index">
+            <el-collapse v-model="activeNameScreen">
+              <el-collapse-item :title="screen.tag_name">
+                <div class="MetalItem" v-for="item in screen.second" @click="checkedScren($event, item.tag_name)"><span>&#8226;</span> {{item.tag_name}}</div>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+          <!--<el-tree-->
+          <!--:data="screenList"-->
+          <!--empty-text="Loading"-->
+          <!--:props="defaultProps"-->
+          <!--@node-click="handleNodeClick"></el-tree>-->
         </div>
-        <div class="navTitleTwo">
+        <div class="navTitleTwo" style="margin-top: 10px;">
           <div>Ring</div>
           <div class="clear"></div>
         </div>
@@ -23,14 +30,14 @@
           <div class="navItem child Ring" :class="activeId == item.id?'activeSort':''" v-for="item in name.second" @click="checkItem($event, item.id, 'second')">{{item.cate_name}}</div>
         </div>
         <!--<div class="navTitle">Sort By</div>-->
-        <div class="navTitleTwo">
+        <div class="navTitleTwo" style="margin-top: 10px;">
           <div>Sort By</div>
-          <div class="clear" @click="checkSortType()"><img src="../../../static/img/defult.png" alt=""></div>
+          <div class="clear"></div>
         </div>
-        <div class="navItem" @click="checkSortType($event, 1)">Most Recent</div>
-        <div class="navItem" @click="checkSortType($event, 2)">Best Selling</div>
-        <div class="navItem" @click="checkSortType($event, 3)">Lowest Price</div>
-        <div class="navTitle">Price</div>
+        <div class="navItem sort" @click="checkSortType($event, 1)">Most Recent</div>
+        <div class="navItem sort" @click="checkSortType($event, 2)">Best Selling</div>
+        <div class="navItem sort" @click="checkSortType($event, 3)">Lowest Price</div>
+        <div class="navTitle" style="margin-top: 10px;">Price</div>
         <div class="price">
           <div class="priceRange">
             <input type="number" v-model="startPrice">
@@ -39,7 +46,7 @@
           </div>
           <button @click="subPrice()">APPLY</button>
         </div>
-        <div class="navTitleTwo">
+        <div class="navTitleTwo" style="margin-top: 10px;">
           <div>Filter</div>
           <div class="clear" @click="clearAttrChecked()">Clear</div>
         </div>
@@ -129,6 +136,7 @@
         activeId: '',
         goodsList: [],
         activeNames: [],
+        activeNameScreen: [],
         attrList: [],
         attrListLen: 0,
         checkAttrList: [],
@@ -143,6 +151,7 @@
         keyword: '',
         sort: '',
         attrStr: '',
+        tagName: '',
         leftNum:[],
         btnindex:-1,
         menuStatus:false,//属性值状态（收起，展开）
@@ -170,6 +179,7 @@
         this.startPrice = this.$route.query.price_start
         this.endPrice = this.$route.query.price_end
         this.attrStr = this.$route.query.attr
+        this.tagName = this.$route.query.tag
       },
       s_cate_id(val, oV) {
         if (val) {
@@ -213,18 +223,36 @@
       this.startPrice = this.$route.query.price_start
       this.endPrice = this.$route.query.price_end
       this.attrStr = this.$route.query.attr
+      this.tagName = this.$route.query.tag
       // this.getAttrList()
       // this.scrollShow()
       this.getTagList()
       this.getCategoryList()
     },
     methods: {
-      handleNodeClick(data, node) {
-        console.log(data, node);
-        if (node.level === 2) {
-          alert('点击二级')
-        }
+      // 点击场景标签
+      // handleNodeClick(data, node) {
+      //   // console.log(data, node);
+      //   if (node.level === 2) {
+      //     this.tagName = data.tag_name
+      //     this.getList()
+      //   }
+      // },
+      checkedScren (e, tag) {
+        var obj = e.currentTarget
+        var pObj = e.path[5]
+        $(obj).addClass('active').siblings().removeClass('active')
+        $(pObj).addClass('parentAct').siblings().removeClass('parentAct')
+        console.log('hhhhh', tag)
+        this.tagName = tag
+        this.getList()
       },
+      // 收起场景标签
+      // closeNode () {
+      //   this.tagName = ''
+      //   this.getList()
+      // },
+      // 重置
       clearSearchFuc () {
         $('.navItem').removeClass('activeSort')
         this.endPrice = ''
@@ -235,6 +263,7 @@
         this.getAttrList()
         this.page = 1
       },
+      // 属性值展开更多
       showMoreAttrVal (dex) {
         if(this.attrList[dex].menuStatus === false){
           this.attrList[dex].menuStatus = true
@@ -245,6 +274,7 @@
           this.attrList[dex].attrLen = 4
         }
       },
+      // 属性展开更多
       showMoreAttr (icon) {
         if (icon === 'el-icon-d-arrow-right') {
           // this.moreIcon = 'el-icon-d-arrow-left'
@@ -261,6 +291,7 @@
         this.getAttrList()
         this.getList()
       },
+      // 拼接选中的属性
       getAttrValue (key, val) {
         // console.log('ffffff', key, val)
         var flag = false
@@ -329,6 +360,7 @@
           }
         })
       },
+      // 查导航
       getCategoryList () {
         var that = this
         var obj = {}
@@ -342,6 +374,7 @@
           }
         })
       },
+      // 查询场景分类
       getTagList () {
         var that = this
         // var obj = {}
@@ -354,6 +387,14 @@
             that.screenList = res.data
           }
         })
+      },
+      clearSearch () {
+        $('.navItem.sort').removeClass('activeSort')
+        $('.Occasion .MetalItem').removeClass('active')
+        this.sort = ''
+        this.tagName = ''
+        this.activeNameScreen = []
+        this.getList()
       },
       // 价格区间
       subPrice () {
@@ -373,14 +414,9 @@
       },
       // 排序
       checkSortType (e, type) {
-        if (!e && !type) {
-          $('.navItem').removeClass('activeSort')
-          this.sort = ''
-        } else {
-          var obj = e.currentTarget
-          $(obj).addClass('activeSort').siblings().removeClass('activeSort')
-          this.sort = type
-        }
+        var obj = e.currentTarget
+        $(obj).addClass('activeSort').siblings().removeClass('activeSort')
+        this.sort = type
         this.getList()
       },
       checkItem (e, id, lv) {
@@ -423,6 +459,7 @@
           this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
         }
       },
+      // 商品列表
       getList() {
         var that = this
         var obj
@@ -436,6 +473,7 @@
           perPage: that.pageSize,
           keyword: that.keyword,
           sort: that.sort,
+          tag: that.tagName,
           attr: that.attrStr
         }
         getSearchList(obj).then((res)=>{
@@ -448,6 +486,7 @@
             that.totalNum = res.data.total
             if (that.s_cate_id) {
               that.activeId = that.s_cate_id
+              console.log('kkkk', that.activeId)
             } else if (that.f_cate_id) {
               that.activeId = that.f_cate_id
             }
@@ -485,6 +524,7 @@
         this.page = this.page + 1
         this.getList()
       },
+      // 点击小图标切换
       getColorPicture: function (e, index1, url, title, price, id, state, selling) {
         var obj = e.currentTarget
         var that = this

@@ -73,7 +73,7 @@
                   <span>Tracking number：</span>
                   <el-input style="width: 380px;" v-model="inputTracking" placeholder="Please enter the tracking number to expedite the refund."></el-input>
                   <div class="trackSub" @click="trackNumSub">Submit</div>
-                  <div class="inputTrackingTip" v-if="inputTrackingTip">请输入订单号</div>
+                  <div class="inputTrackingTip" v-if="inputTrackingTip">Please enter the tracking number.</div>
                 </div>
               </div>
               <div class="examine_tip" v-if="status == 30">
