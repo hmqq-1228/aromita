@@ -297,6 +297,27 @@
         that.$axios.get('api/refund/cancel/' + that.refund_id, {}).then(res => {
           if (res.code === 200) {
             that.getRefundDetail()
+          } else if (res.code == 20003) {
+            this.$alert("The order has been cancelled. Please refresh the page and try again.", '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                that.getRefundDetail()
+              }
+            })
+          } else if (res.code == 20001) {
+            this.$alert("The order has been processed. Please refresh the page and try again.", '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                that.getRefundDetail()
+              }
+            })
+          } else {
+            this.$alert("Please refresh the page and try again.", '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                that.getRefundDetail()
+              }
+            })
           }
         })
       },

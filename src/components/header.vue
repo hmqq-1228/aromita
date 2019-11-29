@@ -7,10 +7,10 @@
         <div class="title" v-if="!titleActivity">
           <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
         </div>
-        <div class="title activity" v-if="titleActivity" :style="'background-color:' + bgColorAct">
+        <div class="title activity" v-if="titleActivity" :style="'background-color:' + activityDetail.top_ad_bgcolor">
           <div class="activityBox">
-            <div class="title_word act" :style="'justify-content:'+ titlePosition + '; color:' + titleColor">
-              <span class="titleAct" @click="toActity(activityDetail.top_ad_title_url)"><span>{{activityDetail.top_ad_name}}</span></span>
+            <div class="title_word act" :style="'justify-content:'+ titlePosition + '; color:' + activityDetail.top_ad_fontcolor">
+              <span class="titleAct" @click="toActity(activityDetail.top_ad_title_url)"><span>{{activityDetail.top_ad_title}}</span></span>
               <span>
                 <span class="timeAct">{{countDownList}}</span>
                 <span v-if="activityDetail.top_ad_detail_image" class="iconFlag" :class="showIconActive" @click="showActivity(showIconActive)"></span>
@@ -243,13 +243,13 @@ import { mapGetters } from 'vuex';
         linkWordUrl: '',
         f_cate_id: '',
         s_cate_id: '',
-        titleColor: '#fff',
-        bgColorAct: '#f00',
+        // titleColor: '#fff',
         titlePosition: 'start',
         showIconActive: 'el-icon-d-arrow-right',
         activityDetail: '',
         countDownList: '00天00时00分00秒',
         actEndTime: '2019-11-29 14:52:00',
+        actCurrentTime: '2019-11-28 14:52:00',
         hList: [],
         hotList: [],
         historyList: [],
@@ -319,7 +319,6 @@ import { mapGetters } from 'vuex';
       }
     },
     created() {
-      this.countDown() // 倒计时
       this._checkLogin()
       this.getGoodsCont()
       this.linkSearch()
@@ -375,41 +374,34 @@ import { mapGetters } from 'vuex';
           this.activityShow = false
         }
       },
-      timeFormat(param) {
-        return param < 10 ? '0' + param : param;
-      },
+      // timeFormat(param) {
+      //   return param < 10 ? '0' + param : param;
+      // },
       // 倒计时
-      countDown(it) {
+      countDown() {
+        // 获取当前时间
+        let newTime = new Date(this.actCurrentTime).getTime();
+        // 对结束时间
+        let endTime = new Date(this.actEndTime).getTime();
+        let time = (endTime - newTime)/1000;
         var interval = setInterval(() => {
-          // 获取当前时间，同时得到活动结束时间数组
-          let newTime = new Date().getTime();
-          // 对结束时间进行处理渲染到页面
-          let endTime = new Date(this.actEndTime).getTime();
-          let obj = null;
-          // 如果活动未结束，对时间进行处理
-          if (endTime - newTime > 0) {
-            let time = (endTime - newTime) / 1000;
+          time --;
+          if (time > 0) {
             // 获取天、时、分、秒
-            let day = parseInt(time / (60 * 60 * 24));
-            let hou = parseInt(time % (60 * 60 * 24) / 3600);
-            let min = parseInt(time % (60 * 60 * 24) % 3600 / 60);
-            let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60);
-            obj = {
-              day: this.timeFormat(day),
-              hou: this.timeFormat(hou),
-              min: this.timeFormat(min),
-              sec: this.timeFormat(sec)
-            };
+            let day = Math.floor(time/60/60/24)
+            let hour = Math.floor((time / 3600) % 24)
+            let min = Math.floor((time / 60) % 60)
+            let sec = Math.floor(time % 60)
+            day = day < 10 ? '0' + day : day
+            hour = hour < 10 ? '0' + hour : hour
+            min = min < 10 ? '0' + min : min
+            sec = sec < 10 ? '0' + sec : sec
+            // console.log('1111', day,hour,min,sec)
+            this.countDownList = day + '天' + hour + '时' + min + '分' + sec + '秒'
           } else { // 活动已结束，全部设置为'00'
-            obj = {
-              day: '00',
-              hou: '00',
-              min: '00',
-              sec: '00'
-            };
+            this.countDownList = '00天00时00分00秒'
             clearInterval(interval);
           }
-          this.countDownList = obj.day + '天' + obj.hou + '时' + obj.min + '分' + obj.sec + '秒';
         }, 1000);
       },
       inputFocus: function () {
@@ -428,23 +420,27 @@ import { mapGetters } from 'vuex';
       },
       // 广告
       activityShowFnc: function () {
+        var that = this
         this.$axios.post('api/topadvert/show',{}).then(res => {
           if (res.code === 200) {
            console.log('gggg', res)
-            this.activityDetail = res.data
-            if (res.data.ad_end_time) {
-              this.actEndTime = res.data.ad_end_time
+            that.activityDetail = res.data.topadvert
+            if (that.activityDetail.ad_end_time) {
+              that.actEndTime = res.data.topadvert.ad_end_time
             }
-            if (res.data.top_ad_location == 0) {
-              this.titlePosition = 'flex-end'
-            } else if (res.data.top_ad_location == 1) {
-              this.titlePosition = 'center'
-            } else if (res.data.top_ad_location == 2) {
-              this.titlePosition = 'start'
+            if (res.data.now) {
+              that.actCurrentTime = res.data.now
             }
-            // if (res.data.top_ad_bgcolor) {
-            //   this.bgColorAct = res.data.top_ad_bgcolor
-            // }
+            if (that.activityDetail.top_ad_location == 0) {
+              that.titlePosition = 'flex-end'
+            } else if (that.activityDetail.top_ad_location == 1) {
+              that.titlePosition = 'center'
+            } else if (that.activityDetail.top_ad_location == 2) {
+              that.titlePosition = 'start'
+            }
+            if (this.actCurrentTime && that.actEndTime) {
+              that.countDown() // 倒计时
+            }
           }
         })
       },
