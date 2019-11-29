@@ -13,7 +13,7 @@
               <span class="titleAct" @click="toActity(activityDetail.top_ad_title_url)"><span>{{activityDetail.top_ad_title}}</span></span>
               <span>
                 <span class="timeAct">{{countDownList}}</span>
-                <span v-if="activityDetail.top_ad_detail_image" class="iconFlag" :class="showIconActive" @click="showActivity(showIconActive)"></span>
+                <span v-if="activityDetail.top_ad_detail_url" class="iconFlag" :class="showIconActive" @click="showActivity(showIconActive)"></span>
               </span>
             </div>
             <!--<div class="activityCont" v-if="activityShow">-->
@@ -397,7 +397,7 @@ import { mapGetters } from 'vuex';
             min = min < 10 ? '0' + min : min
             sec = sec < 10 ? '0' + sec : sec
             // console.log('1111', day,hour,min,sec)
-            this.countDownList = day + '天' + hour + '时' + min + '分' + sec + '秒'
+            this.countDownList = day + 'D ' + hour + 'h:' + min + 'm:' + sec + 's'
           } else { // 活动已结束，全部设置为'00'
             this.countDownList = '00天00时00分00秒'
             clearInterval(interval);
@@ -539,7 +539,7 @@ import { mapGetters } from 'vuex';
         if (!!document.documentElement.scrollTop && document.documentElement.scrollTop > 120) {
             this.headerShow = true;
             this.activityShow = false
-            this.showIconActive = 'do'
+            this.showIconActive = 'el-icon-d-arrow-right'
         } else {
             this.headerShow = false;
             this.searchShow = false;

@@ -43,7 +43,7 @@
     </div>
   </div>
   <div class="overTime">
-    <div class="overHd">
+    <div class="overHd" v-if="goodsListOff.length > 0">
       <!--<div class="checkState over">-->
         <!--<input type="checkbox" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>-->
       <!--</div>-->
@@ -164,17 +164,26 @@
       <router-link to="/login"><el-button type="danger">Login</el-button></router-link>
     </span>
   </el-dialog>
-  <div class="shoppingCarPay">
+  <div class="my_order">
     <el-dialog
       title="Login/Guest"
       :visible.sync="payDialogVisible"
-      width="450px"
+      width="800px"
       center>
-      <span>如果您已有账户，可以选择登录您的账户结算订单，登录后可使用Coupon/积分等客户权益。</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" @click="toLogin()">Login</el-button>
-        <el-button size="medium" @click="toOrderConfirm()">Guest</el-button>
-      </span>
+      <div class="tipBox">
+        <div class="tipLeft">
+          <div>如果您已有账户，可以选择登录您的账户结算订单，登录后可使用Coupon/积分等客户权益。</div>
+          <span slot="footer" class="dialog-footer">
+            <el-button size="medium" type="primary" @click="toLogin()">Login</el-button>
+          </span>
+        </div>
+        <div class="tipRight">
+          <div>如果您不想注册账户，可以以游客身份结算账单。</div>
+          <span slot="footer" class="dialog-footer">
+            <el-button size="medium" @click="toOrderConfirm()">Guest</el-button>
+          </span>
+        </div>
+      </div>
     </el-dialog>
   </div>
   <!--<div class="foot">-->

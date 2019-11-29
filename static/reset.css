@@ -583,6 +583,10 @@ ul,li {
 .navBread .el-breadcrumb__inner a{
   font-weight: normal !important;
 }
+.navBread .el-breadcrumb__inner:hover a{
+  color: #C51015 !important;
+  font-weight: normal !important;
+}
 .Occasion .el-tree-node.is-expanded.is-focusable .el-tree-node__children .el-tree-node.is-current.is-focusable .el-tree-node__label{
   color: #C51015 !important;
 }
@@ -600,4 +604,7 @@ ul,li {
 }
 .titleAct a{
   text-decoration: none;
+}
+.shoppingCar .my_order .el-dialog__header{
+  text-align: left !important;
 }

@@ -186,7 +186,7 @@
           this.activeNames = []
           this.clearSearchFuc()
           this.getList()
-          // this.getCategoryList()
+          this.getCategoryList()
         }
       },
       f_cate_id (val, oV) {
@@ -194,7 +194,7 @@
           this.clearSearchFuc()
           this.activeNames = []
           this.getList()
-          // this.getCategoryList()
+          this.getCategoryList()
         }
       }
     },
@@ -227,7 +227,6 @@
       // this.getAttrList()
       // this.scrollShow()
       this.getTagList()
-      this.getCategoryList()
     },
     methods: {
       // 点击场景标签
@@ -364,6 +363,7 @@
       getCategoryList () {
         var that = this
         var obj = {}
+        that.categoryData = []
         obj = {
           s_cate_id: that.s_cate_id,
           f_cate_id: that.f_cate_id,
@@ -371,6 +371,11 @@
         categoryList(obj).then((res)=>{
           if (res.code === 200) {
             that.categoryData = res.data
+            if (that.s_cate_id) {
+              that.activeId = that.s_cate_id
+            } else if (that.f_cate_id) {
+              that.activeId = that.f_cate_id
+            }
           }
         })
       },
@@ -463,7 +468,6 @@
       getList() {
         var that = this
         var obj
-        that.data = []
         obj = {
           s_cate_id: that.s_cate_id,
           f_cate_id: that.f_cate_id,
@@ -484,12 +488,6 @@
               this.goodsList = this.goodsList.concat(res.data.data);
             }
             that.totalNum = res.data.total
-            if (that.s_cate_id) {
-              that.activeId = that.s_cate_id
-              console.log('kkkk', that.activeId)
-            } else if (that.f_cate_id) {
-              that.activeId = that.f_cate_id
-            }
             $('.sliderCont').css('left',0)
             for (var i = 0;i < this.goodsList.length; i++) {
               this.$set(this.goodsList[i],'left',0)

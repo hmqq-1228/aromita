@@ -16,6 +16,23 @@
   height: 140px;
   margin: 0 auto;
 }
+.shoppingCar .my_order .tipBox{
+  display: flex;
+  justify-content: start;
+  .tipLeft{
+    border-right: 1px dashed #999;
+    padding: 50px 60px 0 50px;
+    box-sizing: border-box;
+  }
+  .tipRight{
+    padding: 50px 60px 0 50px;
+    box-sizing: border-box;
+  }
+}
+.shoppingCar .my_order .tipBox > div{
+  height: 230px;
+  width: 400px;
+}
 .imgType img{
   width: 160px;
   height: 140px;

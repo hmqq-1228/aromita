@@ -249,6 +249,22 @@
 .navBread{
   width: 1440px;
   margin: 10px auto;
+  padding-left: 30px;
+  i{
+    font-size: 12px;
+  }
+  .hoverStyle:hover a{
+    color: #c51015;
+    text-decoration: underline;
+  }
+  span{
+    font-size: 13px;
+    color: #666;
+    a{
+      font-size: 13px;
+      color: #333;
+    }
+  }
 }
 .goodsDetail{
   width: 1440px;
