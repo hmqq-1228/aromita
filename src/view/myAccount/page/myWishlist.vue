@@ -257,11 +257,11 @@ export default {
           if (res === 2060) {
             this.$store.state.addCartState = true
           } else if (res === 2050) {
-            this.$confirm('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly', '', {
+            this.$alert('Sorry, your shopping cart goes over the 50-item limit. Place view your cart firstly.', '', {
               confirmButtonText: 'Go to shopping cart',
-            }).then(() => {
-              this.$router.push('/shoppingCar')
-            }).catch(() => {
+              callback: action => {
+                this.$router.push('/shoppingCar')
+              }
             })
           }else if (res.code == '101') {
             this.$alert('This item is removed. Please refresh the page and try again.', '', {

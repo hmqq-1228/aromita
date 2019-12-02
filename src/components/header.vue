@@ -425,18 +425,20 @@ import { mapGetters } from 'vuex';
           if (res.code === 200) {
            console.log('gggg', res)
             that.activityDetail = res.data.topadvert
-            if (that.activityDetail.ad_end_time) {
-              that.actEndTime = res.data.topadvert.ad_end_time
+            if (that.activityDetail) {
+              if (that.activityDetail.ad_end_time) {
+                that.actEndTime = res.data.topadvert.ad_end_time
+              }
+              if (that.activityDetail.top_ad_location == 0) {
+                that.titlePosition = 'flex-end'
+              } else if (that.activityDetail.top_ad_location == 1) {
+                that.titlePosition = 'center'
+              } else if (that.activityDetail.top_ad_location == 2) {
+                that.titlePosition = 'start'
+              }
             }
             if (res.data.now) {
               that.actCurrentTime = res.data.now
-            }
-            if (that.activityDetail.top_ad_location == 0) {
-              that.titlePosition = 'flex-end'
-            } else if (that.activityDetail.top_ad_location == 1) {
-              that.titlePosition = 'center'
-            } else if (that.activityDetail.top_ad_location == 2) {
-              that.titlePosition = 'start'
             }
             if (this.actCurrentTime && that.actEndTime) {
               that.countDown() // 倒计时

@@ -61,7 +61,7 @@
         <div class="goodsPrice">$ {{unGood.sku_price}}</div>
       </div>
       <div class="goodsNum_goodsTotal">
-        <span v-if="unGood.sku_status == 0">Unavailable</span>
+        <span v-if="unGood.sku_status == 0">Invalid</span>
         <span v-if="unGood.sku_status == 2">Restocking</span>
       </div>
       <div class="optionType">
@@ -166,22 +166,22 @@
   </el-dialog>
   <div class="my_order">
     <el-dialog
-      title="Login/Guest"
+      title="Logn in to Check out/Check out as Guest"
       :visible.sync="payDialogVisible"
       width="800px"
       center>
       <div class="tipBox">
         <div class="tipLeft">
-          <div>如果您已有账户，可以选择登录您的账户结算订单，登录后可使用Coupon/积分等客户权益。</div>
-          <span slot="footer" class="dialog-footer">
+          <div class="tipText">If you are already a member, please sign in to speed up the checkout process. And you can enjoy the rights and interests in the same time, like coupons, ponits. </div>
+          <div class="footerBtn">
             <el-button size="medium" type="primary" @click="toLogin()">Login</el-button>
-          </span>
+          </div>
         </div>
         <div class="tipRight">
-          <div>如果您不想注册账户，可以以游客身份结算账单。</div>
-          <span slot="footer" class="dialog-footer">
+          <div class="tipText">If you don't want to create an account, please check out as continue as guest.</div>
+          <div class="footerBtn">
             <el-button size="medium" @click="toOrderConfirm()">Guest</el-button>
-          </span>
+          </div>
         </div>
       </div>
     </el-dialog>

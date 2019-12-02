@@ -36,17 +36,17 @@
           </div>
         </div>
         <div class="suggestion">
-          <div class="name">Your Suggestion</div>
+          <div class="name">Share your suggestions</div>
           <el-input
             type="textarea"
             :rows="4"
             maxlength="2000"
             show-word-limit
-            placeholder="please enter your any suggestion."
+            placeholder="Please enter your suggestion. That will be helpful for us to improve our service."
             v-model="textarea">
           </el-input>
           <div style="text-align: right; margin-top: 20px;">
-            <el-button :disabled="subFlag" size="medium" type="primary" @click="subSuggestion">Submit</el-button>
+            <el-button :disabled="subFlag" size="medium" type="primary" @click="subSuggestion">Send</el-button>
           </div>
         </div>
       </div>

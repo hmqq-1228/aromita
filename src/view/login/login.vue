@@ -225,7 +225,6 @@ export default {
         email: this.ruleForm.name,
         password: this.ruleForm.password
       }
-      var routerStr = this.$store.state.fromUrl
       handleLogin(pre).then((res)=>{
         if (res.code === 200) {
           this.loginData = res.data
@@ -233,12 +232,6 @@ export default {
             message: " success",
             type: "success"
           });
-          if (routerStr) {
-            this.$router.push(routerStr)
-            this.$store.state.fromUrl = ''
-          } else {
-            this.$router.push('/')
-          }
           this.mergeGoodsFuc()
           localStorage.setItem('userToken', this.loginData.token)
         }else {
@@ -248,9 +241,16 @@ export default {
       })
     },
     mergeGoodsFuc(){
-    mergeGoods().then((res)=>{
-      console.log(res)
-    })
+      var routerStr = this.$store.state.fromUrl
+      mergeGoods().then((res)=>{
+        console.log('1111', routerStr)
+        if (routerStr) {
+          this.$router.push(routerStr)
+          this.$store.state.fromUrl = ''
+        } else {
+          this.$router.push('/')
+        }
+      })
     },
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();

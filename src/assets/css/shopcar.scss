@@ -21,17 +21,24 @@
   justify-content: start;
   .tipLeft{
     border-right: 1px dashed #999;
-    padding: 50px 60px 0 50px;
+    padding: 20px 50px 0 30px;
     box-sizing: border-box;
   }
   .tipRight{
-    padding: 50px 60px 0 50px;
+    padding: 20px 30px 0 50px;
     box-sizing: border-box;
+  }
+  .tipText{
+    height: 80px;
+  }
+  .footerBtn{
+    text-align: center;
+    margin-top: 30px;
   }
 }
 .shoppingCar .my_order .tipBox > div{
-  height: 230px;
-  width: 400px;
+  height: 190px;
+  width: 375px;
 }
 .imgType img{
   width: 160px;

@@ -64,7 +64,7 @@
             </div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText" :title="address.entry_company+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
+              <div class="addressText" :title="address.entry_company?address.entry_company:''+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
                 <span v-if="address.entry_company">{{address.entry_company}},</span> {{address.entry_street_address1}} {{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
               </div>
             </div>
@@ -140,7 +140,7 @@
             </div>
             <div class="itemAddress">
               <i class="el-icon-location-outline" style="width: 12px; height: 15px;"></i>
-              <div class="addressText" :title="address.entry_company+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
+              <div class="addressText" :title="address.entry_company?address.entry_company:''+' '+address.entry_street_address1 + address.entry_street_address2 +' '+address.entry_city+' '+address.entry_state+' '+address.entry_postcode+' '+ country[address.entry_country]">
                 <span v-if="address.entry_company">{{address.entry_company}},</span> {{address.entry_street_address1}} {{address.entry_street_address2}}, {{address.entry_city}}, {{address.entry_state}}, {{address.entry_postcode}}, {{country[address.entry_country]}}
               </div>
             </div>
@@ -211,7 +211,10 @@
         <div class="shopItem not" v-if="!shipMethodList || shipMethodList.length === 0">{{errorInfo}}</div>
         <div class="shopBox" v-if="methodShow">
           <div class="shopItem" v-for="(ship, index) in shipMethodList" v-bind:key="index">
-            <div class="shopName"><el-radio v-model="radio2" :label="ship.ship_id + '-' + ship.ship_fee" @change="shipChecked($event)"> {{ship.ship_name}}</el-radio></div>
+            <div class="shopName"><el-radio v-model="radio2" :label="ship.ship_id + '-' + ship.ship_fee" @change="shipChecked($event)">
+              <span class="freeTip"><img src="../../../static/img/free.png" alt=""></span>
+              <span class="tipName">{{ship.ship_name}}</span>
+            </el-radio></div>
             <div style="width: 200px;">{{ship.trans_min}}—{{ship.trans_max}} workdays</div>
             <div style="width: 100px;text-align: right;">$ {{ship.ship_fee.toFixed(2)}}</div>
           </div>

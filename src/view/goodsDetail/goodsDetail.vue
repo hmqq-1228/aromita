@@ -148,7 +148,7 @@
             <div v-if="goodDetail.sku_status === 2" class="subType out">Out of Stock</div>
             <div v-if="inWishList === false" class="addWish" @click="_addwishList()"><img src="@/assets/wish.png" alt><span>Add to WishList</span></div>
             <div class="addWish" v-if="inWishList === true"><img src="@/assets/Wishactive1.png" alt><span>Add to WishList</span></div>
-            <div class="previewPic" v-if="srcList && srcList.length>0" @click="previewImg"><img src="../../../static/img/screen.png" alt=""> Scene graph</div>
+            <div class="previewPic" v-if="srcList && srcList.length>0" @click="previewImg"><img src="../../../static/img/screen.png" alt=""> Styled Scene</div>
           </div>
           <div v-if="goodDetail.sku_status === 2" class="restocking">It is restocking now. Once available, you can buy it.</div>
           <div v-if="goodDetail.sku_status === 1 && goodDetail.inventory === 0" class="restocking">This item is out of stock.</div>
@@ -167,7 +167,7 @@
 
   <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
   <el-dialog
-    title="Sence"
+    title="Styled Scene"
     width="590px"
     :visible.sync="wishVisible">
     <el-carousel height="550px" :interval="5000" arrow="always" :autoplay="false" indicator-position="none">

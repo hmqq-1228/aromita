@@ -305,7 +305,7 @@
               }
             })
           } else if (res.code == 20001) {
-            this.$alert("The order has been processed. Please refresh the page and try again.", '', {
+            this.$alert("Sorry, the order cannot be canceled once 30 minutes have passed. Please refresh the page.", '', {
               confirmButtonText: 'OK',
               callback: action => {
                 that.getRefundDetail()
