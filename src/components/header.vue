@@ -4,7 +4,7 @@
     <!-- 大头部 -->
     <div class="wrap1">
       <div class="wrap">
-        <div class="title" v-if="!titleActivity">
+        <div class="title" v-if="!titleActivity" style="background-color: #121037;">
           <div class="title_word">Contact Us: 1-626-586-3448 (Mon-Fri 9am-6pm PST.)</div>
         </div>
         <div class="title activity" v-if="titleActivity" :style="'background-color:' + activityDetail.top_ad_bgcolor">
@@ -12,7 +12,7 @@
             <div class="title_word act" :style="'justify-content:'+ titlePosition + '; color:' + activityDetail.top_ad_fontcolor">
               <span class="titleAct" @click="toActity(activityDetail.top_ad_title_url)"><span>{{activityDetail.top_ad_title}}</span></span>
               <span>
-                <span class="timeAct">{{countDownList}}</span>
+                <span class="timeAct"><span v-if="activityDetail.countdown_status === 1">{{countDownList}}</span></span>
                 <span v-if="activityDetail.top_ad_detail_url" class="iconFlag" :class="showIconActive" @click="showActivity(showIconActive)"></span>
               </span>
             </div>
@@ -426,22 +426,27 @@ import { mapGetters } from 'vuex';
            console.log('gggg', res)
             that.activityDetail = res.data.topadvert
             if (that.activityDetail) {
+             that.titleActivity = true
               if (that.activityDetail.ad_end_time) {
                 that.actEndTime = res.data.topadvert.ad_end_time
               }
-              if (that.activityDetail.top_ad_location == 0) {
+              if (that.activityDetail.top_ad_location === 0) {
                 that.titlePosition = 'flex-end'
-              } else if (that.activityDetail.top_ad_location == 1) {
+              } else if (that.activityDetail.top_ad_location === 1) {
                 that.titlePosition = 'center'
-              } else if (that.activityDetail.top_ad_location == 2) {
+              } else if (that.activityDetail.top_ad_location === 2) {
                 that.titlePosition = 'start'
               }
+              if (that.activityDetail.countdown_status === 1) {
+                if (this.actCurrentTime && that.actEndTime) {
+                  that.countDown() // 倒计时
+                }
+              }
+            } else {
+             that.titleActivity = false
             }
             if (res.data.now) {
               that.actCurrentTime = res.data.now
-            }
-            if (this.actCurrentTime && that.actEndTime) {
-              that.countDown() // 倒计时
             }
           }
         })

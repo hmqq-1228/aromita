@@ -194,7 +194,7 @@
           this.clearSearchFuc()
           this.activeNames = []
           this.getList()
-          this.getCategoryList()
+          this.getCategoryList('first')
         }
       }
     },
@@ -360,10 +360,12 @@
         })
       },
       // 查导航
-      getCategoryList () {
+      getCategoryList (lv) {
         var that = this
         var obj = {}
-        that.categoryData = []
+        if (lv) {
+          that.categoryData = []
+        }
         obj = {
           s_cate_id: that.s_cate_id,
           f_cate_id: that.f_cate_id,

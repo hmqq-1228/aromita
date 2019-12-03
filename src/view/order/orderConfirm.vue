@@ -212,11 +212,11 @@
         <div class="shopBox" v-if="methodShow">
           <div class="shopItem" v-for="(ship, index) in shipMethodList" v-bind:key="index">
             <div class="shopName"><el-radio v-model="radio2" :label="ship.ship_id + '-' + ship.ship_fee" @change="shipChecked($event)">
-              <span class="freeTip"><img src="../../../static/img/free.png" alt=""></span>
+              <span class="freeTip"><img v-if="ship.is_free" src="../../../static/img/free.png" alt=""></span>
               <span class="tipName">{{ship.ship_name}}</span>
             </el-radio></div>
             <div style="width: 200px;">{{ship.trans_min}}—{{ship.trans_max}} workdays</div>
-            <div style="width: 100px;text-align: right;">$ {{ship.ship_fee.toFixed(2)}}</div>
+            <div style="width: 100px;text-align: right;">$ {{ship.ship_fee>0?(ship.ship_fee).toFixed(2):'Free'}}</div>
           </div>
         </div>
         <div class="navTitle">Checkout Review</div>
@@ -1085,7 +1085,7 @@ export default {
               that.orderShipMethod = that.shipMethodList[i]
             }
           }
-        } else if (res.code === '10002' || res.code === '10002') {
+        } else if (res.code == 10002) {
           that.errorInfo = 'No mode of transportation, please choose a new valid address.'
           that.butLoading = false
           that.payDisabled = true
