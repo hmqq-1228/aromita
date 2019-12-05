@@ -191,7 +191,7 @@
       },
       f_cate_id (val, oV) {
         if (val) {
-          this.clearSearchFuc()
+          this.clearSearchFuc('first')
           this.activeNames = []
           this.getList()
           this.getCategoryList('first')
@@ -252,7 +252,10 @@
       //   this.getList()
       // },
       // 重置
-      clearSearchFuc () {
+      clearSearchFuc (lv) {
+        if (lv == 'first') {
+          this.clearSearch()
+        }
         $('.navItem').removeClass('activeSort')
         this.endPrice = ''
         this.attrStr = ''

@@ -191,6 +191,7 @@
         if (that.$store.state.searchFlag) {
           that.keyword = that.$store.state.searchVal
           that.clearSearchFuc()
+          that.clearSearch()
           that.$store.state.keyWord = this.$route.query.keyword
           that.$store.state.keyWordFlag = true
           that.getList()
