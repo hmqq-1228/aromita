@@ -216,7 +216,10 @@
               <span class="tipName">{{ship.ship_name}}</span>
             </el-radio></div>
             <div style="width: 200px;">{{ship.trans_min}}—{{ship.trans_max}} workdays</div>
-            <div style="width: 100px;text-align: right;">$ {{ship.ship_fee>0?(ship.ship_fee).toFixed(2):'Free'}}</div>
+            <div style="width: 100px;text-align: right;">
+              <span v-if="ship.ship_fee > 0">$ {{ship.ship_fee.toFixed(2)}}</span>
+              <span v-if="ship.ship_fee == 0">Free</span>
+            </div>
           </div>
         </div>
         <div class="navTitle">Checkout Review</div>

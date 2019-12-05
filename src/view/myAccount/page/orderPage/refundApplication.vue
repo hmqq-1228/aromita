@@ -125,6 +125,7 @@ export default {
         status:1  ,//售后状态
         describe: '',
         order_id: '',
+        order_num: '',
         reasonId: [],
         rList: [],
         tokenStr: {
@@ -168,6 +169,7 @@ export default {
       var listSub = []
       this.status = this.$route.query.status
       this.order_id = this.$route.query.orderId
+      this.order_num = sessionStorage.getItem('orderNumber')
       this.rList = JSON.parse(sessionStorage.getItem('selectInfo'))
       if (this.rList && this.rList.length>0){
         for (var i=0; i<this.rList.length; i++) {
@@ -287,6 +289,7 @@ export default {
       var that = this
       var obj = qs.stringify({
         order_id: parseInt(that.order_id),
+        orders_number: that.order_num,
         product_list: JSON.stringify(that.savePayLoad),
         refund_reason: JSON.stringify(that.reasonId),
         refund_reason_str: JSON.stringify(that.nameList),

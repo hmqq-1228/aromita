@@ -76,8 +76,8 @@
                                     <span class="list_btn" @click="detail(scope.row.id)">View</span>
                                     <span class="list_btn" v-if="(scope.row.orders_status== 20 && scope.row.time>0) || scope.row.orders_status== 10 || scope.row.orders_status== 60" @click="cancelOrder(scope)">Cancel</span>
                                     <span class="list_btn" @click="toTracking(scope.row.id)" v-if="scope.row.orders_status== 40">Tracking</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund(scope.row.id)">After-sale service</span>
-                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refundDetail(scope.row.id)">After-sales details</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refund(scope.row.id, scope.row.orders_number)">After-sale service</span>
+                                    <span class="list_btn" v-if="scope.row.orders_status== 40" @click="_refundDetail(scope.row.id, scope.row.orders_number)">After-sales details</span>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -319,9 +319,10 @@ export default {
         path: '/payAgain',
       })
     },
-    _refund(id){
+    _refund(id, num){
       var that = this
       sessionStorage.setItem('orderId', id)
+      sessionStorage.setItem('orderNumber', num)
       that.$axios.get('api/refund/step1/' + id, {}).then(res => {
         if (res.code === 200) {
           this.$router.push({
@@ -339,8 +340,9 @@ export default {
         }
       })
     },
-    _refundDetail(id){
+    _refundDetail(id, num){
       sessionStorage.setItem('orderId', id)
+      sessionStorage.setItem('orderNumber', num)
       this.$router.push({
         path: '/afterSale',
         query: {
