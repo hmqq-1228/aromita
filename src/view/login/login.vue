@@ -89,10 +89,10 @@
 <script>
 import aheader from "@/components/aheader.vue";
 import afooter from "@/components/afooter.vue"
-import { handleLogin, handleCatpchas, mergeGoods} from "../../api/register";
+import { handleLogin, handleCatpchas, mergeGoods, delCookie} from "../../api/register";
 import {loginImage} from "../../api/home";
 import { async } from "q";
-import qs from 'qs'
+import Cookies from 'js-cookie';
 import secret from '../../assets/js/secret.js';
 import identify from "../test/identify";
 
@@ -228,10 +228,6 @@ export default {
       handleLogin(pre).then((res)=>{
         if (res.code === 200) {
           this.loginData = res.data
-          this.$message({
-            message: " success",
-            type: "success"
-          });
           this.mergeGoodsFuc()
           localStorage.setItem('userToken', this.loginData.token)
         }else {
@@ -241,24 +237,43 @@ export default {
       })
     },
     mergeGoodsFuc(){
+      var that = this
       var routerStr = this.$store.state.fromUrl
       mergeGoods().then((res)=>{
-        console.log('1111', routerStr)
+        if (res == 200) {
+          this.$message({
+            message: " success",
+            type: "success"
+          });
         if (routerStr) {
           this.$router.push(routerStr)
           this.$store.state.fromUrl = ''
         } else {
           this.$router.push('/')
         }
+          that.delCookieFuc()
+        }
       })
     },
+    delCookieFuc () {
+      delCookie().then((res)=>{
+       console.log(res)
+      })
+    },
+    // delete_cookie(name) {
+    //   Cookies.set('gggg', 'kkkk');
+    //   Cookies.remove('cart');
+    //   // var dom = location.hostname
+    //   console.log('kkkkk',document.cookie)
+    //   // document.cookie = 'cart=; Path=/;domain='+ dom +';Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    // },
     saveCookie: function (cookieName,cookieValue,cookieDates) {
       var d = new Date();
       d.setDate(d.getDate()+cookieDates)
       document.cookie = cookieName+"$$" + JSON.stringify(cookieValue)  + ";path=/;expires=" + d.toGMTString()
     },
     removeCookie: function (cookieName) {
-      document.cookie=encodeURIComponent(cookieName)+"=; expires=" + new Date();
+      document.cookie= cookieName + "=; expires=" + new Date();
     },
     getCookie: function(cookieName){
       var that = this
