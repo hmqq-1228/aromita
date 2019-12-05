@@ -252,6 +252,8 @@ export default {
           this.$router.push('/')
         }
           that.delCookieFuc()
+        } else {
+          this.$router.push('/')
         }
       })
     },
