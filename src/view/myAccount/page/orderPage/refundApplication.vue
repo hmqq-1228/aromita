@@ -176,7 +176,7 @@ export default {
           obj = {
             sku_id: this.rList[i].sku_id,
             final_price: this.rList[i].final_price,
-            actual_price: this.rList[i].products_price,
+            actual_price: this.rList[i].actual_price,
             tic: this.rList[i].tic,
             refund_quantity: this.rList[i].numQuality
           }

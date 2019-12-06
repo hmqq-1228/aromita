@@ -236,7 +236,7 @@
         var pObj = e.path[5]
         $(obj).addClass('active').siblings().removeClass('active')
         $(pObj).addClass('parentAct').siblings().removeClass('parentAct')
-        console.log('hhhhh', tag)
+        // console.log('hhhhh', tag)
         this.tagName = tag
         this.getList()
       },

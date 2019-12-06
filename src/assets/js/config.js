@@ -15,18 +15,18 @@ var addressList = {
                 "South Carolina","South Dakota","Tennessee","Texas","Utah",
                 "Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"
             ]
-        },
-        {
-            countryName:"Canada",
-            countryValue:"CA",
-            countryList:[
-                "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario",
-                "New Brunswick","Nova Scotia","Prince Edward Island","Newfoundland and Labrador",
-                "Nunavut","Northwest Territories","Yukon","Victoria","Edmonton","Regina",
-                "Winnipeg","Toronto","Quebec","Fredericton","Halifax","Charlottetown",
-                "St.Johns","Iqaluit","Yellowknife","Whitehorse"
-            ]
         }
+        // {
+        //     countryName:"Canada",
+        //     countryValue:"CA",
+        //     countryList:[
+        //         "British Columbia","Alberta","Saskatchewan","Manitoba","Ontario",
+        //         "New Brunswick","Nova Scotia","Prince Edward Island","Newfoundland and Labrador",
+        //         "Nunavut","Northwest Territories","Yukon","Victoria","Edmonton","Regina",
+        //         "Winnipeg","Toronto","Quebec","Fredericton","Halifax","Charlottetown",
+        //         "St.Johns","Iqaluit","Yellowknife","Whitehorse"
+        //     ]
+        // }
     ]
 }
 export default {addressList}
