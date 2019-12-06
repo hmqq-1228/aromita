@@ -602,6 +602,23 @@ ul,li {
 }
 .detail .el-dialog__header{
   border-bottom: 1px solid #E9E9E9;
+  padding: 10px 15px 10px !important;
+}
+.detail .el-dialog__title{
+  font-size: 14px !important;
+  color: #333 !important;
+  font-weight: bold !important;
+  font-family: Tahoma;
+}
+.detail .el-dialog__headerbtn{
+  top: 16px !important;
+}
+.detail .el-dialog__headerbtn .el-dialog__close{
+  color: #333 !important;
+  font-weight: bold !important;
+}
+.detail .el-dialog__body{
+  padding: 30px 60px !important;
 }
 .titleAct a{
   text-decoration: none;

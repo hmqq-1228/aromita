@@ -168,7 +168,7 @@
   <!--&lt;!&ndash; 添加心愿单弹框 &ndash;&gt;-->
   <el-dialog
     title="Styled Scene"
-    width="590px"
+    width="670px"
     :visible.sync="wishVisible">
     <el-carousel height="550px" :interval="5000" arrow="always" :autoplay="false" indicator-position="none">
       <el-carousel-item v-for="item in srcList" :key="item">
