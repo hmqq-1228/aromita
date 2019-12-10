@@ -49,7 +49,7 @@
       <div class="largerBox">
         <div class="largePic" style="position: relative;">
           <img :src="mainImgUrl" alt="">
-          <div style="position: absolute;bottom:20px; right:20px;width: 45px;height: 45px;">
+          <div style="position: absolute;bottom:20px; right:20px;width: 80px;height: 80x;">
             <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
             <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
           </div>
@@ -85,13 +85,46 @@
       <div class="goodsTitle" :title="goodDetail.sku_name">
         {{goodDetail.sku_name}}
       </div>
-      <div class="goodsPrice">
+      <div class="detailActivity" v-if="hisActivity">
+        <div class="activeTitle">
+          <div class="activeName">1111111</div>
+          <div class="activeTime">
+            <div class="activeTip">距离活动开始:</div>
+            <div class="tim">{{timeObj.day}}</div>
+            <div class="Af">:</div>
+            <div class="tim">{{timeObj.hour}}</div>
+            <div class="Af">:</div>
+            <div class="tim">{{timeObj.min}}</div>
+            <div class="Af">:</div>
+            <div class="tim">{{timeObj.sec}}</div>
+          </div>
+        </div>
+        <div class="activeCount">
+          <div class="countItem">
+            <div class="actName">Price:</div>
+            <div class="activePrice">$ 15.66 <span>$ 20.99</span></div>
+          </div>
+          <div class="countItem">
+            <div class="actName">Activity:</div>
+            <div class="activeFlag">
+              <span class="activeTag">%20 OFF</span>
+              <span>为您节省$ 3.66</span>
+            </div>
+          </div>
+          <div class="toolPosition">
+             <el-tooltip class="item" effect="light" content="Left Center 提示文字" placement="left">
+              <span class="el-icon-warning-outline"></span>
+            </el-tooltip>
+          </div>
+        </div>
+      </div>
+      <div class="goodsPrice" v-if="!hisActivity">
         <div class="goodsLabel">price:</div>
         <div class="priceCon"><span style="color: #c51015" v-if="goodDetail.sku_price">$ {{goodDetail.sku_price}}</span></div>
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
       <div>
-        <div style="min-height:350px">
+        <div :style="{minHeight:(hisActivity?'250px':'350px')}">
           <div class="mainImage" v-if="attrList.length === 0">
             <div class="goodsLabelSize isImgLabel"></div>
             <div class="smallSlider2">
@@ -106,7 +139,7 @@
               <!--<div v-if="mainImageList.length > 5" class="el-icon-arrow-right next" @click="nextPic($event, 0)"></div>-->
             </div>
           </div>
-          <div style="display: flex;justify-content: start;margin-bottom: 10px;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
+          <div style="display: flex;justify-content: start;margin: 20px 0 10px 0;" v-if="attr && attr.length>0" v-for="(attr, index5) in attrList" v-bind:key="index5">
             <div class="goodsLabelSize" :class="attr[0].attr_name === 'Color'? 'isImgLabel': 'isTextLabel'">{{attr[0].attr_name}}:</div>
             <div class="smallSlider2">
               <div class="sliderBox" :class="attr[0].attr_name === 'Color'? 'isImg': 'isText'">
@@ -239,6 +272,8 @@ export default {
       msgshow:false,//message提示
       wishVisible:false,//添加心愿单弹框
       iswish:false,//是否收藏
+      timeObj: {},
+      hisActivity: true,
     }
   },
   watch:{
@@ -291,8 +326,47 @@ export default {
     this.backListUrl = sessionStorage.getItem('listUrl')
     this.getGoodsDetail()
     this.isLogin()
+    this.countDown()
   },
   methods:{
+    countDown() {
+      this.actCurrentTime = '2019-10-10 16:02:10'
+      this.actEndTime = '2019-10-15 18:52:10'
+        // 获取当前时间
+        let newTime = new Date(this.actCurrentTime).getTime();
+        // 对结束时间
+        let endTime = new Date(this.actEndTime).getTime();
+        let time = (endTime - newTime)/1000;
+        var interval = setInterval(() => {
+          time --;
+          if (time > 0) {
+            // 获取天、时、分、秒
+            let day = Math.floor(time/60/60/24)
+            let hour = Math.floor((time / 3600) % 24)
+            let min = Math.floor((time / 60) % 60)
+            let sec = Math.floor(time % 60)
+            day = day < 10 ? '0' + day : day
+            hour = hour < 10 ? '0' + hour : hour
+            min = min < 10 ? '0' + min : min
+            sec = sec < 10 ? '0' + sec : sec
+            // console.log('1111', day,hour,min,sec)
+            this.timeObj = {
+              day: day,
+              hour: hour,
+              min: min,
+              sec: sec
+            }
+          } else { // 活动已结束，全部设置为'00'
+           this.timeObj = {
+              day: '00',
+              hour: '00',
+              min: '00',
+              sec: '00'
+            }
+            clearInterval(interval);
+          }
+        }, 1000);
+      },
     previewImg(){
       this.wishVisible = true
     },

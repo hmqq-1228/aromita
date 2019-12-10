@@ -267,7 +267,7 @@ export default {
       that.$axios.post('api/refund/getRefundTotal', obj).then(res => {
         if (res.code === 200) {
           that.orderList = res.data
-          sessionStorage.setItem('refundTotal', res.data.refund_total)
+          // sessionStorage.setItem('refundTotal', res.data.refund_total)
         }
       })
     },

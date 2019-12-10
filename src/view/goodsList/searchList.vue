@@ -71,8 +71,8 @@
             <div class="goodInner">
               <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
                 <div class="cheap">
-                  <!--<div class="cheapLeft"></div>-->
-                  <!--<div class="cheapRight">$2.99</div>-->
+                  <div class="cheapLeft"></div>
+                  <div class="cheapRight">$2.99</div>
                 </div>
                 <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
               </div>

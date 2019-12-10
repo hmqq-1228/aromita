@@ -551,7 +551,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     word-break: break-all;
-    width: 600px;
+    width: 635px;
   }
   .goodsPrice{
     margin: 20px 0;
@@ -611,7 +611,7 @@
   border: 1px solid chocolate;
 }
   .subBtn{
-    margin-top: 20px;
+    margin-top: 30px;
     display: flex;
     justify-content: start;
   }
@@ -853,4 +853,92 @@
   pointer-events: none;
   cursor: default;
   opacity: 0.6;
+}
+// 活动
+.detailActivity{
+  height: 160px;
+  width: 635px;
+}
+.activeTitle{
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Tahoma;
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  background-color: #C51015;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+.activeTime{
+  display: flex;
+  justify-content: space-between;
+}
+.activeTime .activeTip{
+  width: 130px;
+}
+.activeTime .tim{
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  margin-top: 10px;
+  line-height: 30px;
+  text-align: center;
+}
+.activeTime .Af{
+  width: 24px;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 10px;
+  text-align: center;
+}
+.detailActivity .activeCount{
+  height: 110px;
+  width: 635px;
+  background:rgba(250,245,248,1);
+  padding: 20px;
+  box-sizing: border-box;
+  font-family:Tahoma;
+  position: relative;
+}
+.toolPosition{
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.activeCount .countItem{
+  height: 35px;
+  display: flex;
+  line-height: 35px;
+  justify-content: start;
+}
+.activeCount .countItem .actName{
+  color: #333;
+  width: 120px;
+  font-size:14px;
+}
+.activeCount .activePrice{
+  font-size: 18px;
+  color: #c51015;
+  font-weight: bold;
+}
+.activeCount .activePrice>span{
+  color: #999;
+  font-size: 14px;
+  font-weight: normal;
+  margin-left: 10px;
+  text-decoration: line-through;
+}
+.activeCount .activeFlag{
+  font-size: 14px;
+  color: #333333;
+}
+.activeFlag .activeTag{
+  font-size: 16px;
+  color: #fff;
+  padding: 2px 14px;
+  background-color: #c51015;
+  margin-right: 10px;
 }

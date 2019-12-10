@@ -20,7 +20,7 @@
                   <p>Sorry, your request was rejected. Please see the details attached. Any question, please contact <span class="email">Aromita@gmail.com</span></p>
                 </div>
                 <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
-                <div class="cancel_refund" @click="cancelledBtn()">Cancelled Request</div>
+                <div class="cancel_refund" v-if="status == 10 && buttonShow" @click="cancelledBtn()">Cancelled Request</div>
               </div>
               <div class="examine_tip" v-if="status == 100">
                 <div style="height: 78px;">
@@ -29,7 +29,7 @@
                     <div>Cancelled after sales service successfully.</div>
                   </div>
                 </div>
-                <div class="status2"><span>Refund：</span><span class="pay" v-if="totalMoney">$ {{totalMoney}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
+                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney">$ {{refundMoney.refund_total}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
                 <div class="cancel_refund" @click="requestAgain()">Request Again</div>
               </div>
               <!--<div class="examine_tip" v-if="status == 3">-->
@@ -172,7 +172,7 @@
                         <img :src="scope.row.products_pic" alt="">
                         <div class="detail">
                           <h5>{{scope.row.products_name}}</h5>
-                          <p><span v-for="(attr, index) in JSON.parse(scope.row.sku_attrs)"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}};</span></p>
+                          <p><span v-for="(attr, index) in JSON.parse(scope.row.sku_attrs)" :key="index"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}};</span></p>
                           <p>$ {{scope.row.products_price}}</p>
                         </div>
                       </div>
@@ -216,8 +216,10 @@
         inputTracking: '',
         return_num: '',
         totalMoney: 0,
+        creatTime: '',
         // refundAccount: '',
         feedbackRefund: '',
+        buttonShow: false,
         cancelOrderFlag: false,
         inputTrackingTip: false,
         tableData: [],
@@ -239,8 +241,8 @@
     created(){
       this.refund_id = this.$route.query.orders_refund_id
       this.getRefundDetail()
-      var money = sessionStorage.getItem('refundTotal')
-      this.totalMoney = parseFloat(money).toFixed(2)
+      // var money = sessionStorage.getItem('refundTotal')
+      // this.totalMoney = parseFloat(money).toFixed(2)
     },
     methods:{
       goBack () {
@@ -288,9 +290,26 @@
             if (res.data.feedback_for_refund){
               that.feedbackRefund = res.data.feedback_for_refund
             }
+             if (res.data.created_at){
+              that.creatTime = res.data.created_at
+              that.getTimeLeft()
+            }
             that.tableData = res.data.products_list
           }
         })
+      },
+      getTimeLeft(){
+         // 获取当前时间
+        let newTime = new Date().getTime();
+        // 开始时间
+        let endTime = new Date(this.creatTime).getTime();
+        var dis = newTime - endTime
+        var disTime = parseInt((dis / (1000 * 60)));
+        if (disTime > 30) {
+          this.buttonShow = false
+        } else{
+          this.buttonShow = true
+        }
       },
       cancelledBtn () {
         var that = this
@@ -305,6 +324,13 @@
               }
             })
           } else if (res.code == 20001) {
+            this.$alert("Sorry, the order cannot be canceled once 30 minutes have passed. Please refresh the page.", '', {
+              confirmButtonText: 'OK',
+              callback: action => {
+                that.getRefundDetail()
+              }
+            })
+          }else if (res.code == 20002) {
             this.$alert("Sorry, the order cannot be canceled once 30 minutes have passed. Please refresh the page.", '', {
               confirmButtonText: 'OK',
               callback: action => {

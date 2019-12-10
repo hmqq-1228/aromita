@@ -626,3 +626,11 @@ ul,li {
 .shoppingCar .my_order .el-dialog__header{
   text-align: left !important;
 }
+.el-tooltip__popper.is-light{
+  font-size: 12px !important;
+  color: #999 !important;
+  border: 1px solid #ccc !important;
+}
+.el-tooltip__popper.is-light[x-placement^=left] .popper__arrow{
+  border-left-color: #ccc !important;
+}
