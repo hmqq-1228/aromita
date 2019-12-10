@@ -173,7 +173,7 @@
                         <div class="detail">
                           <h5>{{scope.row.products_name}}</h5>
                           <p><span v-for="(attr, index) in JSON.parse(scope.row.sku_attrs)" :key="index"><span>{{attr.attr_name}}: </span>{{attr.value.attr_value}};</span></p>
-                          <p>$ {{scope.row.products_price}}</p>
+                          <p>$ {{scope.row.final_price}}</p>
                         </div>
                       </div>
                     </template>
