@@ -299,29 +299,39 @@
     width: 100%;
     height: 280px;
   }
-  .cheap{
+  .tagBox{
     position: absolute;
     top: 0;
     right: 0;
     width: auto;
-    display: flex;
     z-index: 99;
+  }
+  .cheap{
+    display: flex;
+    // background-image: url('../../../static/img/discont.png');
+  }
+  .disPrice{
+    color: #fff;
+    font-size: 16px;
+    font-family: Tahoma;
+    padding: 2px 10px;
+    background-color: #c51015;
   }
   .cheapLeft{
     width:0;
     height:0;
-    border-top:10px solid transparent;
-    border-bottom:10px solid transparent;
-    border-right:10px solid #c30808;
+    border-top:11px solid transparent;
+    border-bottom:11px solid transparent;
+    border-right:11px solid #c30808;
   }
   .cheapRight{
     color: #fff;
-    height: 20px;
+    height: 22px;
     padding: 0 4px;
     text-align: center;
-    line-height: 20px;
+    line-height: 22px;
     font-family: Tahoma;
-    font-size: 14px;
+    font-size: 16px;
     background-color: #c30808;
   }
   .disCont{
@@ -415,6 +425,12 @@
   .goodsPrice .pri{
     color: #c30808;
     font-size: 16px;
+  }
+  .goodsPrice .pri span{
+    color: #aaa;
+    font-size: 14px;
+    text-decoration: line-through;
+    margin-left: 10px;
   }
 .goodsPrice .num{
   color: #999;

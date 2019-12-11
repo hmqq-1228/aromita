@@ -11,7 +11,7 @@
           <div class="fliterList" v-for="(screen, index) in screenList" :key="index">
             <el-collapse v-model="activeNameScreen">
               <el-collapse-item :title="screen.tag_name">
-                <div class="MetalItem" v-for="item in screen.second" @click="checkedScren($event, item.tag_name)"><span>&#8226;</span> {{item.tag_name}}</div>
+                <div class="MetalItem" v-for="(item,index) in screen.second" @click="checkedScren($event, item.tag_name)" :key="index"><span>&#8226;</span> {{item.tag_name}}</div>
               </el-collapse-item>
             </el-collapse>
           </div>
@@ -25,9 +25,9 @@
           <div>Ring</div>
           <div class="clear"></div>
         </div>
-        <div class="OccasionTree" v-for="name in categoryData">
+        <div class="OccasionTree" v-for="name in categoryData" :key="name.id + name.cate_name">
           <div class="navItem Ring" :class="activeId == name.id?'activeSort':''" @click="checkItem($event, name.id, 'first')">{{name.cate_name}}</div>
-          <div class="navItem child Ring" :class="activeId == item.id?'activeSort':''" v-for="item in name.second" @click="checkItem($event, item.id, 'second')">{{item.cate_name}}</div>
+          <div class="navItem child Ring" :class="activeId == item.id?'activeSort':''" v-for="item in name.second" @click="checkItem($event, item.id, 'second')" :key="item.id">{{item.cate_name}}</div>
         </div>
         <!--<div class="navTitle">Sort By</div>-->
         <div class="navTitleTwo" style="margin-top: 10px;">
@@ -70,16 +70,19 @@
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
               <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
-                <div class="cheap">
-                  <div class="cheapLeft"></div>
-                  <div class="cheapRight">$2.99</div>
+                <div class="tagBox" v-if="goods.activity_id>0">
+                  <div class="cheap" v-if="goods.activity_type == 1">
+                    <div class="cheapLeft"></div>
+                    <div class="cheapRight">${{goods.activity_price}}</div>
+                  </div>
+                  <div class="disPrice"  v-if="goods.activity_type == 2">%{{goods.activity_intensity}} OFF</div>
                 </div>
                 <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
               </div>
               <div class="smallSlider2">
                 <div class="sliderBox">
                   <div class="sliderCont">
-                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status, pic.selling)">
+                    <div v-if="goods.skus.length>0" v-for="(pic, index2) in goods.skus" v-bind:key="'sku'+ pic.id" @click="getColorPicture($event, index, pic)">
                       <img :class="index2 === 0?'active': ''" :src="pic.sku_color_img" class="smallPic">
                     </div>
                   </div>
@@ -91,7 +94,7 @@
                 {{goods.defultTitle}}
               </div>
               <div class="goodsPrice">
-                <div class="pri">$ {{goods.defultPrice}}</div>
+                <div class="pri">${{goods.activity_id>0?goods.activity_price:goods.defultPrice}}<span v-if="goods.activity_id>0">${{goods.defultPrice}}</span></div>
                 <div class="num">{{goods.selling}} Sold</div>
               </div>
             </div>
@@ -242,7 +245,7 @@
         var pObj = e.path[5]
         $(obj).addClass('active').siblings().removeClass('active')
         $(pObj).addClass('parentAct').siblings().removeClass('parentAct')
-        console.log('hhhhh', tag)
+        // console.log('hhhhh', tag)
         this.tagName = tag
         this.getList()
       },
@@ -254,7 +257,11 @@
       // 重置
       clearSearchFuc (lv) {
         if (lv == 'first') {
-          this.clearSearch()
+          $('.navItem.sort').removeClass('activeSort')
+          $('.Occasion .MetalItem').removeClass('active')
+          this.sort = ''
+          this.tagName = ''
+          this.activeNameScreen = []
         }
         $('.navItem').removeClass('activeSort')
         this.endPrice = ''
@@ -461,7 +468,6 @@
         $('body,html').animate({scrollTop: 0}, 500)
       },
       toGoodsDetail: function (spuid, skuid) {
-        console.log('kkkkk', window.location.href)
         sessionStorage.setItem('listUrl', window.location.href)
         if (spuid && skuid) {
           this.$store.state.spuId = spuid
@@ -503,6 +509,10 @@
                 this.goodsList[i].skuId = this.goodsList[i].skus[0].id
                 this.goodsList[i].state = this.goodsList[i].skus[0].sku_status
                 this.goodsList[i].selling = this.goodsList[i].skus[0].selling
+                this.goodsList[i].activity_id = this.goodsList[i].skus[0].activity_id
+                this.goodsList[i].activity_type = this.goodsList[i].skus[0].activity_type
+                this.goodsList[i].activity_price = this.goodsList[i].skus[0].activity_price
+                this.goodsList[i].activity_intensity = this.goodsList[i].skus[0].activity_intensity
               }
             }
             if (this.goodsList.length === 0) {
@@ -528,18 +538,24 @@
         this.getList()
       },
       // 点击小图标切换
-      getColorPicture: function (e, index1, url, title, price, id, state, selling) {
+      getColorPicture: function (e, index1, pic) {
         var obj = e.currentTarget
         var that = this
         var newGoodList = []
+        console.log('kkkk', pic)
+        // pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status, pic.selling
         $(obj).children().addClass('active')
         $(obj).siblings().children().removeClass('active')
-        that.goodsList[index1].firstLargePic = url
-        that.goodsList[index1].defultTitle = title
-        that.goodsList[index1].defultPrice = price
-        that.goodsList[index1].skuId = id
-        that.goodsList[index1].state = state
-        that.goodsList[index1].selling = selling
+        that.goodsList[index1].firstLargePic = pic.sku_image
+        that.goodsList[index1].defultTitle = pic.sku_name
+        that.goodsList[index1].defultPrice = pic.sku_price
+        that.goodsList[index1].skuId = pic.id
+        that.goodsList[index1].state = pic.sku_status
+        that.goodsList[index1].selling = pic.selling
+        that.goodsList[index1].activity_id = pic.activity_id
+        that.goodsList[index1].activity_type = pic.activity_type
+        that.goodsList[index1].activity_price = pic.activity_price
+        that.goodsList[index1].activity_intensity = pic.activity_intensity
         for (var t = 0; t < that.goodsList.length; t++) {
           newGoodList.push(that.goodsList[t])
         }

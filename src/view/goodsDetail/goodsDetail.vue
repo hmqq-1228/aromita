@@ -329,6 +329,17 @@ export default {
     this.countDown()
   },
   methods:{
+    // 活动
+    getActivityInfo () {
+      var that = this
+      // that.$axios.post('api/checkwishlist', qs.stringify({sku_id: this.$route.params.skuId})).then(res => {
+      //   if (res.code === 200) {
+      //     that.inWishList = true
+      //   } else {
+      //     that.inWishList = false
+      //   }
+      // })
+    },
     countDown() {
       this.actCurrentTime = '2019-10-10 16:02:10'
       this.actEndTime = '2019-10-15 18:52:10'

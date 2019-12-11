@@ -11,7 +11,7 @@
           <div class="fliterList" v-for="(screen, index) in screenList" :key="index">
             <el-collapse v-model="activeNameScreen">
               <el-collapse-item :title="screen.tag_name">
-                <div class="MetalItem" v-for="item in screen.second" @click="checkedScren($event, item.tag_name)"><span>&#8226;</span> {{item.tag_name}}</div>
+                <div class="MetalItem" v-for="item in screen.second" @click="checkedScren($event, item.tag_name)" :key="item"><span>&#8226;</span> {{item.tag_name}}</div>
               </el-collapse-item>
             </el-collapse>
           </div>
