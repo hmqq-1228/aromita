@@ -108,7 +108,7 @@
             <div class="actName">Activity:</div>
             <div class="activeFlag">
               <span class="activeTag" v-if="activityObj.activity_type == 2">%{{parseInt(activityObj.activity_intensity)}} OFF</span>
-              <span>为您节省$ {{(activityObj.sku_price - activityObj.activity_price) * numQuality}}</span>
+              <span>为您节省$ {{(activityObj.disContMoney * numQuality).toFixed(2)}}</span>
             </div>
           </div>
           <div class="toolPosition">
@@ -342,6 +342,7 @@ export default {
           that.activePrice = parseFloat(res.activity_price)
           that.totalPay = that.activePrice * that.numQuality
           that.activityObj = res
+          that.activityObj.disContMoney = parseFloat(res.sku_price) - parseFloat(res.activity_price)
           that.countDown()
         } else {
           that.hisActivity = false
