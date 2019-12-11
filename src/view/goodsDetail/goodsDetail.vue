@@ -87,7 +87,7 @@
       </div>
       <div class="detailActivity" v-if="hisActivity">
         <div class="activeTitle">
-          <div class="activeName">1111111</div>
+          <div class="activeName">{{activityObj.name}}</div>
           <div class="activeTime">
             <div class="activeTip">距离活动开始:</div>
             <div class="tim">{{timeObj.day}}</div>
@@ -102,17 +102,17 @@
         <div class="activeCount">
           <div class="countItem">
             <div class="actName">Price:</div>
-            <div class="activePrice">$ 15.66 <span>$ 20.99</span></div>
+            <div class="activePrice">$ {{activityObj.activity_price}} <span>$ {{activityObj.sku_price}}</span></div>
           </div>
           <div class="countItem">
             <div class="actName">Activity:</div>
             <div class="activeFlag">
-              <span class="activeTag">%20 OFF</span>
-              <span>为您节省$ 3.66</span>
+              <span class="activeTag" v-if="activityObj.activity_type == 2">%{{parseInt(activityObj.activity_intensity)}} OFF</span>
+              <span>为您节省$ {{(activityObj.sku_price - activityObj.activity_price) * numQuality}}</span>
             </div>
           </div>
           <div class="toolPosition">
-             <el-tooltip class="item" effect="light" content="Left Center 提示文字" placement="left">
+             <el-tooltip class="item" effect="light" :content="activityObj.activity_rule" placement="left">
               <span class="el-icon-warning-outline"></span>
             </el-tooltip>
           </div>
@@ -249,6 +249,7 @@ export default {
       pruductDetail: '',
       mainImgUrl: '',
       priceOrder: 0,
+      activePrice: 0,
       totalPay: 0,
       sumIds: [],
       srcList: [],
@@ -273,7 +274,8 @@ export default {
       wishVisible:false,//添加心愿单弹框
       iswish:false,//是否收藏
       timeObj: {},
-      hisActivity: true,
+      hisActivity: false,
+      activityObj: {}
     }
   },
   watch:{
@@ -326,23 +328,28 @@ export default {
     this.backListUrl = sessionStorage.getItem('listUrl')
     this.getGoodsDetail()
     this.isLogin()
-    this.countDown()
   },
   methods:{
     // 活动
-    getActivityInfo () {
+    getActivityInfo (skuId) {
       var that = this
-      // that.$axios.post('api/checkwishlist', qs.stringify({sku_id: this.$route.params.skuId})).then(res => {
-      //   if (res.code === 200) {
-      //     that.inWishList = true
-      //   } else {
-      //     that.inWishList = false
-      //   }
-      // })
+      that.$axios.post('api/getskuactivityinfo', qs.stringify({sku_id: skuId})).then(res => {
+        console.log('rrrrrr', res)
+        if (res.activity_type){
+          that.hisActivity = true
+          that.actCurrentTime = res.server_now_time
+          that.actEndTime = res.activity_end_time
+          that.activePrice = parseFloat(res.activity_price)
+          that.totalPay = that.activePrice * that.numQuality
+          that.activityObj = res
+          that.countDown()
+        } else {
+          that.hisActivity = false
+          that.totalPay = that.priceOrder * that.numQuality
+        }
+      })
     },
     countDown() {
-      this.actCurrentTime = '2019-10-10 16:02:10'
-      this.actEndTime = '2019-10-15 18:52:10'
         // 获取当前时间
         let newTime = new Date(this.actCurrentTime).getTime();
         // 对结束时间
@@ -495,6 +502,7 @@ export default {
       that.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
         // console.log(res)
         if (res.code === '200' || res.code === 200) {
+          that.getActivityInfo(skuId)
           // console.log('11111', res.data)
           if (res.data.sku.sku_status === 0) {
             that.detailShow = false
@@ -509,7 +517,7 @@ export default {
           that.mainImgUrl = res.data.sku.sku_image
           that.maxQuality = res.data.sku.inventory
           that.priceOrder = res.data.sku.sku_price
-          that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
+          // that.totalPay = (that.priceOrder * that.numQuality).toFixed(2)
           that.attrList =  res.data.attrs
           that.mainImageList = res.data.main_img
           that.attrId = res.data.sku_ids
@@ -855,7 +863,11 @@ export default {
     handleChange(val){
       var skuId = this.$route.params.skuId
       if (val) {
-        this.totalPay = (val * this.priceOrder).toFixed(2)
+        if (this.hisActivity && this.activePrice > 0) {
+          this.totalPay = (val * this.activePrice).toFixed(2)
+        } else {
+          this.totalPay = (val * this.priceOrder).toFixed(2)
+        }
       }
     },
     // _getInStock(){
