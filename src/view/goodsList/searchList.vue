@@ -75,7 +75,7 @@
                     <div class="cheapLeft"></div>
                     <div class="cheapRight">${{goods.activity_price}}</div>
                   </div>
-                  <div class="disPrice"  v-if="goods.activity_type == 2">%{{goods.activity_intensity}} OFF</div>
+                  <div class="disPrice"  v-if="goods.activity_type == 2">%{{parseInt(goods.activity_intensity)}} OFF</div>
                 </div>
                 <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
               </div>

@@ -31,7 +31,16 @@
                                     <el-table-column label="Select all" width="140">
                                       <template slot-scope="scope">
                                         <div class="product" style="display: inline-block">
-                                          <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
+                                          <div class="imgBox">
+                                            <div class="tagBox" v-if="scope.row.activity_type">
+                                              <div class="cheap" v-if="scope.row.activity_type == 1">
+                                                <div class="cheapLeft"></div>
+                                                <div class="cheapRight">${{scope.row.activity_price}}</div>
+                                              </div>
+                                              <div class="disPrice" v-if="scope.row.activity_type == 2">%{{parseInt(scope.row.activity_intensity)}} OFF</div>
+                                            </div>
+                                            <img @click="toGoodsDetail(scope.row.product_id, scope.row.wl_products_skus_id)" :src="scope.row.sku_image" alt="">
+                                          </div>
                                         </div>
                                       </template>
                                     </el-table-column>
@@ -45,8 +54,8 @@
                                                       <span v-if="JSON.parse(scope.row.sku_attrs).length>2">...</span>
                                                     </div>
                                                     <p :class="scope.row.sku_status === 1? '': 'errorPriceType'">
-                                                      ${{scope.row.sku_price}}
-                                                      <!--<span class="old_price">$ {{scope.row.sku_price}}</span>-->
+                                                      ${{scope.row.activity_price?scope.row.activity_price:scope.row.sku_price}}
+                                                      <span class="old_price" v-if="scope.row.activity_price">$ {{scope.row.sku_price}}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -124,16 +133,30 @@ export default {
       },
         //心愿单列表
         getList(){
+          var that = this
             wishlist({
               page: this.pageNow
             }).then((res)=>{
                 var list = []
                 var list2 = []
                 var list3 = []
-                var dataList = res.data.data
+                var dataList = res.data
                 var attrStr = ''
                 for (var i=0;i < dataList.length;i++) {
                   attrStr = ''
+                  // that.$set(dataList[i], 'activity_type', 0)
+                  // that.$set(dataList[i], 'activity_price', 0)
+                  // that.$set(dataList[i], 'activity_intensity', 0)
+                  // if (res.activity_sku.length>0){
+                  //   console.log('11111')
+                  //   for(var k=0;k<res.activity_sku.length;k++){
+                  //     if(dataList[i].wl_products_skus_id == res.activity_sku[k].sku_id){
+                  //       dataList[i].activity_type = res.activity_sku[k].activity_type
+                  //       dataList[i].activity_price = res.activity_sku[k].activity_price
+                  //       dataList[i].activity_intensity = res.activity_sku[k].activity_intensity
+                  //     }
+                  //   }
+                  // }
                   for (var j=0;j<JSON.parse(dataList[i].sku_attrs).length; j++){
                     attrStr = attrStr + JSON.parse(dataList[i].sku_attrs)[j].attr_name + ': ' + JSON.parse(dataList[i].sku_attrs)[j].value.attr_value + '; '
                   }
@@ -149,13 +172,13 @@ export default {
                 }
                 this.wish_List = list.concat(list2)
                 this.wish_List = this.wish_List.concat(list3)
-                // console.log('nnnnnnnn', this.wish_List)
+                console.log('nnnnnnnn', this.wish_List)
                 if (this.wish_List.length >0){
                   this.noWish = false
                 } else {
                   this.noWish = true
                 }
-                this.total = res.data.total;
+                this.total = res.total;
             })
         },
       toGoodsDetail: function (spuid, skuid) {

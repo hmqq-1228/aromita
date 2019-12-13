@@ -14,12 +14,21 @@
       <div class="checkState item">
         <!--<div style="width: 20px;"></div>-->
         <!--<input type="checkbox" :id="'good'+ carItem.sku_id" :value="carItem.sku_id" v-model="checkedItem"><label :for="'good'+ carItem.sku_id"></label>-->
-        <div class="imgBox" @click="toGoodDetail(carItem.product_id, carItem.sku_id)"><img :src="carItem.sku_image" alt=""></div>
+        <div class="imgBox" @click="toGoodDetail(carItem.product_id, carItem.sku_id)">
+          <img :src="carItem.sku_image" alt="">
+           <div class="tagBox" v-if="carItem.activity_type">
+              <div class="cheap" v-if="carItem.activity_type == 1">
+                <div class="cheapLeft"></div>
+                <div class="cheapRight">${{carItem.activity_price}}</div>
+              </div>
+              <div class="disPrice" v-if="carItem.activity_type == 2">%{{parseInt(carItem.activity_intensity)}} OFF</div>
+            </div>
+        </div>
       </div>
       <div class="productCont">
         <div class="textBox" @click="toGoodDetail(carItem.product_id, carItem.sku_id)">{{carItem.sku_name}}</div>
-        <div class="goodsType" v-for="goodAttr in JSON.parse(carItem.sku_attrs)">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
-        <div class="goodsPrice">$ {{carItem.sku_price}}</div>
+        <div class="goodsType" v-for="goodAttr in JSON.parse(carItem.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
+        <div class="goodsPrice">$ {{carItem.activity_price?carItem.activity_price:carItem.sku_price}} <span v-if="carItem.activity_type">${{carItem.sku_price}}</span></div>
       </div>
       <div class="goodsNum">
         <div class="addNum">
@@ -27,7 +36,7 @@
         </div>
         <div class="tipOver" v-if="carItem.overTipShow"><span class="el-icon-caret-top sanjiao"></span>Only {{carItem.inventory}} Available</div>
       </div>
-      <div class="goodsTotal">$ {{(carItem.goods_count*carItem.sku_price).toFixed(2)}}</div>
+      <div class="goodsTotal">$ {{(carItem.goods_count*parseFloat(carItem.activity_price?carItem.activity_price:carItem.sku_price)).toFixed(2)}}</div>
       <div class="optionType">
         <span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span>
         <span class="wishAdd" v-if="carItem.in_wishlist === 10"><img @click="addWish(carItem.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
@@ -53,12 +62,21 @@
     <div class="carItem" style="background-color: #fbfbfb;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
       <div class="checkState item" style="width: 106px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
-        <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)"><img :src="unGood.sku_image" alt=""></div>
+        <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)">
+          <img :src="unGood.sku_image" alt="">
+          <div class="tagBox" v-if="unGood.activity_type">
+            <div class="cheap" v-if="unGood.activity_type == 1">
+              <div class="cheapLeft"></div>
+              <div class="cheapRight">${{unGood.activity_price}}</div>
+            </div>
+            <div class="disPrice" v-if="unGood.activity_type == 2">%{{parseInt(unGood.activity_intensity)}} OFF</div>
+          </div>
+          </div>
       </div>
       <div class="productCont" style="width: 500px;">
         <div class="textBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)">{{unGood.sku_name}}</div>
-        <div class="goodsType" v-for="goodAttr in JSON.parse(unGood.sku_attrs)">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
-        <div class="goodsPrice">$ {{unGood.sku_price}}</div>
+        <div class="goodsType" v-for="goodAttr in JSON.parse(unGood.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
+        <div class="goodsPrice">$ {{unGood.activity_price?unGood.activity_price:unGood.sku_price}} <span v-if="unGood.activity_type">${{unGood.sku_price}}</span></div>
       </div>
       <div class="goodsNum_goodsTotal">
         <span v-if="unGood.sku_status == 0">Invalid</span>
@@ -303,7 +321,7 @@ export default {
               that.idList.push(that.goodsList[i].sku_id)
               for (var j = 0;j<that.goodsListOn.length;j++) {
                 that.$set(that.goodsListOn[j],'overTipShow',false)
-                var itemPay = that.goodsListOn[j].sku_price * that.goodsListOn[j].goods_count
+                var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
                 that.goodsChecked(that.checkedItem)
                 if (tr.num >= tr.max) {
@@ -347,7 +365,7 @@ export default {
                   } else if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
                     that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
                   }
-                  var itemPay = parseFloat(that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
+                  var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                   that.goodsListOn[j].totalPay = itemPay.toFixed(2)
                 }
               } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
@@ -375,7 +393,7 @@ export default {
     },
     goodsChecked: function(e){
       var that = this
-      // console.log('eeeee',e)
+      // console.log('eeeee', that.goodsListOn)
       that.payList = []
       if (e.length > 0) {
         for (var m=0;m<e.length; m++){

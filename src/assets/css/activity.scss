@@ -1,0 +1,124 @@
+.activityBox{
+    width: 1440px;
+    margin: 0 auto;
+    font-family: Tahoma;
+    font-size: 14px;
+}
+.activityTime{
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 50px;
+    box-sizing: border-box;
+    background-color: #c51015;
+    display: flex;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: flex-start;
+}
+.activityTime .numDiv{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background-color: #333;
+    margin-top: 10px;
+}
+.activityTime .flag{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 10px;
+}
+.activityGoods{
+    width: 1440px;
+    margin: 0 auto;
+    background-color: #c51015;
+    padding-bottom: 30px;
+}
+.activityGoods .goodsList{
+    width: 1340px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 31px 50px;
+    box-sizing: border-box;
+    min-height: 500px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.goodsList > div{
+    height: 420px;
+    width: 310px;
+}
+.itemInner{
+    width: 280px;
+    height: 390px;
+    margin: 0 auto;
+    border: 1px solid #e9e9e9;
+}
+.imgBox{
+    width: 280px;
+    height: 280px;
+    cursor: pointer;
+    overflow: hidden;
+}
+.imgBox:hover img{
+    transform: scale(1.1);
+    transition: all .8s;
+}
+.imgBox img{
+    width: 100%;
+    transform: scale(1);
+    transition: all .8s;
+}
+.nameBox{
+    height: 36px;
+    font-size:14px;
+    color: #333;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    margin-top: 15px;
+    cursor: pointer;
+}
+.nameBox:hover{
+    color: #c51015;
+}
+.goodsPrice{
+    margin-top: 20px;
+    font-family: Tahoma;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.goodsPrice .pri{
+    color: #c30808;
+    font-size: 16px;
+}
+.goodsPrice .pri span{
+    color: #aaa;
+    font-size: 14px;
+    text-decoration: line-through;
+    margin-left: 10px;
+}
+.goodsPrice .num{
+    color: #999;
+    font-size: 14px;
+}
+.bottomList{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0 60px 0;
+}
+.bottomList>div{
+    width: 330px;
+    height: 260px;
+    border: 1px solid #ccc;
+}

@@ -96,7 +96,16 @@
                       label="Product">
                       <template slot-scope="scope">
                           <div class="product">
+                            <div class="imgBox">
+                              <div class="tagBox">
+                                <div class="cheap" v-if="scope.row.activity_type == 1">
+                                  <div class="cheapLeft"></div>
+                                  <div class="cheapRight">${{scope.row.activity_price}}</div>
+                                </div>
+                                <div class="disPrice" v-if="scope.row.activity_type == 2">%{{parseInt(scope.row.activity_intensity)}} OFF</div>
+                              </div>
                               <img :src="scope.row.products_pic" alt="" @click="link(scope.row.product_id,scope.row.sku_id)">
+                            </div>
                               <div class="detail">
                                   <h5 @click="link(scope.row.product_id,scope.row.sku_id)">{{scope.row.products_name}}</h5>
                                   <p>
@@ -104,8 +113,8 @@
                                       <span style="color: #333;">{{item1.value.attr_value}}</span>;
                                     </span>
                                   </p>
-                                  <p>${{scope.row.final_price}}
-                                    <!--<span class="old_price">${{scope.row.products_price}}</span>-->
+                                  <p>${{scope.row.activity_price?scope.row.activity_price:scope.row.final_price}}
+                                    <span class="old_price" v-if="scope.row.activity_type>0">${{scope.row.products_price}}</span>
                                   </p>
                               </div>
                           </div>
@@ -124,7 +133,7 @@
                       label="Total"
                       width="260">
                       <template slot-scope="scope">
-                          <h4>$ {{(scope.row.final_price*scope.row.products_quantity).toFixed(2)}}</h4>
+                          <h4>$ {{(parseFloat(scope.row.activity_price?scope.row.activity_price:scope.row.final_price)*scope.row.products_quantity).toFixed(2)}}</h4>
                       </template>
                   </el-table-column>
               </el-table>
@@ -179,10 +188,28 @@ export default {
       }
     },
     orderDetail(){
+      var that = this
       this.$axios.get('api/myorder/'+ this.orderId, {}).then(res => {
         this.orders = res.orders
         this.orders_total = res.orders_total[0]
+        if (res.orders_products){
+          for(var i=0;i<res.orders_products.length;i++){
+            that.$set(res.orders_products[i], 'activity_type', 0)
+            that.$set(res.orders_products[i], 'activity_price', 0)
+            that.$set(res.orders_products[i], 'activity_intensity', 0)
+            if (res.activity_sku.length>0){
+              for(var j=0;j<res.activity_sku.length;j++){
+                if(res.orders_products[i].sku_id == res.activity_sku[j].sku_id){
+                  res.orders_products[i].activity_type = res.activity_sku[j].activity_type
+                  res.orders_products[i].activity_price = res.activity_sku[j].activity_price
+                  res.orders_products[i].activity_intensity = res.activity_sku[j].activity_intensity
+                }
+              }
+            }
+          }
+        }
         this.orders_products = res.orders_products
+        console.log('mmmmmm', this.orders_products)
       })
     },
     pay(total, num, id){

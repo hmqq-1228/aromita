@@ -301,14 +301,13 @@
   }
   .tagBox{
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1px;
+    right: 1px;
     width: auto;
     z-index: 99;
   }
   .cheap{
     display: flex;
-    // background-image: url('../../../static/img/discont.png');
   }
   .disPrice{
     color: #fff;

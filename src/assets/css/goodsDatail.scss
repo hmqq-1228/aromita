@@ -552,6 +552,7 @@
     -webkit-box-orient: vertical;
     word-break: break-all;
     width: 635px;
+    margin-bottom: 15px;
   }
   .goodsPrice{
     margin: 20px 0;
@@ -719,23 +720,30 @@
 //         background:#B20605;
 //     }
 // }
+.addImgBox{
+  position: absolute;
+  bottom:20px;
+  right:20px;
+  width: 80px;
+  height: 80px;
+}
 .z_addbtn{
-    height: 60px;
-    width: 60px;
+    height: 80px;
+    width: 80px;
     background:#fff;
     //border-radius: 50%;
     position: absolute;
-    top: 0;
+    bottom: 0;
     z-index: -1;
     //left: 220px;
 }
 // 一开始调整好商品图片在购物车的位置,移入效果最后显示是在一开始定义好的位置
 .largePic .add_img {
-    height:60px;
-    width: 60px;
+    height:80px;
+    width: 80px;
     //border-radius: 50%;
     position: absolute;
-    top: 0;
+    bottom: 0;
     z-index: -1;
     //left: 220px;
 }

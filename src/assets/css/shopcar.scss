@@ -77,6 +77,44 @@
   width: 80px;
   margin-top: 6px;
   cursor: pointer;
+  position: relative;
+}
+.tagBox{
+  position: absolute;
+  top: 0;
+  right: 1px;
+  width: auto;
+  z-index: 99;
+}
+.cheap{
+  display: flex;
+  justify-content: flex-end;
+}
+.disPrice{
+  color: #fff;
+  font-size: 12px;
+  font-family: Tahoma;
+  padding: 0 10px;
+  height: 20px;
+  line-height: 20px;
+  background-color: #c51015;
+}
+.cheapLeft{
+  width:0;
+  height:0;
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  border-right:10px solid #c30808;
+}
+.cheapRight{
+  color: #fff;
+  height: 20px;
+  padding: 0 4px;
+  text-align: center;
+  line-height: 20px;
+  font-family: Tahoma;
+  font-size: 12px;
+  background-color: #c30808;
 }
 .imgBox img{
   height: 80px;
@@ -329,6 +367,11 @@
   font-size: 14px;
   color: #333;
   margin-top: 4px;
+}
+.goodsPrice span{
+  color: #aaa;
+  font-size: 14px;
+  text-decoration: line-through;
 }
 .pointCoupon{
   display: flex;

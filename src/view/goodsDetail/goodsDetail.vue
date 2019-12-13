@@ -49,7 +49,7 @@
       <div class="largerBox">
         <div class="largePic" style="position: relative;">
           <img :src="mainImgUrl" alt="">
-          <div style="position: absolute;bottom:20px; right:20px;width: 80px;height: 80x;">
+          <div class="addImgBox">
             <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
             <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
           </div>
