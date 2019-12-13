@@ -166,7 +166,16 @@
       <div class="cart_center">
         <ul v-if="goodsListOn.length!=0">
           <li v-for="(item,index) in goodsListOn" :key="index">
-            <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
+            <div class="imgBox">
+              <div class="tagBox" v-if="item.activity_type">
+                <div class="cheap" v-if="item.activity_type == 1">
+                  <div class="cheapLeft"></div>
+                  <div class="cheapRight">${{item.activity_price}}</div>
+                </div>
+                <div class="disPrice" v-if="item.activity_type == 2">%{{parseInt(item.activity_intensity)}} OFF</div>
+              </div>
+               <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
+            </div>
             <div class="list_detail">
               <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
               <div class="spec_color">
@@ -188,7 +197,7 @@
             </div>
             <div class="price_del">
               <i class="el-icon-error" @click="delList(item.sku_id)"></i>
-              <div class="price">${{(item.sku_price*item.goods_count).toFixed(2)}}</div>
+              <div class="price">${{((item.activity_price?item.activity_price:item.sku_price)*item.goods_count).toFixed(2)}}</div>
             </div>
           </li>
         </ul>
@@ -607,7 +616,7 @@ import { mapGetters } from 'vuex';
           if (this.goodsList[i].sku_status === 1) {
             goodsListOn.push(obj)
             for (var j = 0;j<goodsListOn.length;j++) {
-              var itemPay = goodsListOn[j].sku_price * goodsListOn[j].goods_count
+              var itemPay = parseFloat(goodsListOn[j].activity_price?goodsListOn[j].activity_price:goodsListOn[j].sku_price) * goodsListOn[j].goods_count
               goodsListOn[j].totalPay = itemPay.toFixed(2)
             }
           } else if (this.goodsList[i].sku_status === 0){

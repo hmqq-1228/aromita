@@ -427,6 +427,49 @@
           margin:20px 0;
           padding:0 20px;
           box-sizing: border-box;
+          display: flex;
+          .imgBox{
+            height: 80px;
+            width: 80px;
+            position: relative;
+          }
+          .tagBox{
+            position: absolute;
+            top: 1px;
+            right: -1px;
+            width: auto;
+            z-index: 99;
+          }
+          .cheap{
+            display: flex;
+            justify-content: flex-end;
+          }
+          .disPrice{
+            color: #fff;
+            font-size: 12px;
+            font-family: Tahoma;
+            padding: 0 10px;
+            height: 20px;
+            line-height: 20px;
+            background-color: #c51015;
+          }
+          .cheapLeft{
+            width:0;
+            height:0;
+            border-top:10px solid transparent;
+            border-bottom:10px solid transparent;
+            border-right:10px solid #c30808;
+          }
+          .cheapRight{
+            color: #fff;
+            height: 20px;
+            padding: 0 4px;
+            text-align: center;
+            line-height: 20px;
+            font-family: Tahoma;
+            font-size: 12px;
+            background-color: #c30808;
+          }
           img{
             width: 80px;
             height: 80px;
@@ -436,7 +479,7 @@
             cursor: pointer;
           }
           .list_detail{
-            float: left;
+             margin-left: 20px;
             .detail_title{
               cursor: pointer;
               width:260px;
