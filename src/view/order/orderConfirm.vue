@@ -234,14 +234,21 @@
             <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="index">
               <div class="goodName">
                 <div class="goodImg">
+                  <div class="tagBox">
+                    <div class="cheap">
+                      <div class="cheapLeft"></div>
+                      <div class="cheapRight">$9.66</div>
+                    </div>
+                    <div class="disPrice">%{{parseInt(30)}} OFF</div>
+                  </div>
                   <img :src="goods.sku_image" alt="">
                   <div class="soldOut" v-show="goods.soldOut === 1">Sold out</div>
                 </div>
                 <div class="goodsText">
                   <div class="nameInfo">{{goods.sku_name}}</div>
-                  <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
-                  <div class="price">$ {{goods.sku_price}}
-                    <!--<span>$ {{goods.sku_price}}</span>-->
+                  <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)" :key="index2">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
+                  <div class="price">${{goods.sku_price}}
+                    <span>${{goods.sku_price}}</span>
                   </div>
                 </div>
               </div>
@@ -249,7 +256,7 @@
                 <p>{{goods.goods_count}}</p>
                 <p style="color: #C51015;padding-top: 15px;" v-if="goods.realNum === 1">Only {{goods.inventory}} Available</p>
               </div>
-              <div class="totalPay">$ {{goods.sku_pay.toFixed(2)}}</div>
+              <div class="totalPay">${{goods.sku_pay.toFixed(2)}}</div>
             </div>
             <div class="goodsItem" v-if="orderListInvalid">
               <div class="noOrder">The order has expired. Please <span @click="toShopcar()">add it</span> again.</div>
@@ -260,7 +267,7 @@
         <div class="leftCont" v-if="isLogin">
           <div class="pointBox">
             <div class="coupon">
-              <div class="couponItem" v-if="couponList.length > 0" :class="coupon.active === true? 'couponChecked':''" v-for="(coupon, index) in couponList" @click="useCoupon($event, coupon.cc_id)">
+              <div class="couponItem" v-if="couponList.length > 0" :class="coupon.active === true? 'couponChecked':''" v-for="(coupon, index) in couponList" @click="useCoupon($event, coupon.cc_id)" :key="index">
                 <div class="couponInfo">
                   <div class="info">
                     <div class="infoFee">
@@ -377,27 +384,27 @@
       <div class="payDiv" @mousedown="move($event)" :style="{right:(rightDis==true?'0':'12%')}">
         <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
           <div class="payName">Subtotal:</div>
-          <div class="payValue">$ {{billing.subtotal.toFixed(2)}}</div>
+          <div class="payValue">${{billing.subtotal.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="billing.cc_amount">
           <div class="payName">Coupon:</div>
-          <div class="payValue">$ {{billing.cc_amount.toFixed(2)}}</div>
+          <div class="payValue">${{billing.cc_amount.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="billing.pointToMoney">
           <div class="payName">Points:</div>
-          <div class="payValue">$ {{billing.pointToMoney.toFixed(2)}}</div>
+          <div class="payValue">${{billing.pointToMoney.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="billing.taxfee">
           <div class="payName">Tax:</div>
-          <div class="payValue">$ {{billing.taxfee.toFixed(2)}}</div>
+          <div class="payValue">${{billing.taxfee.toFixed(2)}}</div>
         </div>
         <div class="payItem" v-if="shipFee>0">
           <div class="payName">Shipping:</div>
-          <div class="payValue">$ {{parseFloat(shipFee).toFixed(2)}}</div>
+          <div class="payValue">${{parseFloat(shipFee).toFixed(2)}}</div>
         </div>
         <div class="payItem">
           <div class="payName total">Grand Total:</div>
-          <div class="payValue total">$ {{billTotalSum.toFixed(2)}}</div>
+          <div class="payValue total">${{billTotalSum.toFixed(2)}}</div>
         </div>
         <div style="margin-top: 15px;">
           <el-button :loading="butLoading" :disabled="payDisabled" @click="paySub('ruleForm', 'shipForm')">
@@ -1411,7 +1418,7 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
-      console.log('uuuuuuu', orderAddress)
+      // console.log('uuuuuuu', orderAddress)
       var shipMethod = that.orderShipMethod
       var payMethod = {
         payment_module_code: 1,

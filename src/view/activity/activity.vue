@@ -1,106 +1,211 @@
 <template>
   <div class="activityBox">
-    <div class="activityTime">
-      <div>距离活动开始：</div>
-      <div class="numDiv">08</div>
+    <div v-for="(sty,index) in styleList" :key="index">
+    <div class="activityTime" v-if="sty.type == 2" :style="'backgroundColor:' + sty.timeobj.background +';color:'+ sty.timeobj.style.color+';justifyContent:'+ sty.timeobj.style.positionStr">
+      <div><span>{{sty.timeobj.timetxt}}：</span></div>
+      <div class="numDiv">{{timeObj.aDay}}</div>
       <div class="flag">D</div>
-      <div class="numDiv">10</div>
+      <div class="numDiv">{{timeObj.aHour}}</div>
       <div class="flag">h</div>
-      <div class="numDiv">23</div>
+      <div class="numDiv">{{timeObj.aMin}}</div>
       <div class="flag">m</div>
-      <div class="numDiv">07</div>
+      <div class="numDiv">{{timeObj.aSec}}</div>
       <div class="flag">s</div>
     </div>
-    <div>
-      <el-carousel :interval="5000" arrow="never" height="500px">
-        <el-carousel-item v-for="(item, index) in imgList" :key="index">
-          <img :src="item" alt="">
+    <div  v-if="sty.type == 1">
+      <el-carousel :interval="5000" arrow="never" :height="bannerHt + 'px'">
+        <el-carousel-item v-for="(item, index2) in sty.imgList" :key="index2">
+          <a :href="item.imgLink"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
         </el-carousel-item>
       </el-carousel>
     </div>
-    <div class="activityGoods">
+    <div  v-if="sty.type == 3" class="activityGoods" :style="'backgroundColor:'+ sty.background_color+';backgroundImage:url('+ sty.background_image+')'">
       <div class="goodsList">
-        <div>
+        <div v-for="(act, index) in activityDataList" :key="index">
           <div class="itemInner">
-            <div class="imgBox">
-              <img src="http://arapi.panduo.com.cn/uploads/images/products/main/190814/28d47ddf3e73550056f5df80f008f127.jpg" alt="">
+            <div class="imgBox" @click="toDetailPage(act.product_id, act.sku_id)">
+              <div class="tagBox" v-if="isStartActv">
+                <div class="cheap" v-if="act.activity_type == 1">
+                  <div class="cheapLeft"></div>
+                  <div class="cheapRight">${{act.activity_price}}</div>
+                </div>
+                <div class="disPrice" v-if="act.activity_type == 2">%{{parseInt(act.activity_intensity)}} OFF</div>
+              </div>
+              <img :src="act.sku_color_img" alt="">
             </div>
-            <div class="nameBox">Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace</div>
+            <div class="nameBox"  @click="toDetailPage(act.product_id, act.sku_id)">{{act.sku_name}}</div>
             <div class="goodsPrice">
-              <div class="pri">$8.88 <span>$9.99</span></div>
-              <div class="num">188 Sold</div>
-            </div>
-          </div>
-        </div>
-         <div>
-          <div class="itemInner">
-            <div class="imgBox">
-              <img src="http://arapi.panduo.com.cn/uploads/images/products/main/190814/28d47ddf3e73550056f5df80f008f127.jpg" alt="">
-            </div>
-            <div class="nameBox">Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace</div>
-            <div class="goodsPrice">
-              <div class="pri">$8.88 <span>$9.99</span></div>
-              <div class="num">188 Sold</div>
-            </div>
-          </div>
-        </div>
-         <div>
-          <div class="itemInner">
-            <div class="imgBox">
-              <img src="http://arapi.panduo.com.cn/uploads/images/products/main/190814/28d47ddf3e73550056f5df80f008f127.jpg" alt="">
-            </div>
-            <div class="nameBox">Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace</div>
-            <div class="goodsPrice">
-              <div class="pri">$8.88 <span>$9.99</span></div>
-              <div class="num">188 Sold</div>
-            </div>
-          </div>
-        </div>
-         <div>
-          <div class="itemInner">
-            <div class="imgBox">
-              <img src="http://arapi.panduo.com.cn/uploads/images/products/main/190814/28d47ddf3e73550056f5df80f008f127.jpg" alt="">
-            </div>
-            <div class="nameBox">Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace</div>
-            <div class="goodsPrice">
-              <div class="pri">$8.88 <span>$9.99</span></div>
-              <div class="num">188 Sold</div>
-            </div>
-          </div>
-        </div>
-         <div>
-          <div class="itemInner">
-            <div class="imgBox">
-              <img src="http://arapi.panduo.com.cn/uploads/images/products/main/190814/28d47ddf3e73550056f5df80f008f127.jpg" alt="">
-            </div>
-            <div class="nameBox">Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace Classic Name Necklace</div>
-            <div class="goodsPrice">
-              <div class="pri">$8.88 <span>$9.99</span></div>
-              <div class="num">188 Sold</div>
+              <div class="pri">${{isStartActv?act.activity_price:act.sku_price}} <span v-if="isStartActv">${{act.sku_price}}</span></div>
+              <div class="num"></div>
             </div>
           </div>
         </div>
       </div>
+       <div v-if="activityDataList.length<totalNum" @click="addMoreList()" class="loadMore">Load More</div>
     </div>
-    <div class="bottomList">
-      <div>11111</div>
-      <div>33333</div>
-      <div>44444</div>
-      <div>55555</div>
-    </div>
+    <!-- <div class="bottomList">
+      <el-carousel :interval="5000" arrow="never">
+        <el-carousel-item v-for="(item, index) in bannerObj.imgList" :key="index">
+          <img class="bannerBottom" :src="item" alt="">
+        </el-carousel-item>
+      </el-carousel>
+    </div> -->
+  </div>
   </div>
 </template>
 
 <script>
+import {activityList} from "../../api/home";
 export default {
   data () {
     return{
-      imgList: [
-        'http://arapi.panduo.com.cn/uploads/images/index/banner/2d6bffefa4846c6da7986752c2f84b40.png',
-        'http://arapi.panduo.com.cn/uploads/images/index/banner/2d6bffefa4846c6da7986752c2f84b40.png',
-        'http://arapi.panduo.com.cn/uploads/images/index/banner/2d6bffefa4846c6da7986752c2f84b40.png',
-        'http://arapi.panduo.com.cn/uploads/images/index/banner/2d6bffefa4846c6da7986752c2f84b40.png'
-      ]
+      page: 1,
+      timeObj: {},
+      totalNum: 0,
+      bannerHt: 500,
+      activity_id: '',
+      isStartActv: false,
+      activityInfo: {},
+      activityDataList: [],
+      bannerObj: {},
+      styleList: [],
+      timeStyleObj: {},
+      activeListObj: {}
+    }
+  },
+  mounted() {
+    // window.addEventListener('scroll', this.handleScroll);
+  },
+  created () {
+    console.log('kkkkkk', this.$route.query.activityId)
+    this.activity_id = this.$route.query.activityId
+    if (this.activity_id) {
+      this.getActivityList()
+    }
+  },
+  methods:{
+    getActivityList () {
+      var that = this
+      activityList({activity_id: that.activity_id}).then((res)=>{
+        if (res.code == 200) {
+          that.activityInfo = res.data
+          if (res.data.activity_style) {
+            var list = JSON.parse(res.data.activity_style)
+            for(var i=0;i<list.length;i++){
+              if (list[i].type == 1){
+                // that.bannerObj = list[i
+                // that.bannerHt = document.getElementsByClassName('bannerImg' + i).clientHeight
+                // console.log('mmmmm', that.bannerHt)
+              } else if (list[i].type == 2){
+                // that.timeStyleObj = list[i].timeobj
+                if (list[i].timeobj.style.position == 1) {
+                  list[i].timeobj.style.positionStr = 'flex-start'
+                } else if (list[i].timeobj.style.position == 2) {
+                  list[i].timeobj.style.positionStr = 'center'
+                } else if (list[i].timeobj.style.position == 3) {
+                  list[i].timeobj.style.positionStr = 'flex-end'
+                }
+              } else if (list[i].type == 3) {
+                // that.activeListObj = list[i]
+              }
+            }
+          }
+          console.log('hhhhhh', list)
+          that.styleList = list
+          if (res.data.activity_status == 1){
+            // 未开始
+            that.timeDown('1')
+            that.getBeforeList()
+            that.isStartActv = false
+          } else if (res.data.activity_status == 2) {
+            // 已开始
+            that.timeDown('2')
+            that.getAfterList()
+            that.isStartActv = true
+          } else {
+            that.timeObj = {
+              aDay: '00',
+              aHour: '00',
+              aMin: '00',
+              aSec: '00'
+            }
+          }
+        }
+      })
+    },
+    getBeforeList(){
+      var that = this
+      that.$axios.get('api/sku/activityBeforeStartSkuList/' + that.activity_id, {}).then(res => {
+        if (res.code == 200) {
+          console.log('111111', res)
+          if(that.page == 1){
+            that.activityDataList = res.data.data
+          }else{
+            that.activityDataList = that.activityDataList.concat(res.data.data);
+          }
+          that.totalNum = res.data.total
+        }
+      })
+    },
+    getAfterList(){
+      var that = this
+      that.$axios.get('api/sku/activityAfterStartSkuList/' + that.activity_id, {}).then(res => {
+        if (res.code == 200) {
+          console.log('222222', res)
+          if(that.page == 1){
+            that.activityDataList = res.data.data
+          }else{
+            that.activityDataList = that.activityDataList.concat(res.data.data);
+          }
+          that.totalNum = res.data.total
+        }
+      })
+    },
+    toDetailPage(spu, sku) {
+      if (spu && sku) {
+        this.$router.push('/goodsDetail/'+ spu + '/'+ sku)
+      }
+    },
+    timeDown(type) {
+      let endTime
+      // 获取当前时间
+      let newTime = new Date(this.activityInfo.server_now_time).getTime();
+      // 对结束时间
+      if (type == '1') {
+        endTime = new Date(this.activityInfo.activity_start_time).getTime();
+      } else if (type == '2') {
+        endTime = new Date(this.activityInfo.activity_end_time).getTime();
+      }
+      let time = (endTime - newTime)/1000;
+      var interval = setInterval(() => {
+        time --;
+        if (time > 0) {
+          // 获取天、时、分、秒
+          let day = Math.floor(time/60/60/24)
+          let hour = Math.floor((time / 3600) % 24)
+          let min = Math.floor((time / 60) % 60)
+          let sec = Math.floor(time % 60)
+          day = day < 10 ? '0' + day : day
+          hour = hour < 10 ? '0' + hour : hour
+          min = min < 10 ? '0' + min : min
+          sec = sec < 10 ? '0' + sec : sec
+          // console.log('1111', day,hour,min,sec)
+          this.timeObj = {
+            aDay: day,
+            aHour: hour,
+            aMin: min,
+            aSec: sec
+          }
+        } else { // 活动已结束，全部设置为'00'
+          this.timeObj = {
+            aDay: '00',
+            aHour: '00',
+            aMin: '00',
+            aSec: '00'
+          }
+          clearInterval(interval);
+        }
+      }, 1000);
     }
   }
 }
