@@ -1,8 +1,9 @@
 <template>
   <div class="activityBox">
+    <!-- activityInfo.activity_status -->
     <div v-for="(sty,index) in styleList" :key="index">
-    <div class="activityTime" v-if="sty.type == 2" :style="'backgroundColor:' + sty.timeobj.background +';color:'+ sty.timeobj.style.color+';justifyContent:'+ sty.timeobj.style.positionStr">
-      <div><span>{{sty.timeobj.timetxt}}：</span></div>
+    <div class="activityTime" v-if="sty.type == 2 && sty.timeNameStr" :style="'backgroundColor:' + sty.timeobj.background +';color:'+ sty.timeobj.style.color+';justifyContent:'+ sty.timeobj.style.positionStr">
+      <div><span>{{sty.timeNameStr}}：</span></div>
       <div class="numDiv">{{timeObj.aDay}}</div>
       <div class="flag">D</div>
       <div class="numDiv">{{timeObj.aHour}}</div>
@@ -93,10 +94,18 @@ export default {
             var list = JSON.parse(res.data.activity_style)
             for(var i=0;i<list.length;i++){
               if (list[i].type == 1){
-                // that.bannerObj = list[i
+                that.$set(list[i], 'timeNameStr', '')
+                // console.log('mmmmm', list[i])
+                // that.bannerObj = list[i]
                 // that.bannerHt = document.getElementsByClassName('bannerImg' + i).clientHeight
                 // console.log('mmmmm', that.bannerHt)
               } else if (list[i].type == 2){
+                // console.log('mmmmm22', list[i])
+                for (var k=0;k<list[i].timeobj.time_info_list.length;k++) {
+                  if (list[i].timeobj.time_info_list[k].type == that.activityInfo.activity_status) {
+                    list[i].timeNameStr = list[i].timeobj.time_info_list[k].timetxt
+                  }
+                }
                 // that.timeStyleObj = list[i].timeobj
                 if (list[i].timeobj.style.position == 1) {
                   list[i].timeobj.style.positionStr = 'flex-start'

@@ -438,7 +438,7 @@ export default {
       radio: '',
       radio2: '',
       radio3: '1',
-      billing: '',
+      billing: {},
       errorMsg: '',
       couponId: '',
       getCouId: '',
@@ -812,8 +812,9 @@ export default {
       that.addressList2 = []
       var address = sessionStorage.getItem('addressList')
       var list = JSON.parse(address)
+      // console.log('4444', list)
       that.addressList2 = list
-      if (that.addressList2) {
+      if (that.addressList2.length > 0) {
         that.order_Address = that.addressList2[0]
         for (var i=0; i<this.addressList2.length; i++) {
           if (that.addressList2[i].is_default === 1) {
@@ -823,7 +824,12 @@ export default {
             that.radio = ''
           }
         }
-      }
+      } else {
+        // console.log('233333', that.radio)
+          that.radio = ''
+          that.shipFee = 0
+          that.billing.taxfee = 0
+        }
     },
     addNewAddressOut: function(){
       var that = this
@@ -848,7 +854,7 @@ export default {
       }
     },
     deleteAddressOut: function () {
-      sessionStorage.removeItem('addressList')
+      sessionStorage.setItem('addressList', JSON.stringify([]))
       this.getOrderAddressOut()
     },
     //选择国家
@@ -1096,13 +1102,17 @@ export default {
             }
           }
         } else if (res.code == 10002) {
+          that.shipMethodList = res.data
+          that.shipFee = 0
           that.errorInfo = 'No mode of transportation, please choose a new valid address.'
+          that.getBillingList('1')
           that.butLoading = false
-          that.payDisabled = true
         } else {
+          that.shipMethodList = []
+          that.shipFee = 0
+          that.getBillingList('1')
           that.$message.warning(res.msg)
           that.butLoading = false
-          that.payDisabled = true
         }
       })
       // let data = await shipMethod(payLoad)
@@ -1144,7 +1154,7 @@ export default {
         that.orderListInvalid = true
       }
     },
-    async getBillingList () {
+    async getBillingList (type) {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
@@ -1200,15 +1210,20 @@ export default {
         billList.push(data['taxfee'])
         billList.push(data['cc_amount'])
         billList.push(data['pointToMoney'])
-        // console.log('mmmmmm', billList)
+        console.log('mmmmmm', type)
         for (var i=0;i<billList.length;i++) {
           sumBill = sumBill + billList[i]
         }
         that.billTotal = sumBill
         that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+        if (type == 1){
+          that.payDisabled = true
+          // that.butLoading = true
+        } else {
+          that.payDisabled = false
+          that.butLoading = false
+        }
           // + parseFloat(that.exciseFee)
-        that.payDisabled = false
-        that.butLoading = false
       } else if (data.code === 102) {
         that.payDisabled = true
         that.inputPoint = ''
@@ -1229,6 +1244,8 @@ export default {
           }
         })
       } else {
+        that.payDisabled = true
+        that.butLoading = false
         that.$message.warning('Your shipping address is invalid. Please check it.')
       }
     },
@@ -1458,6 +1475,12 @@ export default {
               }
             }
           }
+        } else if (res.code == 102) {
+          that.payDisabled = true
+          this.$alert('No mode of transportation, please choose a new valid address.', '', {
+            confirmButtonText: 'OK',
+          })
+          // that.$message.warning('The order has expired, Please add it again.')
         } else if (res.code === 301) {
           that.payDisabled = true
           this.$alert('The order has expired, Please add it again.', '', {
