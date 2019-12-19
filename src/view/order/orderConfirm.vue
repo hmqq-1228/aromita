@@ -53,7 +53,7 @@
             <div class="stateText end">Succeed</div>
           </div>
         </div>
-        <div class="navTitle" @click="test()">Shipping Address</div>
+        <div class="navTitle">Shipping Address</div>
         <div class="address" v-if="isLogin">
           <div v-if="addressList && addressList.length>0" class="addressItem" v-for="(address, index) in addressList" v-bind:key="index">
             <div class="itemName" :title="address.entry_firstname + ' ' + address.entry_lastname">
@@ -212,7 +212,7 @@
         <div class="shopBox" v-if="methodShow">
           <div class="shopItem" v-for="(ship, index) in shipMethodList" v-bind:key="index">
             <div class="shopName"><el-radio v-model="radio2" :label="ship.ship_id + '-' + ship.ship_fee" @change="shipChecked($event)">
-              <span class="freeTip"><img v-if="ship.is_free" src="../../../static/img/free.png" alt=""></span>
+              <span class="freeTip"><img v-if="ship.ship_fee == 0" src="../../../static/img/free.png" alt=""></span>
               <span class="tipName">{{ship.ship_name}}</span>
             </el-radio></div>
             <div style="width: 200px;">{{ship.trans_min}}—{{ship.trans_max}} workdays</div>

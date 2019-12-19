@@ -6,8 +6,8 @@
         <div class="my_order">
           <div class="my_title" style="margin-bottom: 0;font-weight: bold;">Coupon center</div>
           <!--<div class="tipFlag"><i class="el-icon-check" ></i> <span>successfully, please check it in My Coupons</span></div>-->
-          <div class="couponCont">
-            <div class="couponCenterItem" v-for="coupon in couponCenterList">
+          <div class="couponCont" v-if="couponCenterList.length>0">
+            <div class="couponCenterItem" v-for="coupon in couponCenterList" :key="coupon.id">
               <div class="couponCenterInfo">
                 <div class="centerInfo">
                   <div class="centerValue"><i>$</i> <span>{{coupon.coupon_amount}}</span></div>
@@ -27,6 +27,10 @@
               </div>
             </div>
             <div class="loadMore" v-if="totalNum>40 && couponCenterList.length < totalNum"  @click="addMoreList()">Load More</div>
+          </div>
+          <div style="text-align:center;" v-if="couponCenterList.length == 0">
+            <img src="../../../../static/img/nodata.jpg" alt="">
+            <div style="margin:20px 0;color:#888;font-size:16px;">No coupons</div>
           </div>
         </div>
       </div>

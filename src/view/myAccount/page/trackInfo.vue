@@ -18,7 +18,7 @@
                 <el-timeline>
                   <el-timeline-item v-for="(tItem, index2) in track" :key="index2" :color="index2 === 0?'#C51015':'#999'" v-if="index2<track.attrLen">
                     <div class="timeLineBox" :class="index2 === 0?'colorActive':''">
-                      <div style="width: 260px;">{{tItem.tracking_last_update_time}}</div>
+                      <div style="width: 260px;">{{tItem.tracking_get_date}}</div>
                       <div class="trackDes">{{tItem.tracking_description}}</div>
                       <div class="trackDel" :title="tItem.tracking_details">{{tItem.tracking_details}}</div>
                     </div>

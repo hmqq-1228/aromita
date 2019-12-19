@@ -12,7 +12,7 @@
                                 <el-tab-pane :label="'Valid Coupons ('+ validNum + ')'" name="first">
                                   <div class="pointBox">
                                     <div class="coupon">
-                                      <div class="couponItem" v-if="showFlag" v-for="(coupon, index) in couponList">
+                                      <div class="couponItem" v-if="showFlag" v-for="(coupon, index) in couponList" :key="index">
                                         <div class="couponInfo">
                                           <div class="info">
                                             <div class="infoFee"><span class="tag">$</span> <span class="num">{{coupon.cc_amount}}</span></div>
@@ -38,7 +38,7 @@
                                 <el-tab-pane :label="'Invalid Coupons (' + invalidNum + ')'" name="second">
                                   <div class="pointBox">
                                     <div class="coupon">
-                                      <div class="couponItem" v-if="showFlag" v-for="(coupon, index) in couponList">
+                                      <div class="couponItem" v-if="showFlag" v-for="(coupon, index) in couponList" :key="index">
                                         <div class="couponInfo overdata">
                                           <div class="info">
                                             <div class="infoFee unUse"><span class="tag">$</span> <span class="num">{{coupon.cc_amount}}</span></div>

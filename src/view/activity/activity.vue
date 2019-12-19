@@ -16,7 +16,7 @@
     <div  v-if="sty.type == 1">
       <el-carousel :interval="5000" arrow="never" :height="bannerHt + 'px'">
         <el-carousel-item v-for="(item, index2) in sty.imgList" :key="index2">
-          <a :href="item.imgLink"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
+          <a :href="item.imgLink?item.imgLink:'#'"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
         </el-carousel-item>
       </el-carousel>
     </div>
