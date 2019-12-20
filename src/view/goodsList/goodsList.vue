@@ -88,7 +88,7 @@
                 {{goods.defultTitle}}
               </div>
               <div class="goodsPrice">
-                <div class="pri">${{goods.activity_id>0?goods.activity_price:goods.defultPrice}}<span v-if="goods.activity_id>0">${{goods.defultPrice}}</span></div>
+                <div class="pri">${{goods.activity_id>0?(goods.activity_price).toFixed(2):goods.defultPrice}}<span v-if="goods.activity_id>0">${{goods.defultPrice}}</span></div>
                 <div class="num">{{goods.selling}} Sold</div>
               </div>
             </div>
