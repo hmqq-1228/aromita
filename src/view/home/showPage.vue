@@ -49,9 +49,18 @@
       </div>
       <div class="sell">
         <div class="sell_1" v-for="(item,index) in homeData" :key="index" @click="link(item.products_id,item.spu_id)">
-          <img :src="item.products_src" alt>
-          <p class="sell_word">{{ item.products_name }}</p>
-          <p class="sell_word1">$ {{ item.products_price }}</p>
+          <div class="imgBox">
+            <div class="tagBox" v-if="item.activity_id > 0">
+              <div class="cheap" v-if="item.activity_type == 1">
+                <div class="cheapLeft"></div>
+                <div class="cheapRight">${{parseFloat(item.activity_price).toFixed(2)}}</div>
+              </div>
+              <div class="disPrice" v-if="item.activity_type == 2">%{{parseInt(item.activity_intensity)}} OFF</div>
+            </div>
+            <img :src="item.products_src" alt>
+          </div>
+          <p class="sell_word">{{item.products_name}}</p>
+          <p class="sell_word1">${{item.activity_id > 0?item.activity_price:item.products_price}}<span v-if="item.activity_id > 0">${{item.products_price}}</span></p>
         </div>
       </div>
       <div class="word3_">
@@ -59,9 +68,18 @@
       </div>
       <div class="new">
         <div class="new_1" v-for="(item,index) in homeArr" :key="index" @click="link(item.products_id,item.spu_id)">
-          <img :src="item.products_src" alt>
+          <div class="imgBox">
+            <div class="tagBox" v-if="item.activity_id > 0">
+              <div class="cheap" v-if="item.activity_type == 1">
+                <div class="cheapLeft"></div>
+                <div class="cheapRight">${{parseFloat(item.activity_price).toFixed(2)}}</div>
+              </div>
+              <div class="disPrice" v-if="item.activity_type == 2">%{{parseInt(item.activity_intensity)}} OFF</div>
+            </div>
+            <img :src="item.products_src" alt>
+          </div> 
           <p class="new_word">{{item.products_name}}</p>
-          <p class="new_word1">$ {{ item.products_price }}</p>
+          <p class="new_word1">${{item.activity_id > 0?item.activity_price:item.products_price}}<span v-if="item.activity_id > 0">${{item.products_price}}</span></p>
         </div>
       </div>
       <div class="word4">Hot Style in Social Medias</div>

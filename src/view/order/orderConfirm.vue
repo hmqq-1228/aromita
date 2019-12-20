@@ -455,6 +455,7 @@ export default {
       addressLen: 0,
       billTotalSum: 0,
       subTotalCoupon: 0,
+      actIdList: [],
       goodsList: [],
       couponList: [],
       addressList: [],
@@ -812,9 +813,9 @@ export default {
       that.addressList2 = []
       var address = sessionStorage.getItem('addressList')
       var list = JSON.parse(address)
-      // console.log('4444', list)
+      console.log('4444', list)
       that.addressList2 = list
-      if (that.addressList2.length > 0) {
+      if (list && that.addressList2.length > 0) {
         that.order_Address = that.addressList2[0]
         for (var i=0; i<this.addressList2.length; i++) {
           if (that.addressList2[i].is_default === 1) {
@@ -1124,6 +1125,7 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var idStr = JSON.stringify(ids)
       var payList = []
+      var actIdList = []
       var subTotal = 0
       let idList = {
         ids: idStr
@@ -1132,10 +1134,11 @@ export default {
         let data = await orderAdd(idList)
         for (var i=0;i<data.length;i++){
           data[i].sku_pay = data[i].goods_count * parseFloat((data[i].activity_price?data[i].activity_price:data[i].sku_price))
+          // actIdList.push(data[i].sku_id + '-' + data[i].sku_id)
         }
         that.goodsList = data
-        // that.butLoading = true
-        // this.checkAddress(that.checkedAdressId)
+        // that.actIdList = actIdList
+        // console.log('ggggg', actIdList)
         for(var i= 0;i<this.goodsList.length;i++){
           this.$set(this.goodsList[i],'soldOut',0)
           this.$set(this.goodsList[i],'realNum',0)
@@ -1435,7 +1438,8 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('idList'))
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
-      // console.log('uuuuuuu', orderAddress)
+      // console.log('uuuuuuu', that.actIdList)
+      return false
       var shipMethod = that.orderShipMethod
       var payMethod = {
         payment_module_code: 1,
@@ -1526,10 +1530,11 @@ export default {
           })
         } else if (res.code == 116) {
           that.payDisabled = true
-          this.$alert("商品活动已经结束.", '', {
+          that.$alert("商品活动已经结束.", '', {
             confirmButtonText: 'Go To Cart',
+            showClose: false,
             callback: action => {
-              this.$router.push('/shoppingCar')
+              that.$router.push('/shoppingCar')
             }
           })
         }

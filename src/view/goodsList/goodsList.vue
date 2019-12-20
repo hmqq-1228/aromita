@@ -67,7 +67,7 @@
                 <div class="tagBox" v-if="goods.activity_id>0">
                   <div class="cheap" v-if="goods.activity_type == 1">
                     <div class="cheapLeft"></div>
-                    <div class="cheapRight">${{goods.activity_price}}</div>
+                    <div class="cheapRight">${{parseFloat(goods.activity_price).toFixed(2)}}</div>
                   </div>
                   <div class="disPrice"  v-if="goods.activity_type == 2">%{{parseInt(goods.activity_intensity)}} OFF</div>
                 </div>
