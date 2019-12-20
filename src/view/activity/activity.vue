@@ -16,7 +16,7 @@
     <div  v-if="sty.type == 1">
       <el-carousel :interval="5000" arrow="never" :height="bannerHt + 'px'">
         <el-carousel-item v-for="(item, index2) in sty.imgList" :key="index2">
-          <a :href="item.imgLink?item.imgLink:'#'"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
+          <a :href="item.imgLink?item.imgLink:'javascript:void(0);'"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -44,6 +44,18 @@
       </div>
        <div v-if="activityDataList.length<totalNum" @click="addMoreList()" class="loadMore">Load More</div>
     </div>
+    <el-dialog
+      :show-close="false"
+      top="30vh"
+      :close-on-click-modal="false"
+      :visible.sync="dialogVisible"
+      width="380px">
+      <span>活动结束 ，将在 {{theNum}}s 跳转到首页。</span>
+      <span slot="footer">
+        <el-button type="primary" @click="toHome">Go To Now</el-button>
+      </span>
+    </el-dialog>
+
     <!-- <div class="bottomList">
       <el-carousel :interval="5000" arrow="never">
         <el-carousel-item v-for="(item, index) in bannerObj.imgList" :key="index">
@@ -61,11 +73,13 @@ export default {
   data () {
     return{
       page: 1,
+      theNum: 5,
       timeObj: {},
       totalNum: 0,
       bannerHt: 500,
       activity_id: '',
       isStartActv: false,
+      dialogVisible: false,
       activityInfo: {},
       activityDataList: [],
       bannerObj: {},
@@ -85,6 +99,20 @@ export default {
     }
   },
   methods:{
+    toHome () {
+      this.$router.push('/')
+    },
+    threeMin () {
+      var interval = setInterval(() => {
+        this.theNum--
+        console.log('lllmmm', this.theNum)
+        if (this.theNum == 0) {
+          this.dialogVisible = false
+          this.$router.push('/')
+          clearInterval(interval);
+        }
+      }, 1000)
+    },
     getActivityList () {
       var that = this
       activityList({activity_id: that.activity_id}).then((res)=>{
@@ -131,6 +159,15 @@ export default {
             that.timeDown('2')
             that.getAfterList()
             that.isStartActv = true
+          } else if (res.data.activity_status == 0) {
+            that.dialogVisible = true
+            that.threeMin()
+            that.timeObj = {
+              aDay: '00',
+              aHour: '00',
+              aMin: '00',
+              aSec: '00'
+            }
           } else {
             that.timeObj = {
               aDay: '00',

@@ -40,7 +40,7 @@
       <div class="optionType">
         <span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span>
         <span class="wishAdd" v-if="carItem.in_wishlist === 10"><img @click="addWish(carItem.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
-        <span class="wishAdd" title="wish list" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
+        <span class="wishAdd" style="cursor: auto" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
       </div>
     </div>
     <div class="noGoods" v-if="noProduct">

@@ -234,12 +234,12 @@
             <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="index">
               <div class="goodName">
                 <div class="goodImg">
-                  <div class="tagBox">
-                    <div class="cheap">
+                  <div class="tagBox" v-if="goods.activity_type">
+                    <div class="cheap" v-if="goods.activity_type == 1">
                       <div class="cheapLeft"></div>
-                      <div class="cheapRight">$9.66</div>
+                      <div class="cheapRight">${{goods.activity_price}}</div>
                     </div>
-                    <div class="disPrice">%{{parseInt(30)}} OFF</div>
+                    <div class="disPrice" v-if="goods.activity_type == 2">%{{parseInt(goods.activity_intensity)}} OFF</div>
                   </div>
                   <img :src="goods.sku_image" alt="">
                   <div class="soldOut" v-show="goods.soldOut === 1">Sold out</div>
@@ -247,8 +247,8 @@
                 <div class="goodsText">
                   <div class="nameInfo">{{goods.sku_name}}</div>
                   <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)" :key="index2">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
-                  <div class="price">${{goods.sku_price}}
-                    <span>${{goods.sku_price}}</span>
+                  <div class="price">${{goods.activity_price?goods.activity_price:goods.sku_price}}
+                    <span v-if="goods.activity_type">${{goods.sku_price}}</span>
                   </div>
                 </div>
               </div>
@@ -1131,7 +1131,7 @@ export default {
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
         for (var i=0;i<data.length;i++){
-          data[i].sku_pay = data[i].goods_count * data[i].sku_price
+          data[i].sku_pay = data[i].goods_count * parseFloat((data[i].activity_price?data[i].activity_price:data[i].sku_price))
         }
         that.goodsList = data
         // that.butLoading = true
@@ -1256,7 +1256,7 @@ export default {
         coupon_status: 10
       })
       that.$axios.post('api/getCustomerCoupon', payMon).then(res => {
-       // console.log('hhhhh666',res)
+       console.log('hhhhh666',that.subTotalCoupon)
         if (res.code === 200) {
           that.couponList = res.data
           for (var i=0;i<that.couponList.length;i++){
@@ -1522,6 +1522,14 @@ export default {
             callback: action => {
               that.getBillingList()
               that.getCouponList()
+            }
+          })
+        } else if (res.code == 116) {
+          that.payDisabled = true
+          this.$alert("商品活动已经结束.", '', {
+            confirmButtonText: 'Go To Cart',
+            callback: action => {
+              this.$router.push('/shoppingCar')
             }
           })
         }
