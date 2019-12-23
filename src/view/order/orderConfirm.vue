@@ -1439,7 +1439,7 @@ export default {
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
       // console.log('uuuuuuu', that.actIdList)
-      return false
+      // return false
       var shipMethod = that.orderShipMethod
       var payMethod = {
         payment_module_code: 1,
@@ -1458,7 +1458,7 @@ export default {
         // console.log('hhhhh', res)
         if (res.order_num && res.total_price && res.order_id) {
           that.payByPaypal(res.total_price, res.order_num, res.order_id)
-        } else if (res.code === 110) {
+        } else if (res.code == 110) {
           var ids = JSON.parse(res.data)
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
@@ -1470,7 +1470,7 @@ export default {
           this.$alert('Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.', '', {
             confirmButtonText: 'OK',
           })
-        } else if (res.code === 111) {
+        } else if (res.code == 111) {
           var ids = JSON.parse(res.data)
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
@@ -1485,13 +1485,13 @@ export default {
             confirmButtonText: 'OK',
           })
           // that.$message.warning('The order has expired, Please add it again.')
-        } else if (res.code === 301) {
+        } else if (res.code == 301) {
           that.payDisabled = true
           this.$alert('The order has expired, Please add it again.', '', {
             confirmButtonText: 'OK',
           })
           // that.$message.warning('The order has expired, Please add it again.')
-        } else if (res.code === 112) {
+        } else if (res.code == 112) {
           that.payDisabled = true
           that.inputPoint = ''
           this.$alert("Point discount must not exceed the order's current total amount(not including shipping fee and taxes).", '', {
@@ -1500,7 +1500,7 @@ export default {
               that.getBillingList()
             }
           })
-        } else if (res.code === 113) {
+        } else if (res.code == 113) {
           that.payDisabled = true
           that.inputPoint = ''
           this.$alert("Your points are not enough. Please fill it in again.", '', {
@@ -1510,7 +1510,7 @@ export default {
               that.getPoints()
             }
           })
-        } else if (res.code === 114) {
+        } else if (res.code == 114) {
           that.payDisabled = true
           this.$alert("Sorry, this coupon was already used.", '', {
             confirmButtonText: 'OK',
@@ -1519,7 +1519,7 @@ export default {
               that.getCouponList()
             }
           })
-        } else if (res.code === 115) {
+        } else if (res.code == 115) {
           that.payDisabled = true
           this.$alert("Sorry, this coupon has already expired.", '', {
             confirmButtonText: 'OK',
@@ -1580,7 +1580,7 @@ export default {
           $('.payConfirm').removeClass('error')
           if (formName) {
             if (that.radio3 === '1') {
-              // console.log('你选择了第一种支付方式')
+              console.log('你选择了第一种支付方式')
               that.confirmPay()
             }else if (that.radio3 === '2') {
               if (that.checked) {

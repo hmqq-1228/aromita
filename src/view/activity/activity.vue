@@ -92,8 +92,8 @@ export default {
     // window.addEventListener('scroll', this.handleScroll);
   },
   created () {
-    console.log('kkkkkk', this.$route.query.activityId)
-    this.activity_id = this.$route.query.activityId
+    console.log('kkkkkk', this.$route.query.id)
+    this.activity_id = this.$route.query.id
     if (this.activity_id) {
       this.getActivityList()
     }
