@@ -1,60 +1,60 @@
 <template>
   <div class="activityBox">
     <!-- activityInfo.activity_status -->
-    <div v-for="(sty,index) in styleList" :key="index">
-    <div class="activityTime" v-if="sty.type == 2 && sty.timeNameStr" :style="'backgroundColor:' + sty.timeobj.background +';color:'+ sty.timeobj.style.color+';justifyContent:'+ sty.timeobj.style.positionStr">
-      <div><span>{{sty.timeNameStr}}：</span></div>
-      <div class="numDiv">{{timeObj.aDay}}</div>
-      <div class="flag">D</div>
-      <div class="numDiv">{{timeObj.aHour}}</div>
-      <div class="flag">h</div>
-      <div class="numDiv">{{timeObj.aMin}}</div>
-      <div class="flag">m</div>
-      <div class="numDiv">{{timeObj.aSec}}</div>
-      <div class="flag">s</div>
-    </div>
-    <div  v-if="sty.type == 1">
-      <el-carousel :interval="5000" arrow="never" :height="bannerHt + 'px'">
-        <el-carousel-item v-for="(item, index2) in sty.imgList" :key="index2">
-          <a :href="item.imgLink?item.imgLink:'javascript:void(0);'"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <div  v-if="sty.type == 3" class="activityGoods" :style="'backgroundColor:'+ sty.background_color+';backgroundImage:url('+ sty.background_image+')'">
-      <div class="goodsList">
-        <div v-for="(act, index) in activityDataList" :key="index">
-          <div class="itemInner">
-            <div class="imgBox" @click="toDetailPage(act.product_id, act.sku_id)">
-              <div class="tagBox" v-if="isStartActv">
-                <div class="cheap" v-if="act.activity_type == 1">
-                  <div class="cheapLeft"></div>
-                  <div class="cheapRight">${{act.activity_price}}</div>
+    <div v-for="(sty,index) in styleList" :key="index" v-if="styleList.length>0">
+      <div class="activityTime" v-if="sty.type == 2 && sty.timeNameStr" :style="'backgroundColor:' + sty.timeobj.background +';color:'+ sty.timeobj.style.color+';justifyContent:'+ sty.timeobj.style.positionStr">
+        <div><span>{{sty.timeNameStr}}：</span></div>
+        <div class="numDiv">{{timeObj.aDay}}</div>
+        <div class="flag">D</div>
+        <div class="numDiv">{{timeObj.aHour}}</div>
+        <div class="flag">h</div>
+        <div class="numDiv">{{timeObj.aMin}}</div>
+        <div class="flag">m</div>
+        <div class="numDiv">{{timeObj.aSec}}</div>
+        <div class="flag">s</div>
+      </div>
+      <div  v-if="sty.type == 1">
+        <el-carousel :interval="5000" arrow="never" :height="bannerHt + 'px'">
+          <el-carousel-item v-for="(item, index2) in sty.imgList" :key="index2">
+            <a :href="item.imgLink?item.imgLink:'javascript:void(0);'"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+      <div v-if="sty.type == 3" class="activityGoods" :style="'backgroundColor:'+ sty.background_color+';backgroundImage:url('+ sty.background_image+')'">
+        <div class="goodsList">
+          <div v-for="(act, index) in activityDataList" :key="index">
+            <div class="itemInner">
+              <div class="imgBox" @click="toDetailPage(act.product_id, act.sku_id)">
+                <div class="tagBox" v-if="isStartActv">
+                  <div class="cheap" v-if="act.activity_type == 1">
+                    <div class="cheapLeft"></div>
+                    <div class="cheapRight">${{act.activity_price}}</div>
+                  </div>
+                  <div class="disPrice" v-if="act.activity_type == 2">%{{parseInt(act.activity_intensity)}} OFF</div>
                 </div>
-                <div class="disPrice" v-if="act.activity_type == 2">%{{parseInt(act.activity_intensity)}} OFF</div>
+                <img :src="act.sku_color_img" alt="">
               </div>
-              <img :src="act.sku_color_img" alt="">
-            </div>
-            <div class="nameBox"  @click="toDetailPage(act.product_id, act.sku_id)">{{act.sku_name}}</div>
-            <div class="goodsPrice">
-              <div class="pri">${{isStartActv?act.activity_price:act.sku_price}} <span v-if="isStartActv">${{act.sku_price}}</span></div>
-              <div class="num"></div>
+              <div class="nameBox"  @click="toDetailPage(act.product_id, act.sku_id)">{{act.sku_name}}</div>
+              <div class="goodsPrice">
+                <div class="pri">${{isStartActv?act.activity_price:act.sku_price}} <span v-if="isStartActv">${{act.sku_price}}</span></div>
+                <div class="num"></div>
+              </div>
             </div>
           </div>
         </div>
+        <div v-if="activityDataList.length<totalNum" @click="addMoreList()" class="loadMore">Load More</div>
       </div>
-       <div v-if="activityDataList.length<totalNum" @click="addMoreList()" class="loadMore">Load More</div>
-    </div>
-    <el-dialog
-      :show-close="false"
-      top="30vh"
-      :close-on-click-modal="false"
-      :visible.sync="dialogVisible"
-      width="380px">
-      <span>活动结束 ，将在 {{theNum}}s 跳转到首页。</span>
-      <span slot="footer">
-        <el-button type="primary" @click="toHome">Go To Now</el-button>
-      </span>
-    </el-dialog>
+      <el-dialog
+        :show-close="false"
+        top="30vh"
+        :close-on-click-modal="false"
+        :visible.sync="dialogVisible"
+        width="380px">
+        <span>活动结束 ，将在 {{theNum}}s 跳转到首页。</span>
+        <span slot="footer">
+          <el-button type="primary" @click="toHome">Go To Now</el-button>
+        </span>
+      </el-dialog>
 
     <!-- <div class="bottomList">
       <el-carousel :interval="5000" arrow="never">
@@ -63,7 +63,31 @@
         </el-carousel-item>
       </el-carousel>
     </div> -->
-  </div>
+    </div>
+     <div v-if="!styleList" class="activityGoods">
+        <div class="goodsList">
+          <div v-for="(act, index) in activityDataList" :key="index">
+            <div class="itemInner">
+              <div class="imgBox" @click="toDetailPage(act.product_id, act.sku_id)">
+                <div class="tagBox" v-if="isStartActv">
+                  <div class="cheap" v-if="act.activity_type == 1">
+                    <div class="cheapLeft"></div>
+                    <div class="cheapRight">${{act.activity_price}}</div>
+                  </div>
+                  <div class="disPrice" v-if="act.activity_type == 2">%{{parseInt(act.activity_intensity)}} OFF</div>
+                </div>
+                <img :src="act.sku_color_img" alt="">
+              </div>
+              <div class="nameBox"  @click="toDetailPage(act.product_id, act.sku_id)">{{act.sku_name}}</div>
+              <div class="goodsPrice">
+                <div class="pri">${{isStartActv?act.activity_price:act.sku_price}} <span v-if="isStartActv">${{act.sku_price}}</span></div>
+                <div class="num"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="activityDataList.length<totalNum" @click="addMoreList()" class="loadMore">Load More</div>
+      </div>
   </div>
 </template>
 
