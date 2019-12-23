@@ -50,7 +50,7 @@
         :close-on-click-modal="false"
         :visible.sync="dialogVisible"
         width="380px">
-        <span>活动结束 ，将在 {{theNum}}s 跳转到首页。</span>
+        <span>{{theNum}}s later, will go back to homepage.</span>
         <span slot="footer">
           <el-button type="primary" @click="toHome">Go To Now</el-button>
         </span>
@@ -92,7 +92,7 @@
 </template>
 
 <script>
-import {activityList} from "../../api/home";
+import {activityList, beforeList, afterList} from "../../api/home";
 export default {
   data () {
     return{
@@ -171,7 +171,7 @@ export default {
               }
             }
           }
-          console.log('hhhhhh', list)
+          console.log('hhhhhh', that.activityInfo)
           that.styleList = list
           if (res.data.activity_status == 1){
             // 未开始
@@ -203,9 +203,21 @@ export default {
         }
       })
     },
+    addMoreList(){
+      this.page = this.page + 1
+      if (this.activityInfo.activity_status == 1) {
+        this.getBeforeList()
+      } else if (this.activityInfo.activity_status == 2) {
+        this.getAfterList()
+      }
+    },
     getBeforeList(){
       var that = this
-      that.$axios.get('api/sku/activityBeforeStartSkuList/' + that.activity_id, {}).then(res => {
+      var obj = {
+        id: that.activity_id,
+        page: that.page
+      }
+      beforeList(obj).then(res => {
         if (res.code == 200) {
           console.log('111111', res)
           if(that.page == 1){
@@ -219,7 +231,11 @@ export default {
     },
     getAfterList(){
       var that = this
-      that.$axios.get('api/sku/activityAfterStartSkuList/' + that.activity_id, {}).then(res => {
+      var obj = {
+        id: that.activity_id,
+        page: that.page
+      }
+      afterList(obj).then(res => {
         if (res.code == 200) {
           console.log('222222', res)
           if(that.page == 1){

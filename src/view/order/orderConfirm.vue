@@ -1530,7 +1530,7 @@ export default {
           })
         } else if (res.code == 116) {
           that.payDisabled = true
-          that.$alert("商品活动已经结束.", '', {
+          that.$alert("Sorry. The promotional discount is end. Some of the products in your shopping cart have been restored the original price.", '', {
             confirmButtonText: 'Go To Cart',
             showClose: false,
             callback: action => {

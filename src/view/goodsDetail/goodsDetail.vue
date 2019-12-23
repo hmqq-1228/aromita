@@ -89,7 +89,7 @@
         <div class="activeTitle">
           <div class="activeName">{{activityObj.name}}</div>
           <div class="activeTime">
-            <div class="activeTip">距离活动开始:</div>
+            <div class="activeTip">Ends :</div>
             <div class="tim">{{timeObj.day}}</div>
             <div class="Af">:</div>
             <div class="tim">{{timeObj.hour}}</div>
@@ -108,10 +108,10 @@
             <div class="actName">Activity:</div>
             <div class="activeFlag">
               <span class="activeTag" v-if="activityObj.activity_type == 2">%{{parseInt(activityObj.activity_intensity)}} OFF</span>
-              <span>为您节省$ {{(activityObj.disContMoney * numQuality).toFixed(2)}}</span>
+              <span>You save $ {{(activityObj.disContMoney * numQuality).toFixed(2)}}</span>
             </div>
           </div>
-          <div class="toolPosition">
+          <div class="toolPosition" v-if="activityObj.activity_rule">
              <el-tooltip class="item" effect="light" :content="activityObj.activity_rule" placement="left">
               <span class="el-icon-warning-outline"></span>
             </el-tooltip>
