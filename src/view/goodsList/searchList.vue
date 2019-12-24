@@ -69,7 +69,9 @@
         <div v-if="goodsList">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
-              <div class="goodsPic" @click="toGoodsDetail(goods.id, goods.skuId)">
+              <div class="goodsPic" @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" @click="toGoodsDetail(goods.id, goods.skuId)">
+                <!-- <el-image v-if="goods.firstLargePic" :src="goods.firstLargePic" lazy></el-image> -->
+                <img v-lazy="goods.firstLargePic" alt="img">
                 <div class="tagBox" v-if="goods.activity_id>0">
                   <div class="cheap" v-if="goods.activity_type == 1">
                     <div class="cheapLeft"></div>
@@ -77,7 +79,6 @@
                   </div>
                   <div class="disPrice"  v-if="goods.activity_type == 2">%{{parseInt(goods.activity_intensity)}} OFF</div>
                 </div>
-                <img @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" :src="goods.firstLargePic" alt="">
               </div>
               <div class="smallSlider2">
                 <div class="sliderBox">
@@ -617,12 +618,13 @@
         }
       },
       imgPreve:function (e) {
-        var obj = e.currentTarget
+        var obj = e.currentTarget.children[0]
+        // console.log('kkk', obj)
         $(obj).removeClass('defultView')
         $(obj).addClass('biggerView')
       },
       imgHidden: function (e) {
-        var obj = e.currentTarget
+        var obj = e.currentTarget.children[0]
         $(obj).removeClass('biggerView')
         $(obj).addClass('defultView')
       }

@@ -39,7 +39,7 @@
       <div class="collections">
         <ul class="collections_thr1">
           <li class="thr2" v-for="(item,index) in dataCollections" :key="index">
-            <img :src="item.picture_src" alt @click="linkHref(item.picture_href)">
+            <img v-lazy="item.picture_src" alt @click="linkHref(item.picture_href)">
           </li>
         </ul>
       </div>
@@ -57,7 +57,7 @@
               </div>
               <div class="disPrice" v-if="item.activity_type == 2">%{{parseInt(item.activity_intensity)}} OFF</div>
             </div>
-            <img :src="item.products_src" alt>
+            <img v-lazy="item.products_src" alt>
           </div>
           <p class="sell_word">{{item.products_name}}</p>
           <p class="sell_word1">${{item.activity_id > 0?item.activity_price:item.products_price}}<span v-if="item.activity_id > 0">${{item.products_price}}</span></p>
@@ -76,7 +76,7 @@
               </div>
               <div class="disPrice" v-if="item.activity_type == 2">%{{parseInt(item.activity_intensity)}} OFF</div>
             </div>
-            <img :src="item.products_src" alt>
+            <img v-lazy="item.products_src" alt>
           </div> 
           <p class="new_word">{{item.products_name}}</p>
           <p class="new_word1">${{item.activity_id > 0?item.activity_price:item.products_price}}<span v-if="item.activity_id > 0">${{item.products_price}}</span></p>
@@ -87,7 +87,7 @@
       <div class="banner2 swiper-container" dir="rtl">
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="(item,index) in hotStyle" :key="index">
-            <img :src="item.picture_src" class="small2" @click="linkHref(item.picture_href)">
+            <img v-lazy="item.picture_src" class="small2" @click="linkHref(item.picture_href)">
           </div>
         </div>
         <!-- 如果需要导航按钮 -->

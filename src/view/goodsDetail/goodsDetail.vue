@@ -91,12 +91,13 @@
           <div class="activeTime">
             <div class="activeTip">Ends :</div>
             <div class="tim">{{timeObj.day}}</div>
-            <div class="Af">:</div>
+            <div class="Af"> d</div>
             <div class="tim">{{timeObj.hour}}</div>
-            <div class="Af">:</div>
+            <div class="Af"> h</div>
             <div class="tim">{{timeObj.min}}</div>
-            <div class="Af">:</div>
+            <div class="Af"> m</div>
             <div class="tim">{{timeObj.sec}}</div>
+            <div class="Af" style="width:12px;margin-left:4px;"> s</div>
           </div>
         </div>
         <div class="activeCount">
