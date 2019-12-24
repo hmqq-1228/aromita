@@ -24,7 +24,7 @@ router.afterEach((to,from,next)=>{
 })
 Vue.use(VueLazyload,{
   error:'static/img/nodata.jpg',//图片加载失败时候显示的图片
-  loading:'static/img/nodata.jpg'//图片还未加载完成时候的loading图片
+  loading:'static/img/loading.gif'//图片还未加载完成时候的loading图片
 })
 router.beforeEach((to,from,next)=>{
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限

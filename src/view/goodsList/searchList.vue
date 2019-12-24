@@ -65,13 +65,14 @@
         </div>
         <div class="viewMore" v-if="attrListLen > 3" @click="showMoreAttr(moreIcon)">view more <i :class="moreIcon"></i></div>
       </div>
-      <div class="listGoods" v-if="!noDataShow">
+      <div class="listGoods" v-if="!loadingShow && !noDataShow">
         <div v-if="goodsList">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
               <div class="goodsPic" @mouseover="imgPreve($event)" @mouseleave="imgHidden($event)" @click="toGoodsDetail(goods.id, goods.skuId)">
                 <!-- <el-image v-if="goods.firstLargePic" :src="goods.firstLargePic" lazy></el-image> -->
                 <img v-lazy="goods.firstLargePic" alt="img">
+                <!-- <img src="../../../static/img/loading.gif" alt="img"> -->
                 <div class="tagBox" v-if="goods.activity_id>0">
                   <div class="cheap" v-if="goods.activity_type == 1">
                     <div class="cheapLeft"></div>
@@ -105,10 +106,16 @@
         <div v-if="goodsList && goodsList.length < totalNum" @click="addMoreList()" class="loadMore">Load More</div>
         <div v-if="topShow" class="toTop" @click="toTop()"></div>
       </div>
-      <div class="listGoods noData" v-if="noDataShow">
+      <div class="listGoods noData" v-if="noDataShow && !loadingShow">
         <div>
           <img src="../../../static/img/nodata.jpg" alt="">
           <div style="margin-top: 20px">Sorry. No products were found matching your selection.</div>
+        </div>
+      </div>
+      <div class="listGoods noData" style="margin-top: 200px;" v-if="loadingShow">
+        <div>
+          <img src="../../../static/img/loadingData.gif" alt="">
+          <div style="margin-top: 20px">loading...</div>
         </div>
       </div>
     </div>
@@ -124,6 +131,7 @@
       return {
         topShow: false,
         loading:true,
+        loadingShow: false,
         // len: 3,
         page:1,
         Metal: '',
@@ -480,6 +488,7 @@
       getList() {
         var that = this
         var obj
+        that.loadingShow = true
         obj = {
           s_cate_id: that.s_cate_id,
           f_cate_id: that.f_cate_id,
@@ -494,6 +503,7 @@
         }
         getSearchList(obj).then((res)=>{
           if(res.code === '200' || res.code === 200){
+            that.loadingShow = false
             if(this.page == 1){
               this.goodsList = res.data.data
             }else{
@@ -518,8 +528,10 @@
             }
             if (this.goodsList.length === 0) {
               this.noDataShow = true
+              that.loadingShow = false
             } else {
               this.noDataShow = false
+              that.loadingShow = false
             }
           }
         })

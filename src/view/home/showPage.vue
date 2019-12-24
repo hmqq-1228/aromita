@@ -30,7 +30,7 @@
       <div class="home_banner">
           <el-carousel height="500px">
               <el-carousel-item v-for="(item,index) in dataBanner" :key="index">
-                <img style="cursor: pointer;" :src="item.picture_src" alt @click="linkHref(item.picture_href)">
+                <img style="cursor: pointer;" v-lazy="item.picture_src" alt @click="linkHref(item.picture_href)">
               </el-carousel-item>
           </el-carousel>
       </div>
