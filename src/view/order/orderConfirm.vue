@@ -1134,11 +1134,16 @@ export default {
         let data = await orderAdd(idList)
         for (var i=0;i<data.length;i++){
           data[i].sku_pay = data[i].goods_count * parseFloat((data[i].activity_price?data[i].activity_price:data[i].sku_price))
-          // actIdList.push(data[i].sku_id + '-' + data[i].sku_id)
+          if (data[i].activity_id) {
+            actIdList.push(data[i].activity_id + '-' + data[i].sku_id)
+          } else {
+            actIdList.push(0 + '-' + data[i].sku_id)
+          }
+          
         }
         that.goodsList = data
-        // that.actIdList = actIdList
-        // console.log('ggggg', actIdList)
+        that.actIdList = actIdList
+        console.log('ggggg', actIdList)
         for(var i= 0;i<this.goodsList.length;i++){
           this.$set(this.goodsList[i],'soldOut',0)
           this.$set(this.goodsList[i],'realNum',0)
@@ -1190,7 +1195,7 @@ export default {
         that.inputPoint = 0
       }
       let idList = {
-        ids: idStr,
+        activity_sku: JSON.stringify(that.actIdList),
         score: that.inputPoint,
         cc_id: coupon_id,
         pd_des_address: JSON.stringify(addData)
@@ -1446,19 +1451,23 @@ export default {
         payment_method: "paypal"
       }
       var payLoad = qs.stringify({
-        ids: JSON.stringify(ids),
+        activity_sku: JSON.stringify(that.actIdList),
         cc_id: coupon_id,
         pd_des_address: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),
         pay_method: JSON.stringify(payMethod),
         score: that.inputPoint
       })
+      that.modelShow2 = true
       // console.log('hhhhh', payLoad)
+      // console.log('uuuuuuu', that.actIdList)
+      // return false
       that.$axios.post('api/order_pay', payLoad).then(res => {
         // console.log('hhhhh', res)
         if (res.order_num && res.total_price && res.order_id) {
           that.payByPaypal(res.total_price, res.order_num, res.order_id)
         } else if (res.code == 110) {
+          that.modelShow2 = false
           var ids = JSON.parse(res.data)
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
@@ -1471,6 +1480,7 @@ export default {
             confirmButtonText: 'OK',
           })
         } else if (res.code == 111) {
+          that.modelShow2 = false
           var ids = JSON.parse(res.data)
           for (var i=0; i<that.goodsList.length; i++) {
             for (var j=0; j<ids.length; j++) {
@@ -1480,18 +1490,21 @@ export default {
             }
           }
         } else if (res.code == 102) {
+          that.modelShow2 = false
           that.payDisabled = true
           this.$alert('No mode of transportation, please choose a new valid address.', '', {
             confirmButtonText: 'OK',
           })
           // that.$message.warning('The order has expired, Please add it again.')
         } else if (res.code == 301) {
+          that.modelShow2 = false
           that.payDisabled = true
           this.$alert('The order has expired, Please add it again.', '', {
             confirmButtonText: 'OK',
           })
           // that.$message.warning('The order has expired, Please add it again.')
         } else if (res.code == 112) {
+          that.modelShow2 = false
           that.payDisabled = true
           that.inputPoint = ''
           this.$alert("Point discount must not exceed the order's current total amount(not including shipping fee and taxes).", '', {
@@ -1501,6 +1514,7 @@ export default {
             }
           })
         } else if (res.code == 113) {
+          that.modelShow2 = false
           that.payDisabled = true
           that.inputPoint = ''
           this.$alert("Your points are not enough. Please fill it in again.", '', {
@@ -1511,6 +1525,7 @@ export default {
             }
           })
         } else if (res.code == 114) {
+          that.modelShow2 = false
           that.payDisabled = true
           this.$alert("Sorry, this coupon was already used.", '', {
             confirmButtonText: 'OK',
@@ -1520,6 +1535,7 @@ export default {
             }
           })
         } else if (res.code == 115) {
+          that.modelShow2 = false
           that.payDisabled = true
           this.$alert("Sorry, this coupon has already expired.", '', {
             confirmButtonText: 'OK',
@@ -1529,6 +1545,7 @@ export default {
             }
           })
         } else if (res.code == 116) {
+          that.modelShow2 = false
           that.payDisabled = true
           that.$alert("Sorry. The promotional discount is end. Some of the products in your shopping cart have been restored the original price.", '', {
             confirmButtonText: 'Go To Cart',
@@ -1537,6 +1554,8 @@ export default {
               that.$router.push('/shoppingCar')
             }
           })
+        } else {
+          that.modelShow2 = false
         }
       })
     },
@@ -1549,7 +1568,7 @@ export default {
         order_id: id
       })
       that.$store.state.addCartState = true
-      that.modelShow2 = true
+      // that.modelShow2 = true
       that.$axios.post('api/paypal-pay', payLoad).then(res => {
         if (res.code === '200' || res.code === 200) {
           // console.log('11111111', res.data)

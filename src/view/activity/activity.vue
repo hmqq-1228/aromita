@@ -116,7 +116,7 @@ export default {
     // window.addEventListener('scroll', this.handleScroll);
   },
   created () {
-    console.log('kkkkkk', this.$route.query.id)
+    // console.log('kkkkkk', this.$route.query.id)
     this.activity_id = this.$route.query.id
     if (this.activity_id) {
       this.getActivityList()
@@ -129,7 +129,7 @@ export default {
     threeMin () {
       var interval = setInterval(() => {
         this.theNum--
-        console.log('lllmmm', this.theNum)
+        // console.log('lllmmm', this.theNum)
         if (this.theNum == 0) {
           this.dialogVisible = false
           this.$router.push('/')

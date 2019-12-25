@@ -83,6 +83,11 @@
     margin-top: 30px;
     font-size: 16px;
   }
+  .detailLoad{
+    width: 1440px;
+    margin: 150px auto 0;
+    text-align: center;
+  }
   .mainImage{
     //height: 82px;
     margin-top: 20px;
@@ -879,6 +884,12 @@
   display: flex;
   box-sizing: border-box;
   justify-content: space-between;
+}
+.activeName{
+  width: 260px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 .activeTime{
   display: flex;

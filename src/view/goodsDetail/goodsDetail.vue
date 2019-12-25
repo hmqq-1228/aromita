@@ -1,5 +1,11 @@
 <template>
 <div class="detail">
+  <div class="detailLoad" v-if="loadingShow">
+    <div>
+      <img src="../../../static/img/loadingData.gif" alt="">
+      <div style="margin-top: 20px">Loading...</div>
+    </div>
+  </div>
   <div v-if="detailShow">
   <div class="bgModel" v-if="showModel">
     <div class="modelCont">
@@ -165,7 +171,7 @@
           </div>
           <div class="goodsPrice">
             <div class="goodsLabel">Total Price:</div>
-            <div class="priceCon" style="font-weight: 400">$ {{totalPay}}</div>
+            <div class="priceCon" style="font-weight: 400">$ {{parseFloat(totalPay).toFixed(2)}}</div>
           </div>
         </div>
         <div style="width: 700px;">
@@ -244,6 +250,7 @@ export default {
       detailShow: false,
       isLoginFlag: false,
       inWishList: false,
+      loadingShow: false,
       skuDefult: '',
       numQuality: 1,
       goodDetail: '',
@@ -492,6 +499,7 @@ export default {
       var that = this
       var skuId
       var spuId
+      that.loadingShow = true
       that.skuSpuIdList = []
       that.attrNameList = []
       if (spu && sku) {
@@ -504,6 +512,7 @@ export default {
       that.$axios.get('api/product/'+ spuId + '/' + skuId, {}).then(res => {
         // console.log(res)
         if (res.code === '200' || res.code === 200) {
+          that.loadingShow = false
           that.getActivityInfo(skuId)
           // console.log('11111', res.data)
           if (res.data.sku.sku_status === 0) {
@@ -568,7 +577,8 @@ export default {
               }
             }
           }
-        } else if (res.code === 410) {
+        } else if (res.code == 410) {
+          that.loadingShow = false
           that.$router.push('/noprojuct')
         }
       })
