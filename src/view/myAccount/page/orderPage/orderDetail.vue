@@ -197,7 +197,7 @@ export default {
             that.$set(res.orders_products[i], 'activity_type', 0)
             that.$set(res.orders_products[i], 'activity_price', 0)
             that.$set(res.orders_products[i], 'activity_intensity', 0)
-            if (res.activity_sku.length>0){
+            if (res.activity_sku && res.activity_sku.length>0){
               for(var j=0;j<res.activity_sku.length;j++){
                 if(res.orders_products[i].sku_id == res.activity_sku[j].sku_id){
                   res.orders_products[i].activity_type = res.activity_sku[j].activity_type
