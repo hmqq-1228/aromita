@@ -59,7 +59,7 @@
         </div>
         <div class="viewMore" v-if="attrListLen > 3" @click="showMoreAttr(moreIcon)">view more <i :class="moreIcon"></i></div>
       </div>
-      <div class="listGoods" v-if="!noDataShow">
+      <div class="listGoods" v-if="!noDataShow && !loadingShow">
         <div v-if="goodsList">
           <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="'spu' + goods.id">
             <div class="goodInner">
@@ -98,10 +98,16 @@
         <div v-if="goodsList && goodsList.length < totalNum" @click="addMoreList()" class="loadMore">Load More</div>
         <div v-if="topShow" class="toTop" @click="toTop()"></div>
       </div>
-      <div class="listGoods noData" v-if="noDataShow">
+      <div class="listGoods noData" v-if="noDataShow && !loadingShow">
         <div>
           <img src="../../../static/img/nodata.jpg" alt="">
           <div style="margin-top: 20px">Sorry. No products were found matching your selection.</div>
+        </div>
+      </div>
+      <div class="listGoods noData" style="margin-top: 100px;" v-if="loadingShow">
+        <div>
+          <img src="../../../static/img/loadingData.gif" alt="">
+          <!-- <div style="margin-top: 20px">loading...</div> -->
         </div>
       </div>
     </div>
@@ -138,6 +144,7 @@
         checkAttrList: [],
         checkAttrStr: '',
         noDataShow: false,
+        loadingShow: false,
         activeNamesMetal: '',
         activeNamesColor: '',
         activeNamesSize: '',
@@ -418,6 +425,7 @@
       },
       getList() {
         var that = this
+        that.loadingShow = true
         var obj
         obj = {
           s_cate_id: that.s_cate_id,
@@ -433,6 +441,7 @@
         }
         getSearchList(obj).then((res)=>{
           if(res.code === '200' || res.code === 200){
+            that.loadingShow = false
             if(this.page == 1){
               this.goodsList = res.data.data
             }else{
@@ -457,8 +466,10 @@
             }
             if (this.goodsList.length === 0) {
               this.noDataShow = true
+              that.loadingShow = false
             } else {
               this.noDataShow = false
+              that.loadingShow = false
             }
           }
         })

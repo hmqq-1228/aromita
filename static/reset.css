@@ -167,12 +167,14 @@ ul,li {
 }
 .orderConfirm .shopName .el-radio__input.is-checked+.el-radio__label,.orderConfirm .shopName .el-radio__label{
   width: 460px !important;
+  height: 23px !important;
+  line-height: 23px !important;
   color: #333 !important;
   overflow: hidden !important;
   display: inline-block !important;
   text-overflow:ellipsis !important;
   white-space: nowrap !important;
-  margin-bottom: -6px !important;
+  margin-bottom: -2px !important;
 }
 
 .orderConfirm .el-radio__input.is-checked .el-radio__inner,.payBox .el-checkbox__input.is-checked .el-checkbox__inner,.payBox .el-checkbox__input.is-indeterminate .el-checkbox__inner{
@@ -634,13 +636,16 @@ ul,li {
 .el-tooltip__popper.is-light[x-placement^=left] .popper__arrow{
   border-left-color: #ccc !important;
 }
-.activityBox .el-dialog__footer{
+.activityBox .el-dialog__footer,.orderConfirm .el-dialog__footer{
   text-align: center !important;
 }
-.activityBox .el-dialog__body{
+.activityBox .el-dialog__body,.orderConfirm .el-dialog__body{
   padding: 20px !important;
   color: #333 !important;
   font-size: 16px !important;
   font-weight: bold !important;
   text-align: center !important;
+}
+.orderConfirm .toShopCar .el-button{
+  width: auto !important;
 }

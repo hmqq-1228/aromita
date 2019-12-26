@@ -6,7 +6,7 @@
       <div style="margin-top: 20px">Loading...</div>
     </div>
   </div>
-  <div v-if="detailShow">
+  <div v-if="detailShow && !loadingShow">
   <div class="bgModel" v-if="showModel">
     <div class="modelCont">
       <div class="modelClose" @click="closeModel"><i class="el-icon-close"></i></div>
@@ -109,13 +109,14 @@
         <div class="activeCount">
           <div class="countItem">
             <div class="actName">Price:</div>
-            <div class="activePrice">$ {{activityObj.activity_price}} <span>$ {{activityObj.sku_price}}</span></div>
+            <div class="activePrice">${{activityObj.activity_price}} <span>${{activityObj.sku_price}}</span></div>
           </div>
           <div class="countItem">
             <div class="actName">Activity:</div>
             <div class="activeFlag">
               <span class="activeTag" v-if="activityObj.activity_type == 2">%{{parseInt(activityObj.activity_intensity)}} OFF</span>
-              <span>You save $ {{(activityObj.disContMoney * numQuality).toFixed(2)}}</span>
+              <span>You save ${{(activityObj.disContMoney).toFixed(2)}}</span>
+              <!-- numQuality -->
             </div>
           </div>
           <div class="toolPosition" v-if="activityObj.activity_rule">
@@ -171,7 +172,7 @@
           </div>
           <div class="goodsPrice">
             <div class="goodsLabel">Total Price:</div>
-            <div class="priceCon" style="font-weight: 400">$ {{parseFloat(totalPay).toFixed(2)}}</div>
+            <div class="priceCon" style="font-weight: 400">${{parseFloat(totalPay).toFixed(2)}}</div>
           </div>
         </div>
         <div style="width: 700px;">
@@ -287,13 +288,13 @@ export default {
     }
   },
   watch:{
-    delcart: function(del) {
-        if(del == true){
-          this.numQuality = 1
-          this.getGoodsDetail()
-        }
-        this.$store.state.delcartList = false
-    },
+    // delcart: function(del) {
+    //     if(del == true){
+    //       this.numQuality = 1
+    //       this.getGoodsDetail()
+    //     }
+    //     this.$store.state.delcartList = false
+    // },
     $route(){
       this.spuId = this.$route.params.spuId
       this.skuId = this.$route.params.skuId

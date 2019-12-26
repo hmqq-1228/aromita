@@ -112,10 +112,10 @@
           <div style="margin-top: 20px">Sorry. No products were found matching your selection.</div>
         </div>
       </div>
-      <div class="listGoods noData" style="margin-top: 200px;" v-if="loadingShow">
+      <div class="listGoods noData" style="margin-top:100px;" v-if="loadingShow">
         <div>
           <img src="../../../static/img/loadingData.gif" alt="">
-          <div style="margin-top: 20px">loading...</div>
+          <!-- <div style="margin-top: 20px">loading...</div> -->
         </div>
       </div>
     </div>

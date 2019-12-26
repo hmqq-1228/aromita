@@ -491,8 +491,25 @@ export default {
     },
     subTotalPay: function() {
       var that = this
+      var sku_num = []
+      if (that.goodsListOn) {
+        for(var i=0;i<that.goodsListOn.length;i++){
+          for (var j=0;j<that.checkedItem.length;j++){
+            if(that.goodsListOn[i].sku_id == that.checkedItem[j]){
+              if (that.goodsListOn[i].activity_id) {
+                sku_num.push(that.goodsListOn[i].activity_id +'-'+that.checkedItem[j]+'-'+that.goodsListOn[i].goods_count)
+              } else {
+                sku_num.push(0+'-'+that.checkedItem[j]+'-'+that.goodsListOn[i].goods_count)
+              }
+            }
+          }
+        }
+      }
+      console.log('mmmmm', sku_num)
       if (that.isLogin) {
         sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
+        sessionStorage.setItem('sku_num', JSON.stringify(sku_num))
+        // console.log('kkkkk', that.goodsListOn)
         that.$router.push('/orderConfirm')
       } else {
         that.payDialogVisible = true
@@ -506,7 +523,18 @@ export default {
     },
     toOrderConfirm () {
       var that = this
+      var sku_num = []
+      if (that.goodsListOn) {
+        for(var i=0;i<that.goodsListOn.length;i++){
+          for (var j=0;j<that.checkedItem.length;j++){
+            if(that.goodsListOn[i].sku_id == that.checkedItem[j]){
+              sku_num.push(that.checkedItem[j]+'-'+ that.goodsListOn[i].goods_count)
+            }
+          }
+        }
+      }
       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
+      sessionStorage.setItem('ku_num', JSON.stringify(sku_num))
       that.$router.push('/orderConfirm')
     },
     toGoodDetail: function(spuid, skuid){

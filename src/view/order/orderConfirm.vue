@@ -35,6 +35,19 @@
       <!--<div class="payBtn info" @click="closeOverModel">OK</div>-->
     <!--</div>-->
   <!--</div>-->
+  <div class="toShopCar">
+    <el-dialog
+      :show-close="false"
+      top="30vh"
+      :close-on-click-modal="false"
+      :visible.sync="shopcarShow"
+      width="380px">
+      <span>will go back to homepage.</span>
+      <span slot="footer">
+        <el-button size="medium" type="primary" @click="toShoppingCar">Go To Cart</el-button>
+      </span>
+    </el-dialog>
+  </div>
   <div class="orderBox">
     <div class="orderCont">
       <div class="orderInfo">
@@ -234,13 +247,13 @@
             <div class="goodsItem" v-for="(goods, index) in goodsList" v-bind:key="index">
               <div class="goodName">
                 <div class="goodImg">
-                  <div class="tagBox" v-if="goods.activity_type">
+                  <!-- <div class="tagBox" v-if="goods.activity_type">
                     <div class="cheap" v-if="goods.activity_type == 1">
                       <div class="cheapLeft"></div>
                       <div class="cheapRight">${{goods.activity_price}}</div>
                     </div>
                     <div class="disPrice" v-if="goods.activity_type == 2">%{{parseInt(goods.activity_intensity)}} OFF</div>
-                  </div>
+                  </div> -->
                   <img :src="goods.sku_image" alt="">
                   <div class="soldOut" v-show="goods.soldOut === 1">Sold out</div>
                 </div>
@@ -248,7 +261,7 @@
                   <div class="nameInfo">{{goods.sku_name}}</div>
                   <div><span style="color: #999;" v-for="(item, index2) in JSON.parse(goods.sku_attrs)" :key="index2">{{item.attr_name}}: <span style="color: #333;">{{item.value.attr_value}}; </span></span></div>
                   <div class="price">${{goods.activity_price?goods.activity_price:goods.sku_price}}
-                    <span v-if="goods.activity_type">${{goods.sku_price}}</span>
+                    <!-- <span v-if="goods.activity_type">${{goods.sku_price}}</span> -->
                   </div>
                 </div>
               </div>
@@ -455,7 +468,7 @@ export default {
       addressLen: 0,
       billTotalSum: 0,
       subTotalCoupon: 0,
-      actIdList: [],
+      // actIdList: [],
       goodsList: [],
       couponList: [],
       addressList: [],
@@ -481,6 +494,7 @@ export default {
       moreFlagShow: false,
       login_status: false,
       // overQuanlity: false,
+      shopcarShow: false,
       payDisabled: false,
       dialogVisible: true,
       showCreditForm: false,
@@ -1122,28 +1136,29 @@ export default {
     // 获取订单
     async getGoodsOrder(){
       var that = this
-      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var ids = JSON.parse(sessionStorage.getItem('sku_num'))
       var idStr = JSON.stringify(ids)
       var payList = []
-      var actIdList = []
+      console.log('ggggg', idStr)
+      // var actIdList = []
       var subTotal = 0
       let idList = {
-        ids: idStr
+        activity_sku: idStr
       }
       if (ids && ids.length > 0){
         let data = await orderAdd(idList)
         for (var i=0;i<data.length;i++){
           data[i].sku_pay = data[i].goods_count * parseFloat((data[i].activity_price?data[i].activity_price:data[i].sku_price))
-          if (data[i].activity_id) {
-            actIdList.push(data[i].activity_id + '-' + data[i].sku_id)
-          } else {
-            actIdList.push(0 + '-' + data[i].sku_id)
-          }
+          // if (data[i].activity_id) {
+          //   actIdList.push(data[i].activity_id + '-' + data[i].sku_id)
+          // } else {
+          //   actIdList.push(0 + '-' + data[i].sku_id)
+          // }
           
         }
         that.goodsList = data
-        that.actIdList = actIdList
-        console.log('ggggg', actIdList)
+        // that.actIdList = actIdList
+        // console.log('ggggg', actIdList)
         for(var i= 0;i<this.goodsList.length;i++){
           this.$set(this.goodsList[i],'soldOut',0)
           this.$set(this.goodsList[i],'realNum',0)
@@ -1164,7 +1179,7 @@ export default {
     },
     async getBillingList (type) {
       var that = this
-      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var ids = JSON.parse(sessionStorage.getItem('sku_num'))
       var idStr = JSON.stringify(ids)
       var coupon_id = that.couponId
       var billList = []
@@ -1195,7 +1210,7 @@ export default {
         that.inputPoint = 0
       }
       let idList = {
-        activity_sku: JSON.stringify(that.actIdList),
+        activity_sku: idStr,
         score: that.inputPoint,
         cc_id: coupon_id,
         pd_des_address: JSON.stringify(addData)
@@ -1438,9 +1453,12 @@ export default {
     toShopcar: function () {
       this.$router.push('/')
     },
+    toShoppingCar: function () {
+      this.$router.push('/shoppingCar')
+    },
     confirmPay: function () {
       var that = this
-      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var ids = JSON.parse(sessionStorage.getItem('sku_num'))
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
       // console.log('uuuuuuu', that.actIdList)
@@ -1451,7 +1469,7 @@ export default {
         payment_method: "paypal"
       }
       var payLoad = qs.stringify({
-        activity_sku: JSON.stringify(that.actIdList),
+        activity_sku: ids,
         cc_id: coupon_id,
         pd_des_address: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),
@@ -1482,12 +1500,18 @@ export default {
         } else if (res.code == 111) {
           that.modelShow2 = false
           var ids = JSON.parse(res.data)
-          for (var i=0; i<that.goodsList.length; i++) {
-            for (var j=0; j<ids.length; j++) {
-              if (that.goodsList[i].sku_id === ids[j]) {
-                that.goodsList[i].soldOut = 1
+          if (ids[0]) {
+            // console.log('kkkkkccccc', ids)
+            for (var i=0; i<that.goodsList.length; i++) {
+              for (var j=0; j<ids.length; j++) {
+                if (that.goodsList[i].sku_id === ids[j]) {
+                  that.goodsList[i].soldOut = 1
+                }
               }
             }
+          } else {
+            // console.log('kkkkkkkk')
+            that.shopcarShow = true
           }
         } else if (res.code == 102) {
           that.modelShow2 = false

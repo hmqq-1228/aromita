@@ -1,5 +1,16 @@
 <template>
   <div class="activityBox">
+    <el-dialog
+      :show-close="false"
+      top="30vh"
+      :close-on-click-modal="false"
+      :visible.sync="dialogVisible"
+      width="380px">
+      <span>Sorry, The promotional discount is end. <br>{{theNum}}s later, will go back to homepage.</span>
+      <span slot="footer">
+        <el-button type="primary" @click="toHome">Go To Now</el-button>
+      </span>
+    </el-dialog>
     <!-- activityInfo.activity_status -->
     <div v-for="(sty,index) in styleList" :key="index" v-if="styleList.length>0">
       <div class="activityTime" v-if="sty.type == 2 && sty.timeNameStr" :style="'backgroundColor:' + sty.timeobj.background +';color:'+ sty.timeobj.style.color+';justifyContent:'+ sty.timeobj.style.positionStr">
@@ -43,19 +54,7 @@
           </div>
         </div>
         <div v-if="activityDataList.length<totalNum" @click="addMoreList()" class="loadMore">Load More</div>
-      </div>
-      <el-dialog
-        :show-close="false"
-        top="30vh"
-        :close-on-click-modal="false"
-        :visible.sync="dialogVisible"
-        width="380px">
-        <span>{{theNum}}s later, will go back to homepage.</span>
-        <span slot="footer">
-          <el-button type="primary" @click="toHome">Go To Now</el-button>
-        </span>
-      </el-dialog>
-
+      </div> 
     <!-- <div class="bottomList">
       <el-carousel :interval="5000" arrow="never">
         <el-carousel-item v-for="(item, index) in bannerObj.imgList" :key="index">
