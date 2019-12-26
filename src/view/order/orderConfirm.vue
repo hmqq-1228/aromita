@@ -1459,6 +1459,7 @@ export default {
     confirmPay: function () {
       var that = this
       var ids = JSON.parse(sessionStorage.getItem('sku_num'))
+      var idStr = JSON.stringify(ids)
       var coupon_id = that.couponId
       var orderAddress = that.order_Address
       // console.log('uuuuuuu', that.actIdList)
@@ -1469,7 +1470,7 @@ export default {
         payment_method: "paypal"
       }
       var payLoad = qs.stringify({
-        activity_sku: ids,
+        activity_sku: idStr,
         cc_id: coupon_id,
         pd_des_address: JSON.stringify(orderAddress),
         order_ship_delivered: JSON.stringify(shipMethod),

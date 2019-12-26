@@ -27,7 +27,7 @@
       <div  v-if="sty.type == 1">
         <el-carousel :interval="5000" arrow="never" :height="bannerHt + 'px'">
           <el-carousel-item v-for="(item, index2) in sty.imgList" :key="index2">
-            <a :href="item.imgLink?item.imgLink:'javascript:void(0);'"><img :class="'bannerImg' + index" :src="item.imgurl" alt=""></a>
+            <a :href="item.imgLink?item.imgLink:'javascript:void(0);'"><img :class="'bannerImg' + index" v-lazy="item.imgurl" alt=""></a>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -43,7 +43,7 @@
                   </div>
                   <div class="disPrice" v-if="act.activity_type == 2">%{{parseInt(act.activity_intensity)}} OFF</div>
                 </div>
-                <img :src="act.sku_color_img" alt="">
+                <img v-lazy="act.sku_color_img" alt="">
               </div>
               <div class="nameBox"  @click="toDetailPage(act.product_id, act.sku_id)">{{act.sku_name}}</div>
               <div class="goodsPrice">

@@ -120,6 +120,27 @@
     transform: scale(1);
     transition: all .8s;
 }
+.imgBox img[lazy="loading"],.imgBox:hover img[lazy="loading"]{
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    transform: scale(1);
+  }
+.el-carousel__item.is-animating img[lazy="loading"]{
+    width: 180px !important;
+    height: 180px !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: auto !important;
+  }
 .nameBox{
     height: 36px;
     font-size:14px;
