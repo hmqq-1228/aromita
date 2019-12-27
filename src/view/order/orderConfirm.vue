@@ -1091,12 +1091,12 @@ export default {
     },
     getShipMethod: function (aStr) {
       var that = this
-      var ids = JSON.parse(sessionStorage.getItem('idList'))
+      var ids = JSON.parse(sessionStorage.getItem('sku_num'))
       if (aStr.entry_country === 'United States'){
         aStr.entry_country = 'US'
       }
       let payLoad = qs.stringify({
-        ids: JSON.stringify(ids),
+        activity_sku: JSON.stringify(ids),
         address_info: JSON.stringify(aStr)
       })
       // console.log('ids', aStr)
