@@ -180,18 +180,18 @@
               <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
               <div class="spec_color">
                 <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
-                  <span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
+                  <span v-if="item.sku_attrs"><span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
                     <span v-if="index1<2">
                       {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
                     </span>
                     <span v-if="index1>=2">...</span>
-                  </span>
+                  </span></span>
                 </p>
-                <p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
+                <span v-if="item.sku_attrs"><p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
                   <span v-for="(item1,index2) in JSON.parse(item.sku_attrs)" :key="index2">
                     {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
                   </span>
-                </p>
+                </p></span>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
               </div>
             </div>

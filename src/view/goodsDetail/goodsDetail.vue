@@ -3,7 +3,7 @@
   <div class="detailLoad" v-if="loadingShow">
     <div>
       <img src="../../../static/img/loadingData.gif" alt="">
-      <div style="margin-top: 20px">Loading...</div>
+      <!-- <div style="margin-top: 20px">Loading...</div> -->
     </div>
   </div>
   <div v-if="detailShow && !loadingShow">
@@ -534,7 +534,12 @@ export default {
           that.mainImageList = res.data.main_img
           that.attrId = res.data.sku_ids
           that.skuList = res.data.sku_list
-          var list = JSON.parse(res.data.sku.sku_attrs)
+          var list
+          if (res.data.sku.sku_attrs) {
+            list = JSON.parse(res.data.sku.sku_attrs)
+          } else {
+            list = []
+          }
           that.getSkuList = res.data.sku.attr_list
           // that.colorList = res.data.data.attrs.color
           var imgList = []
@@ -545,13 +550,15 @@ export default {
               }
             }
           }
-          for (var i = 0; i < list.length; i++){
-            var obj = {
-              name: list[i].attr_name,
-              attr_id: parseInt(list[i].id),
-              val_id: parseInt(list[i].value.id)
-            }
-            that.skuSpuIdList.push(obj)
+          if (list.length>0) {
+            for (var i = 0; i < list.length; i++){
+              var obj = {
+                name: list[i].attr_name,
+                attr_id: parseInt(list[i].id),
+                val_id: parseInt(list[i].value.id)
+              }
+              that.skuSpuIdList.push(obj)
+           }
           }
           for(let key in that.attrList){
             that.attrNameList.push(key)

@@ -1,7 +1,13 @@
 <template>
 <div class="shoppingCar">
   <div class="carCont">
-    <div class="cartHeader">
+    <div class="detailLoad" v-if="loadingShow">
+      <div>
+        <img src="../../../static/img/loadingData.gif" alt="">
+        <!-- <div style="margin-top: 20px">Loading...</div> -->
+      </div>
+    </div>
+    <div class="cartHeader" v-if="!loadingShow">
       <!--<div class="checkState">-->
         <!--<input type="checkbox" id="Size1" v-model="checkedAll" name="metal" @change="allChecked($event)"><label for="Size1"></label><span>Select All</span>-->
       <!--</div>-->
@@ -10,7 +16,7 @@
       <div class="total">Total</div>
       <div class="option">Options</div>
     </div>
-    <div class="carItem" v-if="goodsListOn.length>0" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
+    <div class="carItem" v-if="goodsListOn.length>0 && !loadingShow" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
       <div class="checkState item">
         <!--<div style="width: 20px;"></div>-->
         <!--<input type="checkbox" :id="'good'+ carItem.sku_id" :value="carItem.sku_id" v-model="checkedItem"><label :for="'good'+ carItem.sku_id"></label>-->
@@ -27,7 +33,7 @@
       </div>
       <div class="productCont">
         <div class="textBox" @click="toGoodDetail(carItem.product_id, carItem.sku_id)">{{carItem.sku_name}}</div>
-        <div class="goodsType" v-for="goodAttr in JSON.parse(carItem.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
+        <div v-if="carItem.sku_attrs"><div class="goodsType" v-for="goodAttr in JSON.parse(carItem.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div></div>
         <div class="goodsPrice">$ {{carItem.activity_price?carItem.activity_price:carItem.sku_price}} <span v-if="carItem.activity_type">${{carItem.sku_price}}</span></div>
       </div>
       <div class="goodsNum">
@@ -43,7 +49,7 @@
         <span class="wishAdd" style="cursor: auto" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
       </div>
     </div>
-    <div class="noGoods" v-if="noProduct">
+    <div class="noGoods" v-if="noProduct && !loadingShow">
       <div class="noGoodsCont">
         <div class="imgType"><img src="../../assets/Cart-Empty.png" alt=""></div>
         <div class="noGoodsText">The Shopping Cart is Empty!</div>
@@ -59,7 +65,7 @@
       <!--<div class="remove" @click="batchDelete()">Remove Select</div>-->
       <!--<div class="WishList" v-if="false">Move Selected to WishList</div>-->
     </div>
-    <div class="carItem" style="background-color: #fbfbfb;" v-if="goodsListOff.length > 0" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
+    <div class="carItem" style="background-color: #fbfbfb;" v-if="goodsListOff.length > 0 && !loadingShow" v-for="(unGood, index2) in goodsListOff" v-bind:key="index2">
       <div class="checkState item" style="width: 106px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
         <div class="imgBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)">
@@ -75,7 +81,7 @@
       </div>
       <div class="productCont" style="width: 500px;">
         <div class="textBox" @click="unavailableGoods(unGood.product_id, unGood.sku_id)">{{unGood.sku_name}}</div>
-        <div class="goodsType" v-for="goodAttr in JSON.parse(unGood.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div>
+        <div v-if="unGood.sku_attrs"><div class="goodsType" v-for="goodAttr in JSON.parse(unGood.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div></div>
         <div class="goodsPrice">$ {{unGood.activity_price?unGood.activity_price:unGood.sku_price}} <span v-if="unGood.activity_type">${{unGood.sku_price}}</span></div>
       </div>
       <div class="goodsNum_goodsTotal">
@@ -226,6 +232,7 @@ export default {
       checkedAll: false,
       tipOverShow: false,
       wishVisible: false,
+      loadingShow: false,
       payDialogVisible: false,
       checkedItem: [],
       idList: [],
@@ -304,11 +311,13 @@ export default {
       var that = this
       that.payList = []
       that.totalPay = 0
+      that.loadingShow = true
       if (tr) {
         let data = await getGoodsList();
         if (data) {
           // that.numDisabled = false
           this.goodsList = data
+          that.loadingShow = false
           that.idList = []
           let OnList = []
           let OffList = []
@@ -342,6 +351,7 @@ export default {
         if (data) {
           this.goodsList = data
           // console.log('55555', data)
+          that.loadingShow = false
           var onList = []
           var offList = []
           that.goodsListOn = []
