@@ -225,7 +225,7 @@
         <div class="shopBox" v-if="methodShow">
           <div class="shopItem" v-for="(ship, index) in shipMethodList" v-bind:key="index">
             <div class="shopName"><el-radio v-model="radio2" :label="ship.ship_id + '-' + ship.ship_fee" @change="shipChecked($event)">
-              <span class="freeTip"><img v-if="ship.ship_fee == 0" src="../../../static/img/free.png" alt=""></span>
+              <span class="freeTip" v-if="ship.ship_fee == 0"><img src="../../../static/img/free.png" alt=""></span>
               <span class="tipName">{{ship.ship_name}}</span>
             </el-radio></div>
             <div style="width: 200px;">{{ship.trans_min}}—{{ship.trans_max}} workdays</div>
@@ -411,9 +411,9 @@
           <div class="payName">Tax:</div>
           <div class="payValue">${{billing.taxfee.toFixed(2)}}</div>
         </div>
-        <div class="payItem" v-if="shipFee>0">
+        <div class="payItem" v-if="billing.ship_fee">
           <div class="payName">Shipping:</div>
-          <div class="payValue">${{parseFloat(shipFee).toFixed(2)}}</div>
+          <div class="payValue">${{(billing.ship_fee).toFixed(2)}}</div>
         </div>
         <div class="payItem">
           <div class="payName total">Grand Total:</div>
@@ -475,7 +475,7 @@ export default {
       addressList2: [],
       ProvinceList: [],
       order_Address: {},
-      orderShipMethod: {},
+      // orderShipMethod: {},
       shipMethodList: [],
       country:{
         US:"United States",
@@ -842,8 +842,9 @@ export default {
       } else {
         // console.log('233333', that.radio)
           that.radio = ''
-          that.shipFee = 0
+          // that.shipFee = 0
           that.billing.taxfee = 0
+          that.billing.ship_fee = 0
         }
     },
     addNewAddressOut: function(){
@@ -1079,14 +1080,17 @@ export default {
     },
     shipChecked: function (e) {
       var that = this
+      that.payDisabled = true
+      that.butLoading = true
       that.radio2 = e
-      for(var i=0;i<that.shipMethodList.length;i++) {
-        if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
-          that.orderShipMethod = that.shipMethodList[i]
-        }
-      }
-      that.shipFee = that.radio2.split('-')[1]
-      that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+      // for(var i=0;i<that.shipMethodList.length;i++) {
+      //   if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
+      //     that.orderShipMethod = that.shipMethodList[i]
+      //   }
+      // }
+      that.shipFee = that.radio2.split('-')[0]
+      that.getBillingList()
+      // that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
         // + parseFloat(that.exciseFee)
     },
     getShipMethod: function (aStr) {
@@ -1105,26 +1109,26 @@ export default {
           that.shipMethodList = res.data
           that.methodShow = true
           that.radio2 = res.data[0].ship_id + '-' + res.data[0].ship_fee
-          that.shipFee = that.radio2.split('-')[1]
-          that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+          that.shipFee = res.data[0].ship_id
+          // that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
             // + parseFloat(that.exciseFee)
           that.getBillingList()
           // this.butLoading = true
           // this.payDisabled = true
-          for(var i=0;i<that.shipMethodList.length;i++) {
-            if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
-              that.orderShipMethod = that.shipMethodList[i]
-            }
-          }
+          // for(var i=0;i<that.shipMethodList.length;i++) {
+          //   if (that.radio2.split('-')[0] === that.shipMethodList[i].ship_id) {
+          //     that.orderShipMethod = that.shipMethodList[i]
+          //   }
+          // }
         } else if (res.code == 10002) {
           that.shipMethodList = res.data
-          that.shipFee = 0
+          // that.shipFee = 0
           that.errorInfo = 'No mode of transportation, please choose a new valid address.'
           that.getBillingList('1')
           that.butLoading = false
         } else {
           that.shipMethodList = []
-          that.shipFee = 0
+          // that.shipFee = 0
           that.getBillingList('1')
           that.$message.warning(res.msg)
           that.butLoading = false
@@ -1213,6 +1217,7 @@ export default {
         activity_sku: idStr,
         score: that.inputPoint,
         cc_id: coupon_id,
+        order_ship_delivered_id: that.shipFee,
         pd_des_address: JSON.stringify(addData)
       }
       let data = await billingList(idList)
@@ -1229,16 +1234,21 @@ export default {
         //     billList.push(data[k])
         //   }
         // }
+        if (that.billing.order_ship_delivered) {
+          that.billing.ship_fee = that.billing.order_ship_delivered.ship_fee
+        }
         billList.push(data['subtotal'])
         billList.push(data['taxfee'])
         billList.push(data['cc_amount'])
         billList.push(data['pointToMoney'])
-        console.log('mmmmmm', type)
+        billList.push(data['ship_fee'])
+        console.log('mmmmmm', that.billing)
         for (var i=0;i<billList.length;i++) {
           sumBill = sumBill + billList[i]
         }
         that.billTotal = sumBill
-        that.billTotalSum = that.billTotal + parseFloat(that.shipFee)
+        that.billTotalSum = that.billTotal 
+        // + parseFloat(that.shipFee)
         if (type == 1){
           that.payDisabled = true
           // that.butLoading = true
@@ -1464,7 +1474,7 @@ export default {
       var orderAddress = that.order_Address
       // console.log('uuuuuuu', that.actIdList)
       // return false
-      var shipMethod = that.orderShipMethod
+      // var shipMethod = that.orderShipMethod
       var payMethod = {
         payment_module_code: 1,
         payment_method: "paypal"
@@ -1473,7 +1483,7 @@ export default {
         activity_sku: idStr,
         cc_id: coupon_id,
         pd_des_address: JSON.stringify(orderAddress),
-        order_ship_delivered: JSON.stringify(shipMethod),
+        order_ship_delivered_id: that.shipFee,
         pay_method: JSON.stringify(payMethod),
         score: that.inputPoint
       })
@@ -1516,7 +1526,7 @@ export default {
           }
         } else if (res.code == 102) {
           that.modelShow2 = false
-          that.payDisabled = true
+          // that.payDisabled = true
           this.$alert('No mode of transportation, please choose a new valid address.', '', {
             confirmButtonText: 'OK',
           })

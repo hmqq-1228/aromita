@@ -514,6 +514,16 @@
     width: 550px;
     height: 550px;
   }
+  .largePic>img[lazy="loading"]{
+    width: 180px;
+    height: 180px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
   .shareTo{
     width: 200px;
     height: 40px;

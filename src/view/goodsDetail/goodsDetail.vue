@@ -54,7 +54,7 @@
       </div>
       <div class="largerBox">
         <div class="largePic" style="position: relative;">
-          <img :src="mainImgUrl" alt="">
+          <img v-lazy="mainImgUrl" alt="">
           <div class="addImgBox">
             <div v-if="goodDetail.sku_status === 1" class="z_addbtn"></div>
             <img v-if="goodDetail.sku_status === 1" class="add_img run_top_right" v-show="addShow" :src="mainImgUrl" alt="">
