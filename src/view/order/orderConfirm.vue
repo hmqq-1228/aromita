@@ -1257,7 +1257,7 @@ export default {
           that.butLoading = false
         }
           // + parseFloat(that.exciseFee)
-      } else if (data.code === 102) {
+      } else if (data.code == 102) {
         that.payDisabled = true
         that.inputPoint = ''
         this.$alert("Point discount must not exceed the order's current total amount(not including shipping fee and taxes).", '', {
@@ -1267,7 +1267,7 @@ export default {
           }
         })
         // that.$message.info('积分使用过多')
-      } else if (data.code === 103) {
+      } else if (data.code == 103) {
         that.payDisabled = true
         that.inputPoint = ''
         this.$alert('Use of points should not be greater than 10000', '', {
@@ -1579,7 +1579,7 @@ export default {
               that.getCouponList()
             }
           })
-        } else if (res.code == 116) {
+        } else if (res.code == 116 || res.code == 117) {
           that.modelShow2 = false
           that.payDisabled = true
           that.$alert("Sorry. The promotional discount is end. Some of the products in your shopping cart have been restored the original price.", '', {
@@ -1589,10 +1589,20 @@ export default {
               that.$router.push('/shoppingCar')
             }
           })
+        } else if (data.code == 118) {
+          that.payDisabled = true
+          that.inputPoint = ''
+          this.$alert('Use of points should not be greater than 10000', '', {
+            confirmButtonText: 'OK',
+            callback: action => {
+              that.getBillingList()
+            }
+          })
         } else {
-          that.modelShow2 = false
-        }
-      })
+            that.modelShow2 = false
+            that.$message.warning('The order has expired.')
+          }
+        })
     },
     payByPaypal: function (total, order, id) {
       var that = this
