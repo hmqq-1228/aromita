@@ -101,7 +101,7 @@ export default {
       })
       that.$axios.post('api/suggestions/insert', obj).then(res => {
         if (res.code === 200) {
-          console.log('ssssss', res)
+          // console.log('ssssss', res)
           that.$message.success('Submit successfully')
           that.textarea = ''
         }

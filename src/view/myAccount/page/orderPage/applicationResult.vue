@@ -273,7 +273,7 @@
         that.$axios.get('api/refund/step2/' + that.refund_id, {}).then(res => {
           if (res.code === 200) {
             that.status = res.data.status
-            console.log('kkkkk', res)
+            // console.log('kkkkk', res)
             if (that.status == 10 || that.status == 20 || that.status == 50 || that.status == 100) {
               that.activeIndex = 2
             } else if (that.status == 30 || that.status == 31 || that.status == 40 || that.status == 51) {

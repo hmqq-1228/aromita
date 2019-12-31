@@ -515,7 +515,7 @@ export default {
           }
         }
       }
-      console.log('mmmmm', sku_num)
+      // console.log('mmmmm', sku_num)
       if (that.isLogin) {
         sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
         sessionStorage.setItem('sku_num', JSON.stringify(sku_num))

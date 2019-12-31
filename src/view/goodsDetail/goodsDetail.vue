@@ -343,7 +343,7 @@ export default {
     getActivityInfo (skuId) {
       var that = this
       that.$axios.post('api/getskuactivityinfo', qs.stringify({sku_id: skuId})).then(res => {
-        console.log('rrrrrr', res)
+        // console.log('rrrrrr', res)
         if (res.activity_type){
           that.hisActivity = true
           that.actCurrentTime = res.server_now_time

@@ -209,7 +209,7 @@ export default {
           }
         }
         this.orders_products = res.orders_products
-        console.log('mmmmmm', this.orders_products)
+        // console.log('mmmmmm', this.orders_products)
       })
     },
     pay(total, num, id){

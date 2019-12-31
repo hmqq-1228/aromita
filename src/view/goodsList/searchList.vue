@@ -555,7 +555,7 @@
         var obj = e.currentTarget
         var that = this
         var newGoodList = []
-        console.log('kkkk', pic)
+        // console.log('kkkk', pic)
         // pic.sku_image, pic.sku_name, pic.sku_price, pic.id, pic.sku_status, pic.selling
         $(obj).children().addClass('active')
         $(obj).siblings().children().removeClass('active')

@@ -239,7 +239,7 @@ export default {
         $('.payConfirm').removeClass('error')
         if (formName) {
           if (that.radio3 === '1') {
-            console.log('你选择了第一种支付方式')
+            // console.log('你选择了第一种支付方式')
             that.payByPaypal()
           }else if (that.radio3 === '2') {
             if (that.checked) {

@@ -170,7 +170,7 @@ export default {
               }
             }
           }
-          console.log('hhhhhh', that.activityInfo)
+          // console.log('hhhhhh', that.activityInfo)
           that.styleList = list
           if (res.data.activity_status == 1){
             // 未开始
@@ -218,7 +218,7 @@ export default {
       }
       beforeList(obj).then(res => {
         if (res.code == 200) {
-          console.log('111111', res)
+          // console.log('111111', res)
           if(that.page == 1){
             that.activityDataList = res.data.data
           }else{
@@ -236,7 +236,7 @@ export default {
       }
       afterList(obj).then(res => {
         if (res.code == 200) {
-          console.log('222222', res)
+          // console.log('222222', res)
           if(that.page == 1){
             that.activityDataList = res.data.data
           }else{

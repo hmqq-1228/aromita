@@ -432,7 +432,7 @@ import { mapGetters } from 'vuex';
         var that = this
         this.$axios.post('api/topadvert/show',{}).then(res => {
           if (res.code === 200) {
-           console.log('gggg', res)
+          //  console.log('gggg', res)
             that.activityDetail = res.data.topadvert
             if (that.activityDetail) {
              that.titleActivity = true

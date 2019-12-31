@@ -827,7 +827,7 @@ export default {
       that.addressList2 = []
       var address = sessionStorage.getItem('addressList')
       var list = JSON.parse(address)
-      console.log('4444', list)
+      // console.log('4444', list)
       that.addressList2 = list
       if (list && that.addressList2.length > 0) {
         that.order_Address = that.addressList2[0]
@@ -1143,7 +1143,7 @@ export default {
       var ids = JSON.parse(sessionStorage.getItem('sku_num'))
       var idStr = JSON.stringify(ids)
       var payList = []
-      console.log('ggggg', idStr)
+      // console.log('ggggg', idStr)
       // var actIdList = []
       var subTotal = 0
       let idList = {
@@ -1242,7 +1242,7 @@ export default {
         billList.push(data['cc_amount'])
         billList.push(data['pointToMoney'])
         billList.push(data['ship_fee'])
-        console.log('mmmmmm', that.billing)
+        // console.log('mmmmmm', that.billing)
         for (var i=0;i<billList.length;i++) {
           sumBill = sumBill + billList[i]
         }
@@ -1289,7 +1289,7 @@ export default {
         coupon_status: 10
       })
       that.$axios.post('api/getCustomerCoupon', payMon).then(res => {
-       console.log('hhhhh666',that.subTotalCoupon)
+      //  console.log('hhhhh666',that.subTotalCoupon)
         if (res.code === 200) {
           that.couponList = res.data
           for (var i=0;i<that.couponList.length;i++){
@@ -1644,7 +1644,7 @@ export default {
           $('.payConfirm').removeClass('error')
           if (formName) {
             if (that.radio3 === '1') {
-              console.log('你选择了第一种支付方式')
+              // console.log('你选择了第一种支付方式')
               that.confirmPay()
             }else if (that.radio3 === '2') {
               if (that.checked) {

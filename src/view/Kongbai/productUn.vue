@@ -35,7 +35,7 @@
     },
     methods: {
       goBack () {
-        console.log("点击了浏览器的返回按钮");
+        // console.log("点击了浏览器的返回按钮");
         sessionStorage.clear();
         window.history.go(-2);
       },
