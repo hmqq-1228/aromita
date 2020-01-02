@@ -132,7 +132,7 @@
         <!--<span class="disCont"> $ 8.88</span> <span class="disContTag">50% OFF</span>-->
       </div>
       <div>
-        <div :style="{minHeight:(hisActivity?'250px':'350px')}">
+        <div :style="{minHeight:(hisActivity?'230px':'350px')}">
           <div class="mainImage" v-if="attrList.length === 0">
             <div class="goodsLabelSize isImgLabel"></div>
             <div class="smallSlider2">
@@ -245,7 +245,7 @@ export default {
       AddThis: "AddThis",
       publicId: 'ra-5d6e36b2d704b326',
       currentPageUrl: 'https://aromita.panduo.com.cn/#/',
-      addShow:false,//加入购物车动画显示
+      addShow: false,//加入购物车动画显示
       addButton: false,
       showModel: false,
       detailShow: false,

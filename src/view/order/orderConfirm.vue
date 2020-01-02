@@ -1221,7 +1221,8 @@ export default {
         pd_des_address: JSON.stringify(addData)
       }
       let data = await billingList(idList)
-      if (data.subtotal) {
+      if (data.subtotal>=0) {
+        // console.log('lkkkkkkk')
         that.billing = data
         // for (let k in data) {
         //   if (k === 'subtotal') {
@@ -1493,8 +1494,19 @@ export default {
       // return false
       that.$axios.post('api/order_pay', payLoad).then(res => {
         // console.log('hhhhh', res)
-        if (res.order_num && res.total_price && res.order_id) {
-          that.payByPaypal(res.total_price, res.order_num, res.order_id)
+        if (res.order_num && res.total_price>=0 && res.order_id) {
+          if (res.total_price > 0) {
+            that.payByPaypal(res.total_price, res.order_num, res.order_id)
+          } else {
+            // console.log('hhhhh', res.total_price)
+            that.$router.push({
+              path: '/paySucceed',
+              query: {
+                order_number: res.order_num,
+                score: 0
+              }
+            })
+          }
         } else if (res.code == 110) {
           that.modelShow2 = false
           var ids = JSON.parse(res.data)
