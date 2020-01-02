@@ -19,12 +19,14 @@
     justify-content: flex-start;
 }
 .activityTime .numDiv{
-    width: 30px;
+    min-width: 30px;
     height: 30px;
     line-height: 30px;
     text-align: center;
     background-color: #333;
     margin-top: 10px;
+    padding: 0 3px;
+    box-sizing: border-box;
 }
 .activityTime .flag{
     width: 30px;
