@@ -216,6 +216,8 @@ export default {
     //切换订单状态
     changeOrderStatus(num){
       this.order_status = num
+      this.orderStatus = num
+      // console.log('kkkk', this.orderStatus)
       // this.$store.state.order_status = num
       // this.order_status = this.$store.state.order_status
       this.page = 1
@@ -252,7 +254,7 @@ export default {
       cancelOrderSub(pre).then((res)=>{
         if (res == 201) {
           this.cancelVisity = true
-          if (this.orderStatus === 20) {
+          if (this.orderStatus == 20) {
             that.returnTotalFuc()
           } else {
             this.myOrderList()
@@ -276,7 +278,7 @@ export default {
         order_total: this.totalPay
       }
       returnTotal(obj).then((res)=>{
-        if (res.code === 200) {
+        if (res.code == 200) {
           this.cancelProcceOrder()
         }
       })
@@ -286,7 +288,7 @@ export default {
         orders_id:this.orderId,
       }
       proccessingOrder(obj).then((res)=>{
-        if (res.code === 200) {
+        if (res.code == 200) {
           this.myOrderList()
           // this.cancelVisity = true
         }

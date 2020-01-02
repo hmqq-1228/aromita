@@ -21,7 +21,7 @@
                         </el-form-item>
                         <el-form-item label="Refund：">
                             <p class="price" style="margin-top: 7px;">
-                              <b v-if="orderList.refund_total">$ {{(orderList.refund_total).toFixed(2)}}</b>
+                              <b v-if="orderList.refund_total>=0">$ {{(orderList.refund_total).toFixed(2)}}</b>
                               <el-popover v-if="orderList.refund_total"
                                 placement="right"
                                 width="220"
