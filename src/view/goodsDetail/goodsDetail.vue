@@ -589,7 +589,7 @@ export default {
               }
             }
           }
-        } else if (res.code == 410) {
+        } else if (res.code == 410 || res.code == 1001) {
           that.loadingShow = false
           that.$router.push('/noprojuct')
         }
