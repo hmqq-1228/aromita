@@ -409,10 +409,6 @@ export default {
     testShow: function (e) {
      // alert('88888888', e)
     },
-    navBack () {
-      alert('88888888')
-      window.history.back(-1);
-    },
     // 分享获得积分
     closeShow: function () {
       var that = this

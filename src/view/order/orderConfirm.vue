@@ -1603,13 +1603,26 @@ export default {
           })
         } else if (data.code == 118) {
           that.payDisabled = true
+          that.modelShow2 = false
           that.inputPoint = ''
-          this.$alert('Use of points should not be greater than 10000', '', {
+          this.$alert('Use of points should not be greater than 10000.', '', {
             confirmButtonText: 'OK',
             callback: action => {
               that.getBillingList()
             }
           })
+        } else if (data.code == 119) {
+          that.payDisabled = true
+          that.modelShow2 = false
+          that.$confirm('Sorry. Some items are missing, please update the page.', '', {
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+          }).then(() => {
+            that.getGoodsOrder()
+            that.getBillingList()
+          }).catch(() => {
+            that.modelShow2 = false    
+          });
         } else {
             that.modelShow2 = false
             that.$message.warning('The order has expired.')

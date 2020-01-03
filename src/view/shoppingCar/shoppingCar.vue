@@ -311,7 +311,6 @@ export default {
       var that = this
       that.payList = []
       that.totalPay = 0
-      that.loadingShow = true
       if (tr) {
         let data = await getGoodsList();
         if (data) {
@@ -347,6 +346,7 @@ export default {
           that.$store.state.addCartState = false
         }
       } else {
+        that.loadingShow = true
         let data = await getGoodsList();
         if (data) {
           this.goodsList = data

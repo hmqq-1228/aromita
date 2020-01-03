@@ -19,7 +19,7 @@
                   <p>We will notify you through email when the request has been processed.</p>
                   <p>Sorry, your request was rejected. Please see the details attached. Any question, please contact <span class="email">Aromita@gmail.com</span></p>
                 </div>
-                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
+                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span> <span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
                 <div class="cancel_refund" v-if="status == 10 && buttonShow" @click="cancelledBtn()">Cancelled Request</div>
               </div>
               <div class="examine_tip" v-if="status == 100">
@@ -38,16 +38,16 @@
               <div class="examine_tip" v-if="status == 50">
                 <h5>Your refund request hasn't been approved for the following reasons: {{feedbackRefund}}</h5>
                 <p style="margin-top: 10px">If you are in any doubt, please contact <span class="email">Aromita@gmail.com</span></p>
-                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span><span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
+                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span><span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
               </div>
               <div class="examine_tip" v-if="status == 51">
                 <h5>Your refund request hasn't been approved for the following reasons: {{feedbackRefund}}</h5>
                 <p style="margin-top: 10px">If you are in any doubt, please contact <span class="email">Aromita@gmail.com</span></p>
-                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span><span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
+                <div class="status2"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span><span class="status2_tip">（This amount not including the shipping fee.We will refund the shipping cost base on the Refund Policy.）</span></div>
               </div>
               <div class="examine_tip" v-if="status == 31">
                 <h5>Your return request is approved. Please ship them back in time, and let us know the tracking number. Thank you.</h5>
-                <div class="status6"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span>
+                <div class="status6"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span>
                   <el-popover
                     placement="right"
                     width="220"
@@ -66,7 +66,7 @@
                         <div style="color: #C51015">$ {{refundMoney.ship_fee}}</div>
                       </div>
                     </div>
-                    <i slot="reference" v-if="refundMoney.refund_total"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
+                    <i slot="reference" v-if="refundMoney.refund_total>=0"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
                   </el-popover>
                 </div>
                 <div class="status6" style="height: 55px;">
@@ -78,7 +78,7 @@
               </div>
               <div class="examine_tip" v-if="status == 30">
                 <p>Your return request is approved. And you don't need to ship them back. We will refund you ASAP. Any question, please contact <span class="email">Aromita@gmail.com</span></p>
-                <div class="status6"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span>
+                <div class="status6"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span>
                   <el-popover
                     placement="right"
                     width="220"
@@ -97,14 +97,14 @@
                         <div style="color: #C51015">$ {{refundMoney.ship_fee}}</div>
                       </div>
                     </div>
-                    <i slot="reference" v-if="refundMoney.refund_total"><img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
+                    <i slot="reference" v-if="refundMoney.refund_total>=0"><img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
                   </el-popover>
                 </div>
               </div>
               <div class="examine_tip" v-if="status == 40">
                 <p>We've received your tracking number. Once receive the parcel, we will refund you ASAP.</p>
                 <div class="status6"><span>Tracking number：</span>{{return_num}}</div>
-                <div class="status6"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span>
+                <div class="status6"><span>Refund：</span><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span>
                   <el-popover
                     placement="right"
                     width="220"
@@ -123,12 +123,12 @@
                         <div style="color: #C51015">$ {{refundMoney.ship_fee}}</div>
                       </div>
                     </div>
-                    <i slot="reference" v-if="refundMoney.refund_total"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
+                    <i slot="reference" v-if="refundMoney.refund_total>=0"> <img style="margin-left: 4px;" src="../../../../../static/img/detail.png" alt=""></i>
                   </el-popover>
                 </div>
               </div>
               <div class="examine_tip" v-if="status == 60">
-                <div><div class="status6" style="display: inline-block;margin-top: 0;"><span class="pay" v-if="refundMoney.refund_total">$ {{refundMoney.refund_total}} </span>
+                <div><div class="status6" style="display: inline-block;margin-top: 0;"><span class="pay" v-if="refundMoney.refund_total>=0">$ {{refundMoney.refund_total}} </span>
                   <el-popover
                     placement="right"
                     width="220"
@@ -147,7 +147,7 @@
                         <div style="color: #C51015">$ {{refundMoney.ship_fee}}</div>
                       </div>
                     </div>
-                    <i slot="reference" v-if="refundMoney.refund_total"><img style="margin: 0 4px;" src="../../../../../static/img/detail.png" alt=""></i>
+                    <i slot="reference" v-if="refundMoney.refund_total>=0"><img style="margin: 0 4px;" src="../../../../../static/img/detail.png" alt=""></i>
                   </el-popover>
                 </div> We have intiated a refund to <span v-if="refundMoney.refund_account">{{refundMoney.refund_account}}</span> on {{refundMoney.refund_at}}, Please check it later.</div>
                 <p style="margin-top: 10px">Any question, please contact  <span class="email">Aromita@panduo.com.cn</span></p>

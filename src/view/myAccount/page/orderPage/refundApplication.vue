@@ -22,14 +22,14 @@
                         <el-form-item label="Refund：">
                             <p class="price" style="margin-top: 7px;">
                               <b v-if="orderList.refund_total>=0">$ {{(orderList.refund_total).toFixed(2)}}</b>
-                              <el-popover v-if="orderList.refund_total"
+                              <el-popover v-if="orderList.refund_total>=0"
                                 placement="right"
                                 width="220"
                                 trigger="hover">
                                 <div class="feeInfo">
                                   <div style="display: flex;justify-content: space-between;">
                                     <div>Refund items amount:</div>
-                                    <div style="color: #C51015" v-if="orderList.subtotal">$ {{(orderList.subtotal).toFixed(2)}}</div>
+                                    <div style="color: #C51015" v-if="orderList.subtotal>=0">$ {{(orderList.subtotal).toFixed(2)}}</div>
                                   </div>
                                   <div style="display: flex;justify-content: space-between;">
                                     <div>Refund tax amount:</div>
