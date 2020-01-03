@@ -1601,7 +1601,7 @@ export default {
               that.$router.push('/shoppingCar')
             }
           })
-        } else if (data.code == 118) {
+        } else if (res.code == 118) {
           that.payDisabled = true
           that.modelShow2 = false
           that.inputPoint = ''
@@ -1611,7 +1611,7 @@ export default {
               that.getBillingList()
             }
           })
-        } else if (data.code == 119) {
+        } else if (res.code == 119) {
           that.payDisabled = true
           that.modelShow2 = false
           that.$confirm('Sorry. Some items are missing, please update the page.', '', {
@@ -1619,7 +1619,7 @@ export default {
             confirmButtonText: 'OK',
           }).then(() => {
             that.getGoodsOrder()
-            that.getBillingList()
+            that.showMethod()
           }).catch(() => {
             that.modelShow2 = false    
           });
