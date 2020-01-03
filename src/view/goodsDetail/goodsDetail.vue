@@ -21,7 +21,7 @@
       <!--<el-breadcrumb-item><a :href="backListUrl" >{{goodDetail.first_cate_name}}</a></el-breadcrumb-item>-->
       <!--<el-breadcrumb-item>{{goodDetail.second_cate_name}}</el-breadcrumb-item>-->
     <!--</el-breadcrumb>-->
-    <div><span class="hoverStyle"><a :href="backListUrl">{{goodDetail.first_cate_name}}</a></span> <i class="el-icon-arrow-right"></i> <span>{{goodDetail.second_cate_name}}</span></div>
+    <div><span class="hoverStyle" @click="listNav(goodDetail.first_cate_id)">{{goodDetail.first_cate_name}}</span> <i class="el-icon-arrow-right"></i> <span>{{goodDetail.second_cate_name}}</span></div>
   </div>
   <div class="goodsDetail">
     <div class="goodsImg">
@@ -339,6 +339,14 @@ export default {
     this.isLogin()
   },
   methods:{
+    listNav (id) {
+      this.$router.push({
+        path: '/' + this.backListUrl,
+        query: {
+          f_cate_id: id
+        }
+      })
+    },
     // 活动
     getActivityInfo (skuId) {
       var that = this

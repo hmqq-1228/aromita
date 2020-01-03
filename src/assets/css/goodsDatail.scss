@@ -258,7 +258,11 @@
   i{
     font-size: 12px;
   }
-  .hoverStyle:hover a{
+  .hoverStyle{
+    display: inline-block;
+    cursor: pointer;
+  }
+  .hoverStyle:hover{
     color: #c51015;
     text-decoration: underline;
   }
