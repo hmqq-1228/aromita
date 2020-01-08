@@ -241,10 +241,10 @@ export default {
       var routerStr = this.$store.state.fromUrl
       mergeGoods().then((res)=>{
         if (res == 200) {
-          this.$message({
-            message: " success",
-            type: "success"
-          });
+          // this.$message({
+          //   message: " success",
+          //   type: "success"
+          // });
         if (routerStr) {
           this.$router.push(routerStr)
           this.$store.state.fromUrl = ''
@@ -259,7 +259,7 @@ export default {
     },
     delCookieFuc () {
       delCookie().then((res)=>{
-       console.log(res)
+      //  console.log(res)
       })
     },
     // delete_cookie(name) {

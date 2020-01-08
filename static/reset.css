@@ -649,3 +649,23 @@ ul,li {
 .orderConfirm .toShopCar .el-button{
   width: auto !important;
 }
+.shoppingCar .el-dialog__header{
+  padding: 14px 30px 14px !important;
+  border-bottom: 1px solid #E9E9E9;
+}
+.shoppingCar .el-dialog__title{
+  font-size: 14px !important;
+  color: #333 !important;
+  font-weight: bold !important;
+}
+.shoppingCar .el-dialog__headerbtn{
+  top: 16px !important;
+  right: 25px !important;
+  font-size: 16px !important;
+}
+.shoppingCar .el-dialog__headerbtn .el-dialog__close{
+  color: #333 !important;
+}
+.shoppingCar .el-dialog__body{
+  padding: 30px 30px 0 !important;
+}

@@ -26,13 +26,13 @@
               <div class="left_one" v-for="(item,index) in list" :key="index">
                 <!-- <p class="left_one1">COMPANY INFO</p> -->
                 <ul class="left_one2">
-                  <li v-for="(item1,index1) in item" :key="index1" :class="[index1==0 ? 'active' : '']" @click="linkHref(item1.tool_href)">{{item1.tool_title}}</li>
+                  <li v-for="(item1,index1) in item" :key="index1" :class="[index1==0 ? 'active' : '']" :style="item1.tool_href?'cursor: pointer;':'cursor: auto;'" @click="linkHref(item1.tool_href)">{{item1.tool_title}}</li>
                 </ul>
               </div>
             </div>
             <div class="footer_right">
-              <p class="know">Stay In The Know</p>
-              <span class="deals">Be the first to see our new arrivals & exclusive deals</span>
+              <p class="know" v-for="(name, index2) in list_last" :key="index2" @click="linkHref(name.tool_href)" :class="[index2==0 ? 'active' : '']" :style="name.tool_href?'cursor: pointer;':'cursor: auto;'">{{name.tool_title}}</p>
+             <!-- <span class="deals">Be the first to see our new arrivals & exclusive deals</span> -->
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
                 <el-form-item class="search isfooter" prop="subscribeKey" style="width: 336px">
                   <el-input placeholder="Enter your email" v-model="ruleForm.subscribeKey" clearable></el-input>
@@ -71,6 +71,7 @@ export default {
       icon: [], //40
       footTitle: [], //50
       list:[],
+      list_last: [],
       agreenSub: false,
       aromite: ''
     };
@@ -89,11 +90,21 @@ export default {
     },
     //运营配置活动页
     linkHref(link){
-      window.location.href = link
+	    if (link) {
+		    window.location.href = link
+	    }
     },
     async homeFoote() {
       let data = await homeFoote()
+      for (let key in data.data) {
+        console.log('vvvv', key)
+        if (key == 5) {
+          this.list_last = data.data[key]
+          delete(data.data[key])
+        }
+      }
       this.list = data.data
+      console.log('kkkk', this.list_last)
     },
     // 40
     async homeIcon() {

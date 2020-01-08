@@ -1,5 +1,42 @@
 <template>
 <div class="shoppingCar">
+  <el-dialog
+    title="选择加购商品"
+    width="800px"
+    :visible.sync="goodsVisible">
+    <div class="addBox">
+      <div class="addGoodsItem">
+        <div class="imgBox2">
+          <img src="../../../static/img/nodata.jpg" alt="">
+        </div>
+        <div>
+          <div class="addModelTitle">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Yoga Healing Yoga Healing Yoga Healing</div>
+          <div class="addModelPrice">$ 1.99</div>
+          <div class="addModelBtn">Add to Cart</div>
+        </div>
+      </div>
+       <div class="addGoodsItem">
+        <div class="imgBox2">
+          <img src="../../../static/img/nodata.jpg" alt="">
+        </div>
+        <div>
+          <div class="addModelTitle">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Yoga Healing Yoga Healing Yoga Healing</div>
+          <div class="addModelPrice">$ 1.99</div>
+          <div class="addModelBtn Added">Added</div>
+        </div>
+      </div>
+       <div class="addGoodsItem">
+        <div class="imgBox2">
+          <img src="../../../static/img/nodata.jpg" alt="">
+        </div>
+        <div>
+          <div class="addModelTitle">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Yoga Healing Yoga Healing Yoga Healing</div>
+          <div class="addModelPrice">$ 1.99</div>
+          <div class="addModelBtn">Add to Cart</div>
+        </div>
+      </div>
+    </div>
+  </el-dialog>
   <div class="carCont">
     <div class="detailLoad" v-if="loadingShow">
       <div>
@@ -15,6 +52,11 @@
       <div class="quantity">Quantity</div>
       <div class="total">Total</div>
       <div class="option">Options</div>
+    </div>
+    <div class="bayCont" v-if="!loadingShow">
+      <div class="bayFlag">加购</div>
+      <div class="bayTitle">满$120加购</div>
+      <div class="addBayBtn" @click="addMoreGoods()"><span>立即加购&gt;</span></div>
     </div>
     <div class="carItem" v-if="goodsListOn.length>0 && !loadingShow" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
       <div class="checkState item">
@@ -54,6 +96,37 @@
         <div class="imgType"><img src="../../assets/Cart-Empty.png" alt=""></div>
         <div class="noGoodsText">The Shopping Cart is Empty!</div>
         <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
+      </div>
+    </div>
+  </div>
+  <div class="overTime" v-if="!loadingShow">
+    <div class="overHd" style="border-bottom: 1px dashed #eee;"></div>
+    <div class="carItem">
+      <div class="sendGoods">
+        <div>
+          <div class="sendName">赠品</div>
+          <div class="sendTag"></div>
+        </div>
+        <!-- <div class="bayFlag">加购</div> -->
+        <div class="sendTitle">满$50赠送</div>
+      </div>
+      <div class="checkState item" style="width: 106px; box-sizing: border-box;">
+        <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
+        <div class="imgBox">
+          <img src="../../../static/img/nodata.jpg" alt="">
+        </div>
+      </div>
+      <div class="productCont" style="width: 500px;">
+        <div class="textBox">unGood sku_name unGood sku_name unGood sku_name unGood sku_name unGood sku_name</div>
+        <div><div class="goodsType">color: red;</div></div>
+        <div class="goodsPrice">$9.99</div>
+      </div>
+      <div class="goodsNum"><div class="addNum">1</div></div>
+      <div class="goodsTotal">$ 0.00</div>
+      <div class="optionType">
+        <span><i class="el-icon-circle-close"></i></span>
+        <span class="wishAdd"><img src="../../../static/img/loveOut.png" alt=""></span>
+        <!-- <span class="wishAdd isWished" v-if="unGood.sku_status===2 && unGood.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span> -->
       </div>
     </div>
   </div>
@@ -233,6 +306,7 @@ export default {
       tipOverShow: false,
       wishVisible: false,
       loadingShow: false,
+      goodsVisible: false,
       payDialogVisible: false,
       checkedItem: [],
       idList: [],
@@ -242,6 +316,7 @@ export default {
       totalPayShow: 0,
       goodsList: [],
       couponId: '',
+      timeIndex: -1,
       // numDisabled: false,
       hasChecked: false,
       goodsListOn: [],
@@ -273,6 +348,11 @@ export default {
         this.checkedAll = true
       } else {
         this.checkedAll = false
+      }
+    },
+    timeIndex: function(val, oV){
+      if (val>0){
+        console.log('kk666', val)
       }
     }
   },
@@ -331,7 +411,6 @@ export default {
                 that.$set(that.goodsListOn[j],'overTipShow',false)
                 var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
-                that.goodsChecked(that.checkedItem)
                 if (tr.num >= tr.max) {
                   if (that.goodsListOn[j].sku_id === tr.sid) {
                     that.goodsListOn[j].overTipShow = true
@@ -344,6 +423,7 @@ export default {
             }
           }
           that.$store.state.addCartState = false
+          that.goodsChecked(that.checkedItem)
         }
       } else {
         that.loadingShow = true
@@ -395,11 +475,28 @@ export default {
       var that = this
       that.checkArr = arr
       let totalPay = 0
+      var list = [2,5,25,36,50,55,60,100]
       for (var i = 0; i < that.checkArr.length; i++) {
         totalPay += that.checkArr[i]
       }
       that.totalPayShow = totalPay
+      console.log('kkk', totalPay)
       // that.btnLoading = false
+      that.getTimeIndex(list, totalPay)
+    },
+    getTimeIndex: function (timeArr,time) {
+      var timeIndex = -1;
+      for(var index in timeArr){
+        if(timeArr[index] > time){
+          console.log('zzzzz', timeArr[index])
+          timeIndex = index;
+          break;
+        } else {
+          timeIndex = -1
+        }
+      }
+      this.timeIndex = timeIndex
+      console.log('kkk22', this.timeIndex)
     },
     goodsChecked: function(e){
       var that = this
@@ -409,31 +506,34 @@ export default {
         for (var m=0;m<e.length; m++){
           for (var n=0;n<that.goodsListOn.length; n++){
             if (that.goodsListOn[n].sku_id === e[m]){
-              that.getPayList(that.goodsListOn[n].totalPay)
+              that.payList.push(parseFloat(that.goodsListOn[n].totalPay))
             }
           }
         }
+        that.getPayList(that.payList)
       }else if (e.length === 0) {
+        // console.log(111111)
         that.sumPay(e)
       }
     },
     getPayList: function (e) {
       var that = this
-      that.payList.push(parseFloat(e))
-      that.sumPay(that.payList)
+      // console.log(222222)
+      // that.payList.push(parseFloat(e))
+      that.sumPay(e)
     },
     // 单个删除
     deleteItemCart: function (skuId) {
       var that = this
       // that.btnLoading = true
       that.$axios.post('api/deltocart/' + skuId, {}).then(res => {
-        that.getGoodsListFuc()
+        that.getGoodsListFuc('1')
         that.$store.state.addCartState = true
-        for (var i=0;i<that.checkedItem.length;i++){
-          if (that.checkedItem[i] === skuId) {
-            that.checkedItem.splice(i,1)
-          }
-        }
+        // for (var i=0;i<that.checkedItem.length;i++){
+        //   if (that.checkedItem[i] == skuId) {
+        //     that.checkedItem.splice(i,1)
+        //   }
+        // }
       })
     },
     // 批量删除
@@ -491,6 +591,7 @@ export default {
           that.payList.push(parseFloat(that.goodsListOn[i].totalPay))
           // console.log('kkkk', that.goodsListOn[i].totalPay)
         }
+        // console.log(3333333)
         that.sumPay(that.payList)
       } else {
         this.checkedItem = []
@@ -565,6 +666,9 @@ export default {
         this.$store.state.skuId = skuid
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
+    },
+    addMoreGoods(){
+      this.goodsVisible = true
     },
     goShopping: function () {
       this.$router.push('/')
