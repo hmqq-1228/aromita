@@ -1628,7 +1628,7 @@ export default {
           }).then(() => {
             that.$router.push('/shoppingCar')
           }).catch(() => {
-            that.modelShow2 = false    
+            that.modelShow2 = false 
           });
         } else {
             that.modelShow2 = false

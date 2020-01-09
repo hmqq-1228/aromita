@@ -158,7 +158,7 @@
         <div class="goodsPrice">$ {{unGood.activity_price?unGood.activity_price:unGood.sku_price}} <span v-if="unGood.activity_type">${{unGood.sku_price}}</span></div>
       </div>
       <div class="goodsNum_goodsTotal">
-        <span v-if="unGood.sku_status == 0">Invalid</span>
+        <span v-if="unGood.sku_status == 0 || unGood.is_delete == 1 || unGood.product_status == 0">Invalid</span>
         <span v-if="unGood.sku_status == 2">Restocking</span>
       </div>
       <div class="optionType">
@@ -403,7 +403,7 @@ export default {
           that.goodsListOn = []
           that.goodsListOff = []
           for (var i = 0;i<that.goodsList.length;i++){
-            if (that.goodsList[i].sku_status === 1) {
+            if (that.goodsList[i].sku_status == 1 && that.goodsList[i].product_status != 0 && that.goodsList[i].is_delete != 1) {
               OnList.push(that.goodsList[i])
               that.goodsListOn = OnList
               that.idList.push(that.goodsList[i].sku_id)
@@ -417,7 +417,7 @@ export default {
                   }
                 }
               }
-            } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
+            } else if (that.goodsList[i].sku_status == 0 || that.goodsList[i].sku_status == 2 || that.goodsList[i].product_status == 0 || that.goodsList[i].is_delete == 1){
               OffList.push(that.goodsList[i])
               that.goodsListOff = OffList
             }
@@ -443,7 +443,7 @@ export default {
             that.noProduct = false
             that.idList = []
             for (var i = 0;i<that.goodsList.length;i++){
-              if (that.goodsList[i].sku_status === 1) {
+              if (that.goodsList[i].sku_status === 1 && that.goodsList[i].product_status != 0 && that.goodsList[i].is_delete != 1) {
                 onList.push(that.goodsList[i])
                 that.goodsListOn = onList
                 that.idList.push(that.goodsList[i].sku_id)
@@ -458,7 +458,7 @@ export default {
                   var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                   that.goodsListOn[j].totalPay = itemPay.toFixed(2)
                 }
-              } else if (that.goodsList[i].sku_status === 0 || that.goodsList[i].sku_status === 2){
+              } else if (that.goodsList[i].sku_status == 0 || that.goodsList[i].sku_status == 2 || that.goodsList[i].product_status == 0 || that.goodsList[i].is_delete == 1){
                 offList.push(that.goodsList[i])
                 that.goodsListOff = offList
               }
