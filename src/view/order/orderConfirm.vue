@@ -1520,7 +1520,7 @@ export default {
           this.$alert('Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.', '', {
             confirmButtonText: 'OK',
           })
-        } else if (res.code == 111) {
+        } else if (res.code == 111 && res.code == 120) {
           that.modelShow2 = false
           var ids = JSON.parse(res.data)
           if (ids[0]) {
