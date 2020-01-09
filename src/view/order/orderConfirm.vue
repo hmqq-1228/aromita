@@ -1520,7 +1520,7 @@ export default {
           this.$alert('Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.', '', {
             confirmButtonText: 'OK',
           })
-        } else if (res.code == 111 && res.code == 120) {
+        } else if (res.code == 111 || res.code == 120) {
           that.modelShow2 = false
           var ids = JSON.parse(res.data)
           if (ids[0]) {
@@ -1614,18 +1614,27 @@ export default {
         } else if (res.code == 119) {
           that.payDisabled = true
           that.modelShow2 = false
-          that.$confirm('Sorry. Some items are missing, please update the page.', '', {
+           var ids = JSON.parse(res.data)
+          for (var i=0; i<that.goodsList.length; i++) {
+            for (var j=0; j<ids.length; j++) {
+              if (that.goodsList[i].sku_id === ids[j]) {
+                that.goodsList[i].soldOut = 1
+              }
+            }
+          }
+          that.$confirm('Sorry, Some items are missing, Please add it again.', '', {
             showCancelButton: false,
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Go To Cart',
           }).then(() => {
-            that.getGoodsOrder()
-            that.showMethod()
+            that.$router.push('/shoppingCar')
           }).catch(() => {
             that.modelShow2 = false    
           });
         } else {
             that.modelShow2 = false
-            that.$message.warning('The order has expired.')
+            this.$alert('The order has expired, Please add it again.', '', {
+              confirmButtonText: 'OK',
+            })
           }
         })
     },
