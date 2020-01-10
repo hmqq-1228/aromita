@@ -1517,11 +1517,14 @@ export default {
               }
             }
           }
-          this.$alert('Sorry, some products are temporarily out of stock. Please see the details on CHECKOUT REVIEW table. Then go back to cart page and update the quantity.', '', {
+          this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
             confirmButtonText: 'OK',
           })
         } else if (res.code == 111 || res.code == 120) {
           that.modelShow2 = false
+          this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+            confirmButtonText: 'OK',
+          })
           var ids = JSON.parse(res.data)
           if (ids[0]) {
             // console.log('kkkkkccccc', ids)
@@ -1622,7 +1625,7 @@ export default {
               }
             }
           }
-          that.$confirm('Sorry, Some items are missing, Please add it again.', '', {
+          that.$confirm('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
             showCancelButton: false,
             confirmButtonText: 'Go To Cart',
           }).then(() => {
@@ -1632,7 +1635,7 @@ export default {
           });
         } else {
             that.modelShow2 = false
-            this.$alert('The order has expired, Please add it again.', '', {
+            this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
               confirmButtonText: 'OK',
             })
           }
