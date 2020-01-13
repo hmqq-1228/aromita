@@ -97,14 +97,12 @@ export default {
     async homeFoote() {
       let data = await homeFoote()
       for (let key in data.data) {
-        console.log('vvvv', key)
         if (key == 5) {
           this.list_last = data.data[key]
           delete(data.data[key])
         }
       }
       this.list = data.data
-      console.log('kkkk', this.list_last)
     },
     // 40
     async homeIcon() {
