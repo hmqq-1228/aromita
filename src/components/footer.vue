@@ -37,7 +37,7 @@
                 <el-form-item class="search isfooter" prop="subscribeKey" style="width: 336px">
                   <el-input placeholder="Enter your email" v-model="ruleForm.subscribeKey" clearable></el-input>
                 </el-form-item>
-                <el-checkbox class="policeStyle1" v-model="agreenSub" label="I have read and agreed to the"></el-checkbox> <span class="policy">Privacy Policy</span>
+                <el-checkbox class="policeStyle1" v-model="agreenSub" label="I have read and agreed to the"></el-checkbox> <span class="policy" @click="toPolice">Privacy Policy</span>
                 <div class="btn">
                   <p class="btn_word" @click="subscribeSub('ruleForm')">SUBSCRIBE</p>
                 </div>
@@ -108,6 +108,9 @@ export default {
     async homeIcon() {
       let data = await homeIcon()
       this.icon = data.data
+    },
+    toPolice(){
+      this.$router.push('/police')
     },
     //  50
     async homeFootTitle() {

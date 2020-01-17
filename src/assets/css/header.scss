@@ -387,7 +387,15 @@
     }
   }
 }
-
+.addMoreBtn{
+  padding: 0 10px;
+  font-size: 14px;
+  width: fit-content;
+  color: #FF9D3B;
+  border: 1px solid #FF9D3B;
+  box-sizing: border-box;
+  margin-left: 20px;
+}
 // 购物车缩略版
 .cart_list{
     transition: all .5s ease;
@@ -530,6 +538,7 @@
             .price{
               position: absolute;
               bottom: 0;
+              width: 50px;
             }
           }
         }

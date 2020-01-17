@@ -4,35 +4,18 @@
     title="选择加购商品"
     width="800px"
     :visible.sync="goodsVisible">
-    <div class="addBox">
-      <div class="addGoodsItem">
+    <div class="loadingData" v-if="chooseList.length == 0"><img src="../../../static/img/loadingData.gif" alt=""></div>
+    <div class="addBox" v-if="chooseList.length>0">
+      <div class="addGoodsItem" v-for="(addItem,index) in chooseList" :key="index">
         <div class="imgBox2">
-          <img src="../../../static/img/nodata.jpg" alt="">
+          <img :src="addItem.sku_image" alt="">
         </div>
         <div>
-          <div class="addModelTitle">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Yoga Healing Yoga Healing Yoga Healing</div>
-          <div class="addModelPrice">$ 1.99</div>
-          <div class="addModelBtn">Add to Cart</div>
-        </div>
-      </div>
-       <div class="addGoodsItem">
-        <div class="imgBox2">
-          <img src="../../../static/img/nodata.jpg" alt="">
-        </div>
-        <div>
-          <div class="addModelTitle">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Yoga Healing Yoga Healing Yoga Healing</div>
-          <div class="addModelPrice">$ 1.99</div>
-          <div class="addModelBtn Added">Added</div>
-        </div>
-      </div>
-       <div class="addGoodsItem">
-        <div class="imgBox2">
-          <img src="../../../static/img/nodata.jpg" alt="">
-        </div>
-        <div>
-          <div class="addModelTitle">Wholesale - (Grade D) Blue Sand Stone (Imitation) Yoga Healing Yoga Healing Yoga Healing Yoga Healing</div>
-          <div class="addModelPrice">$ 1.99</div>
-          <div class="addModelBtn">Add to Cart</div>
+          <div class="addModelTitle">{{addItem.sku_name}}</div>
+          <div class="add_md addModelAttr"><div class="goodsType" v-for="goodAttr in JSON.parse(addItem.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div></div>
+          <div class="goodsPrice">$ {{addItem.activity_price?addItem.activity_price:addItem.sku_price}} <span v-if="addItem.activity_price">${{addItem.sku_price}}</span></div>
+          <div class="addModelBtn" v-if="addItem.have_in_cart == 2" @click="addMoreTocart(addItem.sku_id)">Add to Cart</div>
+          <div class="addModelBtn Added" v-if="addItem.have_in_cart == 1">Added</div>
         </div>
       </div>
     </div>
@@ -53,9 +36,9 @@
       <div class="total">Total</div>
       <div class="option">Options</div>
     </div>
-    <div class="bayCont" v-if="!loadingShow">
+    <div class="bayCont" v-if="!loadingShow && totalLevel && totalPayShow>=totalLevel && goodsListOn.length>0">
       <div class="bayFlag">加购</div>
-      <div class="bayTitle">满$120加购</div>
+      <div class="bayTitle">满${{totalLevel}}加购</div>
       <div class="addBayBtn" @click="addMoreGoods()"><span>立即加购&gt;</span></div>
     </div>
     <div class="carItem" v-if="goodsListOn.length>0 && !loadingShow" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
@@ -87,7 +70,7 @@
       <div class="goodsTotal">$ {{(carItem.goods_count*parseFloat(carItem.activity_price?carItem.activity_price:carItem.sku_price)).toFixed(2)}}</div>
       <div class="optionType">
         <span @click="deleteItemCart(carItem.sku_id)"><i class="el-icon-circle-close"></i></span>
-        <span class="wishAdd" v-if="carItem.in_wishlist === 10"><img @click="addWish(carItem.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
+        <span class="wishAdd" title="add wishlist" v-if="carItem.in_wishlist === 10"><img @click="addWish(carItem.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
         <span class="wishAdd" style="cursor: auto" v-if="carItem.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
       </div>
     </div>
@@ -99,33 +82,60 @@
       </div>
     </div>
   </div>
-  <div class="overTime" v-if="!loadingShow">
+  <div class="overTime" v-if="!loadingShow && anotherGoodsList.length>0">
     <div class="overHd" style="border-bottom: 1px dashed #eee;"></div>
-    <div class="carItem">
+    <div class="carItem" v-for="(item, index) in anotherGoodsList" :key="index">
+      <div class="sendGoods">
+        <div class="bayFlag">加购</div>
+        <div class="sendTitle">满${{item.activity_intensity}}加购</div>
+      </div>
+      <div class="checkState item" style="width: 106px; box-sizing: border-box;">
+        <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
+        <div class="imgBox">
+          <img :src="item.sku_image" alt="" @click="toGoodDetail(item.product_id, item.sku_id)">
+        </div>
+      </div>
+      <div class="productCont" style="width: 500px;">
+        <div class="textBox" @click="toGoodDetail(item.product_id, item.sku_id)">{{item.sku_name}}</div>
+        <div><div class="goodsType" v-for="goodAttr in JSON.parse(item.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div></div>
+        <div class="goodsPrice">$ {{item.activity_price}} <span>${{item.sku_price}}</span></div>
+      </div>
+      <div class="goodsNum"><div class="addNum">{{item.goods_count}}</div></div>
+      <div class="goodsTotal">$ {{item.totalPay.toFixed(2)}}</div>
+      <div class="optionType">
+        <span @click="deleteItemCartOther(item.sku_id)"><i class="el-icon-circle-close"></i></span>
+        <span class="wishAdd" title="add wishlist" v-if="item.in_wishlist==10" @click="addWish(item.sku_id, 'other')"><img src="../../../static/img/loveOut.png" alt=""></span>
+        <span class="wishAdd isWished" v-if="item.in_wishlist == 20"><img src="../../../static/img/love.png" alt=""></span>
+      </div>
+    </div>
+  </div>
+  <div class="overTime" v-if="!loadingShow && fullGiveList && fullGiveList.length>0">
+    <div class="overHd" style="border-bottom: 1px dashed #eee;"></div>
+    <div class="carItem" v-for="(item, index) in fullGiveList" :key="index">
       <div class="sendGoods">
         <div>
           <div class="sendName">赠品</div>
           <div class="sendTag"></div>
         </div>
         <!-- <div class="bayFlag">加购</div> -->
-        <div class="sendTitle">满$50赠送</div>
+        <div class="sendTitle">满${{item.act_type}}赠送</div>
       </div>
       <div class="checkState item" style="width: 106px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
-        <div class="imgBox">
-          <img src="../../../static/img/nodata.jpg" alt="">
+        <div class="imgBox" @click="toGoodDetail(item.product_id, item.sku_id)">
+          <img :src="item.sku_image" alt="">
         </div>
       </div>
       <div class="productCont" style="width: 500px;">
-        <div class="textBox">unGood sku_name unGood sku_name unGood sku_name unGood sku_name unGood sku_name</div>
-        <div><div class="goodsType">color: red;</div></div>
-        <div class="goodsPrice">$9.99</div>
+        <div class="textBox" @click="toGoodDetail(item.product_id, item.sku_id)">{{item.sku_name}}</div>
+        <div v-if="item.sku_attrs"><div class="goodsType" v-for="goodAttr in JSON.parse(item.sku_attrs)" :key="goodAttr.id+'-'+goodAttr.value.id">{{goodAttr.attr_name}}: {{goodAttr.value.attr_value}};</div></div>
+        <div class="goodsPrice">$ {{item.activity_price}} <span>${{item.sku_price}}</span></div>
       </div>
       <div class="goodsNum"><div class="addNum">1</div></div>
-      <div class="goodsTotal">$ 0.00</div>
+      <div class="goodsTotal">$ {{item.activity_price}}</div>
       <div class="optionType">
-        <span><i class="el-icon-circle-close"></i></span>
-        <span class="wishAdd"><img src="../../../static/img/loveOut.png" alt=""></span>
+        <span></span>
+        <!-- <span class="wishAdd" title="add wishlist"><img src="../../../static/img/loveOut.png" alt=""></span> -->
         <!-- <span class="wishAdd isWished" v-if="unGood.sku_status===2 && unGood.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span> -->
       </div>
     </div>
@@ -163,7 +173,7 @@
       </div>
       <div class="optionType">
         <span @click="deleteItemCart(unGood.sku_id)"><i class="el-icon-circle-close"></i></span>
-        <span class="wishAdd" v-if="unGood.sku_status===2 && unGood.in_wishlist === 10"><img @click="addWish(unGood.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
+        <span class="wishAdd" title="add wishlist" v-if="unGood.sku_status===2 && unGood.in_wishlist === 10"><img @click="addWish(unGood.sku_id)" src="../../../static/img/loveOut.png" alt=""></span>
         <span class="wishAdd isWished" v-if="unGood.sku_status===2 && unGood.in_wishlist === 20"><img src="../../../static/img/love.png" alt=""></span>
       </div>
     </div>
@@ -174,61 +184,6 @@
     <!--</div>-->
     <div class="pointCoupon">
       <div class="leftCont">
-        <!--<div class="coupon">-->
-          <!--<div class="couponItem" @click="useCoupon($event, 1)">-->
-            <!--<div class="couponInfo">-->
-              <!--<div class="info">-->
-                <!--<div>优惠:</div>-->
-                <!--<div>满100减20</div>-->
-              <!--</div>-->
-              <!--<div class="info" style="margin-top: 4px">-->
-                <!--<div>Expired Data:</div>-->
-                <!--<div>July 23,2019</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="couponItem" @click="useCoupon($event, 2)">-->
-            <!--<div class="couponInfo">-->
-              <!--<div class="info">-->
-                <!--<div>优惠:</div>-->
-                <!--<div>满100减20</div>-->
-              <!--</div>-->
-              <!--<div class="info" style="margin-top: 4px">-->
-                <!--<div>Expired Data:</div>-->
-                <!--<div>July 23,2019</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="couponItem" @click="useCoupon($event, 3)">-->
-            <!--<div class="couponInfo">-->
-              <!--<div class="info">-->
-                <!--<div>优惠:</div>-->
-                <!--<div>满100减20</div>-->
-              <!--</div>-->
-              <!--<div class="info" style="margin-top: 4px">-->
-                <!--<div>Expired Data:</div>-->
-                <!--<div>July 23,2019</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="couponItem" @click="useCoupon($event, 4)">-->
-            <!--<div class="couponInfo">-->
-              <!--<div class="info">-->
-                <!--<div>优惠:</div>-->
-                <!--<div>满100减20</div>-->
-              <!--</div>-->
-              <!--<div class="info" style="margin-top: 4px">-->
-                <!--<div>Expired Data:</div>-->
-                <!--<div>July 23,2019</div>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
-          <!--<div class="more" @click="getMoreCoupon(pointMore)"><span :class="pointMore"></span></div>-->
-        <!--</div>-->
-        <!--<div class="point">-->
-          <!--<div>Available Points: {{maxPoints}}</div>-->
-          <!--<div style="width: 180px;display: flex;justify-content: space-between;"><div>使用积分: </div><input type="number" class="inputVal" min="0" :max="maxPoints"></div>-->
-        <!--</div>-->
       </div>
       <div class="orderInfo">
         <div class="payOrder">
@@ -238,7 +193,7 @@
             <!--<div class="payItem"><div class="payTitle">Points:</div><div class="payNum">$ 53.33</div></div>-->
             <!--<div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum">$ {{totalPayShow.toFixed(2)}}</div></div>-->
             <div class="payItem"><div class="payTitle">Subtotal:</div><div class="payNum big">$ {{totalPayShow.toFixed(2)}}</div></div>
-            <div class="payItem"><div></div><div class="tip">Privacy Policy</div></div>
+            <div class="payItem"><div></div><div class="police" @click="toPolice">Privacy Policy</div></div>
           </div>
         </div>
         <div>
@@ -293,6 +248,7 @@
 import {getGoodsList,checkLogin} from "../../api/register";
 import {addwishlist} from "@/api/wish.js"
 import { mapGetters } from 'vuex'
+import Cookies from 'js-cookie';
 import qs from 'qs'
 export default {
   data () {
@@ -312,15 +268,26 @@ export default {
       idList: [],
       payList: [],
       totalPay: 0,
+      realTotal: 0, // 正常商品价格
       checkArr: [],
       totalPayShow: 0,
+      totalLevel: 0,
       goodsList: [],
       couponId: '',
       timeIndex: -1,
+      goodsCount: 1,
       // numDisabled: false,
       hasChecked: false,
       goodsListOn: [],
       goodsListOff: [],
+      fullGiftList: [],
+      addGoodsList: [],
+      // 满赠数据
+      fullGiveList: [],
+      // 满送
+      chooseList: [],
+      // 加购
+      anotherGoodsList: [],
       btnCanSub: true,
       maxQuality: 0,
       noProduct: false,
@@ -350,9 +317,28 @@ export default {
         this.checkedAll = false
       }
     },
+    realTotal: function (val, oV) {
+      var that = this
+      if (val < oV) {
+        // console.log('nnnnn', this.anotherGoodsList)
+        // console.log('mmmmm', val)
+        for (var i=0;i<that.anotherGoodsList.length;i++) {
+          if (val >= parseFloat(that.anotherGoodsList[i].activity_intensity)) {
+            // console.log("*****555555", that.anotherGoodsList[i].activity_intensity)
+          } else {
+            // console.log("*****44444", that.anotherGoodsList[i].sku_id)
+            that.deleteItemCartOther(that.anotherGoodsList[i].sku_id)
+          }
+        }
+      }
+    },
+    // 满赠条件变化，当金额满足一个新的满赠档次的时候重新调用接口
     timeIndex: function(val, oV){
-      if (val>0){
-        console.log('kk666', val)
+      var that = this
+      if (val){
+        // console.log('kk666777', val)
+        that.getActivityGoods(that.fullGiftList[val])
+        // console.log('hhhh777', that.fullGiftList)
       }
     }
   },
@@ -366,6 +352,70 @@ export default {
     this.getGoodsListFuc()
   },
   methods:{
+    getActivityGoods (type) {
+      var that = this
+      // console.log('000000', type)
+      var obj = qs.stringify({
+        activity_type: 3,
+        subtotal: that.totalPayShow
+      })
+      // console.log('lllll', type)
+      that.$axios.post('api/cartactivityitembysubtotal', obj).then(res => {
+        if (res.length > 0) {
+          // console.log('2222222', res[0])
+          for (var i=0;i<res.length;i++) {
+            that.$set(res[i],'act_type',0)
+            res[i].act_type = type
+          }
+        }
+        // console.log('mmmmm', res)
+        that.fullGiveList = res
+      })
+    },
+    // 加购添加
+    addMoreTocart(id){
+      var that = this
+      // that.isExistAddMore(id)
+      that.addActivityToCart(id)
+    },
+    // 校验是否已经添加
+    // isExistAddMore(id){
+    //   var that = this
+    //   var obj = qs.stringify({
+    //     sku_id: id
+    //   })
+    //   that.$axios.post('api/checkactivitycartskuexist', obj).then(res => {
+    //     console.log("*****", res)
+    //     if (res.code == 102) {
+    //       that.addActivityToCart(id)
+    //     }
+    //   })
+    // },
+    addActivityToCart (id) {
+      var that = this
+      var obj = qs.stringify({
+        sku_id: id,
+        goods_count: 1
+      })
+      that.$axios.post('api/anotheraddtoactivitycart', obj).then(res => {
+        // console.log("*****", res)
+        if (!res.code) {
+          that.getActivityGoodsList()
+          that.getAddMoreGoods()
+          that.$store.state.addCartState = true
+        } else {
+          this.$alert("Sorry, this item are invalid., Please add it again.", '', {
+          confirmButtonText: 'OK',
+          callback: action => {
+            that.getActivityGoodsList()
+          }
+        })
+        }
+      })
+    },
+    toPolice(){
+      this.$router.push('/police')
+    },
     async checkLoginInfo () {
       let data = await checkLogin()
       if(data.code === '200' || data.code === 200) {
@@ -387,10 +437,33 @@ export default {
     //     that.pointMore = 'el-icon-d-arrow-right'
     //   }
     // },
+    getActivityGoodsList () {
+      var that = this
+     
+      that.$axios.post('api/getmyactivitycartsku', {}).then(res => {
+        if(res instanceof Array){
+          for (var i=0;i<res.length;i++) {
+            that.$set(res[i],'totalPay', 0)
+            if (res[i].activity_price) {
+              res[i].totalPay = parseFloat(res[i].activity_price) * res[i].goods_count
+            } else {
+              res[i].totalPay = parseFloat(res[i].sku_price) * res[i].goods_count
+            }
+            //  console.log("*****111111", this.realTotal)
+          }
+          that.anotherGoodsList = res
+          that.getPayList(that.payList)
+        }
+        // console.log("*****22222", fitList)
+        // console.log("*****33333", unFitList)
+      })
+    },
+    // 查购物车数据
     async getGoodsListFuc(tr){
       var that = this
       that.payList = []
       that.totalPay = 0
+      // that.getActivityGoods()
       if (tr) {
         let data = await getGoodsList();
         if (data) {
@@ -400,6 +473,7 @@ export default {
           that.idList = []
           let OnList = []
           let OffList = []
+          let goodsPay = []
           that.goodsListOn = []
           that.goodsListOff = []
           for (var i = 0;i<that.goodsList.length;i++){
@@ -411,6 +485,7 @@ export default {
                 that.$set(that.goodsListOn[j],'overTipShow',false)
                 var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
+                goodsPay.push(itemPay)
                 if (tr.num >= tr.max) {
                   if (that.goodsListOn[j].sku_id === tr.sid) {
                     that.goodsListOn[j].overTipShow = true
@@ -424,6 +499,12 @@ export default {
           }
           that.$store.state.addCartState = false
           that.goodsChecked(that.checkedItem)
+          var realTotal = 0
+          console.log('jjjjj', goodsPay)
+          for (var i = 0; i < goodsPay.length; i++) {
+            realTotal += goodsPay[i]
+          }
+          that.realTotal = realTotal
         }
       } else {
         that.loadingShow = true
@@ -471,36 +552,103 @@ export default {
         }
       }
     },
+    // 计算总金额
     sumPay: function (arr) {
       var that = this
       that.checkArr = arr
+      that.fullGiftList = []
+      that.addGoodsList = []
       let totalPay = 0
-      var list = [2,5,25,36,50,55,60,100]
       for (var i = 0; i < that.checkArr.length; i++) {
         totalPay += that.checkArr[i]
       }
       that.totalPayShow = totalPay
-      console.log('kkk', totalPay)
+      // console.log('kkk00', totalPay)
       // that.btnLoading = false
-      that.getTimeIndex(list, totalPay)
+      // 获取活动价格梯度Object
+      that.$axios.post('api/cartactivityladder', {}).then(res => {
+        // if (res instanceof Array) {
+        //   for (var i=0;i<res.length;i++){
+        //     if (res[i].activity_type == 3) { // 满赠
+        //       that.fullGiftList.push(parseFloat(res[i].activity_intensity))
+        //     } else if (res[i].activity_type == 4) { // 加购
+        //       that.addGoodsList.push(parseFloat(res[i].activity_intensity))
+        //     }
+        //   }
+        // }
+        if (res instanceof Object) {
+          for (var index in res){
+            // console.log('bbbbbbb', res[index])
+            if (res[index].activity_type == 3) { // 满赠
+              that.fullGiftList.push(parseFloat(res[index].activity_intensity))
+            } else if (res[index].activity_type == 4) { // 加购
+              that.addGoodsList.push(parseFloat(res[index].activity_intensity))
+            }
+          }
+        }
+        if (that.fullGiftList) {
+          var temp = []
+          that.fullGiftList.sort(function(a, b){return a - b});
+          for(var i = 0; i < that.fullGiftList.length; i++){
+            if(temp.indexOf(that.fullGiftList[i]) == -1){
+                temp.push(that.fullGiftList[i]);
+            }
+          }
+          // console.log('temp', temp)
+          that.getTimeIndex(temp, totalPay)
+          that.fullGiftList = temp
+        }
+        if (that.addGoodsList) {
+          var temp = []
+          that.addGoodsList.sort(function(a, b){return a - b});
+          for(var i = 0; i < that.addGoodsList.length; i++){
+            if(temp.indexOf(that.addGoodsList[i]) == -1){
+                temp.push(that.addGoodsList[i]);
+            }
+          } 
+          // console.log('temp2', temp)
+          that.getTimeIndex22(temp, totalPay)
+          that.addGoodsList = temp
+        }
+        // console.log('999999', that.fullGiftList)
+        // console.log('888888', that.addGoodsList)
+      })
     },
-    getTimeIndex: function (timeArr,time) {
+    // 查询金额满足满加条件
+    getTimeIndex22: function (timeArr,totalPay) {
+      // var level = 0
+      if (timeArr.length > 0) {
+        for(var index in timeArr){
+          if(totalPay>=timeArr[index]){
+            // console.log('kkk555', timeArr[index])
+            this.totalLevel = timeArr[index]
+          }
+          if (totalPay < timeArr[0]) {
+            this.totalLevel = timeArr[0]
+          }
+        }
+      } else {
+        this.totalLevel = ''
+      }
+      // this.totalLevel = level
+      // console.log('kkkkk99999', this.totalLevel)
+    },
+    // 查询金额满足满赠条件
+    getTimeIndex: function (timeArr,totalPay) {
       var timeIndex = -1;
       for(var index in timeArr){
-        if(timeArr[index] > time){
-          console.log('zzzzz', timeArr[index])
+        if(totalPay>=timeArr[index] ){
+          // console.log('000000', timeArr[index])
           timeIndex = index;
-          break;
-        } else {
-          timeIndex = -1
         }
       }
       this.timeIndex = timeIndex
-      console.log('kkk22', this.timeIndex)
+      // console.log('kkk22333', timeIndex)
     },
+    // 选中的商品
     goodsChecked: function(e){
       var that = this
-      // console.log('eeeee', that.goodsListOn)
+      // console.log('eeeee', e)
       that.payList = []
       if (e.length > 0) {
         for (var m=0;m<e.length; m++){
@@ -510,17 +658,50 @@ export default {
             }
           }
         }
-        that.getPayList(that.payList)
+        that.getActivityGoodsList()
       }else if (e.length === 0) {
         // console.log(111111)
         that.sumPay(e)
       }
     },
+    // addTotal (e) {
+    //   var that = this
+    //   var realTotal = 0
+    //   for (var i = 0; i < e.length; i++) {
+    //     realTotal += e[i]
+    //   }
+    //   that.realTotal = realTotal
+    //   for (var i=0;i<that.anotherGoodsList.length;i++) {
+    //     if (this.realTotal > parseFloat(that.anotherGoodsList[i].activity_intensity)) {
+         
+    //     } else {
+    //       console.log("*****44444", that.anotherGoodsList[i].sku_id)
+    //       that.deleteItemCartOther(that.anotherGoodsList[i].sku_id)
+    //     }
+    //   }
+    // },
     getPayList: function (e) {
       var that = this
-      // console.log(222222)
+      var otherList = []
+      var allPayList = []
+      // if (that.anotherGoodsList.length > 0) {
+      //   for (var n=0;n<that.anotherGoodsList.length; n++){
+      //     if (realTotal>=parseFloat(that.anotherGoodsList[n].activity_intensity)) {
+      //       otherList.push(parseFloat(that.anotherGoodsList[n].totalPay))
+      //     } else {
+      //       console.log("*****44444", that.anotherGoodsList[n].sku_id)
+      //       that.deleteItemCartOther(that.anotherGoodsList[n].sku_id)
+      //     }
+      //   }
+      // }
+      if (that.anotherGoodsList.length > 0) {
+        for (var n=0;n<that.anotherGoodsList.length; n++){
+          otherList.push(parseFloat(that.anotherGoodsList[n].totalPay))
+        }
+      }
+      allPayList = e.concat(otherList)
       // that.payList.push(parseFloat(e))
-      that.sumPay(e)
+      that.sumPay(allPayList)
     },
     // 单个删除
     deleteItemCart: function (skuId) {
@@ -536,6 +717,17 @@ export default {
         // }
       })
     },
+    deleteItemCartOther(id){
+      var that = this
+      // that.btnLoading = true
+      var obj = qs.stringify({
+        sku_id: id
+      })
+      that.$axios.post('api/deltoactivitycart', obj).then(res => {
+        that.getActivityGoodsList()
+        // that.$store.state.addCartState = true
+      })
+    },
     // 批量删除
     batchDelete: function () {
       var that = this
@@ -547,14 +739,19 @@ export default {
         that.checkedItem = []
       })
     },
-    addWish: function(id) {
+    // 添加心愿单
+    addWish: function(id, type) {
       if (this.isLogin){
         let pre={
           wl_products_skus_id: id
         }
         addwishlist(pre).then((res)=>{
           if(res.code == 200){
-           this.getGoodsListFuc()
+            if (type) {
+              this.getActivityGoodsList()
+            } else {
+              this.getGoodsListFuc('1')
+            }
           } else {
             this.$confirm('Your wishlist goes over the 100-item limit. Please go to wishlist.', '', {
               cancelButtonText: 'Go shopping',
@@ -569,9 +766,11 @@ export default {
         this.wishVisible = true
       }
     },
+    // 修改商品数量
     handleChange: function (e, skuId, max) {
       var that = this
       // that.numDisabled = true
+      // that.goodsCount = e
       var obj = {
         num: e,
         sid: skuId,
@@ -582,6 +781,7 @@ export default {
         that.$store.state.addCartState = true
       })
     },
+    // 全选
     allChecked: function() {
       var that = this
       this.checkedItem = []
@@ -600,9 +800,13 @@ export default {
         that.totalPayShow = 0.00
       }
     },
+    // 点击进入订单确认页面
     subTotalPay: function() {
       var that = this
       var sku_num = []
+      var otherSku = []
+      var sendList = []
+      var allSkuList = []
       if (that.goodsListOn) {
         for(var i=0;i<that.goodsListOn.length;i++){
           for (var j=0;j<that.checkedItem.length;j++){
@@ -616,10 +820,31 @@ export default {
           }
         }
       }
-      // console.log('mmmmm', sku_num)
+      if (that.anotherGoodsList) {
+        for(var k=0;k<that.anotherGoodsList.length;k++){
+          if (that.anotherGoodsList[k].activity_id) {
+            otherSku.push(that.anotherGoodsList[k].activity_id +'-'+that.anotherGoodsList[k].sku_id+'-'+that.anotherGoodsList[k].goods_count)
+          } else {
+            otherSku.push(0+'-'+that.anotherGoodsList[k].sku_id+'-'+that.anotherGoodsList[i].goods_count)
+          }  
+        }
+      }
+      if (that.fullGiveList) {
+        for(var n=0;n<that.fullGiveList.length;n++){
+          if (that.fullGiveList[n].activity_id) {
+            sendList.push(that.fullGiveList[n].activity_id +'-'+that.fullGiveList[n].sku_id+'-'+ 1)
+          } else {
+            sendList.push(0+'-'+that.fullGiveList[n].sku_id+'-'+ 1)
+          }  
+        }
+      }
+      // console.log('mmmmm', otherSku)
+      allSkuList = sku_num.concat(otherSku)
+      allSkuList = allSkuList.concat(sendList)
+      // console.log('zzzzzz', allSkuList)
       if (that.isLogin) {
         sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
-        sessionStorage.setItem('sku_num', JSON.stringify(sku_num))
+        sessionStorage.setItem('sku_num', JSON.stringify(allSkuList))
         // console.log('kkkkk', that.goodsListOn)
         that.$router.push('/orderConfirm')
       } else {
@@ -632,9 +857,13 @@ export default {
       that.$store.state.fromUrl = roterHistory
       that.$router.push('/Login')
     },
+    // 未登录用户继续进订单确认页面
     toOrderConfirm () {
       var that = this
       var sku_num = []
+      var otherSku = []
+      var sendList = []
+      var allSkuList = []
       if (that.goodsListOn) {
         for(var i=0;i<that.goodsListOn.length;i++){
           for (var j=0;j<that.checkedItem.length;j++){
@@ -648,10 +877,31 @@ export default {
           }
         }
       }
+      if (that.anotherGoodsList) {
+        for(var k=0;k<that.anotherGoodsList.length;k++){
+          if (that.anotherGoodsList[k].activity_id) {
+            otherSku.push(that.anotherGoodsList[k].activity_id +'-'+that.anotherGoodsList[k].sku_id+'-'+that.anotherGoodsList[k].goods_count)
+          } else {
+            otherSku.push(0+'-'+that.anotherGoodsList[k].sku_id+'-'+that.anotherGoodsList[i].goods_count)
+          }  
+        }
+      }
+      if (that.fullGiveList) {
+        for(var n=0;n<that.fullGiveList.length;n++){
+          if (that.fullGiveList[n].activity_id) {
+            sendList.push(that.fullGiveList[n].activity_id +'-'+that.fullGiveList[n].sku_id+'-'+ 1)
+          } else {
+            sendList.push(0+'-'+that.fullGiveList[n].sku_id+'-'+ 1)
+          }  
+        }
+      }
+      allSkuList = sku_num.concat(otherSku)
+      allSkuList = allSkuList.concat(sendList)
       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
-      sessionStorage.setItem('sku_num', JSON.stringify(sku_num))
+      sessionStorage.setItem('sku_num', JSON.stringify(allSkuList))
       that.$router.push('/orderConfirm')
     },
+    // 商品详情
     toGoodDetail: function(spuid, skuid){
       if (spuid && skuid) {
         this.$store.state.spuId = spuid
@@ -659,6 +909,7 @@ export default {
         this.$router.push('/goodsDetail/'+ spuid + '/'+ skuid)
       }
     },
+    // 商品详情
     unavailableGoods: function(spuid, skuid){
       // console.log('hhhhhh', spuid, skuid)
       if (spuid && skuid) {
@@ -669,6 +920,22 @@ export default {
     },
     addMoreGoods(){
       this.goodsVisible = true
+      if (this.goodsVisible) {
+        this.getAddMoreGoods()
+      }
+    },
+    getAddMoreGoods () {
+       var that = this
+      var obj = qs.stringify({
+        activity_type: 4,
+        subtotal: that.totalPayShow
+      })
+      that.$axios.post('api/cartactivityitembysubtotal', obj).then(res => {
+        if (res.length > 0) {
+          // console.log('#####', res)
+          that.chooseList = res
+        }
+      })
     },
     goShopping: function () {
       this.$router.push('/')

@@ -425,7 +425,7 @@
             <span v-if="butLoading">Calculating</span>
           </el-button>
         </div>
-        <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website terms and conditions</span></div>
+        <div class="payConfirm"><el-checkbox v-model="checkedSub"></el-checkbox> <span>I have read and agreed to the website <span class="police" @click="toPolice">terms and conditions</span></span></div>
       </div>
     </div>
   </div>
@@ -686,6 +686,9 @@ export default {
         document.onmousemove = null;
         document.onmouseup = null;
       };
+    },
+    toPolice(){
+      this.$router.push('/police')
     },
     proving1: function(){
       this.inputPoint = this.inputPoint.replace(/[^\.\d]/g,'');
@@ -1280,7 +1283,12 @@ export default {
       } else {
         that.payDisabled = true
         that.butLoading = false
-        that.$message.warning('Your shipping address is invalid. Please check it.')
+        this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+          confirmButtonText: 'Go To Cart',
+          callback: action => {
+            that.$router.push('/shoppingCar')
+          }
+        })
       }
     },
     getCouponList: function (type) {
@@ -1518,12 +1526,18 @@ export default {
             }
           }
           this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Go To Cart',
+            callback: action => {
+              that.$router.push('/shoppingCar')
+            }
           })
         } else if (res.code == 111 || res.code == 120) {
           that.modelShow2 = false
           this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
-            confirmButtonText: 'OK',
+            confirmButtonText: 'Go To Cart',
+            callback: action => {
+              that.$router.push('/shoppingCar')
+            }
           })
           var ids = JSON.parse(res.data)
           if (ids[0]) {
@@ -1625,18 +1639,20 @@ export default {
               }
             }
           }
-          that.$confirm('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
-            showCancelButton: false,
+          that.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
             confirmButtonText: 'Go To Cart',
-          }).then(() => {
-            that.$router.push('/shoppingCar')
-          }).catch(() => {
-            that.modelShow2 = false 
-          });
+            callback: action => {
+              that.$router.push('/shoppingCar')
+            }
+          })
         } else {
             that.modelShow2 = false
             this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
-              confirmButtonText: 'OK',
+              confirmButtonText: 'Go To Cart',
+              showClose: false,
+              callback: action => {
+                that.$router.push('/shoppingCar')
+              }
             })
           }
         })

@@ -19,7 +19,7 @@
                   <div class="subButton" @click="submitForm('ruleForm')">SUBSCRIBE</div>
                 </div>
               </div>
-              <el-checkbox class="policeStyle" v-model="agreenSub" label="I have read and agreed to the"></el-checkbox> <span class="policy">Privacy Policy</span>
+              <el-checkbox class="policeStyle" v-model="agreenSub" label="I have read and agreed to the"></el-checkbox> <span class="policy" @click="toPolice">Privacy Policy</span>
             </el-form>
           </div>
         </div>
@@ -158,6 +158,9 @@ export default {
     }
   },
   methods: {
+    toPolice(){
+      this.$router.push('/police')
+    },
     submitForm (formName) {
       var that = this
       if (this.agreenSub) {

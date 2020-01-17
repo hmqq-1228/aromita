@@ -9,7 +9,7 @@ const Psd_reset_ok = () => import('@/view/register/psd_reset_ok.vue')
 const Sort_out_warn = () => import('@/view/register/sort_out_warn.vue')
 const Register = () => import('@/view/register/register.vue')
 const Forgot_password = () => import('@/view/register/forgot_password.vue')
-const Erqi = () => import('@/view/Kongbai/erqi.vue')
+const police = () => import('@/view/Kongbai/police.vue')
 // hm api newPassword
 const activity = () => import('@/view/activity/activity.vue')
 const goodsList = () => import('@/view/goodsList/goodsList.vue')
@@ -118,9 +118,9 @@ export default new Router({
       component: newPassword,
     },
     {
-      path: '/erqi',
-      name: 'erqi',
-      component: Erqi
+      path: '/police',
+      name: 'police',
+      component: police
     },
     {
       path: '/goodsList',

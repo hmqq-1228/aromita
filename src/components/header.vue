@@ -201,22 +201,64 @@
             </div>
           </li>
         </ul>
-        <!-- <ul v-if="goodsListOff.length!=0" class="offGoodList">
-          <li v-for="(item,index) in goodsListOff" :key="index">
-            <img :src="item.sku_image" alt @click="link(item.sku_id,item.product_id)">
+        <div class="addMoreBtn" v-if="anotherGoodsList.length>0">加购</div>
+        <ul v-if="anotherGoodsList.length>0">
+          <li style="margin-top:10px;" v-for="(item,index) in anotherGoodsList" :key="index">
+            <img :src="item.sku_image" alt style="margin-right:0;" @click="link(item.sku_id,item.product_id)">
             <div class="list_detail">
               <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
               <div class="spec_color">
-                <p class="size"><span v-for="(item1,index) in JSON.parse(item.sku_attrs)" :key="index">{{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>; </span></p>
+                <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
+                  <span v-if="item.sku_attrs"><span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
+                    <span v-if="index1<2">
+                      {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                    </span>
+                    <span v-if="index1>=2">...</span>
+                  </span></span>
+                </p>
+                <span v-if="item.sku_attrs"><p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
+                  <span v-for="(item1,index2) in JSON.parse(item.sku_attrs)" :key="index2">
+                    {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                  </span>
+                </p></span>
                 <p class="qty"><span>QTY:</span>{{item.goods_count}}</p>
               </div>
             </div>
             <div class="price_del">
-              <i class="el-icon-error" @click="delList(item.sku_id)"></i>
-              <div class="price">${{item.sku_price*item.goods_count}}</div>
+              <i class="el-icon-error" @click="deleteItemCartOther(item.sku_id)"></i>
+              <div class="price">$ {{item.totalPay.toFixed(2)}}</div>
             </div>
           </li>
-        </ul> -->
+        </ul>
+        <div class="addMoreBtn" v-if="fullGiveList.length>0">赠品</div>
+        <ul v-if="fullGiveList.length>0">
+          <li style="margin-top:10px;" v-for="(item,index) in fullGiveList" :key="index">
+            <img :src="item.sku_image" alt style="margin-right:0;" @click="link(item.sku_id,item.product_id)">
+            <div class="list_detail">
+              <p class="detail_title" @click="link(item.sku_id,item.product_id)">{{item.sku_name}}</p>
+              <div class="spec_color">
+                <p class="size" @mouseenter="attrshow(index)" @mouseleave="attrhidden()">
+                  <span v-if="item.sku_attrs"><span v-for="(item1,index1) in JSON.parse(item.sku_attrs)" :key="index1">
+                    <span v-if="index1<2">
+                      {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                    </span>
+                    <span v-if="index1>=2">...</span>
+                  </span></span>
+                </p>
+                <span v-if="item.sku_attrs"><p class="sizevisible" v-if="JSON.parse(item.sku_attrs).length>=2" v-show="attrShowindex == index">
+                  <span v-for="(item1,index2) in JSON.parse(item.sku_attrs)" :key="index2">
+                    {{item1.attr_name}}:<span style="color: #333;">{{item1.value.attr_value}}</span>;
+                  </span>
+                </p></span>
+                <p class="qty"><span>QTY:</span>1</p>
+              </div>
+            </div>
+            <div class="price_del">
+              <!-- <i class="el-icon-error"></i> -->
+              <div class="price">$ {{item.activity_price}}</div>
+            </div>
+          </li>
+        </ul>
         <div v-if="this.goodsList.length != 0 && goodsListOn.length == 0" class="empty_cart">
           <div class="noGoodsText">{{this.goodsNum}}items are unavailable, please check your shopping cart. </div>
           <div class="shopBtn" @click="goShopping()">Go Shopping ></div>
@@ -239,6 +281,7 @@
 <script>
 import {getcartgoodscount,getGoodsList,userLogout,checkLogin} from "../api/register";
 import Nav from "@/components/nav.vue"
+import qs from 'qs'
 import { mapGetters } from 'vuex';
   export default {
     components:{
@@ -271,6 +314,8 @@ import { mapGetters } from 'vuex';
         goodsList:[],//购物车列表
         goodsListOn:[],//上架商品列表
         goodsListOff:[],//已下架商品列表
+        fullGiveList: [], // 赠品
+        anotherGoodsList:[], //加购
         goodsNum: 0,//购物车商品数量
         activityShow: false,
         headerShow:false,//头部显示状态
@@ -623,12 +668,56 @@ import { mapGetters } from 'vuex';
             goodsListOff.push(obj)
           }
         }
-        for(var i = 0;i<goodsListOn.length;i++){
-            total += Number(goodsListOn[i].totalPay)
-        }
-        this.TotalPrice = total.toFixed(2)
+        // for(var i = 0;i<goodsListOn.length;i++){
+        //     total += Number(goodsListOn[i].totalPay)
+        // }
+        // this.TotalPrice = total.toFixed(2)
         this.goodsListOn = goodsListOn
         this.goodsListOff = goodsListOff
+        this.getActivityGoodsList()
+      },
+      getActivityGoodsList () {
+        var that = this
+        that.$axios.post('api/getmyactivitycartsku', {}).then(res => {
+          if(res instanceof Array){
+            for (var i=0;i<res.length;i++) {
+              that.$set(res[i],'totalPay', 0)
+              if (res[i].activity_price) {
+                res[i].totalPay = parseFloat(res[i].activity_price) * res[i].goods_count
+              } else {
+                res[i].totalPay = parseFloat(res[i].sku_price) * res[i].goods_count
+              }
+            }
+            that.anotherGoodsList = res
+          }
+          console.log("*****22222", res)
+          that.totalPayAdd()
+        })
+      },
+      totalPayAdd () {
+        var total = 0
+        var total2 = 0
+        for(var i = 0;i<this.goodsListOn.length;i++){
+            total += Number(this.goodsListOn[i].totalPay)
+        }
+        for(var j = 0;j<this.anotherGoodsList.length;j++){
+            total2 += Number(this.anotherGoodsList[j].totalPay)
+        }
+        this.TotalPrice = parseFloat(total + total2).toFixed(2)
+        this.getActivityGoods(this.TotalPrice)
+      },
+      getActivityGoods (total) {
+        var that = this
+        var obj = qs.stringify({
+          activity_type: 3,
+          subtotal: total
+        })
+        that.$axios.post('api/cartactivityitembysubtotal', obj).then(res => {
+          if (res.length > 0) {
+            console.log('jjjjjjj', res)
+            that.fullGiveList = res
+          }
+        })
       },
       //删除购物车商品
       delList(skuId) {
@@ -640,6 +729,20 @@ import { mapGetters } from 'vuex';
           //   this.getGoodsListFuc()
           //   this.getGoodsCont()
           // }
+        })
+      },
+      // 删除加购商品
+      deleteItemCartOther(id){
+        var that = this
+        // that.btnLoading = true
+        var obj = qs.stringify({
+          sku_id: id
+        })
+        that.$axios.post('api/deltoactivitycart', obj).then(res => {
+          this.getGoodsListFuc()
+          this.getGoodsCont()
+          this.$store.state.delcartList = true
+          // that.$store.state.addCartState = true
         })
       },
       //获取购物车商品总量

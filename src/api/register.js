@@ -39,7 +39,7 @@ export const editAddress = params=>get("/api/address",params);
 // 合并商品 merge
 export const mergeGoods = params=>get("/api/cart/datamerging",params);
 // 清楚cookie
-export const delCookie = params=>get("/api/delcookiedata",params);
+export const delCookie = params=>post("/api/delcookiedata",params);
 // 商品导航
 export const category = params=>get("/api/category/index/category",params);
 // succeed

@@ -168,7 +168,7 @@ export default {
   methods: {
     HandleErqi(){
       this.$router.push({
-        path: "/erqi"
+        path: "/police"
       })
     },
     linkHref(link){

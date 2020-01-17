@@ -16,14 +16,14 @@
           <p class="right_word1">Email Address:</p>
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
             <el-form-item prop="name" style="width: 400px;">
-              <el-input v-model="ruleForm.name" placeholder="Enter your Email" style="width: 100%;"></el-input>
+              <el-input v-model.trim="ruleForm.name" placeholder="Enter your Email" style="width: 100%;"></el-input>
             </el-form-item>
             <!-- 验证密码 -->
             <p class="right_word1">password:</p>
             <el-form-item prop="password" style="width: 400px;">
               <el-input
                 type="password"
-                v-model="ruleForm.password"
+                v-model.trim="ruleForm.password"
                 placeholder="Enter your Password"
                 style="width: 100%;"
                 show-password
@@ -34,7 +34,7 @@
             <div class="right_catpcha" v-if="catpchashow">
               <p class="right_word1">Verification code:</p>
               <div class="codeBox">
-                <input class="catpcha" v-model="verifiCode">
+                <input class="catpcha" v-model.trim="verifiCode">
                 <div class="code" @click="refreshCode">
                   <component
                     :firstCode="firstCode"
@@ -258,7 +258,7 @@ export default {
       })
     },
     delCookieFuc () {
-      delCookie().then((res)=>{
+      delCookie({cookiekey: 'cart'}).then((res)=>{
       //  console.log(res)
       })
     },
