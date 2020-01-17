@@ -326,7 +326,7 @@ export default {
           if (val >= parseFloat(that.anotherGoodsList[i].activity_intensity)) {
             // console.log("*****555555", that.anotherGoodsList[i].activity_intensity)
           } else {
-            // console.log("*****44444", that.anotherGoodsList[i].sku_id)
+            console.log("*****44444", that.anotherGoodsList[i].sku_id)
             that.deleteItemCartOther(that.anotherGoodsList[i].sku_id)
           }
         }
@@ -337,7 +337,9 @@ export default {
       var that = this
       if (val){
         // console.log('kk666777', val)
-        that.getActivityGoods(that.fullGiftList[val])
+        if (that.fullGiftList.length > 0) {
+          that.getActivityGoods(that.fullGiftList[val])
+        }
         // console.log('hhhh777', that.fullGiftList)
       }
     }
@@ -362,7 +364,7 @@ export default {
       // console.log('lllll', type)
       that.$axios.post('api/cartactivityitembysubtotal', obj).then(res => {
         if (res.length > 0) {
-          // console.log('2222222', res[0])
+          // console.log('2222222', res)
           for (var i=0;i<res.length;i++) {
             that.$set(res[i],'act_type',0)
             res[i].act_type = type
@@ -725,7 +727,7 @@ export default {
       })
       that.$axios.post('api/deltoactivitycart', obj).then(res => {
         that.getActivityGoodsList()
-        // that.$store.state.addCartState = true
+        that.$store.state.addCartState = true
       })
     },
     // 批量删除
