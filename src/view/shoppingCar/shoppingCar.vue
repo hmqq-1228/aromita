@@ -319,17 +319,26 @@ export default {
     },
     realTotal: function (val, oV) {
       var that = this
+      var delList = []
       if (val < oV) {
-        // console.log('nnnnn', this.anotherGoodsList)
-        // console.log('mmmmm', val)
+        // console.log('jjjjvvvv', val, oV)
         for (var i=0;i<that.anotherGoodsList.length;i++) {
           if (val >= parseFloat(that.anotherGoodsList[i].activity_intensity)) {
             // console.log("*****555555", that.anotherGoodsList[i].activity_intensity)
           } else {
-            console.log("*****44444", that.anotherGoodsList[i].sku_id)
-            that.deleteItemCartOther(that.anotherGoodsList[i].sku_id)
+            // console.log("*****44444", that.anotherGoodsList[i].sku_id)
+            delList.push(that.anotherGoodsList[i].sku_id)
           }
         }
+        // console.log('xxxxxxxx', delList)
+        if (delList.length > 0) {
+          that.deleteDataSub(delList)
+        }
+      }
+    },
+    totalLevel (val,OV) {
+      if (val) {
+        this.goodsVisible = false
       }
     },
     // 满赠条件变化，当金额满足一个新的满赠档次的时候重新调用接口
@@ -337,6 +346,7 @@ export default {
       var that = this
       if (val){
         // console.log('kk666777', val)
+        // that.goodsVisible = false
         if (that.fullGiftList.length > 0) {
           that.getActivityGoods(that.fullGiftList[val])
         }
@@ -465,6 +475,7 @@ export default {
       var that = this
       that.payList = []
       that.totalPay = 0
+      let itemPay = 0
       // that.getActivityGoods()
       if (tr) {
         let data = await getGoodsList();
@@ -485,9 +496,8 @@ export default {
               that.idList.push(that.goodsList[i].sku_id)
               for (var j = 0;j<that.goodsListOn.length;j++) {
                 that.$set(that.goodsListOn[j],'overTipShow',false)
-                var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
+                itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                 that.goodsListOn[j].totalPay = itemPay.toFixed(2)
-                goodsPay.push(itemPay)
                 if (tr.num >= tr.max) {
                   if (that.goodsListOn[j].sku_id === tr.sid) {
                     that.goodsListOn[j].overTipShow = true
@@ -499,10 +509,16 @@ export default {
               that.goodsListOff = OffList
             }
           }
+          // console.log('ppppp00000', that.goodsListOn)
           that.$store.state.addCartState = false
           that.goodsChecked(that.checkedItem)
           var realTotal = 0
-          console.log('jjjjj', goodsPay)
+          if (that.goodsListOn) {
+            for (var k = 0;k<that.goodsListOn.length;k++) {
+              goodsPay.push(parseFloat(that.goodsListOn[k].totalPay))
+            }
+          }
+          // console.log('jjjjj', goodsPay)
           for (var i = 0; i < goodsPay.length; i++) {
             realTotal += goodsPay[i]
           }
@@ -538,7 +554,7 @@ export default {
                   } else if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
                     that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
                   }
-                  var itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
+                  itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                   that.goodsListOn[j].totalPay = itemPay.toFixed(2)
                 }
               } else if (that.goodsList[i].sku_status == 0 || that.goodsList[i].sku_status == 2 || that.goodsList[i].product_status == 0 || that.goodsList[i].is_delete == 1){
@@ -619,6 +635,7 @@ export default {
     // 查询金额满足满加条件
     getTimeIndex22: function (timeArr,totalPay) {
       // var level = 0
+      // console.log('hhhhhhh', timeArr)
       if (timeArr.length > 0) {
         for(var index in timeArr){
           if(totalPay>=timeArr[index]){
@@ -634,6 +651,7 @@ export default {
       }
       // this.totalLevel = level
       // console.log('kkkkk99999', this.totalLevel)
+      // this.goodsVisible = false
     },
     // 查询金额满足满赠条件
     getTimeIndex: function (timeArr,totalPay) {
@@ -720,10 +738,17 @@ export default {
       })
     },
     deleteItemCartOther(id){
-      var that = this
+      var delList = []
+      delList.push(id)
+      // console.log('delList', delList)
+      this.deleteDataSub(delList)
+    },
+    deleteDataSub (list) {
+       var that = this
       // that.btnLoading = true
+      // console.log("yyyyyy", list)
       var obj = qs.stringify({
-        sku_id: id
+        sku_ids: list
       })
       that.$axios.post('api/deltoactivitycart', obj).then(res => {
         that.getActivityGoodsList()
