@@ -1183,6 +1183,9 @@ export default {
         for(var i= 0;i<this.goodsList.length;i++){
           this.$set(this.goodsList[i],'soldOut',0)
           this.$set(this.goodsList[i],'realNum',0)
+          if (parseInt(this.goodsList[i].goods_count) > this.goodsList[i].inventory) {
+            this.goodsList[i].realNum = 1
+          }
           payList.push(this.goodsList[i].sku_pay.toFixed(2))
         }
         for (var n=0;n<payList.length;n++) {
@@ -1294,12 +1297,15 @@ export default {
             that.getBillingList()
           }
         })
-      } else if (data.code == 104 || data.code == 106) {
+      } else if (data.code == 104) {
         that.payDisabled = true
         that.butLoading = false
         this.$alert('Your shipping address is invalid. Please check it.', '', {
           confirmButtonText: 'OK',
         })
+      } else {
+        that.payDisabled = true
+        that.butLoading = false
       }
     },
     getCouponList: function (type) {
@@ -1544,7 +1550,8 @@ export default {
           }).then(() => {
             that.$router.push('/shoppingCar')
           }).catch(() => {
-            // jjj       
+            // jjj
+            that.getGoodsOrder()
           });
         } else if (res.code == 111 || res.code == 120) {
           that.modelShow2 = false

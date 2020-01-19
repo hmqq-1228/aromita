@@ -37,9 +37,9 @@
       <div class="option">Options</div>
     </div>
     <div class="bayCont" v-if="!loadingShow && totalLevel && totalPayShow>=totalLevel && goodsListOn.length>0">
-      <div class="bayFlag">加购</div>
-      <div class="bayTitle">Order over ${{totalLevel}}</div>
-      <div class="addBayBtn" @click="addMoreGoods()"><span>立即加购&gt;</span></div>
+      <!-- <div class="bayFlag"></div> -->
+      <div class="bayTitle">Over ${{totalLevel}} can buy these products at a discount.</div>
+      <div class="addBayBtn" @click="addMoreGoods()"><span>Buy Now&gt;</span></div>
     </div>
     <div class="carItem" v-if="goodsListOn.length>0 && !loadingShow" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
       <div class="checkState item">
@@ -86,7 +86,7 @@
     <div class="overHd" style="border-bottom: 1px dashed #eee;"></div>
     <div class="carItem" v-for="(item, index) in anotherGoodsList" :key="index">
       <div class="sendGoods">
-        <div class="bayFlag">加购</div>
+        <!-- <div class="bayFlag"></div> -->
         <div class="sendTitle">Order over ${{item.activity_intensity}}</div>
       </div>
       <div class="checkState item" style="width: 106px; box-sizing: border-box;">
