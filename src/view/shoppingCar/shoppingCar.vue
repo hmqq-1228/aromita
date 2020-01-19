@@ -386,7 +386,7 @@ export default {
         } else {
           that.fullGiveList = []
         }
-        // console.log('mmmmm', res)
+        console.log('mmmmm', res)
       })
     },
     // 加购添加
@@ -561,14 +561,13 @@ export default {
                 that.checkedItem = that.idList
                 for (var j = 0;j<that.goodsListOn.length;j++) {
                   that.$set(that.goodsListOn[j],'overTipShow',false)
-                  if (that.goodsListOn[j].goods_count === that.goodsListOn[j].inventory) {
+                  if (that.goodsListOn[j].goods_count >= that.goodsListOn[j].inventory) {
                     that.goodsListOn[j].overTipShow = true
-                  } else if (that.goodsListOn[j].goods_count > that.goodsListOn[j].inventory) {
-                    that.goodsListOn[j].inventory = parseInt(that.goodsListOn[j].goods_count)
                   }
                   itemPay = parseFloat(that.goodsListOn[j].activity_price?that.goodsListOn[j].activity_price:that.goodsListOn[j].sku_price) * that.goodsListOn[j].goods_count
                   that.goodsListOn[j].totalPay = itemPay.toFixed(2)
                 }
+                console.log('kkkkkkoooo', that.goodsListOn)
               } else if (that.goodsList[i].sku_status == 0 || that.goodsList[i].sku_status == 2 || that.goodsList[i].product_status == 0 || that.goodsList[i].is_delete == 1){
                 offList.push(that.goodsList[i])
                 that.goodsListOff = offList
