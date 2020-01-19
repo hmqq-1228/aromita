@@ -261,6 +261,9 @@ export default {
       delCookie({cookiekey: 'cart'}).then((res)=>{
       //  console.log(res)
       })
+      delCookie({cookiekey: 'activity_cart'}).then((res)=>{
+      //  console.log(res)
+      })
     },
     // delete_cookie(name) {
     //   Cookies.set('gggg', 'kkkk');

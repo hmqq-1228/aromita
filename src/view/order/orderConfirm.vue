@@ -395,6 +395,7 @@
       </div>
       <!--@mousedown="move($event)"-->
       <div class="payDiv" @mousedown="move($event)" :style="{right:(rightDis==true?'0':'12%')}">
+        <!-- <div @click="test">ttttttt</div> -->
         <div class="payItem" v-if="billing.subtotal && billing.subtotal>0">
           <div class="payName">Subtotal:</div>
           <div class="payValue">${{billing.subtotal.toFixed(2)}}</div>
@@ -665,6 +666,19 @@ export default {
     this.checkLoginInfo()
   },
   methods: {
+    // test () {
+    //   var that = this
+    //   that.$confirm('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+    //     confirmButtonText: 'Go To Cart',
+    //     cancelButtonText: 'cencel',
+    //     showCancelButton: false,
+    //     closeOnClickModal: false
+    //   }).then(() => {
+    //     that.$router.push('/shoppingCar')
+    //   }).catch(() => {
+    //     // jjj       
+    //   });
+    // },
     move(e) {
       // let odiv = document.getElementById('ship-pop');
       let odiv = e.currentTarget;
@@ -884,9 +898,9 @@ export default {
       this.ProvinceList = Province
       this.addNewForm.Province = this.ProvinceList[0]
     },
-    test: function () {
-      this.modelShow = true
-    },
+    // test: function () {
+    //   this.modelShow = true
+    // },
     closeInfoModel: function(){
       this.infoShow = false
     },
@@ -1280,14 +1294,11 @@ export default {
             that.getBillingList()
           }
         })
-      } else {
+      } else if (data.code == 104 || data.code == 106) {
         that.payDisabled = true
         that.butLoading = false
-        this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
-          confirmButtonText: 'Go To Cart',
-          callback: action => {
-            that.$router.push('/shoppingCar')
-          }
+        this.$alert('Your shipping address is invalid. Please check it.', '', {
+          confirmButtonText: 'OK',
         })
       }
     },
@@ -1525,20 +1536,28 @@ export default {
               }
             }
           }
-          this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+          that.$confirm('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
             confirmButtonText: 'Go To Cart',
-            callback: action => {
-              that.$router.push('/shoppingCar')
-            }
-          })
+            cancelButtonText: 'cencel',
+            showCancelButton: false,
+            closeOnClickModal: false
+          }).then(() => {
+            that.$router.push('/shoppingCar')
+          }).catch(() => {
+            // jjj       
+          });
         } else if (res.code == 111 || res.code == 120) {
           that.modelShow2 = false
-          this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+          that.$confirm('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
             confirmButtonText: 'Go To Cart',
-            callback: action => {
-              that.$router.push('/shoppingCar')
-            }
-          })
+            cancelButtonText: 'cencel',
+            showCancelButton: false,
+            closeOnClickModal: false
+          }).then(() => {
+            that.$router.push('/shoppingCar')
+          }).catch(() => {
+            // jjj       
+          });
           var ids = JSON.parse(res.data)
           if (ids[0]) {
             // console.log('kkkkkccccc', ids)
@@ -1613,7 +1632,7 @@ export default {
           that.payDisabled = true
           that.$alert("Sorry. The promotional discount is end. Some of the products in your shopping cart have been restored the original price.", '', {
             confirmButtonText: 'Go To Cart',
-            showClose: false,
+            // showClose: false,
             callback: action => {
               that.$router.push('/shoppingCar')
             }
@@ -1639,17 +1658,27 @@ export default {
               }
             }
           }
-          that.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+          // that.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
+          //   confirmButtonText: 'Go To Cart',
+          //   callback: action => {
+          //     that.$router.push('/shoppingCar')
+          //   }
+          // })
+          that.$confirm('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
             confirmButtonText: 'Go To Cart',
-            callback: action => {
-              that.$router.push('/shoppingCar')
-            }
-          })
+            cancelButtonText: 'cencel',
+            showCancelButton: false,
+            closeOnClickModal: false
+          }).then(() => {
+            that.$router.push('/shoppingCar')
+          }).catch(() => {
+            // jjj       
+          });
         } else {
             that.modelShow2 = false
             this.$alert('Sorry, some items are invalid. Please go back to the shopping cart to check.', '', {
               confirmButtonText: 'Go To Cart',
-              showClose: false,
+              // showClose: false,
               callback: action => {
                 that.$router.push('/shoppingCar')
               }

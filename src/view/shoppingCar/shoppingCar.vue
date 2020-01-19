@@ -1,7 +1,7 @@
 <template>
 <div class="shoppingCar">
   <el-dialog
-    title="选择加购商品"
+    title="Redemption Area"
     width="800px"
     :visible.sync="goodsVisible">
     <div class="loadingData" v-if="chooseList.length == 0"><img src="../../../static/img/loadingData.gif" alt=""></div>
@@ -38,7 +38,7 @@
     </div>
     <div class="bayCont" v-if="!loadingShow && totalLevel && totalPayShow>=totalLevel && goodsListOn.length>0">
       <div class="bayFlag">加购</div>
-      <div class="bayTitle">满${{totalLevel}}加购</div>
+      <div class="bayTitle">Order over ${{totalLevel}}</div>
       <div class="addBayBtn" @click="addMoreGoods()"><span>立即加购&gt;</span></div>
     </div>
     <div class="carItem" v-if="goodsListOn.length>0 && !loadingShow" v-for="(carItem, index) in goodsListOn" v-bind:key="index">
@@ -87,7 +87,7 @@
     <div class="carItem" v-for="(item, index) in anotherGoodsList" :key="index">
       <div class="sendGoods">
         <div class="bayFlag">加购</div>
-        <div class="sendTitle">满${{item.activity_intensity}}加购</div>
+        <div class="sendTitle">Order over ${{item.activity_intensity}}</div>
       </div>
       <div class="checkState item" style="width: 106px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
@@ -114,11 +114,11 @@
     <div class="carItem" v-for="(item, index) in fullGiveList" :key="index">
       <div class="sendGoods">
         <div>
-          <div class="sendName">赠品</div>
+          <div class="sendName">Gift</div>
           <div class="sendTag"></div>
         </div>
         <!-- <div class="bayFlag">加购</div> -->
-        <div class="sendTitle">满${{item.act_type}}赠送</div>
+        <div class="sendTitle">Order over ${{item.act_type}}</div>
       </div>
       <div class="checkState item" style="width: 106px; box-sizing: border-box;">
         <!--<input type="checkbox" :id="'good'+ carItem.id" :value="'good'+ carItem.id" v-model="checkedItem"><label :for="'good'+ carItem.id"></label>-->
@@ -302,6 +302,7 @@ export default {
         }
         this.$store.state.delcartList = false
     },
+    // 商品选中集合（一期，目前不用管）
     checkedItem: function() {
       if (this.checkedItem.length === 0) {
         this.checkArr = []
@@ -317,6 +318,7 @@ export default {
         this.checkedAll = false
       }
     },
+    // 当金额减少时，删除不符合条件的满加商品
     realTotal: function (val, oV) {
       var that = this
       var delList = []
@@ -336,6 +338,7 @@ export default {
         }
       }
     },
+    // 满加范围变化时关闭满加弹框
     totalLevel (val,OV) {
       if (val) {
         this.goodsVisible = false
@@ -379,9 +382,11 @@ export default {
             that.$set(res[i],'act_type',0)
             res[i].act_type = type
           }
+          that.fullGiveList = res
+        } else {
+          that.fullGiveList = []
         }
         // console.log('mmmmm', res)
-        that.fullGiveList = res
       })
     },
     // 加购添加
@@ -449,9 +454,9 @@ export default {
     //     that.pointMore = 'el-icon-d-arrow-right'
     //   }
     // },
+    // 查询满加商品列表
     getActivityGoodsList () {
       var that = this
-     
       that.$axios.post('api/getmyactivitycartsku', {}).then(res => {
         if(res instanceof Array){
           for (var i=0;i<res.length;i++) {
@@ -461,13 +466,11 @@ export default {
             } else {
               res[i].totalPay = parseFloat(res[i].sku_price) * res[i].goods_count
             }
-            //  console.log("*****111111", this.realTotal)
           }
           that.anotherGoodsList = res
+          console.log("kkkkkk")
           that.getPayList(that.payList)
         }
-        // console.log("*****22222", fitList)
-        // console.log("*****33333", unFitList)
       })
     },
     // 查购物车数据
@@ -489,6 +492,13 @@ export default {
           let goodsPay = []
           that.goodsListOn = []
           that.goodsListOff = []
+          if (this.goodsList.length == 0) {
+            // that.noProduct = true
+            that.btnCanSub = true
+          } else {
+            // that.noProduct = false
+            that.btnCanSub = false
+          }
           for (var i = 0;i<that.goodsList.length;i++){
             if (that.goodsList[i].sku_status == 1 && that.goodsList[i].product_status != 0 && that.goodsList[i].is_delete != 1) {
               OnList.push(that.goodsList[i])
@@ -537,9 +547,11 @@ export default {
           that.goodsListOff = []
           if (this.goodsList.length === 0) {
             that.noProduct = true
+            that.btnCanSub = true
             that.goodsListOn = []
           } else {
             that.noProduct = false
+            that.btnCanSub = false
             that.idList = []
             for (var i = 0;i<that.goodsList.length;i++){
               if (that.goodsList[i].sku_status === 1 && that.goodsList[i].product_status != 0 && that.goodsList[i].is_delete != 1) {
@@ -628,8 +640,6 @@ export default {
           that.getTimeIndex22(temp, totalPay)
           that.addGoodsList = temp
         }
-        // console.log('999999', that.fullGiftList)
-        // console.log('888888', that.addGoodsList)
       })
     },
     // 查询金额满足满加条件
@@ -684,36 +694,10 @@ export default {
         that.sumPay(e)
       }
     },
-    // addTotal (e) {
-    //   var that = this
-    //   var realTotal = 0
-    //   for (var i = 0; i < e.length; i++) {
-    //     realTotal += e[i]
-    //   }
-    //   that.realTotal = realTotal
-    //   for (var i=0;i<that.anotherGoodsList.length;i++) {
-    //     if (this.realTotal > parseFloat(that.anotherGoodsList[i].activity_intensity)) {
-         
-    //     } else {
-    //       console.log("*****44444", that.anotherGoodsList[i].sku_id)
-    //       that.deleteItemCartOther(that.anotherGoodsList[i].sku_id)
-    //     }
-    //   }
-    // },
     getPayList: function (e) {
       var that = this
       var otherList = []
       var allPayList = []
-      // if (that.anotherGoodsList.length > 0) {
-      //   for (var n=0;n<that.anotherGoodsList.length; n++){
-      //     if (realTotal>=parseFloat(that.anotherGoodsList[n].activity_intensity)) {
-      //       otherList.push(parseFloat(that.anotherGoodsList[n].totalPay))
-      //     } else {
-      //       console.log("*****44444", that.anotherGoodsList[n].sku_id)
-      //       that.deleteItemCartOther(that.anotherGoodsList[n].sku_id)
-      //     }
-      //   }
-      // }
       if (that.anotherGoodsList.length > 0) {
         for (var n=0;n<that.anotherGoodsList.length; n++){
           otherList.push(parseFloat(that.anotherGoodsList[n].totalPay))
@@ -737,6 +721,7 @@ export default {
         // }
       })
     },
+    // 删除满加的商品
     deleteItemCartOther(id){
       var delList = []
       delList.push(id)
@@ -922,6 +907,8 @@ export default {
           }  
         }
       }
+      // 正常商品、满加商品、赠品数据传到订单确认页面
+      // 格式活动id + sku_id + 商品数量
       allSkuList = sku_num.concat(otherSku)
       allSkuList = allSkuList.concat(sendList)
       sessionStorage.setItem('idList', JSON.stringify(that.checkedItem))
